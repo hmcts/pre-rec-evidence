@@ -1,0 +1,9 @@
+pool:
+  vmImage: 'windows-latest'
+
+steps:
+
+- task: PowerPlatformToolInstaller@0
+  inputs:
+    DefaultVersion: true
+
