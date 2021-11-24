@@ -27,14 +27,14 @@ steps:
     scriptType: 'bash'
     scriptLocation: 'inlineScript'
     inlineScript: |
-      az artifacts universal publish
-          --organization https://dev.azure.com/hmcts/
-          --project="Pre-Recorded Evidence"
-          --scope project
-          --feed dts-pre-artifacts
-          --name my-first-package
-          --version 0.0.1
-          --description "Welcome to Universal Packages"
+      az artifacts universal publish \
+          --organization https://dev.azure.com/hmcts/ \
+          --project="Pre-Recorded Evidence" \
+          --scope project \
+          --feed dts-pre-artifacts \
+          --name my-first-package \
+          --version 0.0.1 \
+          --description "Welcome to Universal Packages" \
           --path .
 
           #- task: CmdLine@2
