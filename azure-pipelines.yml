@@ -19,4 +19,16 @@ steps:
 - task: PowerPlatformUnpackSolution@0
   inputs:
     SolutionInputFile: 'dts_pre_recorded_evidence.zip'
-    SolutionTargetFolder: 'D:\a\1\s\'
+    SolutionTargetFolder: 'dts_pre_recorded_evidence'
+
+- task: CmdLine@2
+  inputs:
+    script: |
+      echo Commit Power Platform Solution
+      git config user.email "prebuildpipeline@hmcts.net"
+      git config user.name "PRE Build Pipeline"
+      git checkout -b dev
+      git pull origin
+      git add --all
+      git commit -m "Automatic solution commit"
+      git -c http.extraheader="AUTHORIZATION: bearer $(System.AccessToken)" push origin dev
