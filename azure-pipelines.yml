@@ -7,3 +7,11 @@ steps:
   inputs:
     DefaultVersion: true
 
+
+- task: PowerPlatformExportSolution@0
+  inputs:
+    authenticationType: 'PowerPlatformSPN'
+    PowerPlatformSPN: 'POWERAPPS-PRE-SDS-SBOX'
+    SolutionName: 'dts_pre_recorded_evidence'
+    SolutionOutputFile: 'dts_pre_recorded_evidence.zip'
+    AsyncOperation: false
