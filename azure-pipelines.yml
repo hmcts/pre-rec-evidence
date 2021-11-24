@@ -16,8 +16,7 @@ steps:
     SolutionOutputFile: 'dts_pre_recorded_evidence.zip'
     AsyncOperation: false
 
-- task: DownloadBuildArtifacts@1
+- task: PowerPlatformUnpackSolution@0
   inputs:
-    buildType: 'current'
-    downloadType: 'specific'
-    downloadPath: '$(System.ArtifactsDirectory)'
+    SolutionInputFile: 'dts_pre_recorded_evidence.zip'
+    SolutionTargetFolder: 'D:\a\1\s\'
