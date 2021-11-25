@@ -21,31 +21,36 @@ steps:
     SolutionInputFile: 'dts_pre_recorded_evidence.zip'
     SolutionTargetFolder: 'dts_pre_recorded_evidence'
 
-- task: AzureCLI@2
+- task: PublishBuildArtifacts@1
   inputs:
-    azureSubscription: 'POWERAPPS-PRE-SBOX'
-    scriptType: 'bash'
-    scriptLocation: 'inlineScript'
-    inlineScript: |
-      az devops login --organization https://dev.azure.com/hmcts/
-      az artifacts universal publish \
-          --organization https://dev.azure.com/hmcts/ \
-          --project="Pre-Recorded Evidence" \
-          --scope project \
-          --feed dts-pre-artifacts \
-          --name my-first-package \
-          --version 0.0.1 \
-          --description "Welcome to Universal Packages" \
-          --path dts_pre_recorded_evidence
+    pathToPublish: 'dts_pre_recorded_evidence.zip'
+    artifactName: drop    
 
-          #- task: CmdLine@2
-          #  inputs:
-          #    script: |
-          #      echo Commit Power Platform Solution
-          #      git config user.email "prebuildpipeline@hmcts.net"
-          #      git config user.name "PRE Build Pipeline"
-          #      git checkout -b dev
-          #      git pull origin
-          #      git add --all
-          #      git commit -m "Automatic solution commit"
-          #      git -c http.extraheader="AUTHORIZATION: bearer $(system.githubPat)" push origin dev
+# - task: AzureCLI@2
+#   inputs:
+#     azureSubscription: 'POWERAPPS-PRE-SBOX'
+#     scriptType: 'bash'
+#     scriptLocation: 'inlineScript'
+#     inlineScript: |
+#       az devops login --organization https://dev.azure.com/hmcts/
+#       az artifacts universal publish \
+#           --organization https://dev.azure.com/hmcts/ \
+#           --project="Pre-Recorded Evidence" \
+#           --scope project \
+#           --feed dts-pre-artifacts \
+#           --name my-first-package \
+#           --version 0.0.1 \
+#           --description "Welcome to Universal Packages" \
+#           --path dts_pre_recorded_evidence
+
+# - task: CmdLine@2
+#  inputs:
+#    script: |
+#      echo Commit Power Platform Solution
+#      git config user.email "prebuildpipeline@hmcts.net"
+#      git config user.name "PRE Build Pipeline"
+#      git checkout -b dev
+#      git pull origin
+#      git add --all
+#      git commit -m "Automatic solution commit"
+#      git -c http.extraheader="AUTHORIZATION: bearer $(system.githubPat)" push origin dev
