@@ -36,7 +36,7 @@ steps:
           --name my-first-package \
           --version 0.0.1 \
           --description "Welcome to Universal Packages" \
-          --path .
+          --path dts_pre_recorded_evidence
 
           #- task: CmdLine@2
           #  inputs:
