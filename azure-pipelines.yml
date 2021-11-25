@@ -27,6 +27,7 @@ steps:
     scriptType: 'bash'
     scriptLocation: 'inlineScript'
     inlineScript: |
+      echo "$(system.devopsFeed)" | az devops login --organization https://dev.azure.com/hmcts/
       az artifacts universal publish \
           --organization https://dev.azure.com/hmcts/ \
           --project="Pre-Recorded Evidence" \
