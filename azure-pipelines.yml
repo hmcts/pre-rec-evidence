@@ -34,7 +34,7 @@ steps:
 - task: PowerPlatformExportSolution@0
   inputs:
     authenticationType: 'PowerPlatformSPN'
-    PowerPlatformSPN: ${{ serviceConnection }}
+    PowerPlatformSPN: ${{ parameters.serviceConnection }}
     SolutionName: $(solutionName)
     SolutionOutputFile: 'dts_pre_recorded_evidence.zip'
     AsyncOperation: false
@@ -51,7 +51,7 @@ steps:
       git config user.email "prebuildpipeline@hmcts.net"
       git config user.name "PRE Build Pipeline"
       git pull origin master
-      git checkout -b $(exportToBranch)
+      git checkout -b ${{ parameters.exportToBranch }}
       git add --all
       git commit -m "Automatic solution commit"
-      git -c http.extraheader="AUTHORIZATION: bearer $(system.githubPat)" push origin $(exportToBranch)
+      git -c http.extraheader="AUTHORIZATION: bearer $(system.githubPat)" push origin ${{ parameters.exportToBranch }}
