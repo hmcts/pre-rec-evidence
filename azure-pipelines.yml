@@ -2,8 +2,19 @@
 name: PRE Solution Exporter
 trigger: none
 pr: none
+parameters:
+  - name: serviceConnection
+    displayName: Service Connection
+    type: string
+    default: 'POWERAPPS-PRE-SDS-SBOX'
+    values:
+      - 'POWERAPPS-PRE-SDS-SBOX'
+  - name: exportToBranch
+    displayName: Export To Branch
+    type: string
+    default: 'dev'
+
 variables:
-  serviceConnection: 'POWERAPPS-PRE-SDS-SBOX'
   solutionName: dts_pre_recorded_evidence
 
 
@@ -20,11 +31,10 @@ steps:
   inputs:
     DefaultVersion: true
 
-
 - task: PowerPlatformExportSolution@0
   inputs:
     authenticationType: 'PowerPlatformSPN'
-    PowerPlatformSPN: $(serviceConnection)
+    PowerPlatformSPN: ${{ serviceConnection }}
     SolutionName: $(solutionName)
     SolutionOutputFile: 'dts_pre_recorded_evidence.zip'
     AsyncOperation: false
@@ -34,11 +44,6 @@ steps:
     SolutionInputFile: 'dts_pre_recorded_evidence.zip'
     SolutionTargetFolder: 'src'
 
-# - task: PublishBuildArtifacts@1
-#   inputs:
-#     pathToPublish: 'dts_pre_recorded_evidence.zip'
-#     artifactName: drop
-
 - task: CmdLine@2
   inputs:
     script: |
@@ -46,7 +51,7 @@ steps:
       git config user.email "prebuildpipeline@hmcts.net"
       git config user.name "PRE Build Pipeline"
       git pull origin master
-      git checkout -b dev
+      git checkout -b $(exportToBranch)
       git add --all
       git commit -m "Automatic solution commit"
-      git -c http.extraheader="AUTHORIZATION: bearer $(system.githubPat)" push origin dev
+      git -c http.extraheader="AUTHORIZATION: bearer $(system.githubPat)" push origin $(exportToBranch)
