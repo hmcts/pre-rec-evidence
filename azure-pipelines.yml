@@ -37,5 +37,5 @@ steps:
       git config user.email "prebuildpipeline@hmcts.net"
       git config user.name "PRE Build Pipeline"
       git pull origin master
-      git checkout origin ${{ parameters.exportToBranch }}
+      git checkout origin ${{ parameters.deployFromBranch }}
 
