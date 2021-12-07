@@ -38,18 +38,19 @@ steps:
       git config user.name "PRE Build Pipeline"
       git checkout ${{ parameters.deployFromBranch }}
 
+- task: PowerPlatformCreateEnvironment@0
+  inputs:
+    authenticationType: 'PowerPlatformSPN'
+    PowerPlatformSPN: 'POWERAPPS-PRE-SDS-SBOX'
+    DisplayName: 'PRE Sandbox'
+    EnvironmentSku: 'Sandbox'
+    LocationName: 'unitedkingdom'
+    LanguageName: '1033'
+    CurrencyName: 'GBP'
+    DomainName: 'pre-sandbox'
+
 - task: PowerPlatformPackSolution@0
   inputs:
     SolutionSourceFolder: 'src'
-    SolutionOutputFile: 'dts_pre_recorded_evidence'
-
-#- task: PowerPlatformCreateEnvironment@0
-#  inputs:
-#    authenticationType: 'PowerPlatformSPN'
-#    PowerPlatformSPN: 'POWERAPPS-PRE-SDS-SBOX'
-#    DisplayName: 'PRE Sandbox'
-#    EnvironmentSku: 'Sandbox'
-#    LocationName: 'unitedkingdom'
-#    LanguageName: '1033'
-#    CurrencyName: 'GBP'
-#    DomainName: 'pre-sandbox'
+    SolutionType: Unmanaged
+    SolutionOutputFile: 'dts_pre_recorded_evidence.zip'
