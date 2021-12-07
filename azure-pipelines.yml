@@ -36,6 +36,6 @@ steps:
       echo Deploy Power Platform Solution
       git config user.email "prebuildpipeline@hmcts.net"
       git config user.name "PRE Build Pipeline"
-      git pull origin master
+      git fetch origin master
       git checkout origin ${{ parameters.deployFromBranch }}
 
