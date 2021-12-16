@@ -54,3 +54,12 @@ steps:
     SolutionSourceFolder: 'src'
     SolutionType: Unmanaged
     SolutionOutputFile: 'dts_pre_recorded_evidence.zip'
+
+- task: PowerPlatformExportSolution@0
+  inputs:
+    authenticationType: 'PowerPlatformSPN'
+    PowerPlatformSPN: ${{ parameters.serviceConnection }}
+    SolutionName: 'dts_pre_recorded_evidence'
+    SolutionOutputFile: 'dts_pre_recorded_evidence.zip'
+    AsyncOperation: false
+    MaxAsyncWaitTime: '60'
