@@ -8,6 +8,7 @@ parameters:
     type: string
     default: 'POWERAPPS-PRE-SDS-SBOX'
     values:
+      - 'POWERAPPS-PRE-SBOX'
       - 'POWERAPPS-PRE-SDS-SBOX'
       - 'POWERAPPS-PRE-SDS-DEV'
       - 'POWERAPPS-PRE-SDS-STG'
@@ -58,11 +59,13 @@ steps:
     SolutionType: Unmanaged
     SolutionOutputFile: 'dts_pre_recorded_evidence.zip'
 
-- task: PowerPlatformExportSolution@0
+
+- task: PowerPlatformImportSolution@0
   inputs:
     authenticationType: 'PowerPlatformSPN'
     PowerPlatformSPN: ${{ parameters.serviceConnection }}
-    SolutionName: 'dts_pre_recorded_evidence'
-    SolutionOutputFile: 'dts_pre_recorded_evidence.zip'
+    SolutionInputFile: 'dts_pre_recorded_evidence.zip'
     AsyncOperation: false
-    MaxAsyncWaitTime: '60'
+    OverwriteUnmanagedCustomizations: true
+    SkipProductUpdateDependencies: true
+    PublishWorkflows: true
