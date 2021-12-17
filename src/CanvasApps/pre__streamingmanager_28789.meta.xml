@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CanvasApp xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Name>pre__streamingmanager_28789</Name>
+  <AppVersion>2021-12-17T14:04:10Z</AppVersion>
+  <Status>Ready</Status>
+  <CreatedByClientVersion>3.21115.25.0</CreatedByClientVersion>
+  <MinClientVersion>3.21115.25.0</MinClientVersion>
+  <Tags>{"primaryDeviceWidth":"1366","primaryDeviceHeight":"768","sienaVersion":"2b4745d5-561b-473e-b2f8-48630bbc6615","deviceCapabilities":"location","supportsPortrait":"true","supportsLandscape":"true","primaryFormFactor":"Tablet","publisherVersion":"3.21115.25","minimumRequiredApiVersion":"2.2.0","hasComponent":"false","hasUnlockedComponent":"false","isUnifiedRootApp":"false"}</Tags>
+  <IsCdsUpgraded>0</IsCdsUpgraded>
+  <GalleryItemId xsi:nil="true"></GalleryItemId>
+  <BackgroundColor>RGBA(0,176,240,1)</BackgroundColor>
+  <DisplayName>Streaming Manager</DisplayName>
+  <Description xsi:nil="true"></Description>
+  <CommitMessage xsi:nil="true"></CommitMessage>
+  <Publisher xsi:nil="true"></Publisher>
+  <AuthorizationReferences>[]</AuthorizationReferences>
+  <ConnectionReferences>{"b4614b28-8bb8-4460-82cc-d3c12c065106":{"id":"/providers/microsoft.powerapps/apis/shared_azureblob","displayName":"Azure Blob Storage","iconUri":"https://connectoricons-prod.azureedge.net/releases/v1.0.1544/1.0.1544.2640/azureblob/icon.png","dataSources":["AzureBlobStorage"],"dependencies":[],"dependents":[],"parameterHints":{},"parameterHintsV2":{},"isOnPremiseConnection":false,"bypassConsent":false,"dataSets":{},"apiTier":"Premium"},"4427bead-6f7b-4584-86e8-bc267678e35d":{"id":"/providers/microsoft.powerapps/apis/shared_keyvault","displayName":"Azure Key Vault","iconUri":"https://connectoricons-prod.azureedge.net/releases/v1.0.1539/1.0.1539.2620/keyvault/icon.png","dataSources":["AzureKeyVault"],"dependencies":[],"dependents":[],"parameterHints":{},"parameterHintsV2":{},"isOnPremiseConnection":false,"bypassConsent":false,"dataSets":{},"apiTier":"Premium","actions":["ListKeys","ListSecrets"]}}</ConnectionReferences>
+  <DatabaseReferences>{"default.cds":{"databaseDetails":{"referenceType":"Environmental","environmentName":"default.cds","overrideValues":{"status":"NotSpecified"}},"dataSources":{"Bookings":{"entitySetName":"pre__bookings","logicalName":"pre__booking"},"Courts":{"entitySetName":"pre__courtses","logicalName":"pre__courts"},"Bulk Delete Failures":{"entitySetName":"bulkdeletefailures","logicalName":"bulkdeletefailure"},"Video Permissions":{"entitySetName":"pre__videopermissionses","logicalName":"pre__videopermissions"},"Users":{"entitySetName":"systemusers","logicalName":"systemuser"},"Mailboxes":{"entitySetName":"mailboxes","logicalName":"mailbox"},"Directories":{"entitySetName":"pre__directories","logicalName":"pre__directory"},"Audits":{"entitySetName":"pre__audits","logicalName":"pre__audit"},"Recordings":{"entitySetName":"pre__recordingses","logicalName":"pre__recordings"},"Cases":{"entitySetName":"pre__cases","logicalName":"pre__case"},"Schedules":{"entitySetName":"pre__schedules","logicalName":"pre__schedule"}}}}</DatabaseReferences>
+  <AppComponents>[]</AppComponents>
+  <AppComponentDependencies>[]</AppComponentDependencies>
+  <CanConsumeAppPass>1</CanConsumeAppPass>
+  <CanvasAppType>0</CanvasAppType>
+  <BypassConsent>0</BypassConsent>
+  <AdminControlBypassConsent>0</AdminControlBypassConsent>
+  <EmbeddedApp xsi:nil="true"></EmbeddedApp>
+  <IntroducedVersion>1.0</IntroducedVersion>
+  <CdsDependencies>{"cdsdependencies":[{"logicalname":"pre__booking","componenttype":1},{"logicalname":"pre__courts","componenttype":1},{"logicalname":"bulkdeletefailure","componenttype":1},{"logicalname":"pre__videopermissions","componenttype":1},{"logicalname":"systemuser","componenttype":1},{"logicalname":"mailbox","componenttype":1},{"logicalname":"pre__directory","componenttype":1},{"logicalname":"pre__audit","componenttype":1},{"logicalname":"pre__recordings","componenttype":1},{"logicalname":"pre__case","componenttype":1},{"logicalname":"pre__schedule","componenttype":1}]}</CdsDependencies>
+  <IsCustomizable>1</IsCustomizable>
+  <BackgroundImageUri>/CanvasApps/pre__streamingmanager_28789_BackgroundImageUri</BackgroundImageUri>
+  <DocumentUri>/CanvasApps/pre__streamingmanager_28789_DocumentUri.msapp</DocumentUri>
+</CanvasApp>
