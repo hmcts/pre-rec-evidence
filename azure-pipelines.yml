@@ -9,6 +9,9 @@ parameters:
     default: 'POWERAPPS-PRE-SDS-SBOX'
     values:
       - 'POWERAPPS-PRE-SDS-SBOX'
+      - 'POWERAPPS-PRE-SDS-DEV'
+      - 'POWERAPPS-PRE-SDS-STG'
+#      - 'POWERAPPS-PRE-SDS-PROD'
   - name: deployFromBranch
     displayName: Deploy From Branch
     type: string
