@@ -65,3 +65,6 @@ steps:
     PowerPlatformSPN: ${{ parameters.serviceConnection }}
     SolutionInputFile: 'dts_pre_recorded_evidence.zip'
     AsyncOperation: false
+    OverwriteUnmanagedCustomizations: true
+    SkipProductUpdateDependencies: true
+    PublishWorkflows: true
