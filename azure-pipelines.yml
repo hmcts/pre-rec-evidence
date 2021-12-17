@@ -1,22 +1,24 @@
 ---
-name: PRE Solution Exporter
+name: PRE Solution Deployment
 trigger: none
 pr: none
 parameters:
   - name: serviceConnection
-    displayName: Service Connection
+    displayName: Deploy to Service Connection
     type: string
     default: 'POWERAPPS-PRE-SDS-SBOX'
     values:
       - 'POWERAPPS-PRE-SDS-SBOX'
-  - name: exportToBranch
-    displayName: Export To Branch
+      - 'POWERAPPS-PRE-SDS-DEV'
+      - 'POWERAPPS-PRE-SDS-STG'
+#      - 'POWERAPPS-PRE-SDS-PROD'
+  - name: deployFromBranch
+    displayName: Deploy From Branch
     type: string
-    default: 'dev'
+    default: 'master'
 
 variables:
   solutionName: dts_pre_recorded_evidence
-
 
 pool:
   vmImage: 'windows-latest'
@@ -31,27 +33,36 @@ steps:
   inputs:
     DefaultVersion: true
 
+- task: CmdLine@2
+  inputs:
+    script: |
+      echo Deploy Power Platform Solution
+      git config user.email "prebuildpipeline@hmcts.net"
+      git config user.name "PRE Build Pipeline"
+      git checkout ${{ parameters.deployFromBranch }}
+
+#- task: PowerPlatformCreateEnvironment@0
+#  inputs:
+#    authenticationType: 'PowerPlatformSPN'
+#    PowerPlatformSPN: 'POWERAPPS-PRE-SDS-SBOX'
+#    DisplayName: 'PRE Sandbox'
+#    EnvironmentSku: 'Sandbox'
+#    LocationName: 'unitedkingdom'
+#    LanguageName: '1033'
+#    CurrencyName: 'GBP'
+#    DomainName: 'pre-sandbox'
+
+- task: PowerPlatformPackSolution@0
+  inputs:
+    SolutionSourceFolder: 'src'
+    SolutionType: Unmanaged
+    SolutionOutputFile: 'dts_pre_recorded_evidence.zip'
+
 - task: PowerPlatformExportSolution@0
   inputs:
     authenticationType: 'PowerPlatformSPN'
     PowerPlatformSPN: ${{ parameters.serviceConnection }}
-    SolutionName: $(solutionName)
+    SolutionName: 'dts_pre_recorded_evidence'
     SolutionOutputFile: 'dts_pre_recorded_evidence.zip'
     AsyncOperation: false
-
-- task: PowerPlatformUnpackSolution@0
-  inputs:
-    SolutionInputFile: 'dts_pre_recorded_evidence.zip'
-    SolutionTargetFolder: 'src'
-
-- task: CmdLine@2
-  inputs:
-    script: |
-      echo Commit Power Platform Solution
-      git config user.email "prebuildpipeline@hmcts.net"
-      git config user.name "PRE Build Pipeline"
-      git pull origin master
-      git checkout -b ${{ parameters.exportToBranch }}
-      git add --all
-      git commit -m "Automatic solution commit"
-      git -c http.extraheader="AUTHORIZATION: bearer $(system.githubPat)" push origin ${{ parameters.exportToBranch }}
+    MaxAsyncWaitTime: '60'
