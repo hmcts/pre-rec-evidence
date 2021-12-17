@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<savedqueries xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <savedquery>
+    <IsCustomizable>1</IsCustomizable>
+    <CanBeDeleted>0</CanBeDeleted>
+    <isquickfindquery>0</isquickfindquery>
+    <isprivate>0</isprivate>
+    <isdefault>1</isdefault>
+    <savedqueryid>{da214fed-52ad-45a5-aaa0-3f014e17ef2d}</savedqueryid>
+    <layoutxml>
+      <grid name="resultset" jump="pre__recordinguid" select="1" icon="1" preview="1">
+        <row name="result" id="pre__recordingsid">
+          <cell name="pre__recordinguid" width="300" />
+          <cell name="createdon" width="125" />
+        </row>
+      </grid>
+    </layoutxml>
+    <querytype>1</querytype>
+    <fetchxml>
+      <fetch version="1.0" mapping="logical">
+        <entity name="pre__recordings">
+          <attribute name="pre__recordingsid" />
+          <attribute name="pre__recordinguid" />
+          <attribute name="createdon" />
+          <order attribute="pre__recordinguid" descending="false" />
+        </entity>
+      </fetch>
+    </fetchxml>
+    <IntroducedVersion>1.0</IntroducedVersion>
+    <LocalizedNames>
+      <LocalizedName description="Recordings Advanced Find View" languagecode="1033" />
+    </LocalizedNames>
+  </savedquery>
+</savedqueries>

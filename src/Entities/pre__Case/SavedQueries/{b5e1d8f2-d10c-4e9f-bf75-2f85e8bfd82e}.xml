@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<savedqueries xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <savedquery>
+    <IsCustomizable>1</IsCustomizable>
+    <CanBeDeleted>0</CanBeDeleted>
+    <isquickfindquery>0</isquickfindquery>
+    <isprivate>0</isprivate>
+    <isdefault>0</isdefault>
+    <savedqueryid>{b5e1d8f2-d10c-4e9f-bf75-2f85e8bfd82e}</savedqueryid>
+    <layoutxml>
+      <grid name="resultset" jump="pre__caseuid" select="1" icon="1" preview="1">
+        <row name="result" id="pre__caseid">
+          <cell name="pre__caseuid" width="300" />
+          <cell name="createdon" width="125" />
+        </row>
+      </grid>
+    </layoutxml>
+    <querytype>0</querytype>
+    <fetchxml>
+      <fetch version="1.0" mapping="logical">
+        <entity name="pre__case">
+          <attribute name="pre__caseid" />
+          <attribute name="pre__caseuid" />
+          <attribute name="createdon" />
+          <order attribute="pre__caseuid" descending="false" />
+          <filter type="and">
+            <condition attribute="statecode" operator="eq" value="1" />
+          </filter>
+        </entity>
+      </fetch>
+    </fetchxml>
+    <IntroducedVersion>1.0</IntroducedVersion>
+    <LocalizedNames>
+      <LocalizedName description="Inactive Cases" languagecode="1033" />
+    </LocalizedNames>
+  </savedquery>
+</savedqueries>
