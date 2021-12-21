@@ -8,7 +8,7 @@ parameters:
     type: string
     default: 'POWERAPPS-PRE-SDS-SBOX'
     values:
-      - 'POWERAPPS-PRE-SBOX'
+     # - 'POWERAPPS-PRE-SBOX'
       - 'POWERAPPS-PRE-SDS-SBOX'
       - 'POWERAPPS-PRE-SDS-DEV'
       - 'POWERAPPS-PRE-SDS-STG'
