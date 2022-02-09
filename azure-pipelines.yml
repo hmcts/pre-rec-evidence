@@ -6,7 +6,7 @@ parameters:
   - name: serviceConnection
     displayName: Deploy to Service Connection
     type: string
-    default: 'POWERAPPS-PRE-SDS-SBOX'
+    default: 'POWERAPPS-PRE-SDS-STG'
     values:
       - 'POWERAPPS-PRE-SBOX'
       - 'POWERAPPS-PRE-SDS-SBOX'
