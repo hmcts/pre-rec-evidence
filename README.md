@@ -22,6 +22,26 @@ The application has the following main components
 
 ## Notes
 
+## Running Automated Tests.
+
+For executing automated tests please follow below steps
+
+1. Install .NET SDK https://dotnet.microsoft.com/en-us/download
+2. Checkout this repository and navigate to pre-rec-evidence/test/e2e
+3. For authentication please setup auth file and copy file location and update the file
+    ``` test/e2e/Hooks/HooksInitializer.cs ``` with your auth file location
+   //todo will update later to generate auth file
+4. Build the project by running ``` dotnet build ```
+5. Then for running the tests from terminal use ``` dotnet test ```
+
+### Generating living Documentation.
+
+After running above tests you can generate living documentation by using
+install living doc from terminal using
+```dotnet tool install --global SpecFlow.Plus.LivingDoc.CLI ```
+
+and execute below
+``` livingdoc test-assembly bin/Debug/net6.0/pre.dll -t bin/Debug/net6.0/TestExecution.json ```
 
 ## Building and deploying the application
 
