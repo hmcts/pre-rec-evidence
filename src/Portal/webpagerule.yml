@@ -1,0 +1,41 @@
+- adx_name: Login
+  adx_right: 2
+  adx_webpageaccesscontrolrule_webrole: []
+  adx_webpageaccesscontrolruleid: 299da6f9-1c64-ec11-8f8f-000d3ad55dc5
+  adx_webpageid: c77a44dc-0f64-ec11-8f8f-000d3ad55d7e
+  statecode: 1
+  statuscode: 2
+- adx_description: Redirect all unauthenticated users to Signin page
+  adx_name: RestrictAnonAccess
+  adx_right: 2
+  adx_scope: 2
+  adx_webpageaccesscontrolrule_webrole:
+  - d47a44dc-0f64-ec11-8f8f-000d3ad55d7e
+  - f918cce0-0f64-ec11-8f8f-000d3ad55dc5
+  adx_webpageaccesscontrolruleid: 33db07d1-4e84-ec11-8d21-0022483f3804
+  adx_webpageid: c77a44dc-0f64-ec11-8f8f-000d3ad55d7e
+- adx_name: Restrict Read on Home
+  adx_right: 2
+  adx_scope: 2
+  adx_webpageaccesscontrolrule_webrole:
+  - d47a44dc-0f64-ec11-8f8f-000d3ad55d7e
+  - f918cce0-0f64-ec11-8f8f-000d3ad55dc5
+  adx_webpageaccesscontrolruleid: 4d8f9faf-1864-ec11-8f8f-000d3ad55dc5
+  adx_webpageid: c77a44dc-0f64-ec11-8f8f-000d3ad55d7e
+  statecode: 1
+  statuscode: 2
+- adx_name: Restrict Read on Pre - Recordings
+  adx_right: 2
+  adx_webpageaccesscontrolrule_webrole: []
+  adx_webpageaccesscontrolruleid: c3b7fbbf-a364-ec11-8f8f-000d3ad55d7e
+  adx_webpageid: d17a44dc-0f64-ec11-8f8f-000d3ad55d7e
+- adx_name: Grant Change to Administrators
+  adx_right: 1
+  adx_webpageaccesscontrolrule_webrole:
+  - d47a44dc-0f64-ec11-8f8f-000d3ad55d7e
+  adx_webpageaccesscontrolruleid: d27a44dc-0f64-ec11-8f8f-000d3ad55d7e
+  adx_webpageid: c77a44dc-0f64-ec11-8f8f-000d3ad55d7e
+- adx_name: Grant Change to Content
+  adx_right: 1
+  adx_webpageaccesscontrolrule_webrole: []
+  adx_webpageaccesscontrolruleid: d37a44dc-0f64-ec11-8f8f-000d3ad55d7e
