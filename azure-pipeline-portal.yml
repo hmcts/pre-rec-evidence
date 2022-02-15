@@ -36,6 +36,9 @@ steps:
         Invoke-WebRequest https://aka.ms/PowerAppsCLI -OutFile pac.msi
         msiexec /i pac.msi /quiet /norestart
   - task: PowerShell@2
+    env:
+     # PowerPlatformAadApplicationSecret: $(PowerPlatformAadApplicationSecret)
+      PacAuthProfileName: ${{ parameters.serviceConnection }}
     inputs:
       targetType: 'inline'
       script: |
@@ -44,5 +47,5 @@ steps:
         pac install latest
         pac auth create --name ${env:PacAuthProfileName} --url $(portalinstanceurl) --username $(portaluser) --password $(portalpassword)
         pac org who
-        pac auth select --name
+        pac auth select --name ${env:PacAuthProfileName}
         pac paportal upload --path $(System.DefaultWorkingDirectory)/src/portal
