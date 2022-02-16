@@ -1,0 +1,80 @@
+{
+  "EnvironmentVariables": [
+    {
+      "SchemaName": "pre__AppID",
+      "Value": ""
+    }
+  ],
+  "ConnectionReferences": [
+    {
+      "LogicalName": "cr599_Dataverse",
+      "ConnectionId": "",
+      "ConnectorId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+    },
+    {
+      "LogicalName": "cr599_sharedazureblob_0e0b1",
+      "ConnectionId": "",
+      "ConnectorId": "/providers/Microsoft.PowerApps/apis/shared_azureblob"
+    },
+    {
+      "LogicalName": "cr599_sharedazureblob_23232",
+      "ConnectionId": "",
+      "ConnectorId": "/providers/Microsoft.PowerApps/apis/shared_azureblob"
+    },
+    {
+      "LogicalName": "cr599_sharedazureblob_a4d8a",
+      "ConnectionId": "",
+      "ConnectorId": "/providers/Microsoft.PowerApps/apis/shared_azureblob"
+    },
+    {
+      "LogicalName": "cr599_sharedcommondataserviceforapps_a29d5",
+      "ConnectionId": "",
+      "ConnectorId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+    },
+    {
+      "LogicalName": "cr599_sharedcommondataserviceforapps_d0505",
+      "ConnectionId": "",
+      "ConnectorId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+    },
+    {
+      "LogicalName": "new_sharedteams_c6b1e",
+      "ConnectionId": "",
+      "ConnectorId": "/providers/Microsoft.PowerApps/apis/shared_teams"
+    },
+    {
+      "LogicalName": "pre__AzureBlobStorageFlowSbx",
+      "ConnectionId": "",
+      "ConnectorId": "/providers/Microsoft.PowerApps/apis/shared_azureblob"
+    },
+    {
+      "LogicalName": "pre__DTS_PRE_KeyVault",
+      "ConnectionId": "",
+      "ConnectorId": "/providers/Microsoft.PowerApps/apis/shared_keyvault"
+    },
+    {
+      "LogicalName": "pre__sharedazureblob_b2d2f",
+      "ConnectionId": "",
+      "ConnectorId": "/providers/Microsoft.PowerApps/apis/shared_azureblob"
+    },
+    {
+      "LogicalName": "pre__sharedcommondataserviceforapps_42299",
+      "ConnectionId": "",
+      "ConnectorId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+    },
+    {
+      "LogicalName": "pre__sharedcommondataserviceforapps_4ea17",
+      "ConnectionId": "",
+      "ConnectorId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+    },
+    {
+      "LogicalName": "pre__sharedcommondataserviceforapps_62e6b",
+      "ConnectionId": "",
+      "ConnectorId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+    },
+    {
+      "LogicalName": "pre__sharedexcelonlinebusiness_c5f42",
+      "ConnectionId": "",
+      "ConnectorId": "/providers/Microsoft.PowerApps/apis/shared_excelonlinebusiness"
+    }
+  ]
+}
