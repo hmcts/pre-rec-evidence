@@ -45,7 +45,8 @@ steps:
         # refresh path to make pac available
         $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
         pac install latest
-        echo "env variables are: $portalinstanceurl $(portaluser) $(portalpassword) "
+        echo "env variables are: $(portalinstanceurl) $(portaluser) $(portalpassword) "
+        echo "executing pac auth create --name portalstg --url $(portalinstanceurl) --username $(portaluser) --password $(portalpassword)"
         pac auth create --name "portalstg" --url $(portalinstanceurl) --username $(portaluser) --password $(portalpassword)
         pac org who
         pac auth select --name ${env:PacAuthProfileName}
