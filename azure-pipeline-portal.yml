@@ -46,11 +46,11 @@ steps:
         $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
         pac install latest
         # pac auth create --name "portalstg" --url $(portalinstanceurl) --username $(portaluser) --password $(portalpassword)
-        pac auth create --name ${env:PacAuthProfileName} `
-          --url ${portalinstanceurl} `
-          --tenant ${PowerPlatformAadDirectoryId} `
-          --applicationId ${PowerPlatformAadApplicationId} `
-          --clientSecret ${PowerPlatformAadApplicationSecret}
+        pac auth create --name $(PacAuthProfileName) `
+          --url $(portalinstanceurl) `
+          --tenant $(PowerPlatformAadDirectoryId) `
+          --applicationId $(PowerPlatformAadApplicationId) `
+          --clientSecret $(PowerPlatformAadApplicationSecret)
         pac org who
-        pac auth select --name ${env:PacAuthProfileName}
+        pac auth select --name ${PacAuthProfileName}
         pac paportal upload --path $(System.DefaultWorkingDirectory)/src/portal
