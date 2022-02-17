@@ -49,7 +49,7 @@ steps:
         pac auth create --name $(PacAuthProfileName) `
           --url $(portalinstanceurl) `
           --tenant $(PowerPlatformAadDirectoryId) `
-          --applicationId $(PowerPlatformAadApplicationId)
+          --applicationId $(PowerPlatformAadApplicationId) `
           --clientSecret ""
         pac org who
         pac auth select --name $(PacAuthProfileName)
