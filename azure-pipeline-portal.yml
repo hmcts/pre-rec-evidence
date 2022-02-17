@@ -49,8 +49,8 @@ steps:
         pac auth create --name $(PacAuthProfileName) `
           --url $(portalinstanceurl) `
           --tenant $(PowerPlatformAadDirectoryId) `
-          --applicationId $(PowerPlatformAadApplicationId) `
-          --clientSecret $(PowerPlatformAadApplicationSecret)
+          --applicationId $(PowerPlatformAadApplicationId)
+          # --clientSecret $(PowerPlatformAadApplicationSecret)
         pac org who
-        pac auth select --name ${PacAuthProfileName}
+        pac auth select --name $(PacAuthProfileName)
         pac paportal upload --path $(System.DefaultWorkingDirectory)/src/portal
