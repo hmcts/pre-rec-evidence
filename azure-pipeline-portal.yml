@@ -50,7 +50,7 @@ steps:
           --url $(portalinstanceurl) `
           --tenant $(PowerPlatformAadDirectoryId) `
           --applicationId $(PowerPlatformAadApplicationId) `
-          --clientSecret ""
+          --clientSecret
         pac org who
         pac auth select --name $(PacAuthProfileName)
         pac paportal upload --path $(System.DefaultWorkingDirectory)/src/portal
