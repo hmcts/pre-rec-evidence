@@ -47,6 +47,7 @@ steps:
           --clientSecret $(PowerPlatformAadApplicationSecret)
         pac org who
         pac auth select --name $(PacAuthProfileName)
+        pac paportal list
         pac paportal download -o true --path $(System.DefaultWorkingDirectory)/src/portal -id $(portalid)
 
   - task: CmdLine@2
