@@ -20,20 +20,6 @@ parameters:
     default: 'dev'
 
 steps:
-  - task: ArchiveFiles@2
-    inputs:
-      rootFolderOrFile: 'src/Portal'
-      includeRootFolder: false
-      archiveType: 'zip'
-      archiveFile: 'dts-pre-portal.zip'
-      replaceExistingArchive: true
-
-  - task: PublishPipelineArtifact@1
-    inputs:
-      targetPath: 'dts-pre-portal.zip'
-      artifact: 'Power Apps Portal archive'
-      publishLocation: 'pipeline'
-
   - task: PowerShell@2
     inputs:
       targetType: 'inline'
@@ -71,6 +57,20 @@ steps:
         git add --all
         git commit -m "Automatic solution commit"
         git -c http.extraheader="AUTHORIZATION: bearer $(system.githubPat)" push origin ${{ parameters.exportToBranch }}
+# Below task for deploying above downloaded portal
+  - task: ArchiveFiles@2
+    inputs:
+      rootFolderOrFile: 'src/Portal'
+      includeRootFolder: false
+      archiveType: 'zip'
+      archiveFile: 'dts-pre-portal.zip'
+      replaceExistingArchive: true
+
+  - task: PublishPipelineArtifact@1
+    inputs:
+      targetPath: 'dts-pre-portal.zip'
+      artifact: 'Power Apps Portal archive'
+      publishLocation: 'pipeline'
 
   - task: PowerShell@2
     env:
