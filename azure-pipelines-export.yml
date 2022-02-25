@@ -52,7 +52,7 @@ steps:
     ExportMarketingSettings: true
     ExportOutlookSynchronizationSettings: true
     ExportRelationshipRoles: true
-- task: PowerPlatformChecker@0
+# - task: PowerPlatformChecker@0
   displayName: 'Power Platform solution Checker '
   inputs:
     PowerPlatformSPN: ${{ parameters.serviceConnection }}
