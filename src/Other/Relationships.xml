@@ -19,6 +19,7 @@
   <EntityRelationship Name="business_unit_pre__clipping" />
   <EntityRelationship Name="business_unit_pre__courts" />
   <EntityRelationship Name="business_unit_pre__recordings" />
+  <EntityRelationship Name="business_unit_pre__roomallocations" />
   <EntityRelationship Name="business_unit_pre__schedule" />
   <EntityRelationship Name="business_unit_pre__videopermissions" />
   <EntityRelationship Name="cr074_pre__VideoPermissions_Contact_Contact" />
@@ -40,6 +41,8 @@
   <EntityRelationship Name="lk_pre__courts_modifiedby" />
   <EntityRelationship Name="lk_pre__recordings_createdby" />
   <EntityRelationship Name="lk_pre__recordings_modifiedby" />
+  <EntityRelationship Name="lk_pre__roomallocations_createdby" />
+  <EntityRelationship Name="lk_pre__roomallocations_modifiedby" />
   <EntityRelationship Name="lk_pre__schedule_createdby" />
   <EntityRelationship Name="lk_pre__schedule_modifiedby" />
   <EntityRelationship Name="lk_pre__videopermissions_createdby" />
@@ -53,6 +56,7 @@
   <EntityRelationship Name="owner_pre__clipping" />
   <EntityRelationship Name="owner_pre__courts" />
   <EntityRelationship Name="owner_pre__recordings" />
+  <EntityRelationship Name="owner_pre__roomallocations" />
   <EntityRelationship Name="owner_pre__schedule" />
   <EntityRelationship Name="owner_pre__videopermissions" />
   <EntityRelationship Name="pre__Booking_Court_pre__Courts" />
@@ -66,6 +70,7 @@
   <EntityRelationship Name="team_pre__clipping" />
   <EntityRelationship Name="team_pre__courts" />
   <EntityRelationship Name="team_pre__recordings" />
+  <EntityRelationship Name="team_pre__roomallocations" />
   <EntityRelationship Name="team_pre__schedule" />
   <EntityRelationship Name="team_pre__videopermissions" />
   <EntityRelationship Name="user_adx_invitation" />
@@ -76,6 +81,7 @@
   <EntityRelationship Name="user_pre__clipping" />
   <EntityRelationship Name="user_pre__courts" />
   <EntityRelationship Name="user_pre__recordings" />
+  <EntityRelationship Name="user_pre__roomallocations" />
   <EntityRelationship Name="user_pre__schedule" />
   <EntityRelationship Name="user_pre__videopermissions" />
 </EntityRelationships>

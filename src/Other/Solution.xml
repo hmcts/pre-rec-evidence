@@ -89,6 +89,7 @@
       <RootComponent type="1" schemaName="pre__clipping" behavior="0" />
       <RootComponent type="1" schemaName="pre__courts" behavior="0" />
       <RootComponent type="1" schemaName="pre__recordings" behavior="0" />
+      <RootComponent type="1" schemaName="pre__roomallocations" behavior="0" />
       <RootComponent type="1" schemaName="pre__schedule" behavior="0" />
       <RootComponent type="1" schemaName="pre__videopermissions" behavior="0" />
       <RootComponent type="29" id="{0884a67e-a282-ec11-8d21-0022483f3a05}" behavior="0" />
@@ -106,6 +107,7 @@
       <RootComponent type="29" id="{93116bc8-ed72-ec11-8943-002248070868}" behavior="0" />
       <RootComponent type="29" id="{9a89a800-cc7a-ec11-8d21-002248433116}" behavior="0" />
       <RootComponent type="29" id="{e045284a-b16f-ec11-8943-00224842b706}" behavior="0" />
+      <RootComponent type="300" schemaName="pre__streamingmanagerbackup_b68fe" behavior="0" />
       <RootComponent type="300" schemaName="pre__streamingmanager_28789" behavior="0" />
       <RootComponent type="300" schemaName="pre__testing_86e47" behavior="0" />
     </RootComponents>
@@ -199,6 +201,12 @@
           <package>CDSBasePortal (9.3.2109.20)</package>
         </Required>
         <Dependent type="300" schemaName="pre__streamingmanager_28789" displayName="Streaming Manager" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="1" schemaName="adx_invitation" displayName="Invitation" solution="MicrosoftPortalBase (9.2.2103.1)">
+          <package>CDSBasePortal (9.3.2109.20)</package>
+        </Required>
+        <Dependent type="300" schemaName="pre__streamingmanagerbackup_b68fe" displayName="Streaming Manager Backup" />
       </MissingDependency>
       <MissingDependency>
         <Required type="1" schemaName="adx_invitation" displayName="Invitation" solution="MicrosoftPortalBase (9.2.2103.1)">
