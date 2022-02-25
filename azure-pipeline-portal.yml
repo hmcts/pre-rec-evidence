@@ -3,8 +3,6 @@ trigger: none
 pr: none
 pool:
   vmImage: windows-latest
-variables:
-  - group: auth-stg
 parameters:
   - name: serviceConnection
     displayName: Use environment Service Connection
@@ -15,6 +13,14 @@ parameters:
       - 'POWERAPPS-PRE-SDS-DEV'
       - 'POWERAPPS-PRE-SDS-STG'
       - 'POWERAPPS-PRE-SDS-PROD'
+  - name: env
+    displayName: Environment variables to use to authenticate
+    type: string
+    default: 'auth-dev'
+
+variables:
+  - group: ${{parameters.env}}
+
 steps:
   - checkout: self
     persistCredentials: true
