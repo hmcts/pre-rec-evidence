@@ -58,4 +58,4 @@ steps:
           --clientSecret $(PowerPlatformAadApplicationSecret)
         pac org who
         pac auth select --name $(PacAuthProfileName)
-        pac paportal upload --path $(System.DefaultWorkingDirectory)/src/portal
+        pac paportal upload --path $(System.DefaultWorkingDirectory)/src/portal/dts-pre-sb---dts-pre-sb
