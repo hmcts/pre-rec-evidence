@@ -1,0 +1,74 @@
+<div class="row sectionBlockLayout sectionPrimaryColor" style="height: 15px; min-height: 15px;"></div>
+<div class="row sectionBlockLayout" style="text-align: left; min-height: 100px; padding: 8px; margin: 0px;">
+  <div class="container" style="display: flex; flex-wrap: wrap;">
+    <div class="col-md-12 columnBlockLayout">
+      <p> Welcome to the Pre-recorded Evidence Portal<br>‌<br>‌...</p>
+    </div>
+  </div>
+</div>
+<div class="row sectionBlockLayout" style="text-align: left; min-height: 100px; padding: 8px; margin: 0px;">
+  <div class="container" style="display: flex; flex-wrap: wrap;">
+    <div class="col-md-12 columnBlockLayout">
+
+      <!-- <video allowfullscreen="allowfullscreen" width="320" height="240" controls="controls" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIHZpZXdCb3g9IjAgMCAyNCAyNCIgc3R5bGU9ImZpbGw6IHJnYmEoMCwwLDAsMC4xNSk7IHRyYW5zZm9ybTogc2NhbGUoMC43NSkiPgogICAgICAgIDxwYXRoIGQ9Ik04LjUgMTMuNWwyLjUgMyAzLjUtNC41IDQuNSA2SDVtMTYgMVY1YTIgMiAwIDAgMC0yLTJINWMtMS4xIDAtMiAuOS0yIDJ2MTRjMCAxLjEuOSAyIDIgMmgxNGMxLjEgMCAyLS45IDItMnoiPjwvcGF0aD4KICAgICAgPC9zdmc+" style="width: 808px; height: 406px;"> -->
+      <video id="video" allowfullscreen="allowfullscreen" width="320" height="240" controls="controls" style="width: 808px; height: 406px;">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+  </div>
+</div>
+{% include 'entity_list' key: 'PRE_RecordingsLst' %}
+<div class="row sectionBlockLayout" style="text-align: left; min-height: 100px; padding: 8px; margin: 0px;">
+  <div class="container" style="display: flex; flex-wrap: wrap;">
+    <div class="col-md-12 columnBlockLayout">
+      {% assign currentDate = now | date: "20220224172000" %}
+
+      <!--{% assign currentDate = now | date: "yyyyMMddHHmmss" %}-->
+      {% fetchxml vidPerms %}
+      {% assign conditionCache = '<condition attribute="pre__test" operator="ne" value="' | append: currentDate | append: '"></condition>' %}
+      <fetch version="1.0" output-format="xml-platform" mapping="logical" distinct="false">
+        <entity name="pre__videopermissions">
+          <attribute name="pre__videopermissionsid"></attribute>
+          <attribute name="pre__caseref"></attribute>
+          <attribute name="pre__court"></attribute>
+          <attribute name="pre__witness"></attribute>
+          <attribute name="pre__recordingsaslink"></attribute>
+          <attribute name="pre__recordinguid"></attribute>
+          <attribute name="pre__portalreqhttpparameters"></attribute>
+          <filter type="and">
+
+            <!-- <condition attribute="pre__activeaccess" operator="eq" value="True"></condition>
+            <condition attribute="cr074_contact" operator="eq" value="{948D16E1-2388-EC11-93B0-000D3AD4A475}"></condition> -->
+
+            <!--<condition attribute="pre__test" operator="ne" value="' | append: currentDate | append: '"></condition>-->
+            {{ conditionCache }}
+          </filter>
+          <link-entity name="pre__recordings" from="pre__recordingsid" to="pre__recordinguid" visible="false" link-type="outer" alias="a_3f3b9e4725f940449cd8593ab6b2b3aa">
+            <attribute name="pre__recordingstartdate">
+              <attribute name="pre__defendants">
+              </attribute>
+            </attribute>
+          </link-entity>
+        </entity>
+      </fetch>
+      {% endfetchxml %}
+      {% for item in vidPerms.results.entities %}
+      {% endfor %}
+      <table style="width:1200px">
+        <tbody>
+          <tr>
+            <th style="width:200px">CaseRef</th>
+          </tr>
+          <tr>
+            <td>{{ item.pre__caseref }}</td>
+            <td>{{ item.pre__court }}</td>
+            <td>{{ item.pre__recordinguid }}</td>
+            <td>{{ item.pre__witness }}</td>
+            <td>{{ item.pre__recordingsaslink }}</td>
+            <td>{{ item.pre__portalreqhttpparameters }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
