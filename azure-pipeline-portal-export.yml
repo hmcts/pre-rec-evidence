@@ -1,5 +1,6 @@
 name: PRE portal export from sandbox
 trigger: none
+pr: none
 pool:
   vmImage: windows-latest
 variables:

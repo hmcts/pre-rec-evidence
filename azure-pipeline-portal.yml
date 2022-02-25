@@ -1,5 +1,6 @@
 name: PRE portal deployment
 trigger: none
+pr: none
 pool:
   vmImage: windows-latest
 variables:
