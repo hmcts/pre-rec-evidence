@@ -1,0 +1,1209 @@
+{
+  "properties": {
+    "connectionReferences": {
+      "shared_commondataserviceforapps_3": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "pre__sharedcommondataserviceforapps_4ea17"
+        },
+        "api": {
+          "name": "shared_commondataserviceforapps"
+        }
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        },
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        },
+        "AppSubscriptionID (pre__AppSubscriptionID)": {
+          "defaultValue": "a8140a9e-f1b0-481f-a4de-09e2ee23f7ab",
+          "type": "String",
+          "metadata": {
+            "schemaName": "pre__AppSubscriptionID"
+          }
+        },
+        "AppMediaService (pre__AppMediaService)": {
+          "defaultValue": "preamssbox",
+          "type": "String",
+          "metadata": {
+            "schemaName": "pre__AppMediaService"
+          }
+        },
+        "AppResourceGroup (pre__AppResourceGroup)": {
+          "defaultValue": "pre-sbox",
+          "type": "String",
+          "metadata": {
+            "schemaName": "pre__AppResourceGroup"
+          }
+        },
+        "AppMediaRegion (pre__AppMediaRegion)": {
+          "defaultValue": "UK South",
+          "type": "String",
+          "metadata": {
+            "schemaName": "pre__AppMediaRegion"
+          }
+        },
+        "AppSecret (pre__AppSecret)": {
+          "defaultValue": "Jqg7Q~bs5jkRxxdPc6f1sHcYDRiHhjdDLsH7A",
+          "type": "String",
+          "metadata": {
+            "schemaName": "pre__AppSecret"
+          }
+        },
+        "AppID (pre__AppID)": {
+          "defaultValue": "07587e3c-603e-401f-98d1-ff26206e93f8",
+          "type": "String",
+          "metadata": {
+            "schemaName": "pre__AppID"
+          }
+        },
+        "AppTenantID (pre__AppTenantID)": {
+          "defaultValue": "531ff96d-0ae9-462a-8d2d-bec7c0b42082",
+          "type": "String",
+          "metadata": {
+            "schemaName": "pre__AppTenantID"
+          }
+        }
+      },
+      "triggers": {
+        "manual": {
+          "metadata": {
+            "operationMetadataId": "a1ab4c71-a958-4dba-9a76-9a8ca5f8cd6c"
+          },
+          "type": "Request",
+          "kind": "PowerApp",
+          "inputs": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "RecordingUID_Value": {
+                  "type": "string",
+                  "description": "Enter initial value",
+                  "x-ms-powerflows-param-ispartial": false
+                },
+                "CaseRef_Value": {
+                  "type": "string",
+                  "description": "Enter initial value",
+                  "x-ms-powerflows-param-ispartial": false
+                },
+                "CourtVar_Value": {
+                  "type": "string",
+                  "description": "Enter initial value",
+                  "x-ms-powerflows-param-ispartial": false
+                },
+                "RecordingsID_Value": {
+                  "type": "string",
+                  "description": "Enter initial value",
+                  "x-ms-powerflows-param-ispartial": false
+                }
+              },
+              "required": [
+                "RecordingUID_Value",
+                "CaseRef_Value",
+                "CourtVar_Value",
+                "RecordingsID_Value"
+              ]
+            }
+          }
+        }
+      },
+      "actions": {
+        "RecordingUID": {
+          "runAfter": {},
+          "metadata": {
+            "operationMetadataId": "db918926-5a2e-4d17-8404-e696fd5fd8f0"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "RecordingUID",
+                "type": "string",
+                "value": "@{triggerBody()['RecordingUID_Value']}"
+              }
+            ]
+          }
+        },
+        "CaseRef": {
+          "runAfter": {
+            "RecordingsID": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "0e94188c-dd67-47d6-989b-1f97f4eced93"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "CaseRef",
+                "type": "string",
+                "value": "@{triggerBody()['CaseRef_Value']}"
+              }
+            ]
+          }
+        },
+        "CourtVar": {
+          "runAfter": {
+            "CaseRef": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "fcf496d1-d101-4ac7-a31c-b9313db9db0b"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "CourtVar",
+                "type": "string",
+                "value": "@{triggerBody()['CourtVar_Value']}"
+              }
+            ]
+          }
+        },
+        "StreamStatus": {
+          "runAfter": {
+            "CourtVar": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "06e04a4e-804e-4ed7-8bbf-7aeb290c1600"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "StreamStatus",
+                "type": "string"
+              }
+            ]
+          }
+        },
+        "streamingStorageAccountName": {
+          "runAfter": {
+            "StreamStatus": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "9b0a3ce5-663f-432f-805d-ed5d08215333"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "streamingStorageAccountName",
+                "type": "string",
+                "value": "prefinalsasbox"
+              }
+            ]
+          }
+        },
+        "Initialize_Access_Token_Guid": {
+          "runAfter": {
+            "streamingStorageAccountName": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "cdccae1b-bae9-4562-a3eb-1a8ee42b0699"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "InitializeAccessTokenGuid",
+                "type": "string",
+                "value": "@{guid()}"
+              }
+            ]
+          }
+        },
+        "Respond_to_a_PowerApp_or_flow": {
+          "runAfter": {
+            "Compose_-_RecordingUID_No_Hyphen": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "ae3994a6-df64-40c5-a7f1-5b4f6664648e"
+          },
+          "type": "Response",
+          "kind": "PowerApp",
+          "inputs": {
+            "statusCode": 200,
+            "body": {
+              "assetid": "started"
+            },
+            "schema": {
+              "type": "object",
+              "properties": {
+                "assetid": {
+                  "title": "assetID",
+                  "x-ms-dynamically-added": true,
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "Create_new_event": {
+          "actions": {
+            "Create_Event": {
+              "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "0f672e00-316e-4127-97d3-3f099a4d4acd"
+              },
+              "type": "Http",
+              "inputs": {
+                "method": "PUT",
+                "uri": "https://management.azure.com/subscriptions/@{parameters('AppSubscriptionID (pre__AppSubscriptionID)')}/resourceGroups/@{parameters('AppResourceGroup (pre__AppResourceGroup)')}/providers/Microsoft.Media/mediaservices/@{parameters('AppMediaService (pre__AppMediaService)')}/liveEvents/@{outputs('Compose_-_RecordingUID_No_Hyphen')}?api-version=2020-05-01",
+                "body": {
+                  "location": "@{parameters('AppMediaRegion (pre__AppMediaRegion)')}",
+                  "tags": {
+                    "environment": "sandbox",
+                    "application": "pre-recorded evidence",
+                    "businessArea": "cross-cutting",
+                    "builtFrom": "azure portal"
+                  },
+                  "properties": {
+                    "description": "@{variables('CourtVar')} - Case: @{variables('CaseRef')}",
+                    "useStaticHostname": "true",
+                    "input": {
+                      "streamingProtocol": "RTMP",
+                      "keyFrameIntervalDuration": "PT6S",
+                      "accessToken": "@{variables('InitializeAccessTokenGuid')}",
+                      "accessControl": {
+                        "ip": {
+                          "allow": [
+                            {
+                              "name": "AllowAll",
+                              "address": "0.0.0.0",
+                              "subnetPrefixLength": 0
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    "preview": {
+                      "accessControl": {
+                        "ip": {
+                          "allow": [
+                            {
+                              "name": "AllowAll",
+                              "address": "0.0.0.0",
+                              "subnetPrefixLength": 0
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                },
+                "authentication": {
+                  "type": "ActiveDirectoryOAuth",
+                  "tenant": "@parameters('AppTenantID (pre__AppTenantID)')",
+                  "audience": "https://management.core.windows.net",
+                  "clientId": "@parameters('AppID (pre__AppID)')",
+                  "secret": "@parameters('AppSecret (pre__AppSecret)')"
+                }
+              }
+            },
+            "Parse_Event_JSON": {
+              "runAfter": {
+                "Create_Event": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "baca242d-a1a0-4afe-8224-defea051d86a"
+              },
+              "type": "ParseJson",
+              "inputs": {
+                "content": "@body('Create_Event')",
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "location": {
+                      "type": "string"
+                    },
+                    "tags": {
+                      "type": "object",
+                      "properties": {
+                        "tag1": {
+                          "type": "string"
+                        },
+                        "tag2": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "properties": {
+                      "type": "object",
+                      "properties": {
+                        "description": {
+                          "type": "string"
+                        },
+                        "resourceState": {
+                          "type": "string"
+                        },
+                        "provisioningState": {
+                          "type": "string"
+                        },
+                        "created": {
+                          "type": "string"
+                        },
+                        "lastModified": {
+                          "type": "string"
+                        },
+                        "useStaticHostname": {
+                          "type": "boolean"
+                        },
+                        "streamOptions": {
+                          "type": "array"
+                        },
+                        "input": {
+                          "type": "object",
+                          "properties": {
+                            "keyFrameIntervalDuration": {
+                              "type": "string"
+                            },
+                            "streamingProtocol": {
+                              "type": "string"
+                            },
+                            "accessToken": {
+                              "type": "string"
+                            },
+                            "endpoints": {
+                              "type": "array"
+                            },
+                            "accessControl": {
+                              "type": "object",
+                              "properties": {
+                                "ip": {
+                                  "type": "object",
+                                  "properties": {
+                                    "allow": {
+                                      "type": "array",
+                                      "items": {
+                                        "type": "object",
+                                        "properties": {
+                                          "name": {
+                                            "type": "string"
+                                          },
+                                          "address": {
+                                            "type": "string"
+                                          },
+                                          "subnetPrefixLength": {
+                                            "type": "integer"
+                                          }
+                                        },
+                                        "required": [
+                                          "name",
+                                          "address",
+                                          "subnetPrefixLength"
+                                        ]
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        },
+                        "preview": {
+                          "type": "object",
+                          "properties": {
+                            "previewLocator": {
+                              "type": "string"
+                            },
+                            "streamingPolicyName": {
+                              "type": "string"
+                            },
+                            "alternativeMediaId": {},
+                            "accessControl": {
+                              "type": "object",
+                              "properties": {
+                                "ip": {
+                                  "type": "object",
+                                  "properties": {
+                                    "allow": {
+                                      "type": "array",
+                                      "items": {
+                                        "type": "object",
+                                        "properties": {
+                                          "name": {
+                                            "type": "string"
+                                          },
+                                          "address": {
+                                            "type": "string"
+                                          },
+                                          "subnetPrefixLength": {
+                                            "type": "integer"
+                                          }
+                                        },
+                                        "required": [
+                                          "name",
+                                          "address",
+                                          "subnetPrefixLength"
+                                        ]
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            "endpoints": {
+                              "type": "array"
+                            }
+                          }
+                        },
+                        "encoding": {
+                          "type": "object",
+                          "properties": {
+                            "encodingType": {
+                              "type": "string"
+                            },
+                            "presetName": {},
+                            "stretchMode": {},
+                            "keyFrameInterval": {}
+                          }
+                        },
+                        "crossSiteAccessPolicies": {
+                          "type": "object",
+                          "properties": {
+                            "clientAccessPolicy": {},
+                            "crossDomainPolicy": {}
+                          }
+                        },
+                        "hostnamePrefix": {},
+                        "transcriptions": {
+                          "type": "array"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "Set_StreamStatus_to_Pending": {
+              "runAfter": {
+                "Parse_Event_JSON": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "8808d71b-90d6-4146-b904-ae73af2f2e70"
+              },
+              "type": "SetVariable",
+              "inputs": {
+                "name": "StreamStatus",
+                "value": "Pending"
+              }
+            }
+          },
+          "runAfter": {
+            "Respond_to_a_PowerApp_or_flow": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "bf1b82f4-ccac-4bc6-b4f3-7faa4b98275f"
+          },
+          "type": "Scope"
+        },
+        "Update_event_-_event_created": {
+          "runAfter": {
+            "Create_new_event": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "4ed22b4a-4a2f-47d7-b146-32cbf1cd23ef"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_commondataserviceforapps_3",
+              "operationId": "UpdateRecord",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+            },
+            "parameters": {
+              "entityName": "pre__recordingses",
+              "recordId": "@variables('RecordingUID')",
+              "item/pre__recordingstatus": "@variables('StreamStatus')"
+            },
+            "authentication": {
+              "type": "Raw",
+              "value": "@json(decodeBase64(triggerOutputs().headers['X-MS-APIM-Tokens']))['$ConnectionKey']"
+            }
+          }
+        },
+        "Update_event_-_assets_created": {
+          "runAfter": {
+            "Create_assets": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "f5783a27-0446-4e04-96bc-5c5df5101bd0"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_commondataserviceforapps_3",
+              "operationId": "UpdateRecord",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+            },
+            "parameters": {
+              "entityName": "pre__recordingses",
+              "recordId": "@variables('RecordingUID')"
+            },
+            "authentication": {
+              "type": "Raw",
+              "value": "@json(decodeBase64(triggerOutputs().headers['X-MS-APIM-Tokens']))['$ConnectionKey']"
+            }
+          }
+        },
+        "Create_assets": {
+          "actions": {
+            "Create_Output_Asset": {
+              "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "61e4d845-c82c-4e37-bca9-2e65fa888cfa"
+              },
+              "type": "Http",
+              "inputs": {
+                "method": "PUT",
+                "uri": "https://management.azure.com/subscriptions/@{parameters('AppSubscriptionID (pre__AppSubscriptionID)')}/resourceGroups/@{parameters('AppResourceGroup (pre__AppResourceGroup)')}/providers/Microsoft.Media/mediaServices/@{parameters('AppMediaService (pre__AppMediaService)')}/assets/@{outputs('Compose_-_RecordingUID_No_Hyphen')}?api-version=2020-05-01",
+                "body": {
+                  "properties": {
+                    "description": "@{variables('CourtVar')} - @{variables('CaseRef')}",
+                    "storageAccountName": "@{variables('streamingStorageAccountName')}"
+                  }
+                },
+                "authentication": {
+                  "type": "ActiveDirectoryOAuth",
+                  "tenant": "@parameters('AppTenantID (pre__AppTenantID)')",
+                  "audience": "https://management.core.windows.net",
+                  "clientId": "@parameters('AppID (pre__AppID)')",
+                  "secret": "@parameters('AppSecret (pre__AppSecret)')"
+                }
+              }
+            },
+            "Parse_Output_Asset_JSON": {
+              "runAfter": {
+                "Create_Output_Asset": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "b3ca4132-d437-481e-afa6-0f4001c58c35"
+              },
+              "type": "ParseJson",
+              "inputs": {
+                "content": "@body('Create_Output_Asset')",
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "properties": {
+                      "type": "object",
+                      "properties": {
+                        "assetId": {
+                          "type": "string"
+                        },
+                        "created": {
+                          "type": "string"
+                        },
+                        "lastModified": {
+                          "type": "string"
+                        },
+                        "description": {
+                          "type": "string"
+                        },
+                        "storageAccountName": {
+                          "type": "string"
+                        },
+                        "storageEncryptionFormat": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "Delay": {
+              "runAfter": {
+                "Parse_Output_Asset_JSON": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "8321ed7c-f67b-4aa1-b2fd-4f7a8940bc6d"
+              },
+              "type": "Wait",
+              "inputs": {
+                "interval": {
+                  "count": 10,
+                  "unit": "Second"
+                }
+              }
+            },
+            "Create_Live_Output": {
+              "runAfter": {
+                "Delay": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "012947f6-8361-4ee5-8edd-9ad0037c01a7"
+              },
+              "type": "Http",
+              "inputs": {
+                "method": "PUT",
+                "uri": "https://management.azure.com/subscriptions/@{parameters('AppSubscriptionID (pre__AppSubscriptionID)')}/resourceGroups/@{parameters('AppResourceGroup (pre__AppResourceGroup)')}/providers/Microsoft.Media/mediaservices/@{parameters('AppMediaService (pre__AppMediaService)')}/liveEvents/@{outputs('Compose_-_RecordingUID_No_Hyphen')}/liveOutputs/PAFLiveEventLiveOutput?api-version=2020-05-01",
+                "body": {
+                  "properties": {
+                    "description": "Live Output for @{variables('CourtVar')} @{variables('CaseRef')} at DateTime",
+                    "assetName": "PAFLiveEventLiveOutput",
+                    "archiveWindowLength": "PT8H",
+                    "hls": {
+                      "fragmentsPerTsSegment": 5
+                    },
+                    "manifestName": "PAFLiveEventLiveOutput"
+                  }
+                },
+                "authentication": {
+                  "type": "ActiveDirectoryOAuth",
+                  "tenant": "@parameters('AppTenantID (pre__AppTenantID)')",
+                  "audience": "https://management.core.windows.net",
+                  "clientId": "@parameters('AppID (pre__AppID)')",
+                  "secret": "@parameters('AppSecret (pre__AppSecret)')"
+                }
+              }
+            },
+            "Delay_2": {
+              "runAfter": {
+                "Create_Live_Output": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "d60e7def-ce9d-4c53-b47b-cba95a899fd0"
+              },
+              "type": "Wait",
+              "inputs": {
+                "interval": {
+                  "count": 5,
+                  "unit": "Second"
+                }
+              }
+            },
+            "Start_Event": {
+              "runAfter": {
+                "Delay_2": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "37ad7e57-5d76-43ff-b5b8-6453d26ba45d"
+              },
+              "type": "Http",
+              "inputs": {
+                "method": "POST",
+                "uri": "https://management.azure.com/subscriptions/@{parameters('AppSubscriptionID (pre__AppSubscriptionID)')}/resourceGroups/@{parameters('AppResourceGroup (pre__AppResourceGroup)')}/providers/Microsoft.Media/mediaservices/@{parameters('AppMediaService (pre__AppMediaService)')}/liveEvents/@{outputs('Compose_-_RecordingUID_No_Hyphen')}/start?api-version=2020-05-01",
+                "authentication": {
+                  "type": "ActiveDirectoryOAuth",
+                  "tenant": "@parameters('AppTenantID (pre__AppTenantID)')",
+                  "audience": "https://management.core.windows.net",
+                  "clientId": "@parameters('AppID (pre__AppID)')",
+                  "secret": "@parameters('AppSecret (pre__AppSecret)')"
+                }
+              }
+            },
+            "Compose": {
+              "runAfter": {
+                "Start_Event": [
+                  "Succeeded",
+                  "Failed",
+                  "Skipped",
+                  "TimedOut"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "f8233f85-bd8c-46e8-934c-9b36b3692ead"
+              },
+              "type": "Compose",
+              "inputs": "End"
+            }
+          },
+          "runAfter": {
+            "Update_event_-_event_created": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "e26c8aea-3aba-4d55-bb63-35999e45f24b"
+          },
+          "type": "Scope"
+        },
+        "Update_when_Ready_to_Stream": {
+          "actions": {
+            "Do_until": {
+              "actions": {
+                "Get_live_event_status_2": {
+                  "runAfter": {},
+                  "metadata": {
+                    "operationMetadataId": "50a46de7-9aa5-4ea8-abc9-c812c7c73f43"
+                  },
+                  "type": "Http",
+                  "inputs": {
+                    "method": "GET",
+                    "uri": "https://management.azure.com/subscriptions/@{parameters('AppSubscriptionID (pre__AppSubscriptionID)')}/resourceGroups/@{parameters('AppResourceGroup (pre__AppResourceGroup)')}/providers/Microsoft.Media/mediaservices/@{parameters('AppMediaService (pre__AppMediaService)')}/liveEvents/@{outputs('Compose_-_RecordingUID_No_Hyphen')}?api-version=2020-05-01",
+                    "authentication": {
+                      "type": "ActiveDirectoryOAuth",
+                      "tenant": "@parameters('AppTenantID (pre__AppTenantID)')",
+                      "audience": "https://management.core.windows.net",
+                      "clientId": "@parameters('AppID (pre__AppID)')",
+                      "secret": "@parameters('AppSecret (pre__AppSecret)')"
+                    }
+                  }
+                },
+                "Parse_JSON_2": {
+                  "runAfter": {
+                    "Get_live_event_status_2": [
+                      "Succeeded"
+                    ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "d64cc9e1-ee49-4422-85d8-f423433ee4b1"
+                  },
+                  "type": "ParseJson",
+                  "inputs": {
+                    "content": "@body('Get_live_event_status_2')",
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string"
+                        },
+                        "id": {
+                          "type": "string"
+                        },
+                        "type": {
+                          "type": "string"
+                        },
+                        "location": {
+                          "type": "string"
+                        },
+                        "tags": {
+                          "type": "object",
+                          "properties": {
+                            "tag1": {
+                              "type": "string"
+                            },
+                            "tag2": {
+                              "type": "string"
+                            }
+                          }
+                        },
+                        "properties": {
+                          "type": "object",
+                          "properties": {
+                            "description": {
+                              "type": "string"
+                            },
+                            "resourceState": {
+                              "type": "string"
+                            },
+                            "provisioningState": {
+                              "type": "string"
+                            },
+                            "created": {
+                              "type": "string"
+                            },
+                            "lastModified": {
+                              "type": "string"
+                            },
+                            "useStaticHostname": {
+                              "type": "boolean"
+                            },
+                            "streamOptions": {
+                              "type": "array"
+                            },
+                            "input": {
+                              "type": "object",
+                              "properties": {
+                                "keyFrameIntervalDuration": {
+                                  "type": "string"
+                                },
+                                "streamingProtocol": {
+                                  "type": "string"
+                                },
+                                "accessToken": {
+                                  "type": "string"
+                                },
+                                "endpoints": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "object",
+                                    "properties": {
+                                      "protocol": {
+                                        "type": "string"
+                                      },
+                                      "url": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    "required": [
+                                      "protocol",
+                                      "url"
+                                    ]
+                                  }
+                                },
+                                "accessControl": {
+                                  "type": "object",
+                                  "properties": {
+                                    "ip": {
+                                      "type": "object",
+                                      "properties": {
+                                        "allow": {
+                                          "type": "array",
+                                          "items": {
+                                            "type": "object",
+                                            "properties": {
+                                              "name": {
+                                                "type": "string"
+                                              },
+                                              "address": {
+                                                "type": "string"
+                                              },
+                                              "subnetPrefixLength": {
+                                                "type": "integer"
+                                              }
+                                            },
+                                            "required": [
+                                              "name",
+                                              "address",
+                                              "subnetPrefixLength"
+                                            ]
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            "preview": {
+                              "type": "object",
+                              "properties": {
+                                "previewLocator": {
+                                  "type": "string"
+                                },
+                                "streamingPolicyName": {
+                                  "type": "string"
+                                },
+                                "alternativeMediaId": {},
+                                "accessControl": {
+                                  "type": "object",
+                                  "properties": {
+                                    "ip": {
+                                      "type": "object",
+                                      "properties": {
+                                        "allow": {
+                                          "type": "array",
+                                          "items": {
+                                            "type": "object",
+                                            "properties": {
+                                              "name": {
+                                                "type": "string"
+                                              },
+                                              "address": {
+                                                "type": "string"
+                                              },
+                                              "subnetPrefixLength": {
+                                                "type": "integer"
+                                              }
+                                            },
+                                            "required": [
+                                              "name",
+                                              "address",
+                                              "subnetPrefixLength"
+                                            ]
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                },
+                                "endpoints": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "object",
+                                    "properties": {
+                                      "protocol": {
+                                        "type": "string"
+                                      },
+                                      "url": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    "required": [
+                                      "protocol",
+                                      "url"
+                                    ]
+                                  }
+                                }
+                              }
+                            },
+                            "encoding": {
+                              "type": "object",
+                              "properties": {
+                                "encodingType": {
+                                  "type": "string"
+                                },
+                                "presetName": {},
+                                "stretchMode": {},
+                                "keyFrameInterval": {}
+                              }
+                            },
+                            "crossSiteAccessPolicies": {
+                              "type": "object",
+                              "properties": {
+                                "clientAccessPolicy": {},
+                                "crossDomainPolicy": {}
+                              }
+                            },
+                            "hostnamePrefix": {},
+                            "transcriptions": {
+                              "type": "array"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "Set_variable_-_Streaming_Status": {
+                  "runAfter": {
+                    "Parse_JSON_2": [
+                      "Succeeded"
+                    ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "5f273f24-ac5f-4a64-afe8-b679cbb69923"
+                  },
+                  "type": "SetVariable",
+                  "inputs": {
+                    "name": "StreamStatus",
+                    "value": "@body('Parse_JSON_2')?['properties']?['resourceState']"
+                  }
+                },
+                "Apply_to_each": {
+                  "foreach": "@body('Parse_JSON_2')?['properties']?['input']?['endpoints']",
+                  "actions": {
+                    "Condition_2": {
+                      "actions": {},
+                      "runAfter": {},
+                      "else": {
+                        "actions": {
+                          "Set_variable_2": {
+                            "runAfter": {},
+                            "metadata": {
+                              "operationMetadataId": "c1c333e6-aada-49ee-9df3-82094ff3b959"
+                            },
+                            "type": "SetVariable",
+                            "inputs": {
+                              "name": "rtmpAddress",
+                              "value": "@items('Apply_to_each')?['url']"
+                            }
+                          }
+                        }
+                      },
+                      "expression": {
+                        "startsWith": [
+                          "@variables('rtmpAddress')",
+                          "rtmps"
+                        ]
+                      },
+                      "metadata": {
+                        "operationMetadataId": "9dc75dd0-2704-40cb-9d0f-8380a466ac70"
+                      },
+                      "type": "If"
+                    }
+                  },
+                  "runAfter": {
+                    "Set_variable_-_Streaming_Status": [
+                      "Succeeded"
+                    ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "6f893866-e48f-448c-8b0d-745a499bb4c0"
+                  },
+                  "type": "Foreach"
+                }
+              },
+              "runAfter": {},
+              "expression": "@equals(variables('StreamStatus'), 'Running')",
+              "limit": {
+                "count": 60,
+                "timeout": "PT1H"
+              },
+              "metadata": {
+                "operationMetadataId": "85c00431-e3c5-468d-840e-100818a0fb29"
+              },
+              "type": "Until"
+            },
+            "Update_row_with_success": {
+              "runAfter": {
+                "Update_row_with_failure": [
+                  "Skipped"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "c5ac3971-34b3-403a-accb-d1fc09443f84"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_commondataserviceforapps_3",
+                  "operationId": "UpdateRecord",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                },
+                "parameters": {
+                  "entityName": "pre__recordingses",
+                  "recordId": "@variables('RecordingUID')"
+                },
+                "authentication": {
+                  "type": "Raw",
+                  "value": "@json(decodeBase64(triggerOutputs().headers['X-MS-APIM-Tokens']))['$ConnectionKey']"
+                }
+              }
+            },
+            "Update_row_with_failure": {
+              "runAfter": {
+                "Do_until": [
+                  "Failed",
+                  "TimedOut",
+                  "Skipped"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "94322ad9-b4ec-4a90-96b4-7c507c8d1bfd"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_commondataserviceforapps_3",
+                  "operationId": "UpdateRecord",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                },
+                "parameters": {
+                  "entityName": "pre__recordingses",
+                  "recordId": "@variables('RecordingUID')"
+                },
+                "authentication": {
+                  "type": "Raw",
+                  "value": "@json(decodeBase64(triggerOutputs().headers['X-MS-APIM-Tokens']))['$ConnectionKey']"
+                }
+              }
+            }
+          },
+          "runAfter": {
+            "Update_event_-_assets_created": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "8311b829-db6b-4890-a76d-507cf93a52e4"
+          },
+          "type": "Scope"
+        },
+        "rtmpAddress": {
+          "runAfter": {
+            "Initialize_Access_Token_Guid": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "e480321c-5bd9-465a-930b-5bc3f83c9076"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "rtmpAddress",
+                "type": "string"
+              }
+            ]
+          }
+        },
+        "Compose_-_RecordingUID_No_Hyphen": {
+          "runAfter": {
+            "rtmpAddress": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "5f78ae49-f2cc-4892-935f-5971ebda507f"
+          },
+          "type": "Compose",
+          "inputs": "@replace(variables('RecordingUID'),'-','')"
+        },
+        "RecordingsID": {
+          "runAfter": {
+            "RecordingUID": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "a7dc1026-6821-4957-ba62-dead5cbf3279"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "RecordingsID",
+                "type": "string",
+                "value": "@{triggerBody()['RecordingsID_Value']}"
+              }
+            ]
+          }
+        }
+      }
+    }
+  },
+  "schemaVersion": "1.0.0.0"
+}
