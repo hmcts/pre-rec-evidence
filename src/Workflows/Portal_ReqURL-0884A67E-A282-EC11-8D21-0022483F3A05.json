@@ -1,1 +1,235 @@
-{"properties":{"connectionReferences":{"shared_commondataserviceforapps":{"runtimeSource":"embedded","connection":{"connectionReferenceLogicalName":"cr599_sharedcommondataserviceforapps_d0505"},"api":{"name":"shared_commondataserviceforapps"}}},"definition":{"$schema":"https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#","contentVersion":"1.0.0.0","parameters":{"$connections":{"defaultValue":{},"type":"Object"},"$authentication":{"defaultValue":{},"type":"SecureObject"}},"triggers":{"manual":{"metadata":{"operationMetadataId":"6101d442-79c0-4f25-85b9-666ac2547f14"},"type":"Request","kind":"Http","inputs":{"schema":{"type":"object","properties":{"type":{"type":"string"},"properties":{"type":"object","properties":{"ScheduleID":{"type":"object","properties":{"type":{"type":"string"}}},"RecordingID":{"type":"object","properties":{"type":{"type":"string"}}},"AccountID":{"type":"object","properties":{"type":{"type":"string"}}}}}}},"method":"POST"}}},"actions":{"List_rows":{"runAfter":{"Parse_JSON":["Succeeded"]},"metadata":{"operationMetadataId":"2ea977bf-c100-4e7a-868e-c1041c6e7bd1"},"type":"OpenApiConnection","inputs":{"host":{"connectionName":"shared_commondataserviceforapps","operationId":"ListRecords","apiId":"/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"},"parameters":{"entityName":"pre__videopermissionses","$filter":"pre__recidtxt eq '@{body('Parse_JSON')?['RecordingID']}' and pre__email eq '@{body('Parse_JSON')?['AccountID']}' and pre__activeaccess eq 'True'"},"authentication":"@parameters('$authentication')"}},"Parse_JSON":{"runAfter":{},"metadata":{"operationMetadataId":"799df947-4ac6-42df-af35-122d9278cb65"},"type":"ParseJson","inputs":{"content":"@triggerBody()","schema":{"type":"object","properties":{"ScheduleID":{"type":"string"},"RecordingID":{"type":"string"},"AccountID":{"type":"string"}}}}},"Apply_to_each_2":{"foreach":"@outputs('List_rows')?['body/value']","actions":{"Condition":{"actions":{"Update_a_row_2":{"runAfter":{},"metadata":{"operationMetadataId":"f01febda-5460-4a6f-b528-bc11b267537d"},"type":"OpenApiConnection","inputs":{"host":{"connectionName":"shared_commondataserviceforapps","operationId":"UpdateRecord","apiId":"/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"},"parameters":{"entityName":"pre__videopermissionses","recordId":"@items('Apply_to_each_2')?['pre__videopermissionsid']","item/pre__recordingsaslink":"@variables('RecordingLink')"},"authentication":"@parameters('$authentication')"}}},"runAfter":{},"expression":{"not":{"equals":["@items('Apply_to_each_2')?['pre__recordingsaslink']",""]}},"metadata":{"operationMetadataId":"04feddc1-477b-4a93-b034-3302d4a7c694"},"type":"If"}},"runAfter":{"Initialize_variable":["Succeeded"]},"metadata":{"operationMetadataId":"76fd68e8-05b2-4856-8428-f2caca32fef4"},"type":"Foreach"},"Initialize_variable":{"runAfter":{"Var_-_How_many_rows_returned":["Succeeded"]},"metadata":{"operationMetadataId":"fbe467cf-2860-44d6-bfa0-4d0a205a0951"},"type":"InitializeVariable","inputs":{"variables":[{"name":"RecordingLink","type":"string","value":"https://prefinalsasbox.blob.core.windows.net/@{body('Parse_JSON')?['ScheduleID']}/@{body('Parse_JSON')?['RecordingID']}.mp4"}]}},"Var_-_How_many_rows_returned":{"runAfter":{"List_rows":["Succeeded"]},"metadata":{"operationMetadataId":"d1027e6e-65d8-4809-aa75-6794454d252d"},"type":"InitializeVariable","inputs":{"variables":[{"name":"rows","type":"integer","value":"@length(outputs('List_rows')?['body/value'])"}]}},"Response":{"runAfter":{"Apply_to_each_2":["Succeeded"]},"metadata":{"operationMetadataId":"45da8c38-07bf-4e9d-98f1-9cdd37ba29a8"},"type":"Response","kind":"Http","inputs":{"statusCode":2001,"body":"My Debug@{body('Parse_JSON')?['ScheduleID']}"}}}}},"schemaVersion":"1.0.0.0"}
+{
+  "properties": {
+    "connectionReferences": {
+      "shared_commondataserviceforapps": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "cr599_sharedcommondataserviceforapps_d0505"
+        },
+        "api": {
+          "name": "shared_commondataserviceforapps"
+        }
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        },
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        }
+      },
+      "triggers": {
+        "manual": {
+          "metadata": {
+            "operationMetadataId": "6101d442-79c0-4f25-85b9-666ac2547f14"
+          },
+          "type": "Request",
+          "kind": "Http",
+          "inputs": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string"
+                },
+                "properties": {
+                  "type": "object",
+                  "properties": {
+                    "ScheduleID": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "RecordingID": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "AccountID": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "method": "POST"
+          }
+        }
+      },
+      "actions": {
+        "List_rows": {
+          "runAfter": {
+            "Parse_JSON": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "2ea977bf-c100-4e7a-868e-c1041c6e7bd1"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_commondataserviceforapps",
+              "operationId": "ListRecords",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+            },
+            "parameters": {
+              "entityName": "pre__videopermissionses",
+              "$filter": "pre__recidtxt eq '@{body('Parse_JSON')?['RecordingID']}' and pre__email eq '@{body('Parse_JSON')?['AccountID']}' and pre__activeaccess eq 'True'"
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        },
+        "Parse_JSON": {
+          "runAfter": {},
+          "metadata": {
+            "operationMetadataId": "799df947-4ac6-42df-af35-122d9278cb65"
+          },
+          "type": "ParseJson",
+          "inputs": {
+            "content": "@triggerBody()",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "ScheduleID": {
+                  "type": "string"
+                },
+                "RecordingID": {
+                  "type": "string"
+                },
+                "AccountID": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "Apply_to_each_2": {
+          "foreach": "@outputs('List_rows')?['body/value']",
+          "actions": {
+            "Condition": {
+              "actions": {
+                "Update_a_row_2": {
+                  "runAfter": {},
+                  "metadata": {
+                    "operationMetadataId": "f01febda-5460-4a6f-b528-bc11b267537d"
+                  },
+                  "type": "OpenApiConnection",
+                  "inputs": {
+                    "host": {
+                      "connectionName": "shared_commondataserviceforapps",
+                      "operationId": "UpdateRecord",
+                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                    },
+                    "parameters": {
+                      "entityName": "pre__videopermissionses",
+                      "recordId": "@items('Apply_to_each_2')?['pre__videopermissionsid']",
+                      "item/pre__recordingsaslink": "@variables('RecordingLink')"
+                    },
+                    "authentication": "@parameters('$authentication')"
+                  }
+                }
+              },
+              "runAfter": {},
+              "expression": {
+                "not": {
+                  "equals": [
+                    "@items('Apply_to_each_2')?['pre__recordingsaslink']",
+                    ""
+                  ]
+                }
+              },
+              "metadata": {
+                "operationMetadataId": "04feddc1-477b-4a93-b034-3302d4a7c694"
+              },
+              "type": "If"
+            }
+          },
+          "runAfter": {
+            "Initialize_variable": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "76fd68e8-05b2-4856-8428-f2caca32fef4"
+          },
+          "type": "Foreach"
+        },
+        "Initialize_variable": {
+          "runAfter": {
+            "Var_-_How_many_rows_returned": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "fbe467cf-2860-44d6-bfa0-4d0a205a0951"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "RecordingLink",
+                "type": "string",
+                "value": "https://prefinalsasbox.blob.core.windows.net/@{body('Parse_JSON')?['ScheduleID']}/@{body('Parse_JSON')?['RecordingID']}.mp4"
+              }
+            ]
+          }
+        },
+        "Var_-_How_many_rows_returned": {
+          "runAfter": {
+            "List_rows": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "d1027e6e-65d8-4809-aa75-6794454d252d"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "rows",
+                "type": "integer",
+                "value": "@length(outputs('List_rows')?['body/value'])"
+              }
+            ]
+          }
+        },
+        "Response": {
+          "runAfter": {
+            "Apply_to_each_2": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "45da8c38-07bf-4e9d-98f1-9cdd37ba29a8"
+          },
+          "type": "Response",
+          "kind": "Http",
+          "inputs": {
+            "statusCode": 2001,
+            "body": "My Debug@{body('Parse_JSON')?['ScheduleID']}"
+          }
+        }
+      }
+    }
+  },
+  "schemaVersion": "1.0.0.0"
+}

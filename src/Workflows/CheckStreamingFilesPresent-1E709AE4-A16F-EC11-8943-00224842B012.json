@@ -1,1 +1,432 @@
-{"properties":{"connectionReferences":{"shared_commondataserviceforapps":{"runtimeSource":"embedded","connection":{"connectionReferenceLogicalName":"pre__sharedcommondataserviceforapps_4ea17"},"api":{"name":"shared_commondataserviceforapps"}}},"definition":{"$schema":"https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#","contentVersion":"1.0.0.0","parameters":{"$connections":{"defaultValue":{},"type":"Object"},"$authentication":{"defaultValue":{},"type":"SecureObject"}},"triggers":{"manual":{"metadata":{"operationMetadataId":"0c2c85ad-9896-4e43-8e3f-9ab43d847900"},"type":"Request","kind":"PowerApp","inputs":{"schema":{"type":"object","properties":{"Initializevariable_Value":{"type":"any"},"rowID_Value":{"type":"string","description":"Enter initial value","x-ms-powerflows-param-ispartial":false},"DateTime_Value":{"type":"string","description":"Enter initial value","x-ms-powerflows-param-ispartial":false},"Court_Value":{"type":"string","description":"Enter initial value","x-ms-powerflows-param-ispartial":false},"GetBlobMetadatausingpath(V2)_Storageaccountname":{"type":"string","description":"Azure Storage account name.","x-ms-powerflows-param-ispartial":false},"BlobStorageAccount_Value":{"type":"string","description":"Enter initial value","x-ms-powerflows-param-ispartial":false},"CaseID_Value":{"type":"string","description":"Enter initial value","x-ms-powerflows-param-ispartial":false},"RecordingID_Value":{"type":"string","description":"Enter initial value","x-ms-powerflows-param-ispartial":false}},"required":["Initializevariable_Value","rowID_Value","DateTime_Value","Court_Value","GetBlobMetadatausingpath(V2)_Storageaccountname","BlobStorageAccount_Value","CaseID_Value","RecordingID_Value"]}}}},"actions":{"CaseID":{"runAfter":{"Current_time":["Succeeded"]},"metadata":{"operationMetadataId":"5a9f323b-85ce-49bf-bf8d-b4e2d4df3576"},"type":"InitializeVariable","inputs":{"variables":[{"name":"CaseID","type":"string","value":"@{triggerBody()['CaseID_Value']}"}]}},"DateTime":{"runAfter":{"RecordingID":["Succeeded"]},"metadata":{"operationMetadataId":"320c0df4-f1c3-45ff-b4ae-dd20135b7ead"},"type":"InitializeVariable","inputs":{"variables":[{"name":"DateTime","type":"string","value":"@{triggerBody()['DateTime_Value']}"}]}},"Court":{"runAfter":{"DateTime":["Succeeded"]},"metadata":{"operationMetadataId":"895ff492-7a3d-4c1c-a6a4-68b42f0e0735"},"type":"InitializeVariable","inputs":{"variables":[{"name":"Court","type":"string","value":"@{triggerBody()['Court_Value']}"}]}},"Get_a_row_by_ID_(Recordings)":{"runAfter":{"BlobContainer":["Succeeded"]},"metadata":{"operationMetadataId":"4edeb324-915c-4cea-93e4-ef922c46432c"},"type":"OpenApiConnection","inputs":{"host":{"connectionName":"shared_commondataserviceforapps","operationId":"GetItem","apiId":"/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"},"parameters":{"entityName":"pre__recordingses","recordId":"@variables('RecordingID')"},"authentication":{"type":"Raw","value":"@json(decodeBase64(triggerOutputs().headers['X-MS-APIM-Tokens']))['$ConnectionKey']"}}},"Get_a_row_by_ID_(Cases)":{"runAfter":{"Get_a_row_by_ID_(Recordings)":["Succeeded"]},"metadata":{"operationMetadataId":"aa25c107-75da-420d-8bc0-eba29af4dbd6"},"type":"OpenApiConnection","inputs":{"host":{"connectionName":"shared_commondataserviceforapps","operationId":"GetItem","apiId":"/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"},"parameters":{"entityName":"pre__cases","recordId":"@variables('CaseID')"},"authentication":{"type":"Raw","value":"@json(decodeBase64(triggerOutputs().headers['X-MS-APIM-Tokens']))['$ConnectionKey']"}}},"Update_a_row_-_No_stream_detected":{"runAfter":{"Terminate":["Succeeded"]},"metadata":{"operationMetadataId":"9d4d6801-68b4-4ac2-a5e9-688a705215c6"},"type":"OpenApiConnection","inputs":{"host":{"connectionName":"shared_commondataserviceforapps","operationId":"UpdateRecord","apiId":"/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"},"parameters":{"entityName":"pre__recordingses","recordId":"@variables('RecordingID')","item/pre__recordingstatus":"No stream detected"},"authentication":{"type":"Raw","value":"@json(decodeBase64(triggerOutputs().headers['X-MS-APIM-Tokens']))['$ConnectionKey']"}}},"Update_a_row_-_Stream_detected":{"runAfter":{"Update_a_row_-_No_stream_detected":["Skipped"]},"metadata":{"operationMetadataId":"2305343f-0136-4adc-88fd-a2885cf1247e"},"type":"OpenApiConnection","inputs":{"host":{"connectionName":"shared_commondataserviceforapps","operationId":"UpdateRecord","apiId":"/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"},"parameters":{"entityName":"pre__recordingses","recordId":"@variables('RecordingID')","item/pre__recordingstatus":"Stream OK"},"authentication":{"type":"Raw","value":"@json(decodeBase64(triggerOutputs().headers['X-MS-APIM-Tokens']))['$ConnectionKey']"}}},"Respond_to_a_PowerApp_or_flow":{"runAfter":{"Update_a_row_-_Stream_detected":["Succeeded"]},"metadata":{"operationMetadataId":"0d756ee8-f62a-439b-b6ad-ea69fbc34678"},"type":"Response","kind":"PowerApp","inputs":{"statusCode":200,"body":{},"schema":{"type":"object","properties":{}}}},"HTTP_-_Get_Blob_Metadata":{"runAfter":{"Get_a_row_by_ID_(Cases)":["Succeeded"]},"metadata":{"operationMetadataId":"0c83c875-331d-4eb0-b31c-da381452485e"},"type":"Http","inputs":{"method":"GET","uri":"https://prefinalsasbox.PrivateLink.blob.core.windows.net/videoeditingevaluation/ExampleVid.mp4","headers":{"x-ms-version":"2021-02-12"}}},"Current_time":{"runAfter":{},"metadata":{"operationMetadataId":"b4d90996-c4f4-4a98-bb92-869746ad396c"},"type":"Expression","kind":"CurrentTime","inputs":{}},"BlobStorageAccount":{"runAfter":{"Court":["Succeeded"]},"metadata":{"operationMetadataId":"895ff492-7a3d-4c1c-a6a4-68b42f0e0735"},"type":"InitializeVariable","inputs":{"variables":[{"name":"BlobStorageAccount","type":"string","value":"@{triggerBody()['BlobStorageAccount_Value']}"}]}},"RecordingID":{"runAfter":{"CaseID":["Succeeded"]},"metadata":{"operationMetadataId":"5a9f323b-85ce-49bf-bf8d-b4e2d4df3576"},"type":"InitializeVariable","inputs":{"variables":[{"name":"RecordingID","type":"string","value":"@{triggerBody()['RecordingID_Value']}"}]}},"HTTP_-_Get_Blob_Metadata_2":{"runAfter":{"HTTP_-_Get_Blob_Metadata_3":["Succeeded"]},"metadata":{"operationMetadataId":"0c83c875-331d-4eb0-b31c-da381452485e"},"type":"Http","inputs":{"method":"GET","uri":"https://@{variables('BlobStorageAccount')}.blob.core.windows.net/asset-@{outputs('Get_a_row_by_ID_(Recordings)')?['body/pre__inputasset']}/@{variables('Court')}_@{outputs('Get_a_row_by_ID_(Cases)')?['body/pre__caseref']}_@{variables('DateTime')}.ism","headers":{"x-ms-version":"2021-02-12"}}},"BlobContainer":{"runAfter":{"BlobStorageAccount":["Succeeded"]},"metadata":{"operationMetadataId":"d07516fe-4763-4230-baeb-c770e712138c"},"type":"InitializeVariable","inputs":{"variables":[{"name":"BlobContainer","type":"string"}]}},"HTTP_-_Get_Blob_Metadata_3":{"runAfter":{"Terminate_2":["Succeeded"]},"metadata":{"operationMetadataId":"0c83c875-331d-4eb0-b31c-da381452485e"},"type":"Http","inputs":{"method":"GET","uri":"https://@{variables('BlobStorageAccount')}.PrivateLink.blob.core.windows.net/@{variables('BlobContainer')}/@{variables('Court')}_@{outputs('Get_a_row_by_ID_(Cases)')?['body/pre__caseref']}_@{variables('DateTime')}.mp4","headers":{"x-ms-version":"2021-02-12"}}},"Terminate_2":{"runAfter":{"Respond_to_a_PowerApp_or_flow":["Succeeded"]},"metadata":{"operationMetadataId":"4a0b2843-8b19-42a0-ba5f-ff26ee14d935"},"type":"Terminate","inputs":{"runStatus":"Succeeded"}},"Terminate":{"runAfter":{"HTTP_-_Get_Blob_Metadata":["Succeeded"]},"metadata":{"operationMetadataId":"245f5660-ee39-40ce-a3e9-73486d81c018"},"type":"Terminate","inputs":{"runStatus":"Cancelled"}}}}},"schemaVersion":"1.0.0.0"}
+{
+  "properties": {
+    "connectionReferences": {
+      "shared_commondataserviceforapps": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "pre__sharedcommondataserviceforapps_4ea17"
+        },
+        "api": {
+          "name": "shared_commondataserviceforapps"
+        }
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        },
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        }
+      },
+      "triggers": {
+        "manual": {
+          "metadata": {
+            "operationMetadataId": "0c2c85ad-9896-4e43-8e3f-9ab43d847900"
+          },
+          "type": "Request",
+          "kind": "PowerApp",
+          "inputs": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "Initializevariable_Value": {
+                  "type": "any"
+                },
+                "rowID_Value": {
+                  "type": "string",
+                  "description": "Enter initial value",
+                  "x-ms-powerflows-param-ispartial": false
+                },
+                "DateTime_Value": {
+                  "type": "string",
+                  "description": "Enter initial value",
+                  "x-ms-powerflows-param-ispartial": false
+                },
+                "Court_Value": {
+                  "type": "string",
+                  "description": "Enter initial value",
+                  "x-ms-powerflows-param-ispartial": false
+                },
+                "GetBlobMetadatausingpath(V2)_Storageaccountname": {
+                  "type": "string",
+                  "description": "Azure Storage account name.",
+                  "x-ms-powerflows-param-ispartial": false
+                },
+                "BlobStorageAccount_Value": {
+                  "type": "string",
+                  "description": "Enter initial value",
+                  "x-ms-powerflows-param-ispartial": false
+                },
+                "CaseID_Value": {
+                  "type": "string",
+                  "description": "Enter initial value",
+                  "x-ms-powerflows-param-ispartial": false
+                },
+                "RecordingID_Value": {
+                  "type": "string",
+                  "description": "Enter initial value",
+                  "x-ms-powerflows-param-ispartial": false
+                }
+              },
+              "required": [
+                "Initializevariable_Value",
+                "rowID_Value",
+                "DateTime_Value",
+                "Court_Value",
+                "GetBlobMetadatausingpath(V2)_Storageaccountname",
+                "BlobStorageAccount_Value",
+                "CaseID_Value",
+                "RecordingID_Value"
+              ]
+            }
+          }
+        }
+      },
+      "actions": {
+        "CaseID": {
+          "runAfter": {
+            "Current_time": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "5a9f323b-85ce-49bf-bf8d-b4e2d4df3576"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "CaseID",
+                "type": "string",
+                "value": "@{triggerBody()['CaseID_Value']}"
+              }
+            ]
+          }
+        },
+        "DateTime": {
+          "runAfter": {
+            "RecordingID": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "320c0df4-f1c3-45ff-b4ae-dd20135b7ead"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "DateTime",
+                "type": "string",
+                "value": "@{triggerBody()['DateTime_Value']}"
+              }
+            ]
+          }
+        },
+        "Court": {
+          "runAfter": {
+            "DateTime": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "895ff492-7a3d-4c1c-a6a4-68b42f0e0735"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "Court",
+                "type": "string",
+                "value": "@{triggerBody()['Court_Value']}"
+              }
+            ]
+          }
+        },
+        "Get_a_row_by_ID_(Recordings)": {
+          "runAfter": {
+            "BlobContainer": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "4edeb324-915c-4cea-93e4-ef922c46432c"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_commondataserviceforapps",
+              "operationId": "GetItem",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+            },
+            "parameters": {
+              "entityName": "pre__recordingses",
+              "recordId": "@variables('RecordingID')"
+            },
+            "authentication": {
+              "type": "Raw",
+              "value": "@json(decodeBase64(triggerOutputs().headers['X-MS-APIM-Tokens']))['$ConnectionKey']"
+            }
+          }
+        },
+        "Get_a_row_by_ID_(Cases)": {
+          "runAfter": {
+            "Get_a_row_by_ID_(Recordings)": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "aa25c107-75da-420d-8bc0-eba29af4dbd6"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_commondataserviceforapps",
+              "operationId": "GetItem",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+            },
+            "parameters": {
+              "entityName": "pre__cases",
+              "recordId": "@variables('CaseID')"
+            },
+            "authentication": {
+              "type": "Raw",
+              "value": "@json(decodeBase64(triggerOutputs().headers['X-MS-APIM-Tokens']))['$ConnectionKey']"
+            }
+          }
+        },
+        "Update_a_row_-_No_stream_detected": {
+          "runAfter": {
+            "Terminate": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "9d4d6801-68b4-4ac2-a5e9-688a705215c6"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_commondataserviceforapps",
+              "operationId": "UpdateRecord",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+            },
+            "parameters": {
+              "entityName": "pre__recordingses",
+              "recordId": "@variables('RecordingID')",
+              "item/pre__recordingstatus": "No stream detected"
+            },
+            "authentication": {
+              "type": "Raw",
+              "value": "@json(decodeBase64(triggerOutputs().headers['X-MS-APIM-Tokens']))['$ConnectionKey']"
+            }
+          }
+        },
+        "Update_a_row_-_Stream_detected": {
+          "runAfter": {
+            "Update_a_row_-_No_stream_detected": [
+              "Skipped"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "2305343f-0136-4adc-88fd-a2885cf1247e"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_commondataserviceforapps",
+              "operationId": "UpdateRecord",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+            },
+            "parameters": {
+              "entityName": "pre__recordingses",
+              "recordId": "@variables('RecordingID')",
+              "item/pre__recordingstatus": "Stream OK"
+            },
+            "authentication": {
+              "type": "Raw",
+              "value": "@json(decodeBase64(triggerOutputs().headers['X-MS-APIM-Tokens']))['$ConnectionKey']"
+            }
+          }
+        },
+        "Respond_to_a_PowerApp_or_flow": {
+          "runAfter": {
+            "Update_a_row_-_Stream_detected": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "0d756ee8-f62a-439b-b6ad-ea69fbc34678"
+          },
+          "type": "Response",
+          "kind": "PowerApp",
+          "inputs": {
+            "statusCode": 200,
+            "body": {},
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          }
+        },
+        "HTTP_-_Get_Blob_Metadata": {
+          "runAfter": {
+            "Get_a_row_by_ID_(Cases)": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "0c83c875-331d-4eb0-b31c-da381452485e"
+          },
+          "type": "Http",
+          "inputs": {
+            "method": "GET",
+            "uri": "https://prefinalsasbox.PrivateLink.blob.core.windows.net/videoeditingevaluation/ExampleVid.mp4",
+            "headers": {
+              "x-ms-version": "2021-02-12"
+            }
+          }
+        },
+        "Current_time": {
+          "runAfter": {},
+          "metadata": {
+            "operationMetadataId": "b4d90996-c4f4-4a98-bb92-869746ad396c"
+          },
+          "type": "Expression",
+          "kind": "CurrentTime",
+          "inputs": {}
+        },
+        "BlobStorageAccount": {
+          "runAfter": {
+            "Court": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "895ff492-7a3d-4c1c-a6a4-68b42f0e0735"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "BlobStorageAccount",
+                "type": "string",
+                "value": "@{triggerBody()['BlobStorageAccount_Value']}"
+              }
+            ]
+          }
+        },
+        "RecordingID": {
+          "runAfter": {
+            "CaseID": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "5a9f323b-85ce-49bf-bf8d-b4e2d4df3576"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "RecordingID",
+                "type": "string",
+                "value": "@{triggerBody()['RecordingID_Value']}"
+              }
+            ]
+          }
+        },
+        "HTTP_-_Get_Blob_Metadata_2": {
+          "runAfter": {
+            "HTTP_-_Get_Blob_Metadata_3": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "0c83c875-331d-4eb0-b31c-da381452485e"
+          },
+          "type": "Http",
+          "inputs": {
+            "method": "GET",
+            "uri": "https://@{variables('BlobStorageAccount')}.blob.core.windows.net/asset-@{outputs('Get_a_row_by_ID_(Recordings)')?['body/pre__inputasset']}/@{variables('Court')}_@{outputs('Get_a_row_by_ID_(Cases)')?['body/pre__caseref']}_@{variables('DateTime')}.ism",
+            "headers": {
+              "x-ms-version": "2021-02-12"
+            }
+          }
+        },
+        "BlobContainer": {
+          "runAfter": {
+            "BlobStorageAccount": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "d07516fe-4763-4230-baeb-c770e712138c"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "BlobContainer",
+                "type": "string"
+              }
+            ]
+          }
+        },
+        "HTTP_-_Get_Blob_Metadata_3": {
+          "runAfter": {
+            "Terminate_2": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "0c83c875-331d-4eb0-b31c-da381452485e"
+          },
+          "type": "Http",
+          "inputs": {
+            "method": "GET",
+            "uri": "https://@{variables('BlobStorageAccount')}.PrivateLink.blob.core.windows.net/@{variables('BlobContainer')}/@{variables('Court')}_@{outputs('Get_a_row_by_ID_(Cases)')?['body/pre__caseref']}_@{variables('DateTime')}.mp4",
+            "headers": {
+              "x-ms-version": "2021-02-12"
+            }
+          }
+        },
+        "Terminate_2": {
+          "runAfter": {
+            "Respond_to_a_PowerApp_or_flow": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "4a0b2843-8b19-42a0-ba5f-ff26ee14d935"
+          },
+          "type": "Terminate",
+          "inputs": {
+            "runStatus": "Succeeded"
+          }
+        },
+        "Terminate": {
+          "runAfter": {
+            "HTTP_-_Get_Blob_Metadata": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "245f5660-ee39-40ce-a3e9-73486d81c018"
+          },
+          "type": "Terminate",
+          "inputs": {
+            "runStatus": "Cancelled"
+          }
+        }
+      }
+    }
+  },
+  "schemaVersion": "1.0.0.0"
+}
