@@ -34,6 +34,9 @@ For executing automated tests please follow below steps
 4. Build the project by running ``` dotnet build ```
 5. Then for running the tests from terminal use ``` dotnet test ```
 
+For Pa11y, you can set up the pa11y.ps1 file as a powershell config in your IDE and run the accessibility tests through there or you can run the commands within the file in your terminal
+- You can also run this command to run the tests and see the results in the terminal: pa11y-ci --config .pa11yci.tests.portal.json - you'll need to cd into the pa11y directory
+
 ### Generating living Documentation.
 
 After running above tests you can generate living documentation by using
