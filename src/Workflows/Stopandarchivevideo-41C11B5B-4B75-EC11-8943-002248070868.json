@@ -1,1 +1,322 @@
-{"properties":{"connectionReferences":{},"definition":{"$schema":"https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#","contentVersion":"1.0.0.0","parameters":{"$authentication":{"defaultValue":{},"type":"SecureObject"}},"triggers":{"manual":{"metadata":{"operationMetadataId":"9fd10bc5-ac06-4912-a4d9-40f5d987cfdb"},"type":"Request","kind":"PowerApp","inputs":{"schema":{"type":"object","properties":{"BookingID_Value":{"type":"string","description":"Enter initial value","x-ms-powerflows-param-ispartial":false},"CaseRef_Value":{"type":"string","description":"Enter initial value","x-ms-powerflows-param-ispartial":false},"Court_Value":{"type":"string","description":"Enter initial value","x-ms-powerflows-param-ispartial":false},"SubscriptionID_Value":{"type":"string","description":"Enter initial value","x-ms-powerflows-param-ispartial":false},"ResourceGroup_Value":{"type":"string","description":"Enter initial value","x-ms-powerflows-param-ispartial":false},"MediaService_Value":{"type":"string","description":"Enter initial value","x-ms-powerflows-param-ispartial":false},"TenantID_Value":{"type":"string","description":"Enter initial value","x-ms-powerflows-param-ispartial":false},"ClientAppID_Value":{"type":"string","description":"Enter initial value","x-ms-powerflows-param-ispartial":false},"ClientSecret_Value":{"type":"string","description":"Enter initial value","x-ms-powerflows-param-ispartial":false}},"required":["BookingID_Value","CaseRef_Value","Court_Value","SubscriptionID_Value","ResourceGroup_Value","MediaService_Value","TenantID_Value","ClientAppID_Value","ClientSecret_Value"]}}}},"actions":{"Terminate":{"runAfter":{},"metadata":{"operationMetadataId":"586c40dc-4b72-4b7c-b540-cc9e53a1ed8a"},"type":"Terminate","inputs":{"runStatus":"Succeeded"}},"BookingID":{"runAfter":{"Terminate":["Succeeded"]},"metadata":{"operationMetadataId":"4f19f856-5940-4504-9571-23d94f6b77dd"},"type":"InitializeVariable","inputs":{"variables":[{"name":"BookingID","type":"string","value":"@{triggerBody()['BookingID_Value']}"}]}},"CaseRef":{"runAfter":{"BookingID":["Succeeded"]},"metadata":{"operationMetadataId":"a8891aa7-b446-4dd4-8848-179a835f9e5d"},"type":"InitializeVariable","inputs":{"variables":[{"name":"CaseRef","type":"string","value":"@{triggerBody()['CaseRef_Value']}"}]}},"Court":{"runAfter":{"CaseRef":["Succeeded"]},"metadata":{"operationMetadataId":"05ec5baa-cfc4-41be-a1f1-a5cdd8eca93c"},"type":"InitializeVariable","inputs":{"variables":[{"name":"Court","type":"string","value":"@{triggerBody()['Court_Value']}"}]}},"SubscriptionID":{"runAfter":{"Court":["Succeeded"]},"metadata":{"operationMetadataId":"7ae2d2a6-3270-47c1-97ab-c06e0d97417b"},"type":"InitializeVariable","inputs":{"variables":[{"name":"SubscriptionID","type":"string","value":"@{triggerBody()['SubscriptionID_Value']}"}]}},"ResourceGroup":{"runAfter":{"SubscriptionID":["Succeeded"]},"metadata":{"operationMetadataId":"cf8639fd-aace-4606-922f-5dd63fef1bd7"},"type":"InitializeVariable","inputs":{"variables":[{"name":"ResourceGroup","type":"string","value":"@{triggerBody()['ResourceGroup_Value']}"}]}},"MediaService":{"runAfter":{"ResourceGroup":["Succeeded"]},"metadata":{"operationMetadataId":"f5caae05-20c5-4ff8-aea0-9f6ef3e39649"},"type":"InitializeVariable","inputs":{"variables":[{"name":"MediaService","type":"string","value":"@{triggerBody()['MediaService_Value']}"}]}},"TenantID":{"runAfter":{"MediaService":["Succeeded"]},"metadata":{"operationMetadataId":"aef84ba4-18e2-4126-b63a-48a80554c786"},"type":"InitializeVariable","inputs":{"variables":[{"name":"TenantID","type":"string","value":"@{triggerBody()['TenantID_Value']}"}]}},"ClientAppID":{"runAfter":{"TenantID":["Succeeded"]},"metadata":{"operationMetadataId":"49ea97dd-8b92-4aa5-93a3-c4defac7f616"},"type":"InitializeVariable","inputs":{"variables":[{"name":"ClientAppID","type":"string","value":"@{triggerBody()['ClientAppID_Value']}"}]}},"ClientSecret":{"runAfter":{"ClientAppID":["Succeeded"]},"metadata":{"operationMetadataId":"45d7ab0e-34bb-4a88-bbbe-b737706c1153"},"type":"InitializeVariable","inputs":{"variables":[{"name":"ClientSecret","type":"string","value":"@{triggerBody()['ClientSecret_Value']}"}]}},"Close_and_remove_Stream":{"actions":{"Stop_Stream":{"runAfter":{},"metadata":{"operationMetadataId":"f079c6a6-d401-406e-871f-038e8182432b"},"type":"Http","inputs":{"method":"POST","uri":"https://management.azure.com/subscriptions/@{variables('SubscriptionID')}/resourceGroups/@{variables('ResourceGroup')}/providers/Microsoft.Media/mediaservices/@{variables('MediaService')}/liveEvents/@{variables('Court')}/stop?api-version=2020-05-01","body":{"removeOutputsOnStop":true}}},"Remove_Stream":{"runAfter":{"Stop_Stream":["Succeeded"]},"metadata":{"operationMetadataId":"3c1f0197-aa38-44e4-90ec-df185513d917"},"type":"Http","inputs":{"method":"DELETE","uri":"https://management.azure.com/subscriptions/@{variables('SubscriptionID')}/resourceGroups/@{variables('ResourceGroup')}/providers/Microsoft.Media/mediaservices/@{variables('MediaService')}/liveEvents/@{variables('Court')}?api-version=2020-05-01"}}},"runAfter":{"ClientSecret":["Succeeded"]},"metadata":{"operationMetadataId":"2bf2926e-1b65-4569-a06d-8be8380d20c3"},"type":"Scope"}}}},"schemaVersion":"1.0.0.0"}
+{
+  "properties": {
+    "connectionReferences": {},
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        }
+      },
+      "triggers": {
+        "manual": {
+          "metadata": {
+            "operationMetadataId": "9fd10bc5-ac06-4912-a4d9-40f5d987cfdb"
+          },
+          "type": "Request",
+          "kind": "PowerApp",
+          "inputs": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "BookingID_Value": {
+                  "type": "string",
+                  "description": "Enter initial value",
+                  "x-ms-powerflows-param-ispartial": false
+                },
+                "CaseRef_Value": {
+                  "type": "string",
+                  "description": "Enter initial value",
+                  "x-ms-powerflows-param-ispartial": false
+                },
+                "Court_Value": {
+                  "type": "string",
+                  "description": "Enter initial value",
+                  "x-ms-powerflows-param-ispartial": false
+                },
+                "SubscriptionID_Value": {
+                  "type": "string",
+                  "description": "Enter initial value",
+                  "x-ms-powerflows-param-ispartial": false
+                },
+                "ResourceGroup_Value": {
+                  "type": "string",
+                  "description": "Enter initial value",
+                  "x-ms-powerflows-param-ispartial": false
+                },
+                "MediaService_Value": {
+                  "type": "string",
+                  "description": "Enter initial value",
+                  "x-ms-powerflows-param-ispartial": false
+                },
+                "TenantID_Value": {
+                  "type": "string",
+                  "description": "Enter initial value",
+                  "x-ms-powerflows-param-ispartial": false
+                },
+                "ClientAppID_Value": {
+                  "type": "string",
+                  "description": "Enter initial value",
+                  "x-ms-powerflows-param-ispartial": false
+                },
+                "ClientSecret_Value": {
+                  "type": "string",
+                  "description": "Enter initial value",
+                  "x-ms-powerflows-param-ispartial": false
+                }
+              },
+              "required": [
+                "BookingID_Value",
+                "CaseRef_Value",
+                "Court_Value",
+                "SubscriptionID_Value",
+                "ResourceGroup_Value",
+                "MediaService_Value",
+                "TenantID_Value",
+                "ClientAppID_Value",
+                "ClientSecret_Value"
+              ]
+            }
+          }
+        }
+      },
+      "actions": {
+        "Terminate": {
+          "runAfter": {},
+          "metadata": {
+            "operationMetadataId": "586c40dc-4b72-4b7c-b540-cc9e53a1ed8a"
+          },
+          "type": "Terminate",
+          "inputs": {
+            "runStatus": "Succeeded"
+          }
+        },
+        "BookingID": {
+          "runAfter": {
+            "Terminate": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "4f19f856-5940-4504-9571-23d94f6b77dd"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "BookingID",
+                "type": "string",
+                "value": "@{triggerBody()['BookingID_Value']}"
+              }
+            ]
+          }
+        },
+        "CaseRef": {
+          "runAfter": {
+            "BookingID": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "a8891aa7-b446-4dd4-8848-179a835f9e5d"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "CaseRef",
+                "type": "string",
+                "value": "@{triggerBody()['CaseRef_Value']}"
+              }
+            ]
+          }
+        },
+        "Court": {
+          "runAfter": {
+            "CaseRef": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "05ec5baa-cfc4-41be-a1f1-a5cdd8eca93c"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "Court",
+                "type": "string",
+                "value": "@{triggerBody()['Court_Value']}"
+              }
+            ]
+          }
+        },
+        "SubscriptionID": {
+          "runAfter": {
+            "Court": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "7ae2d2a6-3270-47c1-97ab-c06e0d97417b"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "SubscriptionID",
+                "type": "string",
+                "value": "@{triggerBody()['SubscriptionID_Value']}"
+              }
+            ]
+          }
+        },
+        "ResourceGroup": {
+          "runAfter": {
+            "SubscriptionID": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "cf8639fd-aace-4606-922f-5dd63fef1bd7"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "ResourceGroup",
+                "type": "string",
+                "value": "@{triggerBody()['ResourceGroup_Value']}"
+              }
+            ]
+          }
+        },
+        "MediaService": {
+          "runAfter": {
+            "ResourceGroup": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "f5caae05-20c5-4ff8-aea0-9f6ef3e39649"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "MediaService",
+                "type": "string",
+                "value": "@{triggerBody()['MediaService_Value']}"
+              }
+            ]
+          }
+        },
+        "TenantID": {
+          "runAfter": {
+            "MediaService": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "aef84ba4-18e2-4126-b63a-48a80554c786"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "TenantID",
+                "type": "string",
+                "value": "@{triggerBody()['TenantID_Value']}"
+              }
+            ]
+          }
+        },
+        "ClientAppID": {
+          "runAfter": {
+            "TenantID": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "49ea97dd-8b92-4aa5-93a3-c4defac7f616"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "ClientAppID",
+                "type": "string",
+                "value": "@{triggerBody()['ClientAppID_Value']}"
+              }
+            ]
+          }
+        },
+        "ClientSecret": {
+          "runAfter": {
+            "ClientAppID": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "45d7ab0e-34bb-4a88-bbbe-b737706c1153"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "ClientSecret",
+                "type": "string",
+                "value": "@{triggerBody()['ClientSecret_Value']}"
+              }
+            ]
+          }
+        },
+        "Close_and_remove_Stream": {
+          "actions": {
+            "Stop_Stream": {
+              "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "f079c6a6-d401-406e-871f-038e8182432b"
+              },
+              "type": "Http",
+              "inputs": {
+                "method": "POST",
+                "uri": "https://management.azure.com/subscriptions/@{variables('SubscriptionID')}/resourceGroups/@{variables('ResourceGroup')}/providers/Microsoft.Media/mediaservices/@{variables('MediaService')}/liveEvents/@{variables('Court')}/stop?api-version=2020-05-01",
+                "body": {
+                  "removeOutputsOnStop": true
+                }
+              }
+            },
+            "Remove_Stream": {
+              "runAfter": {
+                "Stop_Stream": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "3c1f0197-aa38-44e4-90ec-df185513d917"
+              },
+              "type": "Http",
+              "inputs": {
+                "method": "DELETE",
+                "uri": "https://management.azure.com/subscriptions/@{variables('SubscriptionID')}/resourceGroups/@{variables('ResourceGroup')}/providers/Microsoft.Media/mediaservices/@{variables('MediaService')}/liveEvents/@{variables('Court')}?api-version=2020-05-01"
+              }
+            }
+          },
+          "runAfter": {
+            "ClientSecret": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "2bf2926e-1b65-4569-a06d-8be8380d20c3"
+          },
+          "type": "Scope"
+        }
+      }
+    }
+  },
+  "schemaVersion": "1.0.0.0"
+}

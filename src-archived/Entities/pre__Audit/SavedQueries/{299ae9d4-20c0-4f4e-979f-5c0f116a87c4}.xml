@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<savedqueries xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <savedquery>
+    <IsCustomizable>1</IsCustomizable>
+    <CanBeDeleted>0</CanBeDeleted>
+    <isquickfindquery>0</isquickfindquery>
+    <isprivate>0</isprivate>
+    <isdefault>1</isdefault>
+    <savedqueryid>{299ae9d4-20c0-4f4e-979f-5c0f116a87c4}</savedqueryid>
+    <layoutxml>
+      <grid name="resultset" jump="pre__sessionuid" select="1" icon="1" preview="1">
+        <row name="result" id="pre__auditid">
+          <cell name="pre__sessionuid" width="300" />
+          <cell name="createdon" width="125" />
+        </row>
+      </grid>
+    </layoutxml>
+    <querytype>1</querytype>
+    <fetchxml>
+      <fetch version="1.0" mapping="logical">
+        <entity name="pre__audit">
+          <attribute name="pre__auditid" />
+          <attribute name="pre__sessionuid" />
+          <attribute name="createdon" />
+          <order attribute="pre__sessionuid" descending="false" />
+        </entity>
+      </fetch>
+    </fetchxml>
+    <IntroducedVersion>1.0</IntroducedVersion>
+    <LocalizedNames>
+      <LocalizedName description="Audit Advanced Find View" languagecode="1033" />
+    </LocalizedNames>
+  </savedquery>
+</savedqueries>

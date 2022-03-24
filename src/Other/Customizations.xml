@@ -5,17 +5,180 @@
   <Workflows />
   <FieldSecurityProfiles />
   <Templates />
+  <IsvConfig>
+    <configuration version="3.0.0000.0">
+      <Root />
+      <ServiceManagement>
+        <AppointmentBook>
+          <SmoothScrollLimit>2000</SmoothScrollLimit>
+          <TimeBlocks>
+            <TimeBlock EntityType="4214" StatusCode="1" CssClass="ganttBlockServiceActivityStatus1" />
+            <TimeBlock EntityType="4214" StatusCode="2" CssClass="ganttBlockServiceActivityStatus2" />
+            <TimeBlock EntityType="4214" StatusCode="3" CssClass="ganttBlockServiceActivityStatus3" />
+            <TimeBlock EntityType="4214" StatusCode="4" CssClass="ganttBlockServiceActivityStatus4" />
+            <TimeBlock EntityType="4214" StatusCode="6" CssClass="ganttBlockServiceActivityStatus6" />
+            <TimeBlock EntityType="4214" StatusCode="7" CssClass="ganttBlockServiceActivityStatus7" />
+            <TimeBlock EntityType="4214" StatusCode="8" CssClass="ganttBlockServiceActivityStatus8" />
+            <TimeBlock EntityType="4214" StatusCode="9" CssClass="ganttBlockServiceActivityStatus9" />
+            <TimeBlock EntityType="4214" StatusCode="10" CssClass="ganttBlockServiceActivityStatus10" />
+            <TimeBlock EntityType="4201" StatusCode="1" CssClass="ganttBlockAppointmentStatus1" />
+            <TimeBlock EntityType="4201" StatusCode="2" CssClass="ganttBlockAppointmentStatus2" />
+            <TimeBlock EntityType="4201" StatusCode="3" CssClass="ganttBlockAppointmentStatus3" />
+            <TimeBlock EntityType="4201" StatusCode="4" CssClass="ganttBlockAppointmentStatus4" />
+            <TimeBlock EntityType="4201" StatusCode="5" CssClass="ganttBlockAppointmentStatus5" />
+            <TimeBlock EntityType="4201" StatusCode="6" CssClass="ganttBlockAppointmentStatus6" />
+          </TimeBlocks>
+        </AppointmentBook>
+      </ServiceManagement>
+    </configuration>
+  </IsvConfig>
+  <RelationshipRoles />
   <EntityMaps />
   <EntityRelationships />
-  <OrganizationSettings />
+  <OrganizationSettings>
+    <general>
+      <fullnameconventioncode>1</fullnameconventioncode>
+      <numberformat>us</numberformat>
+      <negativeformatcode>1</negativeformatcode>
+      <currencysymbol>$</currencysymbol>
+      <currencyformatcode>0</currencyformatcode>
+      <pricingdecimalprecision>2</pricingdecimalprecision>
+      <sharetopreviousowneronassign>False</sharetopreviousowneronassign>
+      <blockedattachments>ade;adp;app;asa;ashx;asmx;asp;bas;bat;cdx;cer;chm;class;cmd;com;config;cpl;crt;csh;dll;exe;fxp;hlp;hta;htr;htw;ida;idc;idq;inf;ins;isp;its;jar;js;jse;ksh;lnk;mad;maf;mag;mam;maq;mar;mas;mat;mau;mav;maw;mda;mdb;mde;mdt;mdw;mdz;msc;msh;msh1;msh1xml;msh2;msh2xml;mshxml;msi;msp;mst;ops;pcd;pif;prf;prg;printer;pst;reg;rem;scf;scr;sct;shb;shs;shtm;shtml;soap;stm;tmp;url;vb;vbe;vbs;vsmacros;vss;vst;vsw;ws;wsc;wsf;wsh</blockedattachments>
+      <getstartedpanecontentenabled>True</getstartedpanecontentenabled>
+      <ispresenceenabled>True</ispresenceenabled>
+      <isautosaveenabled>True</isautosaveenabled>
+      <globalhelpurl></globalhelpurl>
+      <globalhelpurlenabled>False</globalhelpurlenabled>
+      <globalappendurlparametersenabled>False</globalappendurlparametersenabled>
+      <istextwrapenabled>True</istextwrapenabled>
+      <enablelivepersonacarduci>True</enablelivepersonacarduci>
+      <allowlegacydialogsembedding>True</allowlegacydialogsembedding>
+    </general>
+    <calendar>
+      <weekstartdaycode>0</weekstartdaycode>
+      <calendartype>0</calendartype>
+      <dateformatcode>2</dateformatcode>
+      <dateseparator>/</dateseparator>
+      <timeformatcode>0</timeformatcode>
+      <showweeknumber>False</showweeknumber>
+      <maxappointmentdurationdays>10</maxappointmentdurationdays>
+    </calendar>
+    <email>
+      <trackingprefix>CRM:;</trackingprefix>
+      <trackingtokenidbase>0</trackingtokenidbase>
+      <trackingtokeniddigits>3</trackingtokeniddigits>
+      <maximumtrackingnumber>999</maximumtrackingnumber>
+      <ignoreinternalemail>False</ignoreinternalemail>
+      <rendersecureiframeforemail>False</rendersecureiframeforemail>
+      <allowunresolvedpartiesonemailsend>False</allowunresolvedpartiesonemailsend>
+    </email>
+    <marketing>
+      <allowmarketingemailexecution>True</allowmarketingemailexecution>
+      <allowautoresponsecreation>True</allowautoresponsecreation>
+      <allowautounsubscribe>False</allowautounsubscribe>
+      <allowautounsubscribeacknowledgement>False</allowautounsubscribeacknowledgement>
+    </marketing>
+    <customization>
+      <isappmode>False</isappmode>
+    </customization>
+    <outlookSynchronization>
+      <tagpollingperiod>600000</tagpollingperiod>
+      <tagmaxaggressivecycles>2</tagmaxaggressivecycles>
+      <allowoutlookscheduledsyncs>True</allowoutlookscheduledsyncs>
+      <minoutlooksyncinterval>900000</minoutlooksyncinterval>
+      <emailsendpollingperiod>600000</emailsendpollingperiod>
+      <allowofflinescheduledsyncs>True</allowofflinescheduledsyncs>
+      <minofflinesyncinterval>900000</minofflinesyncinterval>
+      <allowaddressbooksyncs>True</allowaddressbooksyncs>
+      <minaddressbooksyncinterval>3600000</minaddressbooksyncinterval>
+    </outlookSynchronization>
+  </OrganizationSettings>
   <optionsets />
   <CustomControls />
   <EntityDataProviders />
   <CanvasApps />
   <connectionreferences>
-    <connectionreference connectionreferencelogicalname="pre__DTS_PRE_KeyVault">
-      <connectionreferencedisplayname>DTS_PRE_KeyVault</connectionreferencedisplayname>
-      <connectorid>/providers/Microsoft.PowerApps/apis/shared_keyvault</connectorid>
+    <connectionreference connectionreferencelogicalname="cr599_Dataverse">
+      <connectionreferencedisplayname>Dataverse</connectionreferencedisplayname>
+      <connectorid>/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps</connectorid>
+      <iscustomizable>1</iscustomizable>
+      <statecode>0</statecode>
+      <statuscode>1</statuscode>
+    </connectionreference>
+    <connectionreference connectionreferencelogicalname="cr599_sharedazureblob_0e0b1">
+      <connectionreferencedisplayname>AMS Streaming Storage</connectionreferencedisplayname>
+      <connectorid>/providers/Microsoft.PowerApps/apis/shared_azureblob</connectorid>
+      <iscustomizable>1</iscustomizable>
+      <statecode>0</statecode>
+      <statuscode>1</statuscode>
+    </connectionreference>
+    <connectionreference connectionreferencelogicalname="cr599_sharedazureblob_23232">
+      <connectionreferencedisplayname>Azure Blob Storage</connectionreferencedisplayname>
+      <connectorid>/providers/Microsoft.PowerApps/apis/shared_azureblob</connectorid>
+      <iscustomizable>1</iscustomizable>
+      <statecode>0</statecode>
+      <statuscode>1</statuscode>
+    </connectionreference>
+    <connectionreference connectionreferencelogicalname="cr599_sharedazureblob_a4d8a">
+      <connectionreferencedisplayname>AMS Final</connectionreferencedisplayname>
+      <connectorid>/providers/Microsoft.PowerApps/apis/shared_azureblob</connectorid>
+      <iscustomizable>1</iscustomizable>
+      <statecode>0</statecode>
+      <statuscode>1</statuscode>
+    </connectionreference>
+    <connectionreference connectionreferencelogicalname="cr599_sharedcommondataserviceforapps_a29d5">
+      <connectionreferencedisplayname>Microsoft Dataverse</connectionreferencedisplayname>
+      <connectorid>/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps</connectorid>
+      <iscustomizable>1</iscustomizable>
+      <statecode>0</statecode>
+      <statuscode>1</statuscode>
+    </connectionreference>
+    <connectionreference connectionreferencelogicalname="cr599_sharedcommondataserviceforapps_d0505">
+      <connectionreferencedisplayname>Microsoft Dataverse</connectionreferencedisplayname>
+      <connectorid>/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps</connectorid>
+      <iscustomizable>1</iscustomizable>
+      <statecode>0</statecode>
+      <statuscode>1</statuscode>
+    </connectionreference>
+    <connectionreference connectionreferencelogicalname="new_sharedteams_c6b1e">
+      <connectionreferencedisplayname>Microsoft Teams</connectionreferencedisplayname>
+      <connectorid>/providers/Microsoft.PowerApps/apis/shared_teams</connectorid>
+      <iscustomizable>1</iscustomizable>
+      <statecode>0</statecode>
+      <statuscode>1</statuscode>
+    </connectionreference>
+    <connectionreference connectionreferencelogicalname="pre__AzureBlobStorageFlowSbx">
+      <connectionreferencedisplayname>Azure Blob Storage Flow-Sbx</connectionreferencedisplayname>
+      <connectorid>/providers/Microsoft.PowerApps/apis/shared_azureblob</connectorid>
+      <iscustomizable>1</iscustomizable>
+      <statecode>0</statecode>
+      <statuscode>1</statuscode>
+    </connectionreference>
+    <connectionreference connectionreferencelogicalname="pre__sharedazureblob_b2d2f">
+      <connectionreferencedisplayname>Azure Blob Storage dts_pre_recorded_evidence-b2d2f</connectionreferencedisplayname>
+      <connectorid>/providers/Microsoft.PowerApps/apis/shared_azureblob</connectorid>
+      <iscustomizable>1</iscustomizable>
+      <statecode>0</statecode>
+      <statuscode>1</statuscode>
+    </connectionreference>
+    <connectionreference connectionreferencelogicalname="pre__sharedcommondataserviceforapps_42299">
+      <connectionreferencedisplayname>Microsoft Dataverse dts_pre_recorded_evidence-42299</connectionreferencedisplayname>
+      <connectorid>/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps</connectorid>
+      <iscustomizable>1</iscustomizable>
+      <statecode>0</statecode>
+      <statuscode>1</statuscode>
+    </connectionreference>
+    <connectionreference connectionreferencelogicalname="pre__sharedcommondataserviceforapps_4ea17">
+      <connectionreferencedisplayname>Microsoft Dataverse dts_pre_recorded_evidence-4ea17</connectionreferencedisplayname>
+      <connectorid>/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps</connectorid>
+      <iscustomizable>1</iscustomizable>
+      <statecode>0</statecode>
+      <statuscode>1</statuscode>
+    </connectionreference>
+    <connectionreference connectionreferencelogicalname="pre__sharedcommondataserviceforapps_62e6b">
+      <connectionreferencedisplayname>Microsoft Dataverse dts_pre_recorded_evidence-62e6b</connectionreferencedisplayname>
+      <connectorid>/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps</connectorid>
       <iscustomizable>1</iscustomizable>
       <statecode>0</statecode>
       <statuscode>1</statuscode>
@@ -23,6 +186,20 @@
     <connectionreference connectionreferencelogicalname="pre__sharedexcelonlinebusiness_c5f42">
       <connectionreferencedisplayname>Excel Online (Business) dts_pre_recorded_evidence-c5f42</connectionreferencedisplayname>
       <connectorid>/providers/Microsoft.PowerApps/apis/shared_excelonlinebusiness</connectorid>
+      <iscustomizable>1</iscustomizable>
+      <statecode>0</statecode>
+      <statuscode>1</statuscode>
+    </connectionreference>
+    <connectionreference connectionreferencelogicalname="pre__sharedflowmanagement_b1451">
+      <connectionreferencedisplayname>Power Automate Management dts_pre_recorded_evidence-b1451</connectionreferencedisplayname>
+      <connectorid>/providers/Microsoft.PowerApps/apis/shared_flowmanagement</connectorid>
+      <iscustomizable>1</iscustomizable>
+      <statecode>0</statecode>
+      <statuscode>1</statuscode>
+    </connectionreference>
+    <connectionreference connectionreferencelogicalname="pre__sharedkeyvault_3ed25">
+      <connectionreferencedisplayname>Azure Key Vault dts_pre_recorded_evidence-3ed25</connectionreferencedisplayname>
+      <connectorid>/providers/Microsoft.PowerApps/apis/shared_keyvault</connectorid>
       <iscustomizable>1</iscustomizable>
       <statecode>0</statecode>
       <statuscode>1</statuscode>
