@@ -22,7 +22,7 @@ namespace pre.test
 [Given(@"user on Book recording screen")]
 public async Task NavigateToBookingScreen()
 {
-	await _pagesetters.Page.GotoAsync("https://apps.powerapps.com/play/35134b2c-3b8d-4d32-b1eb-d288c0206b6a?tenantId=531ff96d-0ae9-462a-8d2d-bec7c0b42082");
+	await _pagesetters.Page.GotoAsync("https://apps.powerapps.com/play/ee7bf58e-99c9-4a34-b57d-7137307231af?tenantId=531ff96d-0ae9-462a-8d2d-bec7c0b42082");
 	await _bookrecording.NavigateToBooking();
 }
 
@@ -36,24 +36,32 @@ public async Task Whenallfieldsenteredandclicksave()
 [Then(@"case will be created")]
 public async Task Thencasewillbecreated()
 {
-	//Assert.NotNull(await _bookrecording.CheckCaseCreated());
+	System.Threading.Thread.Sleep(500);
+	await _bookrecording.CheckCaseCreated();
 }
 
 
 [Given(@"user on Schedule page")]
-public void GivenuseronSchedulepage()
+public async Task GivenuseronSchedulepage()
+
 {
+	await _pagesetters.Page.GotoAsync("https://apps.powerapps.com/play/ee7bf58e-99c9-4a34-b57d-7137307231af?tenantId=531ff96d-0ae9-462a-8d2d-bec7c0b42082");
+	await _bookrecording.NavigateToBooking();
+	
+	 
 }
 
 [When(@"i fill required data for creating recording")]
-public void Whenifillrequireddataforcreatingrecording()
+public async Task Whenifillrequireddataforcreatingrecording()
 {
-
+   await _bookrecording.EnterCaseDetails();
+  await _bookrecording.ScheduleRecording();
 }
 
 [Then(@"schedules will be created")]
-public void Thenscheduleswillbecreated()
+public async Task Thenscheduleswillbecreated()
 {
+	await _bookrecording.CheckSchedule();
 }
 
 

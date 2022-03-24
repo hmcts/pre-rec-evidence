@@ -6,6 +6,7 @@ Scenario: Create Case
   Given user on Book recording screen
   When all fields entered and click save
   Then case will be created
+  
 
 Scenario: Arrange a schedule
   Given user on Schedule page
