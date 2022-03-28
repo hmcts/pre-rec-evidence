@@ -29,10 +29,24 @@ For executing automated tests please follow below steps
 1. Install .NET SDK https://dotnet.microsoft.com/en-us/download
 2. Checkout this repository and navigate to pre-rec-evidence/test/e2e
 3. For authentication please setup auth file and copy file location and update the file
-    ``` test/e2e/Hooks/HooksInitializer.cs ``` with your auth file location
+   ``` test/e2e/Hooks/HooksInitializer.cs ``` with your auth file location
    //todo will update later to generate auth file
 4. Build the project by running ``` dotnet build ```
 5. Then for running the tests from terminal use ``` dotnet test ```
+6. If you hit a loop of being told to install playwright follow this - https://playwright.dev/dotnet/docs/intro#first-project
+
+- To generate an authorisation file:
+1) run npm i -D @playwright/test
+2) run npx playwright codegen --save-storage=auth.json
+3) In the playwright window, go to the streaming manager and log in, then close the window
+4) An auth.json file will be created under the e2e file, add the path to this in line 53 within HooksInitializer.cs
+5) Now do dotnet build, dotnet test, the test should automatically log you in when run
+
+For Pa11y, you can set up the pa11y.ps1 file as a powershell config in your IDE and run the accessibility tests through there or you can run the commands within the file in your terminal
+- You can also run this command to run the tests and see the results in the terminal: pa11y-ci --config .pa11yci.tests.portal.json - you'll need to cd into the pa11y directory
+
+For Pa11y, you can set up the pa11y.ps1 file as a powershell config in your IDE and run the accessibility tests through there or you can run the commands within the file in your terminal
+- You can also run this command to run the tests and see the results in the terminal: pa11y-ci --config .pa11yci.tests.portal.json - you'll need to cd into the pa11y directory
 
 ### Generating living Documentation.
 
@@ -63,4 +77,3 @@ TBC
 1. MS Power Platform
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
-
