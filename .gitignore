@@ -29,3 +29,8 @@ bin/main/application.yaml
 /test/e2e/auth.json
 /test/e2e/node_modules
 /test/e2e/SpecFlow/userid
+test/e2e/.yarn/
+test/Pa11y/node_modules/
+test/Pa11y/pa11y-ci-results.json
+test/Pa11y/Screenshots/
+test/Pa11y/pa11y-ci-report/

@@ -1,0 +1,42 @@
+{
+  "defaults": {
+    "chromeLaunchConfig": {
+      "ignoreHTTPSErrors": false
+    },
+    "standard": "WCAG2AA",
+    "viewport": {
+      "width": 2500,
+      "height": 1784
+    },
+    "concurrency": 1,
+    "reporters": [
+      ["json", {"fileName": "PRE-portal-accessibility-report.json" }],
+      ["pa11y-ci-reporter-html"]
+    ]
+  },
+  "urls": [
+    {
+      "url": "https://dts-pre-sbox.powerappsportals.com/?Before-log-in",
+      "actions": [
+        "screen capture Screenshots/Portal-Home-Page.png"
+      ]
+    },
+    {
+      "url": "https://dts-pre-sbox.powerappsportals.com/?After-log-in",
+      "actions": [
+        "set field #Email to testportal1one@gmail.com",
+        "set field #PasswordValue to {addPasswordHere}",
+        "click element #submit-signin-local",
+        "wait for element #video to be visible",
+        "screen capture Screenshots/Portal-LoggedIn-Home-Page.png"
+      ]
+    },
+    {
+      "url": "https://dts-pre-sbox.powerappsportals.com/new-page/?new-page",
+      "actions": [
+        "wait for element body table thead to be visible",
+        "screen capture Screenshots/Portal-New-Page-Link.png"
+      ]
+    }
+  ]
+}
