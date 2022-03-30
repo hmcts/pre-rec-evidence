@@ -1,9 +1,10 @@
-using NUnit.Framework;
 using System.Threading.Tasks;
 using TechTalk.SpecFlow;
 using pre.test.Helpers;
 using pre.test.pages;
 using pre.test.Hooks;
+using Microsoft.Playwright.NUnit;
+using NUnit.Framework;
 
 
 namespace pre.test
@@ -11,8 +12,8 @@ namespace pre.test
 	[Binding]
 	public class BookRecordings
 	{
-		readonly BookRecording _bookrecording;
-		readonly PageSetters _pagesetters;
+		public static BookRecording _bookrecording;
+		public static PageSetters _pagesetters;
 		public BookRecordings(PageSetters pageSetters)
 		{
 			_pagesetters = pageSetters;
@@ -36,9 +37,9 @@ public async Task Whenallfieldsenteredandclicksave()
 [Then(@"case will be created")]
 public async Task Thencasewillbecreated()
 {
-	System.Threading.Thread.Sleep(500);
 	await _bookrecording.CheckCaseCreated();
 }
+
 
 
 [Given(@"user on Schedule page")]
@@ -54,18 +55,15 @@ public async Task GivenuseronSchedulepage()
 [When(@"i fill required data for creating recording")]
 public async Task Whenifillrequireddataforcreatingrecording()
 {
-   await _bookrecording.EnterCaseDetails();
+   await _bookrecording.EnterCaseDetailsForSchedule();
   await _bookrecording.ScheduleRecording();
 }
 
 [Then(@"schedules will be created")]
 public async Task Thenscheduleswillbecreated()
 {
-	await _bookrecording.CheckSchedule();
+	await _bookrecording.CheckCaseScheduled();
 }
 
-
-
 }
-
 }
