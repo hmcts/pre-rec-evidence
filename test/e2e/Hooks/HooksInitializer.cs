@@ -9,17 +9,20 @@ using TechTalk.SpecFlow.Infrastructure;
 namespace pre.test.Hooks
 {
 [Binding]
-    class HooksInitializer
+    public class HooksInitializer
     {
-        public IBrowser browser;
+        public IBrowser browser { get; private set; }
         public IBrowserContext context;
-        public IPage page;
+        public static IPage page { get; private set; }
         public IPlaywright playwright;
         private readonly IObjectContainer _objectContainer;
         private readonly ScenarioContext _scenarioContext;
         private readonly ISpecFlowOutputHelper _specFlowOutputHelper;
 
-        PageSetters _context;
+        public static PageSetters _context { get; private set; }
+
+
+    
 
         public HooksInitializer(IObjectContainer objectContainer, ScenarioContext scenarioContext, PageSetters context, ISpecFlowOutputHelper outputHelper)
         {
