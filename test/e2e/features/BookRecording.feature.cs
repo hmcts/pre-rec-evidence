@@ -121,7 +121,7 @@ this.ScenarioInitialize(scenarioInfo);
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Arrange a schedule", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 10
+#line 11
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -141,14 +141,14 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 11
- testRunner.Given("user on Schedule page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line hidden
 #line 12
- testRunner.When("i fill required data for creating recording", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+  testRunner.Given("user on Schedule page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 13
- testRunner.Then("schedules will be created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+  testRunner.When("i fill required data for creating recording", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 14
+  testRunner.Then("schedules will be created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
