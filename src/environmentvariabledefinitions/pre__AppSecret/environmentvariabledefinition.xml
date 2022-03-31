@@ -1,5 +1,5 @@
 <environmentvariabledefinition schemaname="pre__AppSecret">
-  <defaultvalue>Jqg7Q~bs5jkRxxdPc6f1sHcYDRiHhjdDLsH7A</defaultvalue>
+  <defaultvalue>secret</defaultvalue>
   <displayname default="AppSecret">
     <label description="AppSecret" languagecode="1033" />
   </displayname>

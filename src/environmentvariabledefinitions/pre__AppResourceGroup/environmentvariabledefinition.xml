@@ -1,5 +1,5 @@
 <environmentvariabledefinition schemaname="pre__AppResourceGroup">
-  <defaultvalue>pre-sbox</defaultvalue>
+  <defaultvalue>rg</defaultvalue>
   <displayname default="AppResourceGroup">
     <label description="AppResourceGroup" languagecode="1033" />
   </displayname>
