@@ -1,5 +1,5 @@
 <environmentvariabledefinition schemaname="pre__AppMediaService">
-  <defaultvalue>preamssbox</defaultvalue>
+  <defaultvalue></defaultvalue>
   <displayname default="AppMediaService">
     <label description="AppMediaService" languagecode="1033" />
   </displayname>
