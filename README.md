@@ -71,7 +71,7 @@ TBC
 
 
 ### Other
-
+Update develop branch to be up to update with master.
 
 ## License
 1. MS Power Platform
