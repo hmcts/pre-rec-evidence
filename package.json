@@ -1,0 +1,5 @@
+{
+  "devDependencies": {
+    "expect-playwright": "^0.8.0"
+  }
+}
