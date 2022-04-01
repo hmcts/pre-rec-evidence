@@ -8,7 +8,7 @@ Scenario: Create Case
   Then case will be created
   
 
-Scenario: Arrange a schedule
-  Given user on Schedule page
-  When i fill required data for creating recording
-  Then schedules will be created
+# Scenario: Arrange a schedule
+#   Given user on Schedule page
+#   When i fill required data for creating recording
+#   Then schedules will be created
