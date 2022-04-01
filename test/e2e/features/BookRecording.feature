@@ -8,10 +8,13 @@ Scenario: Create Case
   Then case will be created
 
 
-# Scenario: Arrange a schedule
-#   Given user on Schedule page
-#   When i fill required data for creating recording
-#   Then schedules will be created
+  
+Scenario: Arrange a schedule
+ Given user on Schedule page
+ When i fill required data for creating recording
+ Then schedules will be created
+
+
 
  # Scenario: Check Validation
  #   Given user is on Book recording screen
@@ -22,4 +25,5 @@ Scenario: Create Case
 #   Given I need to enter a court name
 #   When I select a court name
 #   Then I am presented only with MVP court names 
+
 #Bug
