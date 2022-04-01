@@ -51,7 +51,7 @@ namespace pre.test.Hooks
         {
             playwright = await Playwright.CreateAsync();
             //BrowserTypeLaunchOptions typeLaunchOptions = new BrowserTypeLaunchOptions{ Headless = false };
-            BrowserTypeLaunchOptions typeLaunchOptions = new BrowserTypeLaunchOptions{ Headless = false, SlowMo= 500};
+            BrowserTypeLaunchOptions typeLaunchOptions = new BrowserTypeLaunchOptions{ Headless = false, SlowMo= 1200};
             browser = await playwright.Chromium.LaunchAsync(typeLaunchOptions);
             //context = await browser.NewContextAsync();
             context = await browser.NewContextAsync(new BrowserNewContextOptions{StorageStatePath = "<place your auth file generated>",});

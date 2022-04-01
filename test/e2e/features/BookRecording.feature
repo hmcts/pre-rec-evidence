@@ -7,8 +7,8 @@ Scenario: Create Case
   When all fields entered and click save
   Then case will be created
   
-
+# Bug S28-374 - unskip when resolved  
 # Scenario: Arrange a schedule
-#   Given user on Schedule page
-#   When i fill required data for creating recording
-#   Then schedules will be created
+#  Given user on Schedule page
+#  When i fill required data for creating recording
+#  Then schedules will be created
