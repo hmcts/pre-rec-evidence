@@ -5,22 +5,20 @@ using NUnit.Framework;
 
 namespace pre.test.pages
 {
-    public class BookRecording : BasePage
-    {
-     public static string date = DateTime.UtcNow.ToString("yyyyMMddHHmmss");
+  public class BookRecording : BasePage
+  {
+    public static string date = DateTime.UtcNow.ToString("yyyyMMddHHmmss");
 
-    public BookRecording(IPage page) : base(page) {}
+    public BookRecording(IPage page) : base(page)
+    {
+    }
 
     public async Task NavigateToBooking()
     {
       var book = BookRecordings._pagesetters.Page.Frame("fullscreen-app-host")
         .Locator("button:has-text(\"Book a Recording\")");
-      var isBookingButtonVisible = false;
-      while (isBookingButtonVisible == false)
-      {
-        isBookingButtonVisible = await Task.Run(() => book.IsVisibleAsync().Result);
-      }
 
+      await Task.Run(() => book.IsVisibleAsync().Result);
       await Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Book a Recording\")");
     }
 
@@ -80,11 +78,7 @@ namespace pre.test.pages
       var manage = BookRecordings._pagesetters.Page.Frame("fullscreen-app-host")
         .Locator("button:has-text(\"Manage Recordings\")");
 
-      var isManageRecordingsButtonVisible = false;
-      while (isManageRecordingsButtonVisible == false)
-      {
-        isManageRecordingsButtonVisible = await Task.Run(() => manage.IsVisibleAsync().Result);
-      }
+      await Task.Run(() => manage.IsVisibleAsync().Result);
 
       await Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Manage Recordings\")");
       await Page.Frame("fullscreen-app-host").ClickAsync("[placeholder=\"Search\\ Case\\ Ref\"]");
@@ -98,54 +92,39 @@ namespace pre.test.pages
     }
 
     public async Task CheckCaseCreated()
-        {
-          var home = BookRecordings._pagesetters.Page.Frame("fullscreen-app-host").Locator("button:has-text(\"Home\")");
+    {
+      var home = BookRecordings._pagesetters.Page.Frame("fullscreen-app-host").Locator("button:has-text(\"Home\")");
 
-          var isHomeButtonVisible = false;
-          while (isHomeButtonVisible == false)
-          {
-            isHomeButtonVisible = await Task.Run(() => home.IsVisibleAsync().Result);
-          }
+      await Task.Run(() => Assert.That(home.TextContentAsync().Result, Does.Contain("Home")));
+      await Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Home\")");
 
-          await Task.Run(() => Assert.That(home.TextContentAsync().Result, Does.Contain("Home")));
-          await Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Home\")");
+      var book = BookRecordings._pagesetters.Page.Frame("fullscreen-app-host")
+        .Locator("button:has-text(\"Book a Recording\")");
 
-          var book = BookRecordings._pagesetters.Page.Frame("fullscreen-app-host")
-            .Locator("button:has-text(\"Book a Recording\")");
-          await Task.Run(() => book.ScreenshotAsync());
+      await Task.Run(() => Assert.That(book.TextContentAsync().Result, Does.Contain("Book")));
 
-          var isBookingButtonVisible = false;
-          while (isBookingButtonVisible == false)
-          {
-            isBookingButtonVisible = await Task.Run(() => book.IsVisibleAsync().Result);
-          }
+      await Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Book a Recording\")");
+      await Page.Frame("fullscreen-app-host").ClickAsync("[aria-label=\"Select\\ Court\"]");
+      await Page.Frame("fullscreen-app-host")
+        .ClickAsync("[aria-label=\"Select\\ Court\\ items\"] div:has-text(\"Birmingham\")");
 
-          await Task.Run(() => Assert.That(book.TextContentAsync().Result, Does.Contain("Book")));
+      var caseInput = BookRecordings._pagesetters.Page.Frame("fullscreen-app-host")
+        .Locator("[placeholder=\"Case\\ Number\\ \\\\\\ URN\"]");
+      await Task.Run(() => Assert.IsTrue(caseInput.IsVisibleAsync().Result));
+      await Page.IsVisibleAsync("[placeholder=\"Case\\ Number\\ \\\\\\ URN\"]");
 
-          await Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Book a Recording\")");
-          await Page.Frame("fullscreen-app-host").ClickAsync("[aria-label=\"Select\\ Court\"]");
-          await Page.Frame("fullscreen-app-host")
-            .ClickAsync("[aria-label=\"Select\\ Court\\ items\"] div:has-text(\"Birmingham\")");
+      await Page.Frame("fullscreen-app-host").ClickAsync("[placeholder=\"Case\\ Number\\ \\\\\\ URN\"]");
+      await Page.Frame("fullscreen-app-host")
+        .FillAsync("[placeholder=\"Case\\ Number\\ \\\\\\ URN\"]", $"CaseAutoTest{date}");
 
-          var caseInput = BookRecordings._pagesetters.Page.Frame("fullscreen-app-host")
-            .Locator("[placeholder=\"Case\\ Number\\ \\\\\\ URN\"]");
-          await Task.Run(() => Assert.IsTrue(caseInput.IsVisibleAsync().Result));
-          await Page.IsVisibleAsync("[placeholder=\"Case\\ Number\\ \\\\\\ URN\"]");
+      var caseLocation = BookRecordings._pagesetters.Page.Frame("fullscreen-app-host")
+        .Locator("#publishedCanvas div:nth-child(5) div.canvasContentDiv.container_1vt1y2p div:nth-child(3)");
+      await Task.Run(() => Assert.That(caseLocation.TextContentAsync().Result, Does.Contain("Birmingham 01")));
 
-          await Page.Frame("fullscreen-app-host").ClickAsync("[placeholder=\"Case\\ Number\\ \\\\\\ URN\"]");
-          await Page.Frame("fullscreen-app-host")
-            .FillAsync("[placeholder=\"Case\\ Number\\ \\\\\\ URN\"]", $"CaseAutoTest{date}");
-
-          var caseLocation = BookRecordings._pagesetters.Page.Frame("fullscreen-app-host")
-            .Locator("#publishedCanvas div:nth-child(5) div.canvasContentDiv.container_1vt1y2p div:nth-child(3)");
-          await Task.Run(() => Assert.That(caseLocation.TextContentAsync().Result, Does.Contain("Birmingham 01")));
-
-          var caseName = BookRecordings._pagesetters.Page.Frame("fullscreen-app-host").Locator(
-            "#publishedCanvas div.canvasContentDiv.container_1vt1y2p div div:nth-child(1) div div div div div");
-          await Task.Run(() => Assert.That(caseName.TextContentAsync().Result, Does.Contain($"CaseAutoTest{date}")));
-        }
+      var caseName = BookRecordings._pagesetters.Page.Frame("fullscreen-app-host").Locator(
+        "#publishedCanvas div.canvasContentDiv.container_1vt1y2p div div:nth-child(1) div div div div div");
+      await Task.Run(() => Assert.That(caseName.TextContentAsync().Result, Does.Contain($"CaseAutoTest{date}")));
     }
-
-
+  }
 }
 
