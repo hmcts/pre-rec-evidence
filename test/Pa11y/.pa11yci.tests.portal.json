@@ -16,7 +16,7 @@
   },
   "urls": [
     {
-      "url": "https://pre-test.powerappsportals.com/SignIn?ReturnUrl=%2F",
+      "url": "https://pre-test.powerappsportals.com/SignIn?ReturnUrl=%2F?Before-log-in?After-log-in",
       "actions": [
         "screen capture Screenshots/Portal-Home-Page.png"
       ]
@@ -32,7 +32,7 @@
       ]
     },
     {
-      "url": "https://pre-test.powerappsportals.com/Register?returnUrl=%2F",
+      "url": "https://pre-test.powerappsportals.com/Register?returnUrl=%2F?Redeem-invitation",
       "actions": [
         
         "wait for element div:nth-child(5) to be visible",
@@ -50,7 +50,7 @@
       ]
     },
     {
-      "url": "https://pre-test.powerappsportals.com/Account/Login/ForgotPassword",
+      "url": "https://pre-test.powerappsportals.com/Account/Login/ForgotPassword?Forgot-Password",
       "actions": [
         "wait for element #Email to be visible",
         "screen capture Screenshots/Forgot-Password-Link.png"
@@ -58,10 +58,10 @@
     },
     {
 
-      "url": "https://pre-test.powerappsportals.com/Account/Login/ForgotPassword",
+      "url": "https://pre-test.powerappsportals.com/Account/Login/ForgotPassword?Forgot-Password-email-sent",
       "actions": [
       "set field #Email to <email>",
-        "click element <password>",
+        "click element #submit-forgot-password",
         "wait for element  div.form-horizontal > div > div  to be visible",
         "screen capture Screenshots/Forgot-Password-Email-Link.png"
 
