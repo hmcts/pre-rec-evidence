@@ -138,8 +138,7 @@ namespace pre.test.pages
     {
       var book = BookRecordings._pagesetters.Page.Frame("fullscreen-app-host")
         .Locator("#powerapps-flyout-react-combobox-view-0");
-
-      Console.WriteLine("get ready: " + book.TextContentAsync().Result);
+        
       await Page.Frame("fullscreen-app-host")
         .ClickAsync("#powerapps-flyout-react-combobox-view-0:has-text(\"Leeds01\")");
 

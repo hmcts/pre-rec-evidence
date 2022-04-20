@@ -8,28 +8,25 @@ namespace pre.test.pages
 
 {
 
-public class BasePage : IClassFixture<Hooks.HooksInitializer>
+  public class BasePage : IClassFixture<Hooks.HooksInitializer>
 
-{
+  {
 
-protected readonly Hooks.HooksInitializer fixture;
+    protected readonly Hooks.HooksInitializer fixture;
 
-protected IPage Page;
+    protected IPage Page;
 
-public BasePage(IPage page) => Page = page;
+    public BasePage(IPage page) => Page = page;
 
-public IPage GetPage() => Page;
+    public IPage GetPage() => Page;
 
 
 
-public BasePage(Hooks.HooksInitializer fixture)
+    public BasePage(Hooks.HooksInitializer fixture)
 
-{
+    {
 
-this.fixture = fixture;
-
-}
-
-}
-
+      this.fixture = fixture;
+    }
+  }
 }
