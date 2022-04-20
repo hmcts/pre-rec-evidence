@@ -16,26 +16,55 @@
   },
   "urls": [
     {
-      "url": "https://dts-pre-sbox.powerappsportals.com/?Before-log-in",
+      "url": "https://pre-test.powerappsportals.com/SignIn?ReturnUrl=%2F",
       "actions": [
         "screen capture Screenshots/Portal-Home-Page.png"
       ]
     },
     {
-      "url": "https://dts-pre-sbox.powerappsportals.com/?After-log-in",
+      "url": "https://pre-test.powerappsportals.com/",
       "actions": [
-        "set field #Email to testportal1one@gmail.com",
-        "set field #PasswordValue to {addPasswordHere}",
+        "set field #Email to <email>",
+        "set field #PasswordValue to <password>",
         "click element #submit-signin-local",
         "wait for element #video to be visible",
         "screen capture Screenshots/Portal-LoggedIn-Home-Page.png"
       ]
     },
     {
-      "url": "https://dts-pre-sbox.powerappsportals.com/new-page/?new-page",
+      "url": "https://pre-test.powerappsportals.com/Register?returnUrl=%2F",
       "actions": [
-        "wait for element body table thead to be visible",
-        "screen capture Screenshots/Portal-New-Page-Link.png"
+        
+        "wait for element div:nth-child(5) to be visible",
+        "screen capture Screenshots/Portal-Redeem-invitation-Link.png"
+      ]
+    },
+    {
+      "url": "https://pre-test.powerappsportals.com/SignIn?ReturnUrl=%2F?Codeverification",
+      "actions": [
+        "set field #Email to <email>",
+        "set field #PasswordValue to <password>",
+        "click element #submit-signin-local",
+        "wait for element #Code to be visible",
+        "screen capture Screenshots/Portal-Code-Verification-Link.png"
+      ]
+    },
+    {
+      "url": "https://pre-test.powerappsportals.com/Account/Login/ForgotPassword",
+      "actions": [
+        "wait for element #Email to be visible",
+        "screen capture Screenshots/Forgot-Password-Link.png"
+      ]
+    },
+    {
+
+      "url": "https://pre-test.powerappsportals.com/Account/Login/ForgotPassword",
+      "actions": [
+      "set field #Email to <email>",
+        "click element <password>",
+        "wait for element  div.form-horizontal > div > div  to be visible",
+        "screen capture Screenshots/Forgot-Password-Email-Link.png"
+
       ]
     }
   ]
