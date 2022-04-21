@@ -44,7 +44,8 @@ public async Task Thentheapplicationwillcheckif()
 [Given(@"I have found an existing case")]
 public async Task GivenIhavefoundanexistingcase()
 {
-	await _bookrecording.NavigateToBooking();
+    await _pagesetters.Page.GotoAsync("https://apps.powerapps.com/play/ee7bf58e-99c9-4a34-b57d-7137307231af?tenantId=531ff96d-0ae9-462a-8d2d-bec7c0b42082");
+	await _updatebookedrecording.NavigateToBooking();
     await _updatebookedrecording.SearchCase();
     await _updatebookedrecording.FindCase();
 }

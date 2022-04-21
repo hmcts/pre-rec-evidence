@@ -60,8 +60,6 @@ namespace pre.test.pages
     }
     public async Task FindCase()
     {
-
-
       var caseLocation = UpdateBookedRecordings._pagesetters.Page.Frame("fullscreen-app-host")
         .Locator("div.canvasContentDiv.container_1vt1y2p > div > div:nth-child(3)");
       await Task.Run(() => Assert.That(caseLocation.TextContentAsync().Result, Does.Contain($"{stringCourt.Trim()}")));
@@ -72,21 +70,26 @@ namespace pre.test.pages
     }
     public async Task UpdateCase()
     {
-        await Page.Frame("fullscreen-app-host").ClickAsync(".container_1f0sgyp div:nth-child(2) .react-knockout-control .appmagic-svg");
-        await Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Modify\")");
+      await Page.Frame("fullscreen-app-host").ClickAsync(".container_1f0sgyp div:nth-child(2) .react-knockout-control .appmagic-svg");
+      await Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Modify\")");
 
+      var saveButton = UpdateBookedRecordings._pagesetters.Page.Frame("fullscreen-app-host").Locator("div div:nth-child(55)  button");
+      await Task.Run(() => Assert.IsTrue(saveButton.IsEnabledAsync().Result));
 
+      await Task.Run(() => saveButton.ClickAsync());
       
+       
+     // await Page.Frame("fullscreen-app-host").DblClickAsync(":nth-match(button:has-text(\"Save\"), 2)");
       // await Page.Frame("fullscreen-app-host").ClickAsync("[aria-label=\"Enter\\ your\\ Defendants\\,\\ comma\\ seperated\"]");
       // await Page.Frame("fullscreen-app-host").FillAsync("[aria-label=\"Enter\\ your\\ Defendants\\,\\ comma\\ seperated\"]", "Updatedef 1,\nUpdatedef 2");
-      await Page.Frame("fullscreen-app-host").ClickAsync("[aria-label=\"Enter\\ your\\ Witnesses\\,\\ comma\\ seperated\"]");
-      await Page.Frame("fullscreen-app-host").FillAsync("[aria-label=\"Enter\\ your\\ Witnesses\\,\\ comma\\ seperated\"]","UpdateWitness 1,\nUpdateWitness 2");
-      var enabled = Page.Frame("fullscreen-app-host").Locator(":nth-match(button:has-text(\"Save\"), 2)");
+      // await Page.Frame("fullscreen-app-host").ClickAsync("[aria-label=\"Enter\\ your\\ Witnesses\\,\\ comma\\ seperated\"]");
+      // await Page.Frame("fullscreen-app-host").FillAsync("[aria-label=\"Enter\\ your\\ Witnesses\\,\\ comma\\ seperated\"]","UpdateWitness 1,\nUpdateWitness 2");
+      // var enabled = Page.Frame("fullscreen-app-host").Locator(":nth-match(button:has-text(\"Save\"), 2)");
       //await Task.Run(() => Assert.IsTrue(enabled.IsEnabledAsync().Result));
      // await Page.Frame("fullscreen-app-host").IsEnabledAsync(":nth-match(button:has-text(\"Save\"), 2)");
       //await Page.Frame("fullscreen-app-host").ClickAsync("#publishedCanvas");
-      await Task.Run(() => Assert.That(enabled.TextContentAsync().Result, Does.Contain("Save")));
-      await UpdateBookedRecordings._pagesetters.Page.WaitForFunctionAsync(":nth-match(button:has-text(\"Save\"), 2)");
+      // await Task.Run(() => Assert.That(enabled.TextContentAsync().Result, Does.Contain("Save")));
+      // await UpdateBookedRecordings._pagesetters.Page.WaitForFunctionAsync(":nth-match(button:has-text(\"Save\"), 2)");
       
       //await Task.Run(() => Page.Frame("fullscreen-app-host").FocusAsync(":nth-match(button:has-text(\"Save\"), 2)"));
       //await Page.Frame("fullscreen-app-host").ClickAsync(":nth-match(button:has-text(\"Save\"), 2)");
