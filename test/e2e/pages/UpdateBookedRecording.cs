@@ -15,12 +15,6 @@ namespace pre.test.pages
     private String stringCase = "";
    public async Task NavigateToBooking()
     {
-
-      System.Console.WriteLine("this is"+ UpdateBookedRecordings._pagesetters.Page);
-      //var book = UpdateBookedRecordings._pagesetters.Page.Frame("fullscreen-app-host")
-       // .Locator("button:has-text(\"Book a Recording\")");
-
-      // await Task.Run(() => book.IsVisibleAsync().Result);
        await Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Manage Recordings\")");
     }
 
@@ -98,14 +92,5 @@ namespace pre.test.pages
       //await Page.Frame("fullscreen-app-host").ClickAsync(":nth-match(button:has-text(\"Save\"), 2)");
       //await Page.Frame("fullscreen-app-host").ClickAsync(":nth-match(button:has-text(\"Save\"), 2)");;;;;
     }
-
-
-
-
-
-
-
-
-
    }
 }

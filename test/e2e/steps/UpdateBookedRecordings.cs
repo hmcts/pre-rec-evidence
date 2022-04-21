@@ -23,38 +23,38 @@ namespace pre.test
 public async Task GivenIamonthebookrecordingspage()
 {
 	await _pagesetters.Page.GotoAsync("https://apps.powerapps.com/play/ee7bf58e-99c9-4a34-b57d-7137307231af?tenantId=531ff96d-0ae9-462a-8d2d-bec7c0b42082");
-    //await _bookrecording.NavigateToBooking();
+    await _updatebookedrecording.NavigateToBooking();
 }
 
 
-// [When(@"I want to find an existing Cases and enter the case reference")]
-// public async Task WhenIwanttofindanexistingCase()
-// {
-// 	await _updatebookedrecording.SearchCase();
-// }
+[When(@"I want to find an existing Cases and enter the case reference")]
+public async Task WhenIwanttofindanexistingCase()
+{
+	await _updatebookedrecording.SearchCase();
+}
 
-// [Then(@"the application will check if the case reference already exists")]
-// public async Task Thentheapplicationwillcheckif()
-// {
-// 	await _updatebookedrecording.FindCase();
-//     //await _updatebookedrecording.UpdateCase();
-// }
-
-
-// [Given(@"I have found an existing case")]
-// public async Task GivenIhavefoundanexistingcase()
-// {
-// 	await _bookrecording.NavigateToBooking();
-//     await _updatebookedrecording.SearchCase();
-//     await _updatebookedrecording.FindCase();
-// }
+[Then(@"the application will check if the case reference already exists")]
+public async Task Thentheapplicationwillcheckif()
+{
+	await _updatebookedrecording.FindCase();
+    //await _updatebookedrecording.UpdateCase();
+}
 
 
-// [When(@"I enter and save additional witnesses")]
-// public async Task WhenIenterandsaveadditionalwitnesses()
-// {
-// 	await _updatebookedrecording.UpdateCase();
-// }
+[Given(@"I have found an existing case")]
+public async Task GivenIhavefoundanexistingcase()
+{
+	await _bookrecording.NavigateToBooking();
+    await _updatebookedrecording.SearchCase();
+    await _updatebookedrecording.FindCase();
+}
+
+
+[When(@"I enter and save additional witnesses")]
+public async Task WhenIenterandsaveadditionalwitnesses()
+{
+	await _updatebookedrecording.UpdateCase();
+}
 
 
 // [Then(@"the case will be updated with additional witnesses")]
