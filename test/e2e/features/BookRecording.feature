@@ -11,3 +11,10 @@ Scenario: Arrange a schedule
  Given user on Schedule page
  When i fill required data for creating recording
  Then schedules will be created
+
+# Bug - will be fixed for MVP
+# Scenario: Check Courts
+#   Given I need to enter a court name
+#   When I select a court name
+#   Then I am presented only with MVP court names
+

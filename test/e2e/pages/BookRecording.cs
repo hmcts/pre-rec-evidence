@@ -140,7 +140,7 @@ namespace pre.test.pages
         .Locator("#powerapps-flyout-react-combobox-view-0");
         
       await Page.Frame("fullscreen-app-host")
-        .ClickAsync("#powerapps-flyout-react-combobox-view-0:has-text(\"Leeds01\")");
+        .ClickAsync("#powerapps-flyout-react-combobox-view-0:has-text(\"Leeds 01\")");
 
     }
 
