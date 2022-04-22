@@ -41,11 +41,13 @@ public async Task Thentheapplicationwillcheckif()
 }
 
 
-[Given(@"I have found an existing case")]
-public async Task GivenIhavefoundanexistingcase()
+[Given(@"I have created a case")]
+public async Task GivenIhavecreatedacase()
 {
     await _pagesetters.Page.GotoAsync("https://apps.powerapps.com/play/ee7bf58e-99c9-4a34-b57d-7137307231af?tenantId=531ff96d-0ae9-462a-8d2d-bec7c0b42082");
 	await _updatebookedrecording.NavigateToBooking();
+    await _updatebookedrecording.BookCase();
+    await _updatebookedrecording.ScheduleUpdateRecording();
     await _updatebookedrecording.SearchCase();
     await _updatebookedrecording.FindCase();
 }
@@ -58,12 +60,65 @@ public async Task WhenIenterandsaveadditionalwitnesses()
 }
 
 
-// [Then(@"the case will be updated with additional witnesses")]
-// public async Task Thenthecasewillbeupdatedwithadditionalwitnesses()
-// {
-	
-// }
+[Then(@"the case will be updated with additional witnesses")]
+public async Task Thenthecasewillbeupdatedwithadditionalwitnesses()
+{
+	await _updatebookedrecording.CheckUpdatedCase();
+}
 
-        
+
+
+
+
+
+[Given(@"I have booked a case")]
+public async Task GivenIhavebookedacase()
+{
+	await _pagesetters.Page.GotoAsync("https://apps.powerapps.com/play/ee7bf58e-99c9-4a34-b57d-7137307231af?tenantId=531ff96d-0ae9-462a-8d2d-bec7c0b42082");
+	await _updatebookedrecording.NavigateToBooking();
+    await _updatebookedrecording.BookCasedefupdate();
+    await _updatebookedrecording.ScheduleUpdateRecording();
+    await _updatebookedrecording.SearchupdatedefCase();
+    await _updatebookedrecording.FindupdatedefCase();
+}
+
+[When(@"I enter and save additional defendants")]
+public async Task WhenIenterandsaveadditionaldefendants()
+{
+	await _updatebookedrecording.UpdateCasedef();
+}
+
+[Then(@"the case will be updated with additional defendants")]
+public async Task Thenthecasewillbeupdatedwithadditionaldefendants()
+{
+	await _updatebookedrecording.CheckUpdatedCasedef();
+}
+
+
+[Given(@"I have added a case")]
+public async Task GivenIhaveaddedacase()
+{
+	await _pagesetters.Page.GotoAsync("https://apps.powerapps.com/play/ee7bf58e-99c9-4a34-b57d-7137307231af?tenantId=531ff96d-0ae9-462a-8d2d-bec7c0b42082");
+	await _updatebookedrecording.NavigateToBooking();
+    await _updatebookedrecording.BookCasedefwitupdate();
+    await _updatebookedrecording.ScheduleUpdateRecording();
+    await _updatebookedrecording.SearchupdatedefwitCase();
+    await _updatebookedrecording.FindupdatedefwitCase();
+}
+
+
+[When(@"I enter and save additional defendants and witnesses")]
+public async Task WhenIenterandsaveadditionaldefendantsandwitnesses()
+{
+	await _updatebookedrecording.UpdateCasedefandwit();
+}
+
+  
+[Then(@"the case will be updated with additional defendants and witnesses")]
+public async Task Thenthecasewillbeupdatedwithadditionaldefendantsandwitnesses()
+{
+	await _updatebookedrecording.CheckUpdatedCasedefandwit();
+}
+      
     }
 }
