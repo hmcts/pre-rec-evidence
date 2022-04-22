@@ -19,11 +19,13 @@ namespace pre.test
             _updatebookedrecording = new UpdateBookedRecording(_pagesetters.Page);
         }
 
+        public static string use = "";
+
 [Given(@"I am on the book recordings page and I want to find an existing case")]
 public async Task GivenIamonthebookrecordingspage()
 {
 	await _pagesetters.Page.GotoAsync("https://apps.powerapps.com/play/ee7bf58e-99c9-4a34-b57d-7137307231af?tenantId=531ff96d-0ae9-462a-8d2d-bec7c0b42082");
-    await _updatebookedrecording.NavigateToBooking();
+    await _updatebookedrecording.FindCaseToView();
 }
 
 
@@ -44,6 +46,7 @@ public async Task Thentheapplicationwillcheckif()
 [Given(@"I have created a case")]
 public async Task GivenIhavecreatedacase()
 {
+    use = "W";
     await _pagesetters.Page.GotoAsync("https://apps.powerapps.com/play/ee7bf58e-99c9-4a34-b57d-7137307231af?tenantId=531ff96d-0ae9-462a-8d2d-bec7c0b42082");
 	await _updatebookedrecording.NavigateToBooking();
     await _updatebookedrecording.BookCase();
@@ -66,17 +69,13 @@ public async Task Thenthecasewillbeupdatedwithadditionalwitnesses()
 	await _updatebookedrecording.CheckUpdatedCase();
 }
 
-
-
-
-
-
 [Given(@"I have booked a case")]
 public async Task GivenIhavebookedacase()
 {
+    use = "D";
 	await _pagesetters.Page.GotoAsync("https://apps.powerapps.com/play/ee7bf58e-99c9-4a34-b57d-7137307231af?tenantId=531ff96d-0ae9-462a-8d2d-bec7c0b42082");
 	await _updatebookedrecording.NavigateToBooking();
-    await _updatebookedrecording.BookCasedefupdate();
+    await _updatebookedrecording.BookCase();
     await _updatebookedrecording.ScheduleUpdateRecording();
     await _updatebookedrecording.SearchupdatedefCase();
     await _updatebookedrecording.FindupdatedefCase();
@@ -100,7 +99,7 @@ public async Task GivenIhaveaddedacase()
 {
 	await _pagesetters.Page.GotoAsync("https://apps.powerapps.com/play/ee7bf58e-99c9-4a34-b57d-7137307231af?tenantId=531ff96d-0ae9-462a-8d2d-bec7c0b42082");
 	await _updatebookedrecording.NavigateToBooking();
-    await _updatebookedrecording.BookCasedefwitupdate();
+    await _updatebookedrecording.BookCase();
     await _updatebookedrecording.ScheduleUpdateRecording();
     await _updatebookedrecording.SearchupdatedefwitCase();
     await _updatebookedrecording.FindupdatedefwitCase();
