@@ -35,11 +35,16 @@ namespace pre.test.pages
 
     public async Task BookCase()
     {
-      if (UpdateBookedRecordings.use == "W"){
+      if (UpdateBookedRecordings.use == "W")
+      {
         stringCase = $"UpdateWitAutoTest{date}";
-      }else if (UpdateBookedRecordings.use == "D"){
+      }
+      else if (UpdateBookedRecordings.use == "D")
+      {
         stringCase = $"UpdateDefAutoTest{date}";
-      }else{
+      }
+      else
+      {
         stringCase = $"UpdateDefWitAutoTest{date}";
       }
 
@@ -99,7 +104,7 @@ namespace pre.test.pages
 
       await Page.Frame("fullscreen-app-host").ClickAsync("[placeholder=\"Case\\ Number\\ \\\\\\ URN\"]");
       await Page.Frame("fullscreen-app-host")
-        .FillAsync("[placeholder=\"Case\\ Number\\ \\\\\\ URN\"]",$"{stringCase.Trim()}");
+        .FillAsync("[placeholder=\"Case\\ Number\\ \\\\\\ URN\"]", $"{stringCase.Trim()}");
     }
     public async Task FindCase()
     {
@@ -113,10 +118,26 @@ namespace pre.test.pages
     }
     public async Task UpdateCase()
     {
+
       await Page.Frame("fullscreen-app-host").ClickAsync(".container_1f0sgyp div:nth-child(2) .react-knockout-control .appmagic-svg");
       await Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Modify\")");
-       await Page.Frame("fullscreen-app-host").ClickAsync("[aria-label=\"Enter\\ your\\ Witnesses\\,\\ comma\\ seperated\"]");
-      await Page.Frame("fullscreen-app-host").FillAsync("[aria-label=\"Enter\\ your\\ Witnesses\\,\\ comma\\ seperated\"]","UpdateWitness 1,\nUpdateWitness 2");
+      if (UpdateBookedRecordings.use == "W")
+      {
+        await Page.Frame("fullscreen-app-host").ClickAsync("[aria-label=\"Enter\\ your\\ Witnesses\\,\\ comma\\ seperated\"]");
+        await Page.Frame("fullscreen-app-host").FillAsync("[aria-label=\"Enter\\ your\\ Witnesses\\,\\ comma\\ seperated\"]", "UpdateWitness 1,\nUpdateWitness 2");
+      }
+      else if (UpdateBookedRecordings.use == "D")
+      {
+        await Page.Frame("fullscreen-app-host").ClickAsync("[aria-label=\"Enter\\ your\\ Defendants\\,\\ comma\\ seperated\"]");
+        await Page.Frame("fullscreen-app-host").FillAsync("[aria-label=\"Enter\\ your\\ Defendants\\,\\ comma\\ seperated\"]", "Updatedef 1,\nUpdatedef 2");
+      }
+      else
+      {
+        await Page.Frame("fullscreen-app-host").ClickAsync("[aria-label=\"Enter\\ your\\ Defendants\\,\\ comma\\ seperated\"]");
+        await Page.Frame("fullscreen-app-host").FillAsync("[aria-label=\"Enter\\ your\\ Defendants\\,\\ comma\\ seperated\"]", "Updatedef 1,\nUpdatedef 2");
+        await Page.Frame("fullscreen-app-host").ClickAsync("[aria-label=\"Enter\\ your\\ Witnesses\\,\\ comma\\ seperated\"]");
+        await Page.Frame("fullscreen-app-host").FillAsync("[aria-label=\"Enter\\ your\\ Witnesses\\,\\ comma\\ seperated\"]", "UpdateWitness 1,\nUpdateWitness 2");
+      }
       var saveButton = UpdateBookedRecordings._pagesetters.Page.Frame("fullscreen-app-host").Locator("div div:nth-child(55)  button");
       await Task.Run(() => Assert.IsTrue(saveButton.IsEnabledAsync().Result));
 
@@ -146,10 +167,34 @@ namespace pre.test.pages
       await Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Modify\")");
       var WitnessBox = UpdateBookedRecordings._pagesetters.Page.Frame("fullscreen-app-host").Locator(
         "[aria-label=\"Enter\\ your\\ Witnesses\\,\\ comma\\ seperated\"]");
-      await Task.Run(() => Assert.That(WitnessBox.InputValueAsync().Result, Does.Contain("UpdateWitness 1")));
-      await Task.Run(() => Assert.That(WitnessBox.InputValueAsync().Result, Does.Contain("UpdateWitness 2")));
-      // await Task.Run(() => Assert.That(WitnessBox.InputValueAsync().Result, Does.Not.Contain("Witness surname1")));
+      var DefBox = UpdateBookedRecordings._pagesetters.Page.Frame("fullscreen-app-host").Locator(
+      "[aria-label=\"Enter\\ your\\ Defendants\\,\\ comma\\ seperated\"]");
+      if (UpdateBookedRecordings.use == "W")
+      {
+        await Task.Run(() => Assert.That(WitnessBox.InputValueAsync().Result, Does.Contain("UpdateWitness 1")));
+        await Task.Run(() => Assert.That(WitnessBox.InputValueAsync().Result, Does.Contain("UpdateWitness 2")));
+        // await Task.Run(() => Assert.That(WitnessBox.InputValueAsync().Result, Does.Not.Contain("Witness surname1")));
+        // await Task.Run(() => Assert.That(WitnessBox.InputValueAsync().Result, Does.Not.Contain("Witness surname2")));
+      }
+      else if (UpdateBookedRecordings.use == "D")
+      {
+        await Task.Run(() => Assert.That(DefBox.InputValueAsync().Result, Does.Contain("Updatedef 1")));
+        await Task.Run(() => Assert.That(DefBox.InputValueAsync().Result, Does.Contain("Updatedef 2")));
+        // await Task.Run(() => Assert.That(DefBox.InputValueAsync().Result, Does.Not.Contain("defendants 1")));
+        // await Task.Run(() => Assert.That(DefBox.InputValueAsync().Result, Does.Not.Contain("defendants 2")));
+      }
+      else
+      {
+        await Task.Run(() => Assert.That(WitnessBox.InputValueAsync().Result, Does.Contain("UpdateWitness 1")));
+        await Task.Run(() => Assert.That(WitnessBox.InputValueAsync().Result, Does.Contain("UpdateWitness 2")));
+        // await Task.Run(() => Assert.That(WitnessBox.InputValueAsync().Result, Does.Not.Contain("Witness surname1")));
       // await Task.Run(() => Assert.That(WitnessBox.InputValueAsync().Result, Does.Not.Contain("Witness surname2")));
+        await Task.Run(() => Assert.That(DefBox.InputValueAsync().Result, Does.Contain("Updatedef 1")));
+        await Task.Run(() => Assert.That(DefBox.InputValueAsync().Result, Does.Contain("Updatedef 2")));
+        // await Task.Run(() => Assert.That(DefBox.InputValueAsync().Result, Does.Not.Contain("defendants 1")));
+        // await Task.Run(() => Assert.That(DefBox.InputValueAsync().Result, Does.Not.Contain("defendants 2")));
+      }
+      
 
       await Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Home\")");
       await Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Manage Recordings\")");
@@ -158,190 +203,52 @@ namespace pre.test.pages
         .FillAsync("[placeholder=\"Search\\ Case\\ Ref\"] ", $"{stringCase}");
 
       var updatecaseScheduled = UpdateBookedRecordings._pagesetters.Page.Frame("fullscreen-app-host")
-        .Locator($"div.virtualized-gallery:has-text(\"UpdateAutoTest{date}\")");
+        .Locator($"div.virtualized-gallery:has-text(\"{stringCourt}\")");
       await Task.Run(() =>
         Assert.That(updatecaseScheduled.TextContentAsync().Result, Does.Contain($"{stringCase}")));
       await Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Amend\")");
-      await Page.Frame("fullscreen-app-host")
+
+
+      var dropdown = UpdateBookedRecordings._pagesetters.Page.Frame("fullscreen-app-host").Locator("li[role='option']");
+
+      if (UpdateBookedRecordings.use == "W")
+      {
+        await Page.Frame("fullscreen-app-host")
         .ClickAsync("[aria-label=\"Defendants\\.\\ Selected\\:\\ Witness\\ surname1\"]");
-
-      var witnessdropdown = UpdateBookedRecordings._pagesetters.Page.Frame("fullscreen-app-host").Locator("li[role='option']");
-
-      await Task.Run(() => Assert.That(witnessdropdown.AllInnerTextsAsync().Result, Does.Contain("UpdateWitness 1")));
-      await Task.Run(() => Assert.That(witnessdropdown.AllInnerTextsAsync().Result, Does.Contain("UpdateWitness 2")));
-      // await Task.Run(() => Assert.That(witnessdropdown.AllInnerTextsAsync().Result, Does.Not.Contain("Witness surname1")));
-      // await Task.Run(() => Assert.That(witnessdropdown.AllInnerTextsAsync().Result, Does.Not.Contain("Witness surname2")));
-    }
-
-
-   
-
-    public async Task SearchupdatedefCase()
-    {
-      await Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Home\")");
-      await Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Book a Recording\")");
-      await Page.Frame("fullscreen-app-host").ClickAsync("[aria-label=\"Select\\ Court\"]");
-
-      await Page.Frame("fullscreen-app-host")
-        .ClickAsync($"[aria-label=\"Select\\ Court\\ items\"] div:has-text(\"{stringCourt}\")");
-
-      var caseInput = UpdateBookedRecordings._pagesetters.Page.Frame("fullscreen-app-host")
-        .Locator("[placeholder=\"Case\\ Number\\ \\\\\\ URN\"]");
-      await Task.Run(() => Assert.IsTrue(caseInput.IsVisibleAsync().Result));
-      await Page.IsVisibleAsync("[placeholder=\"Case\\ Number\\ \\\\\\ URN\"]");
-
-      await Page.Frame("fullscreen-app-host").ClickAsync("[placeholder=\"Case\\ Number\\ \\\\\\ URN\"]");
-      await Page.Frame("fullscreen-app-host")
-        .FillAsync("[placeholder=\"Case\\ Number\\ \\\\\\ URN\"]", $"{stringCase}");
-    }
-
-    public async Task FindupdatedefCase()
-    {
-      var caseLocation = UpdateBookedRecordings._pagesetters.Page.Frame("fullscreen-app-host")
-        .Locator("div.canvasContentDiv.container_1vt1y2p > div > div:nth-child(3)");
-      await Task.Run(() => Assert.That(caseLocation.TextContentAsync().Result, Does.Contain($"{stringCourt}")));
-
-      var caseName = UpdateBookedRecordings._pagesetters.Page.Frame("fullscreen-app-host").Locator(
-        "#publishedCanvas div.canvasContentDiv.container_1vt1y2p div div:nth-child(1) div div div div div");
-      await Task.Run(() => Assert.That(caseName.TextContentAsync().Result, Does.Contain($"{stringCase}")));
-    }
-
-
-    public async Task UpdateCasedef()
-    {
-      await Page.Frame("fullscreen-app-host").ClickAsync(".container_1f0sgyp div:nth-child(2) .react-knockout-control .appmagic-svg");
-      await Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Modify\")");
-      await Page.Frame("fullscreen-app-host").ClickAsync("[aria-label=\"Enter\\ your\\ Defendants\\,\\ comma\\ seperated\"]");
-      await Page.Frame("fullscreen-app-host").FillAsync("[aria-label=\"Enter\\ your\\ Defendants\\,\\ comma\\ seperated\"]", "Updatedef 1,\nUpdatedef 2");
-      var saveButton = UpdateBookedRecordings._pagesetters.Page.Frame("fullscreen-app-host").Locator("div div:nth-child(55)  button");
-      await Task.Run(() => Assert.IsTrue(saveButton.IsEnabledAsync().Result));
-
-      await Task.Run(() => saveButton.ClickAsync());
-
-      var test = UpdateBookedRecordings._pagesetters.Page.Frame("fullscreen-app-host").Locator("[aria-label='Select Scheduled Start Date']");
-      await Task.Run(() => Assert.True(test.IsEnabledAsync().Result));
-      await Task.Run(() => test.ClickAsync());
-    }
-
-    public async Task CheckUpdatedCasedef()
-    {
-      var home = UpdateBookedRecordings._pagesetters.Page.Frame("fullscreen-app-host").Locator("button:has-text(\"Home\")");
-      await Task.Run(() => Assert.True(home.IsEnabledAsync().Result));
-      await Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Home\")");
-
-      var book = UpdateBookedRecordings._pagesetters.Page.Frame("fullscreen-app-host").Locator("button:has-text(\"Book a Recording\")");
-      await Task.Run(() => Assert.True(book.IsEnabledAsync().Result));
-      await Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Book a Recording\")");
-
-
-      var court = UpdateBookedRecordings._pagesetters.Page.Frame("fullscreen-app-host").Locator("[aria-label=\"Select\\ Court\"]");
-      await Task.Run(() => Assert.True(court.IsEnabledAsync().Result));
-      await Page.Frame("fullscreen-app-host").ClickAsync("[aria-label=\"Select\\ Court\"]");
-      await Page.Frame("fullscreen-app-host").ClickAsync($"[aria-label=\"Select\\ Court\\ items\"] div:has-text(\"{stringCourt}\")");
-
-      var caseInput = UpdateBookedRecordings._pagesetters.Page.Frame("fullscreen-app-host")
-        .Locator("[placeholder=\"Case\\ Number\\ \\\\\\ URN\"]");
-      await Task.Run(() => Assert.IsTrue(caseInput.IsVisibleAsync().Result));
-      await Page.IsVisibleAsync("[placeholder=\"Case\\ Number\\ \\\\\\ URN\"]");
-
-      await Page.Frame("fullscreen-app-host").ClickAsync("[placeholder=\"Case\\ Number\\ \\\\\\ URN\"]");
-      await Page.Frame("fullscreen-app-host")
-        .FillAsync("[placeholder=\"Case\\ Number\\ \\\\\\ URN\"]", $"UpdatedefAutoTest{date}");
-        await Page.Frame("fullscreen-app-host").ClickAsync(".container_1f0sgyp div:nth-child(2) .react-knockout-control .appmagic-svg");
-      await Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Modify\")");
-      var defBox = UpdateBookedRecordings._pagesetters.Page.Frame("fullscreen-app-host").Locator(
-        "[aria-label=\"Enter\\ your\\ Defendants\\,\\ comma\\ seperated\"]");
-      await Task.Run(() => Assert.That(defBox.InputValueAsync().Result, Does.Contain("Updatedef 1")));
-      await Task.Run(() => Assert.That(defBox.InputValueAsync().Result, Does.Contain("Updatedef 2")));
-    }
-
-    public async Task SearchupdatedefwitCase()
-    {
-
-      await Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Home\")");
-      await Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Book a Recording\")");
-      await Page.Frame("fullscreen-app-host").ClickAsync("[aria-label=\"Select\\ Court\"]");
-
-      await Page.Frame("fullscreen-app-host")
-        .ClickAsync($"[aria-label=\"Select\\ Court\\ items\"] div:has-text(\"{stringCourt}\")");
-
-      var caseInput = UpdateBookedRecordings._pagesetters.Page.Frame("fullscreen-app-host")
-        .Locator("[placeholder=\"Case\\ Number\\ \\\\\\ URN\"]");
-      await Task.Run(() => Assert.IsTrue(caseInput.IsVisibleAsync().Result));
-      await Page.IsVisibleAsync("[placeholder=\"Case\\ Number\\ \\\\\\ URN\"]");
-
-      await Page.Frame("fullscreen-app-host").ClickAsync("[placeholder=\"Case\\ Number\\ \\\\\\ URN\"]");
-      await Page.Frame("fullscreen-app-host")
-        .FillAsync("[placeholder=\"Case\\ Number\\ \\\\\\ URN\"]", $"{stringCase}");
-    }
-
-    public async Task FindupdatedefwitCase()
-    {
-      var caseLocation = UpdateBookedRecordings._pagesetters.Page.Frame("fullscreen-app-host")
-        .Locator("div.canvasContentDiv.container_1vt1y2p > div > div:nth-child(3)");
-      await Task.Run(() => Assert.That(caseLocation.TextContentAsync().Result, Does.Contain($"{stringCourt}")));
-
-      var caseName = UpdateBookedRecordings._pagesetters.Page.Frame("fullscreen-app-host").Locator(
-        "#publishedCanvas div.canvasContentDiv.container_1vt1y2p div div:nth-child(1) div div div div div");
-      await Task.Run(() => Assert.That(caseName.TextContentAsync().Result, Does.Contain($"{stringCase}")));
-    }
-
-
-
-
-    public async Task UpdateCasedefandwit()
-    {
-      await Page.Frame("fullscreen-app-host").ClickAsync(".container_1f0sgyp div:nth-child(2) .react-knockout-control .appmagic-svg");
-      await Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Modify\")");
-      await Page.Frame("fullscreen-app-host").ClickAsync("[aria-label=\"Enter\\ your\\ Defendants\\,\\ comma\\ seperated\"]");
-      await Page.Frame("fullscreen-app-host").FillAsync("[aria-label=\"Enter\\ your\\ Defendants\\,\\ comma\\ seperated\"]", "Updatedef 1,\nUpdatedef 2");
-      await Page.Frame("fullscreen-app-host").ClickAsync("[aria-label=\"Enter\\ your\\ Witnesses\\,\\ comma\\ seperated\"]");
-      await Page.Frame("fullscreen-app-host").FillAsync("[aria-label=\"Enter\\ your\\ Witnesses\\,\\ comma\\ seperated\"]","UpdateWitness 1,\nUpdateWitness 2");
-      var saveButton = UpdateBookedRecordings._pagesetters.Page.Frame("fullscreen-app-host").Locator("div div:nth-child(55)  button");
-      await Task.Run(() => Assert.IsTrue(saveButton.IsEnabledAsync().Result));
-
-      await Task.Run(() => saveButton.ClickAsync());
-    }
-    public async Task CheckUpdatedCasedefandwit()
-
-    {
-
-      var home = UpdateBookedRecordings._pagesetters.Page.Frame("fullscreen-app-host").Locator("button:has-text(\"Home\")");
-      await Task.Run(() => Assert.That(home.TextContentAsync().Result, Does.Contain("Home")));
-      await Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Home\")");
-
-      var book = UpdateBookedRecordings._pagesetters.Page.Frame("fullscreen-app-host").Locator("button:has-text(\"Book a Recording\")");
-      await Task.Run(() => Assert.That(book.TextContentAsync().Result, Does.Contain("Book a Recording")));
-      await Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Book a Recording\")");
-
-      var court = UpdateBookedRecordings._pagesetters.Page.Frame("fullscreen-app-host").Locator("[aria-label=\"Select\\ Court\"]");
-      await Task.Run(() => Assert.That(court.TextContentAsync().Result, Does.Contain("Court Name")));
-      await Page.Frame("fullscreen-app-host").ClickAsync("[aria-label=\"Select\\ Court\"]");
-
-      await Page.Frame("fullscreen-app-host")
-        .ClickAsync($"[aria-label=\"Select\\ Court\\ items\"] div:has-text(\"{stringCourt}\")");
-
-      var caseInput = UpdateBookedRecordings._pagesetters.Page.Frame("fullscreen-app-host")
-        .Locator("[placeholder=\"Case\\ Number\\ \\\\\\ URN\"]");
-      await Task.Run(() => Assert.IsTrue(caseInput.IsVisibleAsync().Result));
-      await Page.IsVisibleAsync("[placeholder=\"Case\\ Number\\ \\\\\\ URN\"]");
-
-      await Page.Frame("fullscreen-app-host").ClickAsync("[placeholder=\"Case\\ Number\\ \\\\\\ URN\"]");
-      await Page.Frame("fullscreen-app-host")
-        .FillAsync("[placeholder=\"Case\\ Number\\ \\\\\\ URN\"]", $"{stringCase}");
-        await Page.Frame("fullscreen-app-host").ClickAsync(".container_1f0sgyp div:nth-child(2) .react-knockout-control .appmagic-svg");
-      await Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Modify\")");
-
-      var defBox = UpdateBookedRecordings._pagesetters.Page.Frame("fullscreen-app-host").Locator(
-        "[aria-label=\"Enter\\ your\\ Defendants\\,\\ comma\\ seperated\"]");
-      await Task.Run(() => Assert.That(defBox.InputValueAsync().Result, Does.Contain("Updatedef 1")));
-      await Task.Run(() => Assert.That(defBox.InputValueAsync().Result, Does.Contain("Updatedef 2")));
-
-      var WitnessBox = UpdateBookedRecordings._pagesetters.Page.Frame("fullscreen-app-host").Locator(
-        "[aria-label=\"Enter\\ your\\ Witnesses\\,\\ comma\\ seperated\"]");
-      await Task.Run(() => Assert.That(WitnessBox.InputValueAsync().Result, Does.Contain("UpdateWitness 1")));
-      await Task.Run(() => Assert.That(WitnessBox.InputValueAsync().Result, Does.Contain("UpdateWitness 2")));
+        await Task.Run(() => Assert.That(dropdown.AllInnerTextsAsync().Result, Does.Contain("UpdateWitness 1")));
+        await Task.Run(() => Assert.That(dropdown.AllInnerTextsAsync().Result, Does.Contain("UpdateWitness 2")));
+        // await Task.Run(() => Assert.That(dropdown.AllInnerTextsAsync().Result, Does.Not.Contain("Witness surname1")));
+        // await Task.Run(() => Assert.That(dropdown.AllInnerTextsAsync().Result, Does.Not.Contain("Witness surname2")));
+      }
+      else if (UpdateBookedRecordings.use == "D")
+      {
+        await Page.Frame("fullscreen-app-host")
+        .ClickAsync("[aria-label=\"Defendants\\.\\ Selected\\:\\ defendants\\ 1\"]");
+        await Task.Run(() => Assert.That(dropdown.AllInnerTextsAsync().Result, Does.Contain("Updatedef 1")));
+        await Task.Run(() => Assert.That(dropdown.AllInnerTextsAsync().Result, Does.Contain("Updatedef 2")));
+        // await Task.Run(() => Assert.That(dropdown.AllInnerTextsAsync().Result, Does.Not.Contain("defendants 1")));
+        // await Task.Run(() => Assert.That(dropdown.AllInnerTextsAsync().Result, Does.Not.Contain("defendants 2")));
+      }
+      else
+      {
+        await Page.Frame("fullscreen-app-host")
+        .ClickAsync("[aria-label=\"Defendants\\.\\ Selected\\:\\ Witness\\ surname1\"]");
+        await Task.Run(() => Assert.That(dropdown.AllInnerTextsAsync().Result, Does.Contain("UpdateWitness 1")));
+        await Task.Run(() => Assert.That(dropdown.AllInnerTextsAsync().Result, Does.Contain("UpdateWitness 2")));
+        // await Task.Run(() => Assert.That(dropdown.AllInnerTextsAsync().Result, Does.Not.Contain("Witness surname1")));
+        // await Task.Run(() => Assert.That(dropdown.AllInnerTextsAsync().Result, Does.Not.Contain("Witness surname2")));
+        await Page.Frame("fullscreen-app-host")
+          .ClickAsync("text=HMCTS Logo Dev Home Manage Recordings Court Court NameOpen popup to select items");
+        await Page.Frame("fullscreen-app-host")
+          .ClickAsync("[aria-label=\"Defendants\\.\\ Selected\\:\\ defendants\\ 1\"]");
+        await Task.Run(() => Assert.That(dropdown.AllInnerTextsAsync().Result, Does.Contain("Updatedef 1")));
+        await Task.Run(() => Assert.That(dropdown.AllInnerTextsAsync().Result, Does.Contain("Updatedef 2")));
+        // await Task.Run(() => Assert.That(dropdown.AllInnerTextsAsync().Result, Does.Not.Contain("defendants 1")));
+        // await Task.Run(() => Assert.That(dropdown.AllInnerTextsAsync().Result, Does.Not.Contain("defendants 2")));
+      }
 
     }
-   }
+
+
+  }
 }

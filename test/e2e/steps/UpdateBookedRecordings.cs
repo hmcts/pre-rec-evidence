@@ -77,46 +77,49 @@ public async Task GivenIhavebookedacase()
 	await _updatebookedrecording.NavigateToBooking();
     await _updatebookedrecording.BookCase();
     await _updatebookedrecording.ScheduleUpdateRecording();
-    await _updatebookedrecording.SearchupdatedefCase();
-    await _updatebookedrecording.FindupdatedefCase();
+    await _updatebookedrecording.SearchCase();
+    await _updatebookedrecording.FindCase();
 }
 
 [When(@"I enter and save additional defendants")]
 public async Task WhenIenterandsaveadditionaldefendants()
 {
-	await _updatebookedrecording.UpdateCasedef();
+	await _updatebookedrecording.UpdateCase();
+
 }
 
 [Then(@"the case will be updated with additional defendants")]
 public async Task Thenthecasewillbeupdatedwithadditionaldefendants()
 {
-	await _updatebookedrecording.CheckUpdatedCasedef();
+	await _updatebookedrecording.CheckUpdatedCase();
 }
 
 
 [Given(@"I have added a case")]
 public async Task GivenIhaveaddedacase()
 {
+    use = "WD";
 	await _pagesetters.Page.GotoAsync("https://apps.powerapps.com/play/ee7bf58e-99c9-4a34-b57d-7137307231af?tenantId=531ff96d-0ae9-462a-8d2d-bec7c0b42082");
 	await _updatebookedrecording.NavigateToBooking();
     await _updatebookedrecording.BookCase();
     await _updatebookedrecording.ScheduleUpdateRecording();
-    await _updatebookedrecording.SearchupdatedefwitCase();
-    await _updatebookedrecording.FindupdatedefwitCase();
+    await _updatebookedrecording.SearchCase();
+    await _updatebookedrecording.FindCase();
 }
 
 
 [When(@"I enter and save additional defendants and witnesses")]
 public async Task WhenIenterandsaveadditionaldefendantsandwitnesses()
 {
-	await _updatebookedrecording.UpdateCasedefandwit();
+	await _updatebookedrecording.UpdateCase();
+
 }
 
   
 [Then(@"the case will be updated with additional defendants and witnesses")]
 public async Task Thenthecasewillbeupdatedwithadditionaldefendantsandwitnesses()
 {
-	await _updatebookedrecording.CheckUpdatedCasedefandwit();
+	await _updatebookedrecording.CheckUpdatedCase();
 }
       
     }
