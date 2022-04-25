@@ -9,9 +9,8 @@ namespace pre.test.pages
   {
     public static string date = DateTime.UtcNow.ToString("yyyyMMddHHmmss");
 
-    public BookRecording(IPage page) : base(page)
-    {
-    }
+    public BookRecording(IPage page) : base(page) { }
+
 
     public async Task NavigateToBooking()
     {
@@ -119,14 +118,12 @@ namespace pre.test.pages
 
       var caseLocation = BookRecordings._pagesetters.Page.Frame("fullscreen-app-host")
         .Locator("#publishedCanvas div:nth-child(5) div.canvasContentDiv.container_1vt1y2p div:nth-child(3)");
-      await Task.Run(() => Assert.That(caseLocation.TextContentAsync().Result, Does.Contain("Birmingham 01")));
+      await Task.Run(() => Assert.That(caseLocation.TextContentAsync().Result, Does.Contain("Birmingham")));
 
       var caseName = BookRecordings._pagesetters.Page.Frame("fullscreen-app-host").Locator(
         "#publishedCanvas div.canvasContentDiv.container_1vt1y2p div div:nth-child(1) div div div div div");
       await Task.Run(() => Assert.That(caseName.TextContentAsync().Result, Does.Contain($"CaseAutoTest{date}")));
     }
-
-
 
     public async Task SelectCourt()
     {
@@ -138,7 +135,7 @@ namespace pre.test.pages
     {
       var book = BookRecordings._pagesetters.Page.Frame("fullscreen-app-host")
         .Locator("#powerapps-flyout-react-combobox-view-0");
-        
+
       await Page.Frame("fullscreen-app-host")
         .ClickAsync("#powerapps-flyout-react-combobox-view-0:has-text(\"Leeds 01\")");
 

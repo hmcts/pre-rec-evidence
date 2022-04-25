@@ -110,11 +110,11 @@ namespace pre.test.pages
     {
       var caseLocation = UpdateBookedRecordings._pagesetters.Page.Frame("fullscreen-app-host")
         .Locator("div.canvasContentDiv.container_1vt1y2p > div > div:nth-child(3)");
-      await Task.Run(() => Assert.That(caseLocation.TextContentAsync().Result, Does.Contain($"{stringCourt}")));
+      await Task.Run(() => Assert.That(caseLocation.AllInnerTextsAsync().Result, Does.Contain($"{stringCourt.Trim()}")));
 
       var caseName = UpdateBookedRecordings._pagesetters.Page.Frame("fullscreen-app-host").Locator(
-        "#publishedCanvas div.canvasContentDiv.container_1vt1y2p div div:nth-child(1) div div div div div");
-      await Task.Run(() => Assert.That(caseName.TextContentAsync().Result, Does.Contain($"{stringCase.Trim()}")));
+        "div:nth-child(40) div.canvasContentDiv.container_1vt1y2p > div > div:nth-child(1) ");
+      await Task.Run(() => Assert.That(caseName.InnerTextAsync().Result, Does.Contain($"{stringCase.Trim()}")));
     }
     public async Task UpdateCase()
     {
@@ -173,6 +173,7 @@ namespace pre.test.pages
       {
         await Task.Run(() => Assert.That(WitnessBox.InputValueAsync().Result, Does.Contain("UpdateWitness 1")));
         await Task.Run(() => Assert.That(WitnessBox.InputValueAsync().Result, Does.Contain("UpdateWitness 2")));
+        // Bug S28-421 - unskip when resolved
         // await Task.Run(() => Assert.That(WitnessBox.InputValueAsync().Result, Does.Not.Contain("Witness surname1")));
         // await Task.Run(() => Assert.That(WitnessBox.InputValueAsync().Result, Does.Not.Contain("Witness surname2")));
       }
@@ -180,6 +181,7 @@ namespace pre.test.pages
       {
         await Task.Run(() => Assert.That(DefBox.InputValueAsync().Result, Does.Contain("Updatedef 1")));
         await Task.Run(() => Assert.That(DefBox.InputValueAsync().Result, Does.Contain("Updatedef 2")));
+        // Bug S28-421 - unskip when resolved
         // await Task.Run(() => Assert.That(DefBox.InputValueAsync().Result, Does.Not.Contain("defendants 1")));
         // await Task.Run(() => Assert.That(DefBox.InputValueAsync().Result, Does.Not.Contain("defendants 2")));
       }
@@ -187,14 +189,16 @@ namespace pre.test.pages
       {
         await Task.Run(() => Assert.That(WitnessBox.InputValueAsync().Result, Does.Contain("UpdateWitness 1")));
         await Task.Run(() => Assert.That(WitnessBox.InputValueAsync().Result, Does.Contain("UpdateWitness 2")));
+        // Bug S28-421 - unskip when resolved
         // await Task.Run(() => Assert.That(WitnessBox.InputValueAsync().Result, Does.Not.Contain("Witness surname1")));
-      // await Task.Run(() => Assert.That(WitnessBox.InputValueAsync().Result, Does.Not.Contain("Witness surname2")));
+        // await Task.Run(() => Assert.That(WitnessBox.InputValueAsync().Result, Does.Not.Contain("Witness surname2")));
         await Task.Run(() => Assert.That(DefBox.InputValueAsync().Result, Does.Contain("Updatedef 1")));
         await Task.Run(() => Assert.That(DefBox.InputValueAsync().Result, Does.Contain("Updatedef 2")));
+        // Bug S28-421 - unskip when resolved
         // await Task.Run(() => Assert.That(DefBox.InputValueAsync().Result, Does.Not.Contain("defendants 1")));
         // await Task.Run(() => Assert.That(DefBox.InputValueAsync().Result, Does.Not.Contain("defendants 2")));
       }
-      
+
 
       await Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Home\")");
       await Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Manage Recordings\")");
@@ -205,7 +209,7 @@ namespace pre.test.pages
       var updatecaseScheduled = UpdateBookedRecordings._pagesetters.Page.Frame("fullscreen-app-host")
         .Locator($"div.virtualized-gallery:has-text(\"{stringCourt}\")");
       await Task.Run(() =>
-        Assert.That(updatecaseScheduled.TextContentAsync().Result, Does.Contain($"{stringCase}")));
+        Assert.That(updatecaseScheduled.InnerTextAsync().Result, Does.Contain($"{stringCase}")));
       await Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Amend\")");
 
 
@@ -217,6 +221,7 @@ namespace pre.test.pages
         .ClickAsync("[aria-label=\"Defendants\\.\\ Selected\\:\\ Witness\\ surname1\"]");
         await Task.Run(() => Assert.That(dropdown.AllInnerTextsAsync().Result, Does.Contain("UpdateWitness 1")));
         await Task.Run(() => Assert.That(dropdown.AllInnerTextsAsync().Result, Does.Contain("UpdateWitness 2")));
+        // Bug S28-421 - unskip when resolved
         // await Task.Run(() => Assert.That(dropdown.AllInnerTextsAsync().Result, Does.Not.Contain("Witness surname1")));
         // await Task.Run(() => Assert.That(dropdown.AllInnerTextsAsync().Result, Does.Not.Contain("Witness surname2")));
       }
@@ -226,6 +231,7 @@ namespace pre.test.pages
         .ClickAsync("[aria-label=\"Defendants\\.\\ Selected\\:\\ defendants\\ 1\"]");
         await Task.Run(() => Assert.That(dropdown.AllInnerTextsAsync().Result, Does.Contain("Updatedef 1")));
         await Task.Run(() => Assert.That(dropdown.AllInnerTextsAsync().Result, Does.Contain("Updatedef 2")));
+        // Bug S28-421 - unskip when resolved
         // await Task.Run(() => Assert.That(dropdown.AllInnerTextsAsync().Result, Does.Not.Contain("defendants 1")));
         // await Task.Run(() => Assert.That(dropdown.AllInnerTextsAsync().Result, Does.Not.Contain("defendants 2")));
       }
@@ -235,6 +241,7 @@ namespace pre.test.pages
         .ClickAsync("[aria-label=\"Defendants\\.\\ Selected\\:\\ Witness\\ surname1\"]");
         await Task.Run(() => Assert.That(dropdown.AllInnerTextsAsync().Result, Does.Contain("UpdateWitness 1")));
         await Task.Run(() => Assert.That(dropdown.AllInnerTextsAsync().Result, Does.Contain("UpdateWitness 2")));
+        // Bug S28-421 - unskip when resolved
         // await Task.Run(() => Assert.That(dropdown.AllInnerTextsAsync().Result, Does.Not.Contain("Witness surname1")));
         // await Task.Run(() => Assert.That(dropdown.AllInnerTextsAsync().Result, Does.Not.Contain("Witness surname2")));
         await Page.Frame("fullscreen-app-host")
@@ -243,6 +250,7 @@ namespace pre.test.pages
           .ClickAsync("[aria-label=\"Defendants\\.\\ Selected\\:\\ defendants\\ 1\"]");
         await Task.Run(() => Assert.That(dropdown.AllInnerTextsAsync().Result, Does.Contain("Updatedef 1")));
         await Task.Run(() => Assert.That(dropdown.AllInnerTextsAsync().Result, Does.Contain("Updatedef 2")));
+        // Bug S28-421 - unskip when resolved
         // await Task.Run(() => Assert.That(dropdown.AllInnerTextsAsync().Result, Does.Not.Contain("defendants 1")));
         // await Task.Run(() => Assert.That(dropdown.AllInnerTextsAsync().Result, Does.Not.Contain("defendants 2")));
       }
