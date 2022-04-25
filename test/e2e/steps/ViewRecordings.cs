@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using TechTalk.SpecFlow;
 using pre.test.pages;
 using pre.test.Hooks;
+using Microsoft.Extensions.Configuration;
 
 
 namespace pre.test
@@ -11,6 +12,7 @@ namespace pre.test
   {
     public static ViewRecording _viewrecording;
     public static PageSetters _pagesetters;
+
 
     public ViewRecordings(PageSetters pageSetters)
     {
@@ -23,7 +25,7 @@ namespace pre.test
     public async Task NavigateToViewRecordingScreen()
     {
       await _pagesetters.Page.GotoAsync(
-        "https://apps.powerapps.com/play/ee7bf58e-99c9-4a34-b57d-7137307231af?tenantId=531ff96d-0ae9-462a-8d2d-bec7c0b42082");
+        "https://apps.powerapps.com/play/abb08c46-bf74-4873-af2f-0871eed97ee9");
 
       await _viewrecording.NavigateToViewRecording();
     }

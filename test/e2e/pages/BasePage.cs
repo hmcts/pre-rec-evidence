@@ -1,5 +1,4 @@
 using Microsoft.Playwright;
-
 using Xunit;
 
 
@@ -16,6 +15,7 @@ namespace pre.test.pages
 
     protected IPage Page;
 
+
     public BasePage(IPage page) => Page = page;
 
     public IPage GetPage() => Page;
@@ -23,9 +23,7 @@ namespace pre.test.pages
 
 
     public BasePage(Hooks.HooksInitializer fixture)
-
     {
-
       this.fixture = fixture;
     }
   }

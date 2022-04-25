@@ -24,7 +24,7 @@ namespace pre.test
     public async Task NavigateToBookingScreen()
     {
       await _pagesetters.Page.GotoAsync(
-        "https://apps.powerapps.com/play/ee7bf58e-99c9-4a34-b57d-7137307231af?tenantId=531ff96d-0ae9-462a-8d2d-bec7c0b42082");
+        "https://apps.powerapps.com/play/abb08c46-bf74-4873-af2f-0871eed97ee9");
       await _bookrecording.NavigateToBooking();
     }
 
@@ -47,7 +47,7 @@ namespace pre.test
 
     {
       await _pagesetters.Page.GotoAsync(
-        "https://apps.powerapps.com/play/ee7bf58e-99c9-4a34-b57d-7137307231af?tenantId=531ff96d-0ae9-462a-8d2d-bec7c0b42082");
+        "https://apps.powerapps.com/play/abb08c46-bf74-4873-af2f-0871eed97ee9");
       await _bookrecording.NavigateToBooking();
     }
 
@@ -69,7 +69,7 @@ namespace pre.test
     public async Task GivenIneedtoenteracourtname()
     {
       await _pagesetters.Page.GotoAsync(
-        "https://apps.powerapps.com/play/ee7bf58e-99c9-4a34-b57d-7137307231af?tenantId=531ff96d-0ae9-462a-8d2d-bec7c0b42082");
+        "https://apps.powerapps.com/play/abb08c46-bf74-4873-af2f-0871eed97ee9");
       await _bookrecording.NavigateToBooking();
 
     }
