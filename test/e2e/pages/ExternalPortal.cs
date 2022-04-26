@@ -18,8 +18,6 @@ namespace pre.test.pages
     protected string caseName = "AUTOMATEDTESTRECORDINGDONOTDELETE";
     protected string witnessName = "null";
     protected string UpdatedWitnessName = "null";
-    protected string courtName = "null";
-    protected string UpdatedCourtName = "null";
 
     public async Task PortalLogin()
     {
@@ -40,10 +38,6 @@ namespace pre.test.pages
       witnessName = witness.TextContentAsync().Result.ToString().Trim();
       witnessName = witnessName.Substring(witnessName.LastIndexOf(':') + 1);
 
-      var court = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div.canvasContentDiv.container_1vt1y2p > div > div:nth-child(4)");
-      courtName = court.TextContentAsync().Result.ToString().Trim();
-      courtName = courtName.Substring(courtName.LastIndexOf(':') + 1);
-
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Recording Gallery\"] button:has-text(\"Manage\")").ClickAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Share\")").ClickAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Find Users to Share Recording\"]").ClickAsync();
@@ -51,6 +45,8 @@ namespace pre.test.pages
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"li[role='option'] >> text={emailToShare}").ClickAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=HMCTS Logo Dev Home Manage Recordings Court Court NameOpen popup to select items").ClickAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Grant Access\")").ClickAsync();
+
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Home\")").ClickAsync();
     }
 
     public async Task ViewRecording()
@@ -70,6 +66,7 @@ namespace pre.test.pages
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Recording Gallery\"] button:has-text(\"Manage\")").ClickAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"[aria-label=\"Recordings Gallery\"] div:has-text(\"Item 1. Selected. {emailToShare}\")").Nth(1).ClickAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Cases Gallery\"]").ClickAsync();
+      
       var emailsSharedWith = ExternalPortals._pagesetters.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Recordings Gallery\"] div").Nth(1);/*  */
       await Task.Run(() => Assert.That(emailsSharedWith.TextContentAsync().Result, Does.Not.Contain($"{emailToShare}")));
     }
@@ -95,11 +92,6 @@ namespace pre.test.pages
     //   // bug S28-419 - once fixed add an assertion to check for the message
     // }
 
-    public async Task checkCourts()
-    {
-      var table = ExternalPortals._pagesetters.Page.Locator(".xrm-attribute-value div:nth-child(4)");
-      await Task.Run(() => Assert.That(table.InnerTextAsync().Result, Does.Contain($"{courtName.Trim()}")));
-    }
     public async Task checkWitnesses()
     {
       var table = ExternalPortals._pagesetters.Page.Locator(".xrm-attribute-value div:nth-child(4)");
