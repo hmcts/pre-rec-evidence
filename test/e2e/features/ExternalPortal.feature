@@ -29,3 +29,12 @@ Scenario: View shared recording details
 #   When I go to the portal
 #   Then I can see the updated witness name 
 #   Then the recording is unshared and no longer visible
+
+# #check recording uid from admin page - waiting for a search to be implemented for the manage case page
+# Scenario: View shared recording id
+#   Given there have been recordings shared with me
+#   When I go to Manage cases
+#   Then I can find the recording id
+#   When I go to the portal
+# #  Then I can view the recording uid
+#   Then the recording is unshared and no longer visible

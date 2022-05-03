@@ -29,6 +29,7 @@ namespace pre.test
       await _externalPortal.ShareCase();
     }
 
+
     [When(@"I go to the portal")]
     public async Task NavigateToPortal()
     {
@@ -43,6 +44,7 @@ namespace pre.test
     public async Task ViewSharedRecording()
     {
       await _externalPortal.ViewRecording();
+      await _externalPortal.checkCourt();
     }
 
     [Then(@"the recording is unshared and no longer visible")]
@@ -96,6 +98,18 @@ namespace pre.test
     }
 
 
+    [When(@"I go to Manage cases")]
+    public async Task WhenIgotoManagecases()
+    {
+      await _externalPortal.goToManageCases();
+    }
+
+
+    [Then(@"I can find the recording id")]
+    public async Task ThenIcanfindtherecordingid()
+    {
+      await _externalPortal.findRecordingId();
+    }
 
 
   }
