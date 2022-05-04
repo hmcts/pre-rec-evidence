@@ -23,8 +23,8 @@ namespace pre.test
     [Given(@"user on Book recording screen")]
     public async Task NavigateToBookingScreen()
     {
-      await _pagesetters.Page.GotoAsync(
-        "https://apps.powerapps.com/play/abb08c46-bf74-4873-af2f-0871eed97ee9");
+       // using sandbox url until environments are aligned, update to test in future
+      await _pagesetters.Page.GotoAsync("https://apps.powerapps.com/play/97f0b518-0111-4c1e-9bbf-4bca71b82b84");
       await _bookrecording.NavigateToBooking();
     }
 
@@ -46,8 +46,8 @@ namespace pre.test
     public async Task GivenuseronSchedulepage()
 
     {
-      await _pagesetters.Page.GotoAsync(
-        "https://apps.powerapps.com/play/abb08c46-bf74-4873-af2f-0871eed97ee9");
+       // using sandbox url until environments are aligned, update to test in future
+      await _pagesetters.Page.GotoAsync("https://apps.powerapps.com/play/97f0b518-0111-4c1e-9bbf-4bca71b82b84");
       await _bookrecording.NavigateToBooking();
     }
 
@@ -84,6 +84,22 @@ namespace pre.test
     public async Task ThenIampresentedonlywithMVPcourtnames()
     {
       await _bookrecording.CheckCourt();
+    }
+
+
+    [When(@"I select a date in the past")]
+    public async Task WhenIselectadateinthepast()
+    {
+      use = "PastDate";
+      await _bookrecording.EnterCaseDetails();
+      await _bookrecording.selectPastDate();
+    }
+
+
+    [Then(@"an error message is displayed")]
+    public async Task Thenanerrormessageisdisplayed()
+    {
+      await _bookrecording.pastDateErrorMessage();
     }
   }
 }

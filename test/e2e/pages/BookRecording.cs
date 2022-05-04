@@ -11,6 +11,15 @@ namespace pre.test.pages
 
     public BookRecording(IPage page) : base(page) { }
 
+    protected string day = DateTime.UtcNow.ToString("ddd");
+    protected string yesterday = ((DateTime.UtcNow.AddDays(-1)).ToString("ddd"));
+    protected string month = DateTime.UtcNow.ToString("MMM");
+    protected string yesterMonth = ((DateTime.UtcNow.AddDays(-1)).ToString("MMM"));
+    protected string dateNum = DateTime.UtcNow.ToString("dd");
+    protected string yesterDateNum = ((DateTime.UtcNow.AddDays(-1)).ToString("dd"));
+    protected string year = DateTime.UtcNow.ToString("yyyy");
+    protected string yesterYear = ((DateTime.UtcNow.AddDays(-1)).ToString("yyyy"));
+
 
     public async Task NavigateToBooking()
     {
@@ -36,9 +45,15 @@ namespace pre.test.pages
           .FillAsync("[placeholder=\"Case\\ Number\\ \\\\\\ URN\"]", $"CaseAutoTest{date}");
       }
 
+      if (BookRecordings.use == "PastDate")
+      {
+        await Page.Frame("fullscreen-app-host")
+          .FillAsync("[placeholder=\"Case\\ Number\\ \\\\\\ URN\"]", $"PastDateAutoTest{date}");
+      }
+
       await Page.Frame("fullscreen-app-host").ClickAsync("[aria-label=\"Select\\ Court\"]");
       await Page.Frame("fullscreen-app-host")
-        .ClickAsync("[aria-label=\"Select\\ Court\\ items\"] div:has-text(\"Birmingham\")");
+        .ClickAsync("[aria-label=\"Select\\ Court\\ items\"] div:has-text(\"Leeds\")");
       await Page.Frame("fullscreen-app-host")
         .ClickAsync("[aria-label=\"Enter\\ your\\ Defendants\\,\\ comma\\ seperated\"]");
       await Page.Frame("fullscreen-app-host")
@@ -53,13 +68,9 @@ namespace pre.test.pages
 
     public async Task ScheduleRecording()
     {
-      var day = DateTime.UtcNow.ToString("ddd");
-      var month = DateTime.UtcNow.ToString("MMM");
-      var date = DateTime.UtcNow.ToString("dd");
-      var year = DateTime.UtcNow.ToString("yyyy");
       await Page.Frame("fullscreen-app-host")
         .ClickAsync("[aria-label=\"Select\\ Scheduled\\ Start\\ DateOpen\\ calendar\\ to\\ select\\ a\\ date\"]");
-      await Page.Frame("fullscreen-app-host").ClickAsync($"[aria-label=\"{day}\\ {month}\\ {date}\\ {year}\"]");
+      await Page.Frame("fullscreen-app-host").ClickAsync($"[aria-label=\"{day}\\ {month}\\ {dateNum}\\ {year}\"]");
       await Page.Frame("fullscreen-app-host").ClickAsync("button[role='button']:has-text(\"Ok\")");
       await Page.Frame("fullscreen-app-host").ClickAsync("[aria-label=\"Select\\ your\\ Witness\"]");
       await Page.Frame("fullscreen-app-host")
@@ -73,13 +84,7 @@ namespace pre.test.pages
     public async Task CheckCaseScheduled()
     {
       await Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Home\")");
-
-      var manage = BookRecordings._pagesetters.Page.Frame("fullscreen-app-host")
-        .Locator("button:has-text(\"Manage Recordings\")");
-
-      await Task.Run(() => manage.IsVisibleAsync().Result);
-
-      await Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Manage Recordings\")");
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Manage Recordings\")").Nth(1).ClickAsync();
       await Page.Frame("fullscreen-app-host").ClickAsync("[placeholder=\"Search\\ Case\\ Ref\"]");
       await Page.Frame("fullscreen-app-host")
         .FillAsync("[placeholder=\"Search\\ Case\\ Ref\"] ", $"ScheduleAutoTest{date}");
@@ -105,24 +110,19 @@ namespace pre.test.pages
       await Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Book a Recording\")");
       await Page.Frame("fullscreen-app-host").ClickAsync("[aria-label=\"Select\\ Court\"]");
       await Page.Frame("fullscreen-app-host")
-        .ClickAsync("[aria-label=\"Select\\ Court\\ items\"] div:has-text(\"Birmingham\")");
-
-      var caseInput = BookRecordings._pagesetters.Page.Frame("fullscreen-app-host")
-        .Locator("[placeholder=\"Case\\ Number\\ \\\\\\ URN\"]");
-      await Task.Run(() => Assert.IsTrue(caseInput.IsVisibleAsync().Result));
-      await Page.IsVisibleAsync("[placeholder=\"Case\\ Number\\ \\\\\\ URN\"]");
+        .ClickAsync("[aria-label=\"Select\\ Court\\ items\"] div:has-text(\"Leeds\")");
 
       await Page.Frame("fullscreen-app-host").ClickAsync("[placeholder=\"Case\\ Number\\ \\\\\\ URN\"]");
       await Page.Frame("fullscreen-app-host")
         .FillAsync("[placeholder=\"Case\\ Number\\ \\\\\\ URN\"]", $"CaseAutoTest{date}");
 
       var caseLocation = BookRecordings._pagesetters.Page.Frame("fullscreen-app-host")
-        .Locator("#publishedCanvas div:nth-child(5) div.canvasContentDiv.container_1vt1y2p div:nth-child(3)");
-      await Task.Run(() => Assert.That(caseLocation.TextContentAsync().Result, Does.Contain("Birmingham")));
+        .Locator("#publishedCanvas div:nth-child(5) div.canvasContentDiv.container_1vt1y2p div:nth-child(3)").First;
+      await Task.Run(() => Assert.That(caseLocation.TextContentAsync().Result.Trim(), Does.Contain("Leeds")));
 
       var caseName = BookRecordings._pagesetters.Page.Frame("fullscreen-app-host").Locator(
         "#publishedCanvas div.canvasContentDiv.container_1vt1y2p div div:nth-child(1) div div div div div");
-      await Task.Run(() => Assert.That(caseName.TextContentAsync().Result, Does.Contain($"CaseAutoTest{date}")));
+      await Task.Run(() => Assert.That(caseName.AllTextContentsAsync().Result, Does.Contain($"CaseAutoTest{date}")));
     }
 
     public async Task SelectCourt()
@@ -148,11 +148,24 @@ namespace pre.test.pages
         .FillAsync("[placeholder=\"Case\\ Number\\ \\\\\\ URN\"]", $"AutoTest{date}");
       await Page.Frame("fullscreen-app-host").ClickAsync("[aria-label=\"Select\\ Court\"]");
       await Page.Frame("fullscreen-app-host")
-        .ClickAsync("[aria-label=\"Select\\ Court\\ items\"] div:has-text(\"Birmingham\")");
+        .ClickAsync("[aria-label=\"Select\\ Court\\ items\"] div:has-text(\"Leeds\")");
       await Page.Frame("fullscreen-app-host")
         .ClickAsync("[aria-label=\"Enter\\ your\\ Defendants\\,\\ comma\\ seperated\"]");
       await Page.Frame("fullscreen-app-host")
         .FillAsync("[aria-label=\"Enter\\ your\\ Defendants\\,\\ comma\\ seperated\"]", "defendants 1,\ndefendants 2");
+    }
+
+    public async Task selectPastDate()
+    {
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Select Scheduled Start DateOpen calendar to select a date\"]").ClickAsync();
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"[aria-label=\"{yesterday} {yesterMonth} {yesterDateNum} {yesterYear}\"]").ClickAsync();
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button[role=\"button\"]:has-text(\"Ok\")").ClickAsync();
+    }
+
+    public async Task pastDateErrorMessage()
+    {
+      var error = Page.Locator("text=You can't select a date in the past");
+      await Task.Run(() => Assert.IsTrue(error.IsVisibleAsync().Result));
     }
   }
 }

@@ -12,6 +12,11 @@ Scenario: Arrange a schedule
  When i fill required data for creating recording
  Then schedules will be created
 
+ Scenario: Scheduling recording in the past error message
+ Given user on Schedule page
+ When I select a date in the past
+ Then an error message is displayed
+
 # Bug - will be fixed for MVP
 # Scenario: Check Courts
 #   Given I need to enter a court name
