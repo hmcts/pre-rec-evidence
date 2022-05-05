@@ -55,8 +55,44 @@ namespace pre.test
       await _manageCase.revertCourt();
     }
 
+    [Then(@"the court will be updated in book recordings")]
+    public async Task Thenthecourtwillbeupdatedinbookrecordings()
+    {
+      await _manageCase.checkCourtBookRecordings();
+    }
 
 
+    [When(@"I update the scheduled date on a recording")]
+    public async Task WhenIupdatethescheduleddateonarecording()
+    {
+      await _manageCase.updateDate();
+    }
 
+
+    [Then(@"the scheduled date will be updated in book recordings")]
+    public async Task Thenthescheduleddatewillbeupdatedinbookrecordings()
+    {
+      await _manageCase.checkDateBookRecordings();
+    }
+
+
+    [Then(@"the scheduled date will be updated in manage recordings")]
+    public async Task Thenthescheduleddatewillbeupdatedinmanagerecordings()
+    {
+      await _manageCase.checkDateManageRecordings();
+    }
+
+
+    [Then(@"the scheduled date will be updated in view recordings")]
+    public async Task Thenthescheduleddatewillbeupdatedinviewrecordings()
+    {
+      await _manageCase.checkDateViewRecordings();
+    }
+
+    [Then(@"I will update the scheduled date back to the original scheduled date")]
+    public async Task ThenIwillupdatethescheduleddatebacktotheoriginalscheduleddate()
+    {
+      await _manageCase.revertDate();
+    }
   }
 }
