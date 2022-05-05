@@ -112,7 +112,6 @@ namespace pre.test.pages
       await Page.Frame("fullscreen-app-host")
         .ClickAsync("[aria-label=\"Select\\ Court\\ items\"] div:has-text(\"Leeds\")");
 
-      await Page.Frame("fullscreen-app-host").ClickAsync("[placeholder=\"Case\\ Number\\ \\\\\\ URN\"]");
       await Page.Frame("fullscreen-app-host")
         .FillAsync("[placeholder=\"Case\\ Number\\ \\\\\\ URN\"]", $"CaseAutoTest{date}");
 
