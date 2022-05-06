@@ -19,16 +19,7 @@ namespace pre.test
     }
 
 
-    [Given(@"I am on manage cases")]
-    public async Task GivenIamonmanagecases()
-    {
-      // using sandbox url until environments are aligned, update to test in future
-      await _pagesetters.Page.GotoAsync("https://apps.powerapps.com/play/97f0b518-0111-4c1e-9bbf-4bca71b82b84");
-      await _manageCase.goToManageCase();
-    }
-
-
-    [When(@"I update the court on a case")]
+    [Given(@"I update the court on a case")]
     public async Task WhenIupdatethecourtonacase()
     {
       await _manageCase.updateCourt();
@@ -49,12 +40,6 @@ namespace pre.test
     }
 
 
-    [Then(@"I will update the court back to the original court")]
-    public async Task ThenIwillupdatethecourtbacktotheoriginalcourt()
-    {
-      await _manageCase.revertCourt();
-    }
-
     [Then(@"the court will be updated in book recordings")]
     public async Task Thenthecourtwillbeupdatedinbookrecordings()
     {
@@ -62,7 +47,7 @@ namespace pre.test
     }
 
 
-    [When(@"I update the scheduled date on a recording")]
+    [Given(@"I update the scheduled date on a recording")]
     public async Task WhenIupdatethescheduleddateonarecording()
     {
       await _manageCase.updateDate();
@@ -89,10 +74,5 @@ namespace pre.test
       await _manageCase.checkDateViewRecordings();
     }
 
-    [Then(@"I will update the scheduled date back to the original scheduled date")]
-    public async Task ThenIwillupdatethescheduleddatebacktotheoriginalscheduleddate()
-    {
-      await _manageCase.revertDate();
-    }
   }
 }

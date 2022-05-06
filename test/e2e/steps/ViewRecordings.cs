@@ -20,17 +20,7 @@ namespace pre.test
       _viewrecording = new ViewRecording(_pagesetters.Page);
     }
 
-    [Given(@"I am watching a recording")]
-    [Given(@"I am on the view recording page")]
-    public async Task NavigateToViewRecordingScreen()
-    {
-      await _pagesetters.Page.GotoAsync(
-        "https://apps.powerapps.com/play/abb08c46-bf74-4873-af2f-0871eed97ee9");
-
-      await _viewrecording.NavigateToViewRecording();
-    }
-
-    [When(@"I search for a case reference")]
+    [Given(@"I search for a case reference")]
     public async Task FindCaseAndSearch()
     {
       await _viewrecording.FindCaseToView();
@@ -42,14 +32,14 @@ namespace pre.test
       await _viewrecording.CheckSearch();
     }
 
-    [When(@"I turn off the timestamp")]
+    [Given(@"I turn off the timestamp")]
     public async Task SwitchOffTimestamp()
     {
       await _viewrecording.SwitchTimestamp();
       await _viewrecording.SwitchTimestamp();
     }
 
-    [When(@"I turn on the timestamp")]
+    [Given(@"I turn on the timestamp")]
     public async Task SwitchOnTimestamp()
     {
       await _viewrecording.SwitchTimestamp();

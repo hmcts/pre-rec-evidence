@@ -2,9 +2,10 @@ Feature: Update Booked Recording
 In order to update existing cases
 I want to update witnesses and defendents
 
+# Ayisha to add before and after steps to this feature as she has most updated tests on her branch
+
 Scenario: Search Case
-  Given I am on the book recordings page and I want to find an existing case
-  When I want to find an existing Cases and enter the case reference 
+  Given I am on the book recordings page and I want to find an existing cas  When I want to find an existing Cases and enter the case reference 
   Then the application will check if the case reference already exists
 
 Scenario: Update Case

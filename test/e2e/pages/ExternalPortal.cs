@@ -13,65 +13,20 @@ namespace pre.test.pages
     .Build();
     public ExternalPortal(IPage page) : base(page) { }
     public static string date = DateTime.UtcNow.ToString("yyyyMMddHHmmss");
-    protected string emailToShare = config["portalEmail"];
-    protected string emailPassword = config["portalPassword"];
-    protected string caseName = "AUTOMATEDTESTRECORDINGDONOTDELETE";
-    protected string witnessName = "null";
+    public static string emailToShare = config["portalEmail"];
+    public static string emailPassword = config["portalPassword"];
+    public static string caseName = "AUTOMATEDTESTRECORDINGDONOTDELETE";
+    public static string witnessName = "null";
     protected string UpdatedWitnessName = "null";
     protected string courtName = "null";
-
-    public async Task PortalLogin()
-    {
-
-      await Page.Locator("input[name=\"Email\"]").ClickAsync();
-      await Page.Locator("input[name=\"Email\"]").FillAsync($"{emailToShare}");
-      await Page.Locator("input[name=\"PasswordValue\"]").ClickAsync();
-      await Page.Locator("input[name=\"PasswordValue\"]").FillAsync($"{emailPassword}");
-      await Page.Locator("input[name=\"PasswordValue\"]").PressAsync("Enter");
-    }
-    public async Task ShareCase()
-    {
-      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Manage Recordings\")").ClickAsync();
-      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Search Case Ref\"]").ClickAsync();
-      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Search Case Ref\"]").FillAsync($"{caseName}");
-
-      var witness = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div.canvasContentDiv.container_1vt1y2p > div > div:nth-child(5)");
-      witnessName = witness.TextContentAsync().Result.ToString().Trim();
-      witnessName = witnessName.Substring(witnessName.LastIndexOf(':') + 1);
-
-      var court = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div.canvasContentDiv.container_1vt1y2p > div > div:nth-child(4)");
-      courtName = court.TextContentAsync().Result.ToString().Trim();
-      courtName = courtName.Substring(courtName.LastIndexOf(':') + 1);
-
-      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Recording Gallery\"] button:has-text(\"Manage\")").ClickAsync();
-      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Share\")").ClickAsync();
-      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Find Users to Share Recording\"]").ClickAsync();
-      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Find items\"]").FillAsync($"{emailToShare}");
-      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"li[role='option'] >> text={emailToShare}").ClickAsync();
-      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=HMCTS Logo Dev Home Manage Recordings Court Court NameOpen popup to select items").ClickAsync();
-      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Grant Access\")").ClickAsync();
-
-      var shared = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=sharepretest@gmail.com");
-      bool flag = await Task.Run(() => shared.IsVisibleAsync().Result);
-      while (flag == false)
-      {
-        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Recording Gallery\"] button:has-text(\"Manage\")").ClickAsync();
-        flag = await Task.Run(() => shared.IsVisibleAsync().Result);
-        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Close Manage Sessions\"]").Nth(1).ClickAsync();
-      }
-
-    }
-
     public async Task ViewRecording()
     {
       var tableCaseRef = Page.Locator($"text={caseName}");
       await Task.Run(() => Assert.IsTrue(tableCaseRef.IsVisibleAsync().Result));
       await Task.Run(() => tableCaseRef.ClickAsync());
-      var Status = Page.Locator("text=Requesting Video");
-      await Task.Run(() => Assert.IsTrue(Status.IsVisibleAsync().Result));
     }
 
-    public async Task UnShareCase()
+    public async Task StatusChange()
     {
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Manage Recordings\")").ClickAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Search Case Ref\"]").ClickAsync();

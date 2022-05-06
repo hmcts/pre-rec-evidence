@@ -20,16 +20,7 @@ namespace pre.test
     }
 
 
-    [Given(@"user on Book recording screen")]
-    public async Task NavigateToBookingScreen()
-    {
-      // using sandbox url until environments are aligned, update to test in future
-      await _pagesetters.Page.GotoAsync("https://apps.powerapps.com/play/97f0b518-0111-4c1e-9bbf-4bca71b82b84");
-      await _bookrecording.NavigateToBooking();
-    }
-
-
-    [When(@"all fields entered and click save")]
+    [Given(@"all fields entered and click save")]
     public async Task Whenallfieldsenteredandclicksave()
     {
       use = "Case";
@@ -42,16 +33,7 @@ namespace pre.test
       await _bookrecording.CheckCaseCreated();
     }
 
-    [Given(@"user on Schedule page")]
-    public async Task GivenuseronSchedulepage()
-
-    {
-      // using sandbox url until environments are aligned, update to test in future
-      await _pagesetters.Page.GotoAsync("https://apps.powerapps.com/play/97f0b518-0111-4c1e-9bbf-4bca71b82b84");
-      await _bookrecording.NavigateToBooking();
-    }
-
-    [When(@"i fill required data for creating recording")]
+    [Given(@"i fill required data for creating recording")]
     public async Task Whenifillrequireddataforcreatingrecording()
     {
       use = "Schedule";
@@ -65,16 +47,7 @@ namespace pre.test
       await _bookrecording.CheckCaseScheduled();
     }
 
-    [Given(@"I need to enter a court name")]
-    public async Task GivenIneedtoenteracourtname()
-    {
-      await _pagesetters.Page.GotoAsync(
-        "https://apps.powerapps.com/play/abb08c46-bf74-4873-af2f-0871eed97ee9");
-      await _bookrecording.NavigateToBooking();
-
-    }
-
-    [When(@"I select a court name")]
+    [Given(@"I select a court name")]
     public async Task WhenIselectacourtname()
     {
       await _bookrecording.SelectCourt();
@@ -87,7 +60,7 @@ namespace pre.test
     }
 
 
-    [When(@"I select a date in the past")]
+    [Given(@"I select a date in the past")]
     public async Task WhenIselectadateinthepast()
     {
       use = "PastDate";

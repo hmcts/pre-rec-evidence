@@ -23,15 +23,6 @@ namespace pre.test.pages
     protected string witnessName = "Witness surname";
     protected string defendantName = "defendants 1";
 
-    public async Task NavigateToBooking()
-    {
-      var book = BookRecordings._pagesetters.Page.Frame("fullscreen-app-host")
-        .Locator("button:has-text(\"Book a Recording\")");
-
-      await Task.Run(() => book.IsVisibleAsync().Result);
-      await Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Book a Recording\")");
-    }
-
     public async Task EnterCaseDetails()
     {
       await Page.Frame("fullscreen-app-host").ClickAsync("[placeholder=\"Case\\ Number\\ \\\\\\ URN\"]");
