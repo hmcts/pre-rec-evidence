@@ -10,6 +10,7 @@ Scenario: Create Case
 Scenario: Arrange a schedule
  Given user on Schedule page
  When i fill required data for creating recording
+ Then the recordings box is filled
  Then schedules will be created
 
  Scenario: Scheduling recording in the past error message

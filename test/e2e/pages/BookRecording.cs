@@ -14,12 +14,14 @@ namespace pre.test.pages
     protected string day = DateTime.UtcNow.ToString("ddd");
     protected string yesterday = ((DateTime.UtcNow.AddDays(-1)).ToString("ddd"));
     protected string month = DateTime.UtcNow.ToString("MMM");
+    protected string monthNum = DateTime.UtcNow.ToString("MM");
     protected string yesterMonth = ((DateTime.UtcNow.AddDays(-1)).ToString("MMM"));
     protected string dateNum = DateTime.UtcNow.ToString("dd");
     protected string yesterDateNum = ((DateTime.UtcNow.AddDays(-1)).ToString("dd"));
     protected string year = DateTime.UtcNow.ToString("yyyy");
     protected string yesterYear = ((DateTime.UtcNow.AddDays(-1)).ToString("yyyy"));
-
+    protected string witnessName = "Witness surname";
+    protected string defendantName = "defendants 1";
 
     public async Task NavigateToBooking()
     {
@@ -57,12 +59,12 @@ namespace pre.test.pages
       await Page.Frame("fullscreen-app-host")
         .ClickAsync("[aria-label=\"Enter\\ your\\ Defendants\\,\\ comma\\ seperated\"]");
       await Page.Frame("fullscreen-app-host")
-        .FillAsync("[aria-label=\"Enter\\ your\\ Defendants\\,\\ comma\\ seperated\"]", "defendants 1,\ndefendants 2");
+        .FillAsync("[aria-label=\"Enter\\ your\\ Defendants\\,\\ comma\\ seperated\"]", $"{defendantName},\n{defendantName}2");
       await Page.Frame("fullscreen-app-host")
         .ClickAsync("[aria-label=\"Enter\\ your\\ Witnesses\\,\\ comma\\ seperated\"]");
       await Page.Frame("fullscreen-app-host")
         .FillAsync("[aria-label=\"Enter\\ your\\ Witnesses\\,\\ comma\\ seperated\"]",
-          "Witness surname,\nWitness surname");
+          $"{witnessName},\n{witnessName}2");
       await Page.Frame("fullscreen-app-host").ClickAsync(":nth-match(button:has-text(\"Save\"), 2)");
     }
 
@@ -74,10 +76,10 @@ namespace pre.test.pages
       await Page.Frame("fullscreen-app-host").ClickAsync("button[role='button']:has-text(\"Ok\")");
       await Page.Frame("fullscreen-app-host").ClickAsync("[aria-label=\"Select\\ your\\ Witness\"]");
       await Page.Frame("fullscreen-app-host")
-        .ClickAsync("[aria-label=\"Select\\ your\\ Witness\\ items\"] div:has-text(\"Witness surname\")");
+        .ClickAsync($"[aria-label=\"Select\\ your\\ Witness\\ items\"] div:has-text(\"{witnessName}\")");
       await Page.Frame("fullscreen-app-host").ClickAsync("[aria-label=\"Select\\ your\\ Defendants\"]");
       await Page.Frame("fullscreen-app-host")
-        .ClickAsync("[aria-label=\"Select\\ your\\ Defendants\\ items\"] div:has-text(\"defendants 1\")");
+        .ClickAsync($"[aria-label=\"Select\\ your\\ Defendants\\ items\"] div:has-text(\"{defendantName}\")");
       await Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Save\")");
     }
 
@@ -151,7 +153,7 @@ namespace pre.test.pages
       await Page.Frame("fullscreen-app-host")
         .ClickAsync("[aria-label=\"Enter\\ your\\ Defendants\\,\\ comma\\ seperated\"]");
       await Page.Frame("fullscreen-app-host")
-        .FillAsync("[aria-label=\"Enter\\ your\\ Defendants\\,\\ comma\\ seperated\"]", "defendants 1,\ndefendants 2");
+        .FillAsync("[aria-label=\"Enter\\ your\\ Defendants\\,\\ comma\\ seperated\"]", $"{defendantName},\n{defendantName}2");
     }
 
     public async Task selectPastDate()
@@ -165,6 +167,20 @@ namespace pre.test.pages
     {
       var error = Page.Locator("text=You can't select a date in the past");
       await Task.Run(() => Assert.IsTrue(error.IsVisibleAsync().Result));
+    }
+
+    public async Task checkRecordingBox()
+    {
+      var dateLocator = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text=Recording Start: {dateNum}/{monthNum}/{year}");
+      await Task.Run(() => Assert.IsTrue(dateLocator.IsVisibleAsync().Result));
+      var witnessLocator = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text=Witness Name: {witnessName}");
+      await Task.Run(() => Assert.IsTrue(witnessLocator.IsVisibleAsync().Result));
+      var defendantLocator = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text=Defendants: {defendantName}");
+      await Task.Run(() => Assert.IsTrue(defendantLocator.IsVisibleAsync().Result));
+      var deleteLocator = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Delete Recording\"]");
+      await Task.Run(() => Assert.IsTrue(deleteLocator.IsVisibleAsync().Result));
+      var refreshLocator = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Refresh Recordings\"]");
+      await Task.Run(() => Assert.IsTrue(refreshLocator.IsVisibleAsync().Result));
     }
   }
 }

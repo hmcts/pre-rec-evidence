@@ -23,7 +23,7 @@ namespace pre.test
     [Given(@"user on Book recording screen")]
     public async Task NavigateToBookingScreen()
     {
-       // using sandbox url until environments are aligned, update to test in future
+      // using sandbox url until environments are aligned, update to test in future
       await _pagesetters.Page.GotoAsync("https://apps.powerapps.com/play/97f0b518-0111-4c1e-9bbf-4bca71b82b84");
       await _bookrecording.NavigateToBooking();
     }
@@ -46,7 +46,7 @@ namespace pre.test
     public async Task GivenuseronSchedulepage()
 
     {
-       // using sandbox url until environments are aligned, update to test in future
+      // using sandbox url until environments are aligned, update to test in future
       await _pagesetters.Page.GotoAsync("https://apps.powerapps.com/play/97f0b518-0111-4c1e-9bbf-4bca71b82b84");
       await _bookrecording.NavigateToBooking();
     }
@@ -101,5 +101,13 @@ namespace pre.test
     {
       await _bookrecording.pastDateErrorMessage();
     }
+
+
+    [Then(@"the recordings box is filled")]
+    public async Task Thentherecordingsboxisfilled()
+    {
+      await _bookrecording.checkRecordingBox();
+    }
+
   }
 }
