@@ -6,9 +6,9 @@ using System.Globalization;
 
 namespace pre.test.pages
 {
-  public class ManageCase : BasePage
+  public class AdminManageCase : BasePage
   {
-    public ManageCase(IPage page) : base(page) { }
+    public AdminManageCase(IPage page) : base(page) { }
     public static String caseRef = "";
     public static String court = "";
     public static String newCourt = "";

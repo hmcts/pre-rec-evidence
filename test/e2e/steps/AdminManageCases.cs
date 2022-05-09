@@ -7,15 +7,15 @@ using pre.test.Hooks;
 namespace pre.test
 {
   [Binding]
-  public class ManageCases
+  public class AdminManageCases
   {
-    public static ManageCase _manageCase;
+    public static AdminManageCase _manageCase;
     public static PageSetters _pagesetters;
 
-    public ManageCases(PageSetters pageSetters)
+    public AdminManageCases(PageSetters pageSetters)
     {
       _pagesetters = pageSetters;
-      _manageCase = new ManageCase(_pagesetters.Page);
+      _manageCase = new AdminManageCase(_pagesetters.Page);
     }
 
 

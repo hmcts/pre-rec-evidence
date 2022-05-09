@@ -6,7 +6,7 @@ using NUnit.Framework;
 namespace pre.test.Hooks
 {
   [Binding]
-  public class HooksManageCases
+  public class HooksAdminManageCases
   {
 
     [BeforeScenario("ManageCases", Order = 1)]
