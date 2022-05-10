@@ -2,6 +2,8 @@ using System.Threading.Tasks;
 using TechTalk.SpecFlow;
 using pre.test.pages;
 using pre.test.Hooks;
+using System;
+
 
 
 namespace pre.test
@@ -81,6 +83,38 @@ namespace pre.test
     {
       await _bookrecording.checkRecordingBox();
     }
+
+
+    [Given(@"i fill required data for creating ten recordings")]
+    public async Task Givenifillrequireddataforcreatingtenrecordings()
+    {
+      use = "ScheduleTen";
+      var orginalMonth = DateTime.UtcNow.ToString("MMM");
+      await _bookrecording.EnterCaseDetails();
+      for (int i = 0; i < _bookrecording.quotaNum; i++)
+      {
+        _bookrecording.day = (DateTime.UtcNow.AddDays(+i)).ToString("ddd");
+
+        if (orginalMonth != (DateTime.UtcNow.AddDays(+i)).ToString("MMM") && (DateTime.UtcNow.AddDays(+i)).ToString("dd") == "01"){
+            _bookrecording.changeMonthCount = _bookrecording.changeMonthCount + 1;
+        }
+          _bookrecording.month = (DateTime.UtcNow.AddDays(+i)).ToString("MMM");
+          _bookrecording.dateNum = (DateTime.UtcNow.AddDays(+i)).ToString("dd");
+          _bookrecording.year = (DateTime.UtcNow.AddDays(+i)).ToString("yyyy");
+          await _bookrecording.ScheduleRecording();
+      }
+    }
+
+
+    [Then(@"i can start recordings for the ten schedules")]
+    public async Task Thenicanstartrecordingsforalltenschedules()
+    {
+      await _bookrecording.startTenRecordings();
+    }
+
+
+
+
 
   }
 }
