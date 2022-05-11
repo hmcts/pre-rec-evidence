@@ -13,11 +13,6 @@ namespace pre.test.pages
 
     private String stringCase = "";
 
-    public async Task NavigateToViewRecording()
-    {
-      await Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"View Recordings\")");
-    }
-
     public async Task FindCaseToView()
     {
       var caseLocation = ViewRecordings._pagesetters.Page.Frame("fullscreen-app-host").Locator(
@@ -31,8 +26,7 @@ namespace pre.test.pages
 
     public async Task CheckSearch()
     {
-      var results = ViewRecordings._pagesetters.Page.Frame("fullscreen-app-host").Locator("div:nth-child(15)");
-
+      var results = ViewRecordings._pagesetters.Page.Frame("fullscreen-app-host").Locator("#publishedCanvas  div.virtualized-gallery.hideScrollbar div.canvasContentDiv.container_1vt1y2p > div > div:nth-child(3)").First;
       await Task.Run(() => Assert.That(results.TextContentAsync().Result, Does.Contain($"{stringCase.Trim()}")));
     }
 
@@ -48,7 +42,7 @@ namespace pre.test.pages
       await Task.Run(() => Assert.IsTrue(playButton.IsVisibleAsync().Result));
 
       var timeStamp = ViewRecordings._pagesetters.Page.Frame("fullscreen-app-host")
-        .Locator("#publishedCanvas div:nth-child(8) > div > div > div > div > div > div > div");
+        .Locator("[aria-label=\"Show controls\"] div:has-text(\"Elapsed time 00:00:00 / Total time 00:00:00\")").Nth(1);
       await Task.Run(() => Assert.IsTrue(timeStamp.IsVisibleAsync().Result));
       await Task.Run(() => Assert.That(timeStamp.TextContentAsync().Result, Does.Contain("00:00:00")));
     }

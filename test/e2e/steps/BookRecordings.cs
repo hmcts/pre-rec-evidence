@@ -2,6 +2,8 @@ using System.Threading.Tasks;
 using TechTalk.SpecFlow;
 using pre.test.pages;
 using pre.test.Hooks;
+using System;
+
 
 
 namespace pre.test
@@ -20,16 +22,7 @@ namespace pre.test
     }
 
 
-    [Given(@"user on Book recording screen")]
-    public async Task NavigateToBookingScreen()
-    {
-      await _pagesetters.Page.GotoAsync(
-        "https://apps.powerapps.com/play/abb08c46-bf74-4873-af2f-0871eed97ee9");
-      await _bookrecording.NavigateToBooking();
-    }
-
-
-    [When(@"all fields entered and click save")]
+    [Given(@"all fields entered and click save")]
     public async Task Whenallfieldsenteredandclicksave()
     {
       use = "Case";
@@ -42,16 +35,7 @@ namespace pre.test
       await _bookrecording.CheckCaseCreated();
     }
 
-    [Given(@"user on Schedule page")]
-    public async Task GivenuseronSchedulepage()
-
-    {
-      await _pagesetters.Page.GotoAsync(
-        "https://apps.powerapps.com/play/abb08c46-bf74-4873-af2f-0871eed97ee9");
-      await _bookrecording.NavigateToBooking();
-    }
-
-    [When(@"i fill required data for creating recording")]
+    [Given(@"i fill required data for creating recording")]
     public async Task Whenifillrequireddataforcreatingrecording()
     {
       use = "Schedule";
@@ -65,16 +49,7 @@ namespace pre.test
       await _bookrecording.CheckCaseScheduled();
     }
 
-    [Given(@"I need to enter a court name")]
-    public async Task GivenIneedtoenteracourtname()
-    {
-      await _pagesetters.Page.GotoAsync(
-        "https://apps.powerapps.com/play/abb08c46-bf74-4873-af2f-0871eed97ee9");
-      await _bookrecording.NavigateToBooking();
-
-    }
-
-    [When(@"I select a court name")]
+    [Given(@"I select a court name")]
     public async Task WhenIselectacourtname()
     {
       await _bookrecording.SelectCourt();
@@ -85,5 +60,61 @@ namespace pre.test
     {
       await _bookrecording.CheckCourt();
     }
+
+
+    [Given(@"I select a date in the past")]
+    public async Task WhenIselectadateinthepast()
+    {
+      use = "PastDate";
+      await _bookrecording.EnterCaseDetails();
+      await _bookrecording.selectPastDate();
+    }
+
+
+    [Then(@"an error message is displayed")]
+    public async Task Thenanerrormessageisdisplayed()
+    {
+      await _bookrecording.pastDateErrorMessage();
+    }
+
+
+    [Then(@"the recordings box is filled")]
+    public async Task Thentherecordingsboxisfilled()
+    {
+      await _bookrecording.checkRecordingBox();
+    }
+
+
+    [Given(@"i fill required data for creating ten recordings")]
+    public async Task Givenifillrequireddataforcreatingtenrecordings()
+    {
+      use = "ScheduleTen";
+      var orginalMonth = DateTime.UtcNow.ToString("MMM");
+      await _bookrecording.EnterCaseDetails();
+      for (int i = 0; i < _bookrecording.quotaNum; i++)
+      {
+        _bookrecording.day = (DateTime.UtcNow.AddDays(+i)).ToString("ddd");
+
+        if (orginalMonth != (DateTime.UtcNow.AddDays(+i)).ToString("MMM") && (DateTime.UtcNow.AddDays(+i)).ToString("dd") == "01"){
+            _bookrecording.changeMonthCount = _bookrecording.changeMonthCount + 1;
+        }
+          _bookrecording.month = (DateTime.UtcNow.AddDays(+i)).ToString("MMM");
+          _bookrecording.dateNum = (DateTime.UtcNow.AddDays(+i)).ToString("dd");
+          _bookrecording.year = (DateTime.UtcNow.AddDays(+i)).ToString("yyyy");
+          await _bookrecording.ScheduleRecording();
+      }
+    }
+
+
+    [Then(@"i can start recordings for the ten schedules")]
+    public async Task Thenicanstartrecordingsforalltenschedules()
+    {
+      await _bookrecording.startTenRecordings();
+    }
+
+
+
+
+
   }
 }

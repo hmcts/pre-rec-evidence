@@ -21,12 +21,10 @@ namespace pre.test
       _externalPortal = new ExternalPortal(_pagesetters.Page);
     }
 
-    // there'll need to be a recording created through cvp called 'AUTOMATEDTESTRECORDINGDONOTDELETE' for these tests
-    [Given(@"there have been recordings shared with me")]
-    public async Task ShareRecording()
+    [Given(@"I can view the shared recording and I click on it")]
+    public async Task ViewSharedRecording()
     {
-      await _pagesetters.Page.GotoAsync("https://apps.powerapps.com/play/abb08c46-bf74-4873-af2f-0871eed97ee9");
-      await _externalPortal.ShareCase();
+      await _externalPortal.ViewRecording();
     }
 
 
@@ -40,25 +38,12 @@ namespace pre.test
       await _pagesetters.Page.IsVisibleAsync("text=Welcome to the Pre-recorded Evidence Portal‌‌...");
     }
 
-    [Then(@"I can view the shared recording")]
-    public async Task ViewSharedRecording()
+    [Then(@"the status changes")]
+    public async Task Thenthestatuschanges()
     {
-      await _externalPortal.ViewRecording();
-      await _externalPortal.checkCourt();
+      await _externalPortal.StatusChange();
     }
 
-    [Then(@"the recording is unshared and no longer visible")]
-    public async Task UnShareRecording()
-    {
-      await _pagesetters.Page.GotoAsync("https://apps.powerapps.com/play/abb08c46-bf74-4873-af2f-0871eed97ee9");
-      await _externalPortal.UnShareCase();
-      await _pagesetters.Page.GotoAsync("https://pre-test.powerappsportals.com/");
-      var checkLogin = _pagesetters.Page.Locator("text=Welcome to the Pre-recorded Evidence Portal‌‌...");
-      var flag = await Task.Run(() => (checkLogin.IsVisibleAsync().Result));
-      if (flag == false) { await _externalPortal.PortalLogin(); }
-      await _pagesetters.Page.IsVisibleAsync("text=Welcome to the Pre-recorded Evidence Portal‌‌...");
-      await _externalPortal.checkUnshared();
-    }
 
     [Given(@"there have been no recordings shared with me")]
     public async Task CheckSharedRecordings()
@@ -78,7 +63,7 @@ namespace pre.test
     //   await _externalPortal.NoRecordingsMessage();
     // }
 
-    [Then(@"I can see the witness names")]
+    [Given(@"I can see the witness names")]
     public async Task checkWit()
     {
       await _externalPortal.checkWitnesses();
