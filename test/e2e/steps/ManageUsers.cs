@@ -18,16 +18,7 @@ namespace pre.test
       _manageuser = new ManageUser(_pagesetters.Page);
     }
 
-
-    [Given(@"I am on the manage users page")]
-    public async Task GivenIamonthemanageuserspage()
-    {
-      await _pagesetters.Page.GotoAsync("https://apps.powerapps.com/play/abb08c46-bf74-4873-af2f-0871eed97ee9");
-      await _manageuser.GoToManageUsers();
-    }
-
-
-    [When(@"I try to add a new user with an existing email address")]
+    [Given(@"I try to add a new user with an existing email address")]
     public async Task WhenItrytoaddanewuserwithanexistingemailaddress()
     {
       await _manageuser.AddExistingEmail();
@@ -48,7 +39,7 @@ namespace pre.test
     }
 
 
-    [When(@"I try to add a new user")]
+    [Given(@"I try to add a new user")]
     public async Task WhenItrytoaddanewuser()
     {
       await _manageuser.CreateUser();

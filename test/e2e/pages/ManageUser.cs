@@ -21,12 +21,6 @@ namespace pre.test.pages
 
     public ManageUser(IPage page) : base(page) { }
 
-    public async Task GoToManageUsers()
-    {
-      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Admin\")").ClickAsync();
-      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Manage Users\"]").First.ClickAsync();
-    }
-
     public async Task AddExistingEmail()
     {
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Manage Users\"]").Nth(1).ClickAsync();

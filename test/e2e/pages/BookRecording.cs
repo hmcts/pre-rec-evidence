@@ -2,16 +2,17 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.Playwright;
 using NUnit.Framework;
+using pre.test.Hooks;
 
 namespace pre.test.pages
 {
   public class BookRecording : BasePage
   {
-    public static string date = DateTime.UtcNow.ToString("yyyyMMddHHmmss");
 
     public BookRecording(IPage page) : base(page) { }
     public int quotaNum = 10;
     public int changeMonthCount = 0;
+    public string use = "";
     public int changeMonthCountManage = 0;
     public static int count = 0;
     public string day = DateTime.UtcNow.ToString("ddd");
@@ -30,26 +31,9 @@ namespace pre.test.pages
 
     public async Task EnterCaseDetails()
     {
+      var date = DateTime.UtcNow.ToString("yyyyMMddHHmmss");
       await Page.Frame("fullscreen-app-host").ClickAsync("[placeholder=\"Case\\ Number\\ \\\\\\ URN\"]");
-      if (BookRecordings.use == "Schedule")
-      {
-        caseName = $"ScheduleAutoTest{date}";
-      }
-
-      if (BookRecordings.use == "Case")
-      {
-        caseName = $"CaseAutoTest{date}";
-      }
-
-      if (BookRecordings.use == "PastDate")
-      {
-        caseName = $"PastDateAutoTest{date}";
-      }
-
-      if (BookRecordings.use == "ScheduleTen")
-      {
-        caseName = $"TenQuotaAutoTest{date}";
-      }
+      caseName = $"ScheduleAutoTest{date}";
 
       await Page.Frame("fullscreen-app-host")
                 .FillAsync("[placeholder=\"Case\\ Number\\ \\\\\\ URN\"]", $"{caseName}");
@@ -72,7 +56,7 @@ namespace pre.test.pages
     {
       await Page.Frame("fullscreen-app-host")
         .ClickAsync("[aria-label=\"Select\\ Scheduled\\ Start\\ DateOpen\\ calendar\\ to\\ select\\ a\\ date\"]");
-        for (int i = 0; i < changeMonthCount; i++)
+      for (int i = 0; i < changeMonthCount; i++)
       {
         await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Next Month\"]").ClickAsync();
       }
@@ -150,7 +134,7 @@ namespace pre.test.pages
     {
       await Page.Frame("fullscreen-app-host").ClickAsync("[placeholder=\"Case\\ Number\\ \\\\\\ URN\"]");
       await Page.Frame("fullscreen-app-host")
-        .FillAsync("[placeholder=\"Case\\ Number\\ \\\\\\ URN\"]", $"AutoTest{date}");
+        .FillAsync("[placeholder=\"Case\\ Number\\ \\\\\\ URN\"]", $"{caseName}");
       await Page.Frame("fullscreen-app-host").ClickAsync("[aria-label=\"Select\\ Court\"]");
       await Page.Frame("fullscreen-app-host")
         .ClickAsync("[aria-label=\"Select\\ Court\\ items\"] div:has-text(\"Leeds\")");
@@ -193,16 +177,19 @@ namespace pre.test.pages
       for (int i = 0; i < quotaNum; i++)
       {
         await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Date\"]").ClickAsync();
-        if (orginalMonth != (DateTime.UtcNow.AddDays(+i)).ToString("MMM") && (DateTime.UtcNow.AddDays(+i)).ToString("dd") == "01"){
-            changeMonthCountManage = changeMonthCountManage + 1;
+        if (orginalMonth != (DateTime.UtcNow.AddDays(+i)).ToString("MMM") && (DateTime.UtcNow.AddDays(+i)).ToString("dd") == "01")
+        {
+          changeMonthCountManage = changeMonthCountManage + 1;
         }
 
         var dateee = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"[aria-label=\"{(originalDay.AddDays(+i)).ToString("ddd")} {(originalDay.AddDays(+i)).ToString("MMM")} {(originalDay.AddDays(+i)).ToString("dd")} {(originalDay.AddDays(+i)).ToString("yyyy")}\"]");
 
-        if (dateee.IsVisibleAsync().Result != true){
-          for (int j = 0; j < changeMonthCountManage; j++){
-           await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Next Month\"]").ClickAsync();
-           }
+        if (dateee.IsVisibleAsync().Result != true)
+        {
+          for (int j = 0; j < changeMonthCountManage; j++)
+          {
+            await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Next Month\"]").ClickAsync();
+          }
         }
 
         await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"[aria-label=\"{(originalDay.AddDays(+i)).ToString("ddd")} {(originalDay.AddDays(+i)).ToString("MMM")} {(originalDay.AddDays(+i)).ToString("dd")} {(originalDay.AddDays(+i)).ToString("yyyy")}\"]").ClickAsync();
@@ -220,6 +207,116 @@ namespace pre.test.pages
         while (rtmps.IsVisibleAsync().Result != false) { }
         count = count + 1;
       }
+    }
+
+    public async Task BlankValues()
+    {
+      var saveButton = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Save\")").Nth(1);
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=HMCTS Logo").ClickAsync();
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Book a Recording\")").ClickAsync();
+
+      if (use == "blankCourt")
+      {
+        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div:nth-child(42) .appmagic-borderfill-container .appmagic-border-inner .react-knockout-control .appmagic-textbox .appmagic-text").ClickAsync();
+        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div:nth-child(42) .appmagic-borderfill-container .appmagic-border-inner .react-knockout-control .appmagic-textbox .appmagic-text").FillAsync("caseTest");
+        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Enter your Defendants\\, comma seperated\"]").ClickAsync();
+        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Enter your Defendants\\, comma seperated\"]").FillAsync("def1");
+        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Enter your Defendants\\, comma seperated\"]").PressAsync("Tab");
+        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Enter your Witnesses\\, comma seperated\"]").FillAsync("wit1");
+      }
+      if (use == "blankCaseRef")
+      {
+        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Enter your Defendants\\, comma seperated\"]").ClickAsync();
+        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Enter your Defendants\\, comma seperated\"]").FillAsync("def1");
+        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Enter your Defendants\\, comma seperated\"]").PressAsync("Tab");
+        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Enter your Witnesses\\, comma seperated\"]").FillAsync("wit1");
+        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div[role=\"button\"]:has-text(\"Court Name\")").ClickAsync();
+        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("ul[role=\"listbox\"] div:has-text(\"Chris\")").ClickAsync();
+      }
+      if (use == "blankCaseWitnesses")
+      {
+        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div:nth-child(42) .appmagic-borderfill-container .appmagic-border-inner .react-knockout-control .appmagic-textbox .appmagic-text").ClickAsync();
+        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div:nth-child(42) .appmagic-borderfill-container .appmagic-border-inner .react-knockout-control .appmagic-textbox .appmagic-text").FillAsync("caseTest");
+        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Enter your Defendants\\, comma seperated\"]").ClickAsync();
+        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Enter your Defendants\\, comma seperated\"]").FillAsync("def1");
+        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div[role=\"button\"]:has-text(\"Court Name\")").ClickAsync();
+        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("ul[role=\"listbox\"] div:has-text(\"Chris\")").ClickAsync();
+      }
+      if (use == "blankCaseDefendants")
+      {
+        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div:nth-child(42) .appmagic-borderfill-container .appmagic-border-inner .react-knockout-control .appmagic-textbox .appmagic-text").ClickAsync();
+        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div:nth-child(42) .appmagic-borderfill-container .appmagic-border-inner .react-knockout-control .appmagic-textbox .appmagic-text").FillAsync("caseTest");
+        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Enter your Witnesses\\, comma seperated\"]").ClickAsync();
+        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Enter your Witnesses\\, comma seperated\"]").FillAsync("wit1");
+        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div[role=\"button\"]:has-text(\"Court Name\")").ClickAsync();
+        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("ul[role=\"listbox\"] div:has-text(\"Chris\")").ClickAsync();
+      }
+      await Task.Run(() => Assert.IsTrue(saveButton.IsDisabledAsync().Result));
+    }
+    public async Task UpdateBlank()
+    {
+      // await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div[role=\"button\"]:has-text(\"Court Name\")").ClickAsync();
+      // await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=Leeds").ClickAsync();
+      // await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div:nth-child(42) .appmagic-borderfill-container .appmagic-border-inner .react-knockout-control .appmagic-textbox .appmagic-text").ClickAsync();
+      // await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div:nth-child(42) .appmagic-borderfill-container .appmagic-border-inner .react-knockout-control .appmagic-textbox .appmagic-text").FillAsync($"{caseName}");
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator(".container_1f0sgyp div:nth-child(2) .react-knockout-control .appmagic-svg").First.ClickAsync();
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Modify\")").ClickAsync();
+
+      if (use == "updateToBlankWitDef")
+      {
+        for (int i = 0; i < 4; i++)
+        {
+          var inputBoxes = Page.Frame("fullscreen-app-host").Locator("div.virtualized-gallery div.canvasContentDiv.container_1vt1y2p input").Nth(i);
+          await inputBoxes.ClickAsync();
+          await inputBoxes.FillAsync("");
+          var saveButton = Page.Frame("fullscreen-app-host").Locator($"div:nth-child(52)  div:nth-child({i + 1}) > div.canvasContentDiv.container_1vt1y2p > div > div:nth-child(3)");
+          await Task.Run(() => Assert.AreEqual(inputBoxes.InputValueAsync().Result, ""));
+          await Task.Run(() => Assert.IsTrue(saveButton.IsDisabledAsync().Result));
+        }
+        var saveButton2 = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Save\")").Nth(2);
+        await Task.Run(() => Assert.IsTrue(saveButton2.IsDisabledAsync().Result));
+      }
+      else
+      {
+        for (int i = 0; i < 4; i++)
+        {
+          // Bug S28-240 - unskip when resolved
+          //var saveButton = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Save\")").Nth(2);
+          var deleteButton = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div.canvasContentDiv.container_1vt1y2p div:nth-child(6) > div > div > div > div").Nth(i);
+          await deleteButton.ClickAsync();
+          //await Task.Run(() => Assert.IsTrue(saveButton.IsDisabledAsync().Result));
+        }
+      }
+    }
+
+    public async Task listBlankValues()
+    {
+      var date = DateTime.UtcNow.ToString("yyyyMMddHHmmss");
+      caseName = $"ScheduleAutoTest{date}";
+
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div[role=\"button\"]:has-text(\"Court Name\")").ClickAsync();
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("li[role=\"option\"]:has-text(\"Leeds\")").ClickAsync();
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div:nth-child(42) .appmagic-borderfill-container .appmagic-border-inner .react-knockout-control .appmagic-textbox .appmagic-text").ClickAsync();
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div:nth-child(42) .appmagic-borderfill-container .appmagic-border-inner .react-knockout-control .appmagic-textbox .appmagic-text").FillAsync($"{caseName}");
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Enter your Defendants\\, comma seperated\"]").ClickAsync();
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Enter your Defendants\\, comma seperated\"]").FillAsync("value1, ,value2");
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Enter your Witnesses\\, comma seperated\"]").ClickAsync();
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Enter your Witnesses\\, comma seperated\"]").FillAsync("value1, ,value2");
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Save\")").Nth(1).ClickAsync();
+    }
+
+    public async Task checkBlanksIgnored()
+    {
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Select your Witness\"]").ClickAsync();
+      var options = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("li[role=\"option\"]").Nth(1);
+      await Task.Run(() => Assert.AreEqual(options.CountAsync().Result, 2));
+      await Task.Run(() => Assert.That(options.AllInnerTextsAsync().Result, Does.Contain("value1")));
+      await Task.Run(() => Assert.That(options.AllInnerTextsAsync().Result, Does.Contain("value2")));
+
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Select your Defendants\"]").ClickAsync();
+      await Task.Run(() => Assert.AreEqual(options.CountAsync().Result, 2));
+      await Task.Run(() => Assert.That(options.AllInnerTextsAsync().Result, Does.Contain("value1")));
+      await Task.Run(() => Assert.That(options.AllInnerTextsAsync().Result, Does.Contain("value2")));
     }
 
   }

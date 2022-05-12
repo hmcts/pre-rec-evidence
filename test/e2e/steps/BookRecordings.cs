@@ -95,13 +95,14 @@ namespace pre.test
       {
         _bookrecording.day = (DateTime.UtcNow.AddDays(+i)).ToString("ddd");
 
-        if (orginalMonth != (DateTime.UtcNow.AddDays(+i)).ToString("MMM") && (DateTime.UtcNow.AddDays(+i)).ToString("dd") == "01"){
-            _bookrecording.changeMonthCount = _bookrecording.changeMonthCount + 1;
+        if (orginalMonth != (DateTime.UtcNow.AddDays(+i)).ToString("MMM") && (DateTime.UtcNow.AddDays(+i)).ToString("dd") == "01")
+        {
+          _bookrecording.changeMonthCount = _bookrecording.changeMonthCount + 1;
         }
-          _bookrecording.month = (DateTime.UtcNow.AddDays(+i)).ToString("MMM");
-          _bookrecording.dateNum = (DateTime.UtcNow.AddDays(+i)).ToString("dd");
-          _bookrecording.year = (DateTime.UtcNow.AddDays(+i)).ToString("yyyy");
-          await _bookrecording.ScheduleRecording();
+        _bookrecording.month = (DateTime.UtcNow.AddDays(+i)).ToString("MMM");
+        _bookrecording.dateNum = (DateTime.UtcNow.AddDays(+i)).ToString("dd");
+        _bookrecording.year = (DateTime.UtcNow.AddDays(+i)).ToString("yyyy");
+        await _bookrecording.ScheduleRecording();
       }
     }
 
@@ -113,8 +114,79 @@ namespace pre.test
     }
 
 
+    [Given(@"I create a case with blank values")]
+    public async Task GivenIcreateacasewithblankvalues()
+    {
+      await _bookrecording.BlankValues();
+    }
 
 
+
+    // [Then(@"an error message is displayed about the blank values")]
+    // public async Task Thenanerrormessageisdisplayedblank()
+    // {
+    // 	await _bookrecording.blankErrorMessage();
+    // }
+
+
+    [Given(@"I create a case with blank values in court")]
+    public async Task GivenIcreateacasewithblankvaluesincourt()
+    {
+      _bookrecording.use = "blankCourt";
+      await _bookrecording.BlankValues();
+    }
+
+
+    [Given(@"I create a case with blank values in case ref")]
+    public async Task GivenIcreateacasewithblankvaluesincaseref()
+    {
+      _bookrecording.use = "blankCaseRef";
+      await _bookrecording.BlankValues();
+    }
+
+
+    [Given(@"I create a case with blank values in witnesses")]
+    public async Task GivenIcreateacasewithblankvaluesinwitnesses()
+    {
+      _bookrecording.use = "blankWitnesses";
+      await _bookrecording.BlankValues();
+    }
+
+
+    [Given(@"I create a case with blank values in defendants")]
+    public async Task GivenIcreateacasewithblankvaluesindefendants()
+    {
+      _bookrecording.use = "blankDefendants";
+      await _bookrecording.BlankValues();
+    }
+
+
+    [When(@"I update the case with blank values")]
+    public async Task WhenIupdatethecasewithblankvalues()
+    {
+      await _bookrecording.UpdateBlank();
+    }
+
+
+    [Given(@"I create a case with blank values in a list")]
+    public async Task GivenIcreateacasewithblankvaluesinalist()
+    {
+      await _bookrecording.listBlankValues();
+    }
+
+
+    [Then(@"the case is created but the blank values are ignored")]
+    public async Task Thenthecaseiscreatedbuttheblankvaluesareignored()
+    {
+      await _bookrecording.checkBlanksIgnored();
+    }
+
+    [When(@"I update a case with blank values they cannot be saved")]
+    public async Task GivenIupdateacasewithblankvaluesinalist()
+    {
+      _bookrecording.use = "updateToBlankWitDef";
+      await _bookrecording.UpdateBlank();
+    }
 
   }
 }
