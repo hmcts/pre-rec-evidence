@@ -44,7 +44,7 @@ namespace pre.test.Hooks
       _specFlowOutputHelper.WriteLine("Browser Closed");
     }
 
-    [BeforeScenario( Order = 0)]
+    [BeforeScenario(Order = 0)]
     public async Task createBrowser()
     {
       playwright = await Playwright.CreateAsync();

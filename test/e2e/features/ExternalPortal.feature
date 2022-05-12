@@ -27,7 +27,7 @@ Scenario: View shared recording details and status change
 #   When I go to the portal
 #   Then I can see the updated witness name 
 
-# #check recording uid from admin page - waiting for a search to be implemented for the manage case page
+# #check recording uid from admin page - waiting for test to be aligned with sandbox for the search in the manage case page
 # Scenario: View shared recording id
 #   Given there have been recordings shared with me
 #   When I go to Manage cases

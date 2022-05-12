@@ -1,44 +1,62 @@
 Feature: Admin > Manage Case
 TBC
+## When test is aligned, add a test to check 'avaliable recordings' is yes for the case we use in auto tests with a recording
+#Cases now need to have recordings to be in view recordings....should these steps become zephyr tests?
 
-@ManageCases @RevertCourt
+@CreateAndManageCase @CreateAndManageCaseAndSchedule @AdminManageCases @RevertCourt
 Scenario: Update Court
   Given I update the court on a case
   Then the court will be updated in book recordings
   Then the court will be updated in manage recordings
-  Then the court will be updated in view recordings
+  # Then the court will be updated in view recordings 
 
-@ManageCases @RevertDate
+@CreateAndManageCase @CreateAndManageCaseAndSchedule @AdminManageCases @RevertDate
   Scenario: Update Scheduled date
   Given I update the scheduled date on a recording
   Then the scheduled date will be updated in book recordings
   Then the scheduled date will be updated in manage recordings
-  Then the scheduled date will be updated in view recordings
+#   Then the scheduled date will be updated in view recordings
 
-# add this test once search feature is developed in manage cases
-  # @ManageCases
-  # Scenario: Delete case with no schedule
-  # Given I have created a case
-  # When I delete the case (add an assertion to check it deletes and isn't shown on page anymore, remove brackets when implementing)
-  # Then the case is no longer visible in book recordings
+  @CreateAndManageCase 
+  Scenario: Delete case with no schedule and then restore it
+  Given I have created a case to search for
+  When I delete the case 
+  Then the case is no longer visible in book recordings
+  When I restore the case
+  Then the case is visible in book recordings but not in schedule recordings
 
-# add this test once search feature is developed in manage cases
-  # @ManageCases
-  # Scenario: Delete schedule 
-  # Given I have created a case and a schedule for it
-  # When I delete the schedule (add an assertion to check it deletes and isn't shown on page anymore, remove brackets when implementing)
-  # Then the case is visible in book recordings but not in schedule recordings
-  # Then the schedule is no longer visible in manage recordings
-  # Then the schedule is no longer visible in view recordings
-  # When I also delete the case 
-  # Then the case is no longer visible in book recordings
+  @CreateAndManageCase @CreateAndManageCaseAndSchedule
+  Scenario: Delete schedule 
+  Given I have created a case to search for
+  When I delete the schedule 
+  Then the case is visible in book recordings but not in schedule recordings
+  Then the schedule is no longer visible in manage recordings
+#  Then the schedule is no longer visible in view recordings
+#  # Bug S28-489 - unskip when resolved and add restore steps
+#  When I delete the case 
+#  Then the case is no longer visible in book recordings
 
-# add this test once search feature is developed in manage cases
-  # @ManageCases
-  # Scenario: Delete case with schedule 
+# add this test once the test env is working again so can use case with recording
+  # @AdminManageCases
+  # Scenario: Delete case with recording 
   # Given I have created a case and a schedule for it
   # When I delete the case
   # Then the case is no longer visible in book recordings
   # Then the case is no longer visible in schedule recordings
   # Then the schedule is no longer visible in manage recordings
   # Then the schedule is no longer visible in view recordings
+
+  @CreateAndManageCase
+  Scenario: Search by case reference
+  Given I have created a case to search for
+  Then I can search for it by case ref in manage cases
+
+  @CreateAndManageCase
+  Scenario: Search by case id
+  Given I have created a case to search for
+  Then I can search for it by case id in manage cases
+
+  @CreateAndManageCase
+  Scenario: Search by case court
+  Given I have created a case to search for
+  Then I can search for it by court in manage cases
