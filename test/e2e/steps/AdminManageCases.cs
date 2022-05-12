@@ -11,6 +11,7 @@ namespace pre.test
   {
     public static AdminManageCase _manageCase;
     public static PageSetters _pagesetters;
+    public static string use = "";
 
     public AdminManageCases(PageSetters pageSetters)
     {
@@ -73,6 +74,81 @@ namespace pre.test
     {
       await _manageCase.checkDateViewRecordings();
     }
+
+
+    [Given(@"I have created a case to search for")]
+    public async Task GivenIhavecreatedacase()
+    {
+      await _manageCase.checkCaseCreated();
+    }
+
+
+    [Then(@"I can search for it by case ref in manage cases")]
+    public async Task ThenIcansearchforitbycaserefinmanagecases()
+    {
+      use = "caseRef";
+      await _manageCase.search();
+    }
+
+
+    [Then(@"I can search for it by case id in manage cases")]
+    public async Task ThenIcansearchforitbycaseidinmanagecases()
+    {
+      use = "caseId";
+      await _manageCase.search();
+    }
+
+
+    [Then(@"I can search for it by court in manage cases")]
+    public async Task ThenIcansearchforitbycourtinmanagecases()
+    {
+      use = "court";
+      await _manageCase.search();
+    }
+
+    [When(@"I delete the case")]
+    public async Task WhenIdeletethecase()
+    {
+      await _manageCase.deleteCase();
+    }
+
+
+    [Then(@"the case is no longer visible in book recordings")]
+    public async Task Thenthecaseisnolongervisibleinbookrecordings()
+    {
+      await _manageCase.checkCaseDelete();
+    }
+
+
+    [When(@"I restore the case")]
+    public async Task WhenIrestorethecase()
+    {
+      await _manageCase.restoreCase();
+    }
+
+
+    [Then(@"the case is visible in book recordings but not in schedule recordings")]
+    public async Task Thenthecaseisvisibleinbookrecordingsbutnotinschedulerecordings()
+    {
+      await _manageCase.checkBookNotSchedule();
+    }
+
+
+    [When(@"I delete the schedule")]
+    public async Task WhenIdeletetheschedule()
+    {
+      await _manageCase.deleteSchedule();
+    }
+
+    
+[Then(@"the schedule is no longer visible in manage recordings")]
+public async Task Thenthescheduleisnolongervisibleinmanagerecordings()
+{
+	await _manageCase.ScheduleDeleteCheckManage();
+}
+
+
+
 
   }
 }

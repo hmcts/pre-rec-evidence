@@ -34,7 +34,7 @@ namespace pre.test
       await _pagesetters.Page.GotoAsync("https://pre-test.powerappsportals.com/");
       var checkLogin = _pagesetters.Page.Locator("text=Welcome to the Pre-recorded Evidence Portal‌‌...");
       var flag = await Task.Run(() => (checkLogin.IsVisibleAsync().Result));
-      if (flag == false) { await _externalPortal.PortalLogin(); }
+      if (flag == false) { await HooksExternalPortal.PortalLogin(); }
       await _pagesetters.Page.IsVisibleAsync("text=Welcome to the Pre-recorded Evidence Portal‌‌...");
     }
 
