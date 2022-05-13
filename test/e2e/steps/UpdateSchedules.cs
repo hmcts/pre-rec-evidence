@@ -68,7 +68,7 @@ public async Task WhenImakeachangetotheDateandsave()
 [Then(@"the scheduled recording will show the updated Date")]
 public async Task ThenthescheduledrecordingwillshowtheupdatedDate()
 {
-	//await _updateschedule.ManageRecordingsCheckUpdatedDate();
+	await _updateschedule.ManageRecordingsCheckUpdatedDate();
     await _updateschedule.FindupdatedCase();
     await _updateschedule.BookRecordingsCheckUpdatedDate();
     
