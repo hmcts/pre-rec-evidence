@@ -21,7 +21,8 @@ namespace pre.test
     [Given(@"I try to add a new user with an existing email address")]
     public async Task WhenItrytoaddanewuserwithanexistingemailaddress()
     {
-      await _manageuser.AddExistingEmail();
+      _manageuser.use = "duplicateEmail";
+      await _manageuser.CreateUser();
     }
 
 
@@ -42,6 +43,7 @@ namespace pre.test
     [Given(@"I try to add a new user")]
     public async Task WhenItrytoaddanewuser()
     {
+      _manageuser.use = "newUser";
       await _manageuser.CreateUser();
     }
 
@@ -53,8 +55,19 @@ namespace pre.test
     }
 
 
+    [Given(@"I try to add a new user with a blank email address")]
+    public async Task GivenItrytoaddanewuserwithablankemailaddress()
+    {
+      _manageuser.use = "blankEmail";
+      await _manageuser.CreateUser();
+    }
 
 
+    [Then(@"the save button is disabled")]
+    public async Task Thenthesavebuttonisdisabled()
+    {
+      await _manageuser.DisabledSave();
+    }
 
   }
 }
