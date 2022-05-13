@@ -23,11 +23,7 @@ namespace pre.test
 [Given(@"I have selected a particular scheduled recording")]
 public async Task GivenIhaveselectedaparticularscheduledrecording()
 {
-    use = "C";
-    await _pagesetters.Page.GotoAsync(
-        "https://apps.powerapps.com/play/97f0b518-0111-4c1e-9bbf-4bca71b82b84");
-    await _updateschedule.NavigateToBookings();
-	await _updateschedule.Bookschedule();
+    use="";
     await _updateschedule.Schedule();
     await _updateschedule.FindSchedule();
 }
@@ -49,11 +45,7 @@ public async Task ThentheschedulewillshowtheupdatedChildWitnessIndicator()
 [Given(@"I have a particular scheduled recording")]
 public async Task GivenIhaveaparticularscheduledrecording()
 {
-    use = "D";
-	await _pagesetters.Page.GotoAsync(
-        "https://apps.powerapps.com/play/97f0b518-0111-4c1e-9bbf-4bca71b82b84");
-    await _updateschedule.NavigateToBookings();
-	await _updateschedule.Bookschedule();
+    use="";
     await _updateschedule.Schedule();
     await _updateschedule.FindSchedule();
 }
@@ -78,11 +70,7 @@ public async Task ThenthescheduledrecordingwillshowtheupdatedDate()
 [Given(@"I have selected a scheduled recording")]
 public async Task GivenIhaveselectedascheduledrecording()
 {
-    use = "E";
-	await _pagesetters.Page.GotoAsync(
-        "https://apps.powerapps.com/play/97f0b518-0111-4c1e-9bbf-4bca71b82b84");
-    await _updateschedule.NavigateToBookings();
-	await _updateschedule.Bookschedule();
+    use="";
     await _updateschedule.Schedule();
     await _updateschedule.FindSchedule();
 }
@@ -107,11 +95,7 @@ public async Task Thenthescheduledrecordingwillshowtheadditionaldefendant()
 [Given(@"I have a scheduled recording")]
 public async Task GivenIhaveascheduledrecording()
 {
-	use = "W";
-	await _pagesetters.Page.GotoAsync(
-        "https://apps.powerapps.com/play/97f0b518-0111-4c1e-9bbf-4bca71b82b84");
-    await _updateschedule.NavigateToBookings();
-	await _updateschedule.Bookschedule();
+	use="";
     await _updateschedule.Schedule();
     await _updateschedule.FindSchedule();
 }
@@ -136,11 +120,7 @@ public async Task Thenthescheduledrecordingwillshowthenewwitness()
 public async Task GivenIhaveschosenaparticularscheduledrecording()
 {
 	use = "DE";
-	await _pagesetters.Page.GotoAsync(
-        "https://apps.powerapps.com/play/97f0b518-0111-4c1e-9bbf-4bca71b82b84");
-    await _updateschedule.NavigateToBookings();
-	await _updateschedule.Bookschedule();
-    await _updateschedule.Schedule();
+	await _updateschedule.Schedule();
     await _updateschedule.FindSchedule();
 
 
@@ -166,10 +146,7 @@ public async Task Thenthescheduledrecordingwillnotshowthatdefendant()
 public async Task GivenIhaveaparticularschedule()
 {
 	use = "O";
-	await _pagesetters.Page.GotoAsync(
-        "https://apps.powerapps.com/play/97f0b518-0111-4c1e-9bbf-4bca71b82b84");
-    await _updateschedule.NavigateToBookings();
-	await _updateschedule.Bookschedule();
+	
     await _updateschedule.Schedule();
     await _updateschedule.FindSchedule();
 }
@@ -193,11 +170,7 @@ public async Task Thentheschedulewillshowtheupdatedcourt()
 [Given(@"I have a recording scheduled")]
 public async Task GivenIhavearecordingscheduled()
 {
-	use = "V";
-	await _pagesetters.Page.GotoAsync(
-        "https://apps.powerapps.com/play/97f0b518-0111-4c1e-9bbf-4bca71b82b84");
-    await _updateschedule.NavigateToBookings();
-	await _updateschedule.Bookschedule();
+	use="";
     await _updateschedule.Schedule();
     await _updateschedule.FindSchedule();
 }
@@ -219,10 +192,7 @@ public async Task Thentheviewisclosed()
 public async Task GivenIhavescheduledarecording()
 {
 	use = "A";
-	await _pagesetters.Page.GotoAsync(
-        "https://apps.powerapps.com/play/97f0b518-0111-4c1e-9bbf-4bca71b82b84");
-    await _updateschedule.NavigateToBookings();
-	await _updateschedule.Bookschedule();
+	
     await _updateschedule.Schedule();
     await _updateschedule.FindSchedule();
 }

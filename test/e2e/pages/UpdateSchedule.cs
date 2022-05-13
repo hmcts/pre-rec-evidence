@@ -39,57 +39,11 @@ namespace pre.test.pages
 
     }
 
-    public async Task NavigateToBookings()
-    {
-      var book = UpdateSchedules._pagesetters.Page.Frame("fullscreen-app-host")
-        .Locator("button:has-text(\"Book a Recording\")");
-
-      await Task.Run(() => book.IsVisibleAsync().Result);
-      await Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Book a Recording\")");
-    }
-    public async Task Bookschedule()
-
-    {
-      CaseRefDate = DateTime.UtcNow.ToString("yyyyMMddHHmmss");
-      stringCase = $"ScheduleUpdateAutoTest{CaseRefDate}";
-
-
-
-      await Page.Frame("fullscreen-app-host").ClickAsync("[placeholder=\"Case\\ Number\\ \\\\\\ URN\"]");
-
-      await Page.Frame("fullscreen-app-host")
-        .FillAsync("[placeholder=\"Case\\ Number\\ \\\\\\ URN\"]", $"{stringCase}");
-
-      await Page.Frame("fullscreen-app-host").ClickAsync("[aria-label=\"Select\\ Court\"]");
-      await Page.Frame("fullscreen-app-host")
-        .ClickAsync($"[aria-label=\"Select\\ Court\\ items\"] div:has-text(\"{court}\")");
-      await Page.Frame("fullscreen-app-host")
-        .ClickAsync("[aria-label=\"Enter\\ your\\ Defendants\\,\\ comma\\ seperated\"]");
-      await Page.Frame("fullscreen-app-host")
-        .FillAsync("[aria-label=\"Enter\\ your\\ Defendants\\,\\ comma\\ seperated\"]", "defendants 1,\ndefendants 2");
-      await Page.Frame("fullscreen-app-host")
-        .ClickAsync("[aria-label=\"Enter\\ your\\ Witnesses\\,\\ comma\\ seperated\"]");
-      await Page.Frame("fullscreen-app-host")
-        .FillAsync("[aria-label=\"Enter\\ your\\ Witnesses\\,\\ comma\\ seperated\"]",
-          "Witness surname1,\nWitness surname2");
-      await Page.Frame("fullscreen-app-host").ClickAsync(":nth-match(button:has-text(\"Save\"), 2)");
-    }
-
-
+    
     public async Task Schedule()
     {
 
-      await Page.Frame("fullscreen-app-host")
-        .ClickAsync("[aria-label=\"Select\\ Scheduled\\ Start\\ DateOpen\\ calendar\\ to\\ select\\ a\\ date\"]");
-      await Page.Frame("fullscreen-app-host").ClickAsync($"[aria-label=\"{currentday}\\ {currentmonthword}\\ {currentdate}\\ {currentyear}\"]");
-      await Page.Frame("fullscreen-app-host").ClickAsync("button[role='button']:has-text(\"Ok\")");
-      await Page.Frame("fullscreen-app-host").ClickAsync("[aria-label=\"Select\\ your\\ Witness\"]");
-      await Page.Frame("fullscreen-app-host")
-        .ClickAsync("[aria-label=\"Select\\ your\\ Witness\\ items\"] div:has-text(\"Witness surname1\")");
-      //await Page.Frame("fullscreen-app-host").ClickAsync("[aria-label=\"Select\\ your\\ Defendants\"]");
-      await Page.Frame("fullscreen-app-host").ClickAsync("[aria-label=\"Select\\ your\\ Defendants\"]");
-      await Page.Frame("fullscreen-app-host")
-        .ClickAsync("[aria-label=\"Select\\ your\\ Defendants\\ items\"] div:has-text(\"defendants 1\")");
+      
       if (UpdateSchedules.use == "DE")
       {
         await Page.Frame("fullscreen-app-host")
