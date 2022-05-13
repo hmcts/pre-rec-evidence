@@ -18,19 +18,11 @@ namespace pre.test
       _manageRecording = new ManageRecording(_pagesetters.Page);
     }
 
-    [Given(@"I have created a new case and scheduled a recording")]
-    public async Task GivenIhavecreatedanewcaseandscheduledarecording()
-    {
-      // using sandbox url until environments are aligned, update to test in future
-      await _pagesetters.Page.GotoAsync("https://apps.powerapps.com/play/97f0b518-0111-4c1e-9bbf-4bca71b82b84");
-      await _manageRecording.createAndScheduleCase();
-    }
 
-
-    [When(@"I go to manage recordings and search for the case")]
-    public async Task WhenIgotomanagerecordingsandsearchforthecase()
+    [Given(@"there's no active stream")]
+    public async Task Giventheresnoactivestream()
     {
-      await _manageRecording.goToManageRecordings();
+      await _manageRecording.checkStream();
     }
 
 
@@ -41,6 +33,18 @@ namespace pre.test
     }
 
 
+    [Given(@"I update the schedule date to a past date")]
+    public async Task GivenIupdatethescheduledatetoapastdate()
+    {
+      await _manageRecording.updateToPastDate();
+    }
+
+
+    [Then(@"an error message should come up to say the date cannot be in the past")]
+    public async Task Thenanerrormessageshouldcomeuptosaythedatecannotbeinthepast()
+    {
+      await _manageRecording.pastDateErrorMessage();
+    }
   }
 
 }
