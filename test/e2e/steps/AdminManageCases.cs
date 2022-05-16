@@ -140,15 +140,27 @@ namespace pre.test
       await _manageCase.deleteSchedule();
     }
 
-    
-[Then(@"the schedule is no longer visible in manage recordings")]
-public async Task Thenthescheduleisnolongervisibleinmanagerecordings()
-{
-	await _manageCase.ScheduleDeleteCheckManage();
-}
+
+    [Then(@"the schedule is no longer visible in manage recordings")]
+    public async Task Thenthescheduleisnolongervisibleinmanagerecordings()
+    {
+      await _manageCase.ScheduleDeleteCheckManage();
+    }
 
 
+    [Then(@"I cannot remove the case reference in case details")]
+    public async Task ThenIcannotremovethecasereferenceincasedetails()
+    {
+      await _manageCase.removeCaseRefCase();
+    }
 
+
+    [Then(@"I cannot remove the case reference in schedule details")]
+    public async Task ThenIcannotremovethecasereferenceinscheduledetails()
+    {
+      _manageCase.use = "schedule";
+      await _manageCase.removeCaseRefCase();
+    }
 
   }
 }

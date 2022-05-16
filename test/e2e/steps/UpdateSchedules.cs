@@ -88,7 +88,7 @@ public async Task Thenthescheduledrecordingwillshowtheadditionaldefendant()
 {
 	await _updateschedule.ManageRceordingsCheckUpdatedDefendant();
     await _updateschedule.FindupdatedCase();
-    await _updateschedule.BookRecordingsCheckUpdatedDefendant();
+   // await _updateschedule.BookRecordingsCheckUpdatedDefendant();
 }
 
 
