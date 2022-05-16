@@ -60,3 +60,18 @@ Scenario: Update Court
   Scenario: Search by case court
   Given I have created a case to search for
   Then I can search for it by court in manage cases
+
+  @CreateAndManageCase @CreateAndManageCaseAndSchedule
+  Scenario: Remove case reference in case details
+  Given I have created a case to search for
+  Then I cannot remove the case reference in case details
+
+  @CreateAndManageCase @CreateAndManageCaseAndSchedule
+  Scenario: Remove case reference in schedule details
+  Given I have created a case to search for
+  Then I cannot remove the case reference in schedule details
+
+# Add this test once we have test env to use the case with a recording in it
+  # Scenario: Remove case reference in recording details
+  # Given I have a case with a recording
+  # Then I cannot remove the case reference in recording details

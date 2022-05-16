@@ -11,6 +11,7 @@ namespace pre.test.pages
   {
     public AdminManageCase(IPage page) : base(page) { }
     public static String caseRef = "";
+    public String use = "";
     protected String caseIdToSearch = "";
     public static String court = "";
     public static String newCourt = "";
@@ -168,7 +169,7 @@ namespace pre.test.pages
       //await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=Recordings").First.ClickAsync();
 
       var recordingDateBook = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text=Recording Start: {newScheduleDate}");
-      await Task.Run(() => Assert.IsTrue(recordingDateBook.IsVisibleAsync().Result));
+      while (recordingDateBook.IsVisibleAsync().Result == false){}
     }
 
     public async Task checkDateManageRecordings()
@@ -206,6 +207,7 @@ namespace pre.test.pages
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Book a Recording\")").ClickAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div[role=\"button\"]:has-text(\"Court Name\")").ClickAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=Leeds").ClickAsync();
+      while (Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div:nth-child(42) .appmagic-borderfill-container .appmagic-border-inner .react-knockout-control .appmagic-textbox .appmagic-text").IsVisibleAsync().Result == false){}
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div:nth-child(42) .appmagic-borderfill-container .appmagic-border-inner .react-knockout-control .appmagic-textbox .appmagic-text").ClickAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div:nth-child(42) .appmagic-borderfill-container .appmagic-border-inner .react-knockout-control .appmagic-textbox .appmagic-text").FillAsync($"{HooksAdminManageCases.caseName}");
       var exists = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator(".container_1f0sgyp div:nth-child(2) .react-knockout-control .appmagic-svg").First;
@@ -340,6 +342,34 @@ namespace pre.test.pages
       var results = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator(".container_1f0sgyp div .react-knockout-control .appmagic-svg");
       await Task.Run(() => Assert.IsFalse(results.IsVisibleAsync().Result));
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=HMCTS Logo").ClickAsync();
+    }
+
+    public async Task removeCaseRefCase()
+    {
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=HMCTS Logo").ClickAsync();
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Admin\")").ClickAsync();
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Manage Cases\"]").First.ClickAsync();
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Case Ref \\\\ URN \\\\ ID \\\\ Court\"]").ClickAsync();
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Case Ref \\\\ URN \\\\ ID \\\\ Court\"]").FillAsync($"{HooksAdminManageCases.caseName}");
+
+      if (use == "schedule")
+      {
+        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text=Case Ref: {HooksAdminManageCases.caseName}").ClickAsync();
+        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Edit Schedule\"]").ClickAsync();
+        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"[aria-label=\"Case reference\\. Selected\\: {HooksAdminManageCases.caseName}\"]").ClickAsync();
+        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"[aria-label=\"Remove {HooksAdminManageCases.caseName} from selection\"]").ClickAsync();
+        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=Schedule Date").Nth(1).ClickAsync();
+        var saveButton = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div:nth-child(124) .appmagic-borderfill-container .appmagic-border-inner .react-knockout-control .powerapps-icon");
+        await Task.Run(() => Assert.IsTrue(saveButton.IsDisabledAsync().Result));
+      }
+      else
+      {
+        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Edit Case\"]").ClickAsync();
+        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"File path\\.\\.\\.\"]").Nth(3).ClickAsync();
+        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"File path\\.\\.\\.\"]").Nth(3).FillAsync("");
+        var saveButton = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div:nth-child(121) .appmagic-borderfill-container .appmagic-border-inner .react-knockout-control .powerapps-icon");
+        await Task.Run(() => Assert.IsTrue(saveButton.IsDisabledAsync().Result));
+      }
     }
   }
 
