@@ -44,6 +44,20 @@ namespace pre.test.pages
       await Task.Run(() => Assert.IsTrue(error.IsVisibleAsync().Result));
     }
 
+    public async Task PageCheck()
+    {
+      var Header = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=Recording Start");
+      await Task.Run(() => Assert.That(Header.TextContentAsync().Result, Does.Contain("Recording Start")));
+    }
+    public async Task CheckSaveButtonDisabled()
+    {
+      for(int i = 2; i < 7; i ++)
+      {
+         var Button = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text=Item {i} On >> [aria-label=\"Save\"]");
+        await Task.Run(() => Assert.IsTrue(Button.IsDisabledAsync().Result));
+      }
+    }
+
   }
 }
 

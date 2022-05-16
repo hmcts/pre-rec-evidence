@@ -49,5 +49,19 @@ namespace pre.test
       await _adminManageRecordings.pastDateError();
     }
 
+    
+    [Given(@"I do not make a change")]
+    public async Task GivenIdonotmakeachange()
+    {
+	    await _adminManageRecordings.PageCheck();
+    }
+  
+    [Then(@"the save button will be disabled")]
+    public async Task Thenthesavebuttonwillbedisabled()
+    {
+      await _adminManageRecordings.CheckSaveButtonDisabled();
+    }
+
+
   }
 }
