@@ -190,12 +190,12 @@ namespace pre.test.pages
 
     // public async Task BookRecordingsCheckUpdatedDefendant()
     // {
-    //Bug S28-496
-    // else if (UpdateSchedules.use == "E")
-    // {
-    //   //var defendant = UpdateSchedules._pagesetters.Page.Frame("fullscreen-app-host").Locator("text=Defendants: defendants 2");
-    //   //await Task.Run(() =>Assert.That(defendant.TextContentAsync().Result, Does.Contain("defendants 2")));
-    // }
+      //Bug S28-496
+      // else if (UpdateSchedules.use == "E")
+      // {
+      //   //var defendant = UpdateSchedules._pagesetters.Page.Frame("fullscreen-app-host").Locator("text=Defendants: defendants 2");
+      //   //await Task.Run(() =>Assert.That(defendant.TextContentAsync().Result, Does.Contain("defendants 2")));
+      // }
     //}
 
     public async Task UpdateWitness()
