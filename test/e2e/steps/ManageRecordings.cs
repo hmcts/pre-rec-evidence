@@ -45,6 +45,18 @@ namespace pre.test
     {
       await _manageRecording.pastDateErrorMessage();
     }
+
+     [Given(@"I have removed the court")]
+    public async Task GivenIhaveremovedthecourt()
+    {
+      await _manageRecording.RemoveCourt();
+    }
+
+    [Then(@"the save button should be disabled")]
+    public async Task Thenthesavebuttonshouldbedisabled()
+    {
+      await _manageRecording.checkSaveButtonDisabled();
+    }
   }
 
 }

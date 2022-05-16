@@ -42,7 +42,9 @@ namespace pre.test.Hooks
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Search Case Ref\"]").FillAsync($"{ManageRecording.caseRef}");
 
       var results = HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("#publishedCanvas div:nth-child(19) div.virtualized-gallery div:nth-child(1) div.canvasContentDiv.container_1vt1y2p div div:nth-child(2)").First;
+      while (results.InnerTextAsync().Result.Contains($"{ManageRecording.caseRef}") == false){
       await Task.Run(() => Assert.That(results.InnerTextAsync().Result, Does.Contain($"{ManageRecording.caseRef}")));
+      }
     }
   }
 }
