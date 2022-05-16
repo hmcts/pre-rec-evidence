@@ -46,5 +46,16 @@ namespace pre.test.pages
         await Task.Run(() => Assert.That(error.TextContentAsync().Result, Does.Contain("Date cannot be in the past.")));
       }
     }
+
+    public async Task RemoveCourt(){
+        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Amend\")").ClickAsync();
+        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Courts\\. Selected\\: Leeds\"]").ClickAsync();
+        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Remove Leeds from selection\"]").ClickAsync();
+    }
+
+    public async Task checkSaveButtonDisabled(){
+      var saveButton = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Save\")");
+      await Task.Run(() => Assert.IsTrue(saveButton.IsDisabledAsync().Result));
+    }
   }
 }

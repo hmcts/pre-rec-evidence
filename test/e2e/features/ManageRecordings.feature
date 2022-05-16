@@ -10,3 +10,8 @@ Scenario: Check stream button is hidden when there's no stream
 Scenario: Amend button should not allow the schedule date to be updated to the past
   Given I update the schedule date to a past date
   Then an error message should come up to say the date cannot be in the past
+
+@CaseAndScheduleCreate
+Scenario: Amend button should not allow the court to be removed
+  Given I have removed the court
+  Then the save button should be disabled
