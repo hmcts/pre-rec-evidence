@@ -57,6 +57,24 @@ namespace pre.test
     {
       await _manageRecording.checkSaveButtonDisabled();
     }
+
+
+    
+    [Given(@"I update a recording")]
+   public async Task GivenIupdatearecording()
+   {
+	   await _manageRecording.UpdateRecording();
+   }
+
+     
+   [Then(@"the success message says recording updated")]
+   public async Task Thenthesuccessmessagesaysrecordingupdated()
+   {
+	   await _manageRecording.updaterecordingConfirmationcheck();
+   }
+
+
+       
   }
 
 }

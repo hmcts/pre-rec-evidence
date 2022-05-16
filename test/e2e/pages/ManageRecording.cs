@@ -57,5 +57,20 @@ namespace pre.test.pages
       var saveButton = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Save\")");
       await Task.Run(() => Assert.IsTrue(saveButton.IsDisabledAsync().Result));
     }
+    
+
+    public async Task UpdateRecording()
+    {
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Amend\")").ClickAsync();
+      await Page.Frame("fullscreen-app-host").ClickAsync("[aria-label=\"Toggle\"] div >> nth=2");
+      await Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Save\")");
+    }
+
+    public async Task updaterecordingConfirmationcheck()
+    {
+      var ConfirmationMessage = Page.Frame("fullscreen-app-host").Locator("text=Recording Updated");
+      await Task.Run(() => Assert.That(ConfirmationMessage.TextContentAsync().Result, Does.Contain("Recording Updated")));
+    }
+
   }
 }
