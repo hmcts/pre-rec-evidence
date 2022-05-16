@@ -35,3 +35,8 @@ test/Pa11y/pa11y-ci-results.json
 test/Pa11y/Screenshots/
 test/Pa11y/pa11y-ci-report/
 auth.json
+*.cs
+test/e2e/features/*.cs
+test/e2e/pre.csproj
+.vscode/launch.json
+.vscode/tasks.json
