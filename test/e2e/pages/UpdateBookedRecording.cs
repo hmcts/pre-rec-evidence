@@ -22,9 +22,7 @@ namespace pre.test.pages
     public static string Uwit2 = "UWitness surname2";
     public static string Udef1 = "Udefendants 1";
     public static string Udef2 = "Udefendants 2";
-
     public static Boolean flag = false;
-    
     protected static ILocator inputBoxes;
     public string dateNum = (DateTime.UtcNow.AddDays(+1)).ToString("dd");
     public string monthNum = (DateTime.UtcNow.AddDays(+1)).ToString("MM");
