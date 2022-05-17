@@ -9,25 +9,30 @@ I want to update witnesses and defendents
 Scenario: Search Case
 Given I want to find an existing Cases and enter the case reference
 Then the application will check if the case reference already exists
-# # Then I cannot make a case with the same name - Bug S28-491
+# Then I cannot make a case with the same name - Bug S28-491
+Then I can create additional schedules
+Then this schedule will be visible in manage recordings
 
 @createCase
-Scenario: Update Case
+Scenario: Update Witnesses
 Given I enter and save additional witnesses
 Then the case will be updated in manage recordings
 Then the case will be updated in schedule recordings
+Then the case will be updated in book recordings as well
 
 @createCase
 Scenario: Update defendant
 Given I enter and save additional defendants
 Then the case will be updated in manage recordings
 Then the case will be updated in schedule recordings
+Then the case will be updated in book recordings as well
 
 @createCase
 Scenario: Update defendant and witness
 Given I enter and save additional defendants and witnesses
 Then the case will be updated in manage recordings
 Then the case will be updated in schedule recordings
+Then the case will be updated in book recordings as well
 
  @createCase
 Scenario: Remove Witness that has not been scheduled
@@ -88,5 +93,3 @@ Then the case on manage cases will be updated
 # Scenario: Remove Witness and defendants and save 
 # Given I remove the text form witness and defendant fields and attempt to click save
 # Then  the save icon is disabled 
-
-
