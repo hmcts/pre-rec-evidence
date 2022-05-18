@@ -2,10 +2,11 @@ Feature: External portal recordings
  In order to view recordings as an external user
  I need to be able to see recordings shared with me
 
-@SharedRecordingAtPortal
-Scenario: View shared recording details and status change
-  Given I can view the shared recording and I click on it
-  Then the status changes
+# Needs test env
+# @SharedRecordingAtPortal
+# Scenario: View shared recording details and status change
+#   Given I can view the shared recording and I click on it
+#   Then the status changes
 
 # @SharedRecordingAtPortal
 # S28-195 AC2 - test needs to be added once editing functionality has been set up
@@ -35,4 +36,17 @@ Scenario: View shared recording details and status change
 #   When I go to the portal
 # #  Then I can view the recording uid
 #   Then the recording is unshared and no longer visible
+
+@AddingAndRemovingParticipant
+Scenario: Confirmation message when removing participant from share
+  Given I remove access for a participant to view a recording
+#   Then  a message is displayed to confirm I want to remove this participant - Bug S28-152, unskip when resolved
+  Then the participant is removed when I confirm
+
+# Add this test once test env is aligned
+# @AddingAndRemovingParticipant
+# Scenario: 
+#   Given I have a participant with access to a recording
+#   When I remove this access
+#   Then the participant will not be able to access to the recording
 

@@ -97,5 +97,20 @@ namespace pre.test
     }
 
 
+    [Given(@"I remove access for a participant to view a recording")]
+    public async Task GivenIremoveaccessforaparticipanttoviewarecording()
+    {
+      await _externalPortal.removeAccess();
+    }
+
+
+    [Then(@"the participant is removed when I confirm")]
+    public async Task ThentheparticipantisremovedwhenIconfirm()
+    {
+      await _externalPortal.checkRemoved();
+    }
+
+
+
   }
 }
