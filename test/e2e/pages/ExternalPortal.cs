@@ -19,6 +19,11 @@ namespace pre.test.pages
     public static string witnessName = "null";
     protected string UpdatedWitnessName = "null";
     protected string courtName = "null";
+    public static string caseRef = $"sharetestauto{date}";
+    public static string day = DateTime.UtcNow.ToString("ddd");
+    public static string month = DateTime.UtcNow.ToString("MMM");
+    public static string dateNum = DateTime.UtcNow.ToString("dd");
+    public static string year = DateTime.UtcNow.ToString("yyyy");
     public async Task ViewRecording()
     {
       var tableCaseRef = Page.Locator($"text={caseName}");
@@ -120,9 +125,19 @@ namespace pre.test.pages
 
       // await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text=Case Ref: {caseName}").ScrollIntoViewIfNeededAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text=Case Ref: {caseName}").ClickAsync();
-
     }
 
+    public async Task removeAccess()
+    {
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Recording Gallery\"] button:has-text(\"Manage\")").ClickAsync();
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Cases Gallery\"]").ClickAsync();
+    }
+
+    public async Task checkRemoved()
+    {
+      var check = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Recordings Gallery\"] div").Nth(1);
+      await Task.Run(() => Assert.That(check.InnerTextAsync().Result, Does.Not.Contain($"{emailToShare}")));
+    }
   }
 }
 
