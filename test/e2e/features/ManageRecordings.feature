@@ -20,3 +20,8 @@ Scenario: Amend button should not allow the court to be removed
 Scenario: Success message after clicking save should say recording updated
   Given I update a recording
   Then the success message says recording updated
+
+@CaseAndScheduleCreate
+Scenario: Check recording version number
+  Given I've created a case
+  Then I can see the version number for the recording

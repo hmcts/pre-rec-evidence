@@ -40,24 +40,28 @@ namespace pre.test.pages
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button[role=\"button\"]:has-text(\"Ok\")").ClickAsync();
     }
 
-    public async Task pastDateErrorMessage(){
+    public async Task pastDateErrorMessage()
+    {
       var error = Page.Locator("text=Date cannot be in the past.");
-      while (error.IsVisibleAsync().Result == false){
+      while (error.IsVisibleAsync().Result == false)
+      {
         await Task.Run(() => Assert.That(error.TextContentAsync().Result, Does.Contain("Date cannot be in the past.")));
       }
     }
 
-    public async Task RemoveCourt(){
-        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Amend\")").ClickAsync();
-        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Courts\\. Selected\\: Leeds\"]").ClickAsync();
-        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Remove Leeds from selection\"]").ClickAsync();
+    public async Task RemoveCourt()
+    {
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Amend\")").ClickAsync();
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Courts\\. Selected\\: Leeds\"]").ClickAsync();
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Remove Leeds from selection\"]").ClickAsync();
     }
 
-    public async Task checkSaveButtonDisabled(){
+    public async Task checkSaveButtonDisabled()
+    {
       var saveButton = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Save\")");
       await Task.Run(() => Assert.IsTrue(saveButton.IsDisabledAsync().Result));
     }
-    
+
 
     public async Task UpdateRecording()
     {
@@ -70,6 +74,18 @@ namespace pre.test.pages
     {
       var ConfirmationMessage = Page.Frame("fullscreen-app-host").Locator("text=Recording Updated");
       await Task.Run(() => Assert.That(ConfirmationMessage.TextContentAsync().Result, Does.Contain("Recording Updated")));
+    }
+
+    public async Task createdCase()
+    {
+      var results = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator(" div.canvasContentDiv.container_1vt1y2p div:nth-child(2)").First;
+      await Task.Run(() => Assert.That(results.InnerTextAsync().Result, Does.Contain($"{caseRef}")));
+    }
+
+    public async Task checkVersionNumber()
+    {
+      var version = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=V.1");
+      await Task.Run(() => Assert.IsTrue(version.IsVisibleAsync().Result));
     }
 
   }

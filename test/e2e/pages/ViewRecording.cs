@@ -16,7 +16,7 @@ namespace pre.test.pages
     public async Task FindCaseToView()
     {
       var caseLocation = ViewRecordings._pagesetters.Page.Frame("fullscreen-app-host").Locator(
-        "div.virtualized-gallery.hideScrollbar  div:nth-child(1) >div.canvasContentDiv.container_1vt1y2p div:nth-child(3)");
+        "div:nth-child(20)  div:nth-child(1) > div.canvasContentDiv.container_1vt1y2p > div > div:nth-child(3)");
       stringCase = caseLocation.TextContentAsync().Result.ToString().Trim();
       stringCase = stringCase.Substring(stringCase.LastIndexOf(':') + 1);
 
@@ -26,7 +26,7 @@ namespace pre.test.pages
 
     public async Task CheckSearch()
     {
-      var results = ViewRecordings._pagesetters.Page.Frame("fullscreen-app-host").Locator("#publishedCanvas  div.virtualized-gallery.hideScrollbar div.canvasContentDiv.container_1vt1y2p > div > div:nth-child(3)").First;
+      var results = ViewRecordings._pagesetters.Page.Frame("fullscreen-app-host").Locator("div:nth-child(20)  div:nth-child(1) > div.canvasContentDiv.container_1vt1y2p > div > div:nth-child(3)").First;
       await Task.Run(() => Assert.That(results.TextContentAsync().Result, Does.Contain($"{stringCase.Trim()}")));
     }
 
@@ -56,6 +56,12 @@ namespace pre.test.pages
       var timeStamp = ViewRecordings._pagesetters.Page.Frame("fullscreen-app-host")
         .Locator("#publishedCanvas div:nth-child(8) > div > div > div > div > div > div > div");
       await Task.Run(() => Assert.IsFalse(timeStamp.IsVisibleAsync().Result));
+    }
+
+    public async Task checkVersion()
+    {
+      var version = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=V.1").First;
+      await Task.Run(() => Assert.IsTrue(version.IsVisibleAsync().Result));
     }
   }
 }
