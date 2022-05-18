@@ -46,7 +46,7 @@ namespace pre.test
       await _manageRecording.pastDateErrorMessage();
     }
 
-     [Given(@"I have removed the court")]
+    [Given(@"I have removed the court")]
     public async Task GivenIhaveremovedthecourt()
     {
       await _manageRecording.RemoveCourt();
@@ -59,22 +59,36 @@ namespace pre.test
     }
 
 
-    
+
     [Given(@"I update a recording")]
-   public async Task GivenIupdatearecording()
-   {
-	   await _manageRecording.UpdateRecording();
-   }
-
-     
-   [Then(@"the success message says recording updated")]
-   public async Task Thenthesuccessmessagesaysrecordingupdated()
-   {
-	   await _manageRecording.updaterecordingConfirmationcheck();
-   }
+    public async Task GivenIupdatearecording()
+    {
+      await _manageRecording.UpdateRecording();
+    }
 
 
-       
+    [Then(@"the success message says recording updated")]
+    public async Task Thenthesuccessmessagesaysrecordingupdated()
+    {
+      await _manageRecording.updaterecordingConfirmationcheck();
+    }
+
+
+    [Given(@"I've created a case")]
+    public async Task GivenIvecreatedacase()
+    {
+      await _manageRecording.createdCase();
+    }
+
+
+    [Then(@"I can see the version number for the recording")]
+    public async Task ThenIcanseetheversionnumberfortherecording()
+    {
+      await _manageRecording.checkVersionNumber();
+    }
+
+
+
   }
 
 }

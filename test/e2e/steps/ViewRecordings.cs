@@ -57,5 +57,13 @@ namespace pre.test
       await _viewrecording.CheckTimeStampOn();
     }
 
+    
+[Then(@"I can see the version for the recording")]
+public async Task ThenIcanseetheversionfortherecording()
+{
+	await _viewrecording.checkVersion();
+}
+
+
   }
 }
