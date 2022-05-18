@@ -78,7 +78,7 @@ namespace pre.test.pages
 
     public async Task createdCase()
     {
-      var results = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("#publishedCanvas div:nth-child(19) div.virtualized-gallery div:nth-child(1) div.canvasContentDiv.container_1vt1y2p div div:nth-child(2)").First;
+      var results = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator(" div.canvasContentDiv.container_1vt1y2p div:nth-child(2)").First;
       await Task.Run(() => Assert.That(results.InnerTextAsync().Result, Does.Contain($"{caseRef}")));
     }
 
