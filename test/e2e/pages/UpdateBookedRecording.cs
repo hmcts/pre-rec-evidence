@@ -234,7 +234,7 @@ namespace pre.test.pages
 
       if (UpdateBookedRecordings.use == "W")
       {
-        await Page.Frame("fullscreen-app-host").ClickAsync("#publishedCanvas  div:nth-child(42)");
+        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"[aria-label=\"Defendants\\. Selected\\: {Uwit1}\"]").ClickAsync();
         await Task.Run(() => Assert.That(dropdown.AllInnerTextsAsync().Result, Does.Contain($"{Uwit1}")));
         await Task.Run(() => Assert.That(dropdown.AllInnerTextsAsync().Result, Does.Contain($"{Uwit2}")));
         await Task.Run(() => Assert.That(dropdown.AllInnerTextsAsync().Result, Does.Not.Contain($"{wit1}")));
@@ -242,7 +242,7 @@ namespace pre.test.pages
       }
       else if (UpdateBookedRecordings.use == "D")
       {
-        await Page.Frame("fullscreen-app-host").ClickAsync("#publishedCanvas div:nth-child(59)");
+        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"[aria-label=\"Defendants\\. Selected\\: {Udef1}\"]").ClickAsync();
         await Task.Run(() => Assert.That(dropdown.AllInnerTextsAsync().Result, Does.Contain($"{Udef1}")));
         await Task.Run(() => Assert.That(dropdown.AllInnerTextsAsync().Result, Does.Contain($"{Udef2}")));
         await Task.Run(() => Assert.That(dropdown.AllInnerTextsAsync().Result, Does.Not.Contain($"{def1}")));
@@ -250,13 +250,14 @@ namespace pre.test.pages
       }
       else
       {
-        await Page.Frame("fullscreen-app-host").ClickAsync("#publishedCanvas  div:nth-child(42)");
+        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"[aria-label=\"Defendants\\. Selected\\: {Uwit1}\"]").ClickAsync();
         await Task.Run(() => Assert.That(dropdown.AllInnerTextsAsync().Result, Does.Contain($"{Uwit1}")));
         await Task.Run(() => Assert.That(dropdown.AllInnerTextsAsync().Result, Does.Contain($"{Uwit2}")));
         await Task.Run(() => Assert.That(dropdown.AllInnerTextsAsync().Result, Does.Not.Contain($"{wit1}")));
         await Task.Run(() => Assert.That(dropdown.AllInnerTextsAsync().Result, Does.Not.Contain($"{wit2}")));
         await Page.Frame("fullscreen-app-host").ClickAsync("text=HMCTS Logo Dev Home Manage Recordings Court Court NameOpen popup to select items");
-        await Page.Frame("fullscreen-app-host").ClickAsync("#publishedCanvas div:nth-child(59)");
+      
+        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"[aria-label=\"Defendants\\. Selected\\: {Udef1}\"]").ClickAsync();
         await Task.Run(() => Assert.That(dropdown.AllInnerTextsAsync().Result, Does.Contain($"{Udef1}")));
         await Task.Run(() => Assert.That(dropdown.AllInnerTextsAsync().Result, Does.Contain($"{Udef2}")));
         await Task.Run(() => Assert.That(dropdown.AllInnerTextsAsync().Result, Does.Not.Contain($"{def1}")));

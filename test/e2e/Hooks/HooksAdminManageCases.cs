@@ -12,7 +12,7 @@ namespace pre.test.Hooks
 
     public static string caseName = "";
     public static string witnesses = "wit1";
-     public static string defendants = "def1";
+    public static string defendants = "def1";
     public static string court = "Leeds";
     public string day = DateTime.UtcNow.ToString("ddd");
     public string month = DateTime.UtcNow.ToString("MMM");
@@ -24,8 +24,8 @@ namespace pre.test.Hooks
     {
       var date = DateTime.UtcNow.ToString("yyyyMMddHHmmss");
       caseName = $"ManageCaseAuto{date}";
-      // using sandbox url whilst test is aligned, change in future
-      await HooksInitializer._context.Page.GotoAsync("https://apps.powerapps.com/play/97f0b518-0111-4c1e-9bbf-4bca71b82b84");
+      await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.demoUrl}");
+      await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Button\")").ClickAsync(); // Bug S28-522, clicking skip security button whilst, remove when fixed
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Book a Recording\")").ClickAsync();
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div[role=\"button\"]:has-text(\"Court Name\")").ClickAsync();
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text={court}").ClickAsync();
@@ -79,22 +79,24 @@ namespace pre.test.Hooks
       await Task.Run(() => Assert.That(courtLocator.InnerTextAsync().Result, Does.Contain($"{AdminManageCase.court}")));
     }
 
-    [AfterScenario("RevertDate", Order = 0)]
+    [AfterScenario("RevertDateCase", Order = 0)]
     public async Task RevertDate()
     {
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=HMCTS Logo").ClickAsync();
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Admin\")").ClickAsync();
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Manage Cases\"]").First.ClickAsync();
+      await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Case Ref \\\\ URN \\\\ ID \\\\ Court\"]").ClickAsync();
+      await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Case Ref \\\\ URN \\\\ ID \\\\ Court\"]").FillAsync($"{AdminManageCase.caseRef}");
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text=Item 1. Selected. Case ID: {AdminManageCase.caseId} Case Ref: {AdminManageCase.caseRef}").ClickAsync();
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator(".container_1f0sgyp div:nth-child(3) .appmagic-borderfill-container .appmagic-border-inner .react-knockout-control .appmagic-label .appmagic-label-text").First.ClickAsync();
-      await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text=Schedule ID: {AdminManageCase.scheduleId} Schedule Date: {AdminManageCase.tomoDateNum}/{AdminManageCase.tomoMonth}/{AdminManageCase.tomoYear} >> [aria-label=\"Edit Schedule\"]").ClickAsync();
+      await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Edit Schedule\"]").ClickAsync();
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"[aria-label=\"Schedule Date{AdminManageCase.tomoDateNum}\\/{AdminManageCase.tomoMonth}\\/{AdminManageCase.tomoYear}\\. Open calendar to select a date\"]").ClickAsync();
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"[aria-label=\"{AdminManageCase.today} {AdminManageCase.monthWord} {AdminManageCase.dateNum} {AdminManageCase.year}\"]").ClickAsync();
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button[role=\"button\"]:has-text(\"Ok\")").ClickAsync();
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div:nth-child(124) .appmagic-borderfill-container .appmagic-border-inner .react-knockout-control .powerapps-icon").ClickAsync();
 
-      var scheduleDateLocator = HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("#publishedCanvas div:nth-child(48)  div.virtualized-gallery div.canvasContentDiv.container_1vt1y2p > div > div:nth-child(2)").First;
+      var scheduleDateLocator = HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text=Schedule Date: {AdminManageCase.dateNum}/{AdminManageCase.month}/{AdminManageCase.year}").First;
       await Task.Run(() => Assert.That(scheduleDateLocator.InnerTextAsync().Result, Does.Contain($"{AdminManageCase.dateNum}/{AdminManageCase.month}/{AdminManageCase.year}")));
-    }
+     }
   }
 }

@@ -26,11 +26,12 @@ Given I have a scheduled recording
 When I change the witness and save the updated record
 Then the scheduled recording will show the new witness
 
-@UpdatingSchedule
-Scenario: Update Court
-Given I have a particular schedule
-When I change the court and save 
-Then the schedule will show the updated court
+# - Only one court in MVP - test not needed currently
+# @UpdatingSchedule
+# Scenario: Update Court
+# Given I have a particular schedule
+# When I change the court and save 
+# Then the schedule will show the updated court
 
 @UpdatingSchedule
 Scenario: Remove defendant
@@ -38,7 +39,7 @@ Given I have chosen a particular scheduled recording
 When I remove a defendant and save the updated record
 Then the scheduled recording will not show that defendant
 
-@UpdatingSchedule
+@UpdatingSchedule 
 Scenario: Update all fields
 Given I have scheduled a recording
 When I change every field and save the updated record

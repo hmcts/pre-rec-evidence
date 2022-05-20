@@ -28,6 +28,7 @@ namespace pre.test.pages
     protected string yesterYear = ((DateTime.UtcNow.AddDays(-1)).ToString("yyyy"));
     protected string witnessName = "Witness surname";
     protected string defendantName = "defendants 1";
+    protected string court = "Leeds";
 
     public async Task EnterCaseDetails()
     {
@@ -39,7 +40,7 @@ namespace pre.test.pages
                 .FillAsync("[placeholder=\"Case\\ Number\\ \\\\\\ URN\"]", $"{caseName}");
       await Page.Frame("fullscreen-app-host").ClickAsync("[aria-label=\"Select\\ Court\"]");
       await Page.Frame("fullscreen-app-host")
-        .ClickAsync("[aria-label=\"Select\\ Court\\ items\"] div:has-text(\"Leeds\")");
+        .ClickAsync($"[aria-label=\"Select\\ Court\\ items\"] div:has-text(\"{court}\")");
       await Page.Frame("fullscreen-app-host")
         .ClickAsync("[aria-label=\"Enter\\ your\\ Defendants\\,\\ comma\\ seperated\"]");
       await Page.Frame("fullscreen-app-host")
@@ -100,14 +101,14 @@ namespace pre.test.pages
       await Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Book a Recording\")");
       await Page.Frame("fullscreen-app-host").ClickAsync("[aria-label=\"Select\\ Court\"]");
       await Page.Frame("fullscreen-app-host")
-        .ClickAsync("[aria-label=\"Select\\ Court\\ items\"] div:has-text(\"Leeds\")");
+        .ClickAsync($"[aria-label=\"Select\\ Court\\ items\"] div:has-text(\"{court}\")");
 
       await Page.Frame("fullscreen-app-host")
         .FillAsync("[placeholder=\"Case\\ Number\\ \\\\\\ URN\"]", $"{caseName}");
 
       var caseLocation = BookRecordings._pagesetters.Page.Frame("fullscreen-app-host")
         .Locator("#publishedCanvas div:nth-child(5) div.canvasContentDiv.container_1vt1y2p div:nth-child(3)").First;
-      await Task.Run(() => Assert.That(caseLocation.TextContentAsync().Result.Trim(), Does.Contain("Leeds")));
+      await Task.Run(() => Assert.That(caseLocation.TextContentAsync().Result.Trim(), Does.Contain($"{court}")));
 
       var caseNameLocator = BookRecordings._pagesetters.Page.Frame("fullscreen-app-host").Locator(
         "#publishedCanvas div.canvasContentDiv.container_1vt1y2p div div:nth-child(1) div div div div div");
@@ -126,7 +127,7 @@ namespace pre.test.pages
         .Locator("#powerapps-flyout-react-combobox-view-0");
 
       await Page.Frame("fullscreen-app-host")
-        .ClickAsync("#powerapps-flyout-react-combobox-view-0:has-text(\"Leeds 01\")");
+        .ClickAsync($"#powerapps-flyout-react-combobox-view-0:has-text(\"{court}\")");
 
     }
 
@@ -137,7 +138,7 @@ namespace pre.test.pages
         .FillAsync("[placeholder=\"Case\\ Number\\ \\\\\\ URN\"]", $"{caseName}");
       await Page.Frame("fullscreen-app-host").ClickAsync("[aria-label=\"Select\\ Court\"]");
       await Page.Frame("fullscreen-app-host")
-        .ClickAsync("[aria-label=\"Select\\ Court\\ items\"] div:has-text(\"Leeds\")");
+        .ClickAsync($"[aria-label=\"Select\\ Court\\ items\"] div:has-text(\"{court}\")");
       await Page.Frame("fullscreen-app-host")
         .ClickAsync("[aria-label=\"Enter\\ your\\ Defendants\\,\\ comma\\ seperated\"]");
       await Page.Frame("fullscreen-app-host")
@@ -231,7 +232,7 @@ namespace pre.test.pages
         await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Enter your Defendants\\, comma seperated\"]").PressAsync("Tab");
         await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Enter your Witnesses\\, comma seperated\"]").FillAsync("wit1");
         await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div[role=\"button\"]:has-text(\"Court Name\")").ClickAsync();
-        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("ul[role=\"listbox\"] div:has-text(\"Chris\")").ClickAsync();
+        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"ul[role=\"listbox\"] div:has-text(\"{court}\")").ClickAsync();
       }
       if (use == "blankCaseWitnesses")
       {
@@ -240,7 +241,7 @@ namespace pre.test.pages
         await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Enter your Defendants\\, comma seperated\"]").ClickAsync();
         await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Enter your Defendants\\, comma seperated\"]").FillAsync("def1");
         await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div[role=\"button\"]:has-text(\"Court Name\")").ClickAsync();
-        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("ul[role=\"listbox\"] div:has-text(\"Chris\")").ClickAsync();
+        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"ul[role=\"listbox\"] div:has-text(\"{court}\")").ClickAsync();
       }
       if (use == "blankCaseDefendants")
       {
@@ -249,7 +250,7 @@ namespace pre.test.pages
         await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Enter your Witnesses\\, comma seperated\"]").ClickAsync();
         await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Enter your Witnesses\\, comma seperated\"]").FillAsync("wit1");
         await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div[role=\"button\"]:has-text(\"Court Name\")").ClickAsync();
-        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("ul[role=\"listbox\"] div:has-text(\"Chris\")").ClickAsync();
+        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"ul[role=\"listbox\"] div:has-text(\"{court}\")").ClickAsync();
       }
       await Task.Run(() => Assert.IsTrue(saveButton.IsDisabledAsync().Result));
     }
@@ -282,8 +283,8 @@ namespace pre.test.pages
         {
           // Bug S28-240 - unskip when resolved
           //var saveButton = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Save\")").Nth(2);
-          var deleteButton = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div.canvasContentDiv.container_1vt1y2p div:nth-child(6) > div > div > div > div").Nth(i);
-          await deleteButton.ClickAsync();
+          await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div.canvasContentDiv.container_1vt1y2p div:nth-child(6) > div > div > div > div").First.ClickAsync();
+          await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Delete\")").ClickAsync();
           //await Task.Run(() => Assert.IsTrue(saveButton.IsDisabledAsync().Result));
         }
       }
@@ -295,7 +296,7 @@ namespace pre.test.pages
       caseName = $"ScheduleAutoTest{date}";
 
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div[role=\"button\"]:has-text(\"Court Name\")").ClickAsync();
-      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("li[role=\"option\"]:has-text(\"Leeds\")").ClickAsync();
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"li[role=\"option\"]:has-text(\"{court}\")").ClickAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div:nth-child(42) .appmagic-borderfill-container .appmagic-border-inner .react-knockout-control .appmagic-textbox .appmagic-text").ClickAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div:nth-child(42) .appmagic-borderfill-container .appmagic-border-inner .react-knockout-control .appmagic-textbox .appmagic-text").FillAsync($"{caseName}");
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Enter your Defendants\\, comma seperated\"]").ClickAsync();

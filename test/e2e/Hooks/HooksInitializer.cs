@@ -23,6 +23,9 @@ namespace pre.test.Hooks
     .AddJsonFile("secrets.json")
     .Build();
     protected string authPath = config["authPath"];
+    public static string testUrl = config["testUrl"];
+    public static string demoUrl = config["demoUrl"];
+    public static string sboxUrl = config["sboxUrl"];
     public HooksInitializer(IObjectContainer objectContainer, ScenarioContext scenarioContext, PageSetters context,
       ISpecFlowOutputHelper outputHelper)
     {
