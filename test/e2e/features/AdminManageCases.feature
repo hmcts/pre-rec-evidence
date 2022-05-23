@@ -3,14 +3,15 @@ TBC
 ## When test is aligned, add a test to check 'avaliable recordings' is yes for the case we use in auto tests with a recording
 #Cases now need to have recordings to be in view recordings....should these steps become zephyr tests?
 
-@CreateAndManageCase @CreateAndManageCaseAndSchedule @AdminManageCases @RevertCourt
-Scenario: Update Court
-  Given I update the court on a case
-  Then the court will be updated in book recordings
-  Then the court will be updated in manage recordings
-  # Then the court will be updated in view recordings 
+# - Only one court in MVP - test not needed currently
+# @CreateAndManageCase @CreateAndManageCaseAndSchedule @AdminManageCases @RevertCourt
+# Scenario: Update Court
+#   Given I update the court on a case
+#   Then the court will be updated in book recordings
+#   Then the court will be updated in manage recordings
+#  # Then the court will be updated in view recordings 
 
-@CreateAndManageCase @CreateAndManageCaseAndSchedule @AdminManageCases @RevertDate
+@CreateAndManageCase @CreateAndManageCaseAndSchedule @AdminManageCases @RevertDateCase
   Scenario: Update Scheduled date
   Given I update the scheduled date on a recording
   Then the scheduled date will be updated in book recordings
@@ -36,15 +37,15 @@ Scenario: Update Court
 #  When I delete the case 
 #  Then the case is no longer visible in book recordings
 
-# add this test once the test env is working again so can use case with recording
-  # @AdminManageCases
-  # Scenario: Delete case with recording 
-  # Given I have created a case and a schedule for it
-  # When I delete the case
-  # Then the case is no longer visible in book recordings
-  # Then the case is no longer visible in schedule recordings
-  # Then the schedule is no longer visible in manage recordings
-  # Then the schedule is no longer visible in view recordings
+# # add this test once the test env is working again so can use case with recording
+#   # @AdminManageCases
+#   # Scenario: Delete case with recording 
+#   # Given I have created a case and a schedule for it
+#   # When I delete the case
+#   # Then the case is no longer visible in book recordings
+#   # Then the case is no longer visible in schedule recordings
+#   # Then the schedule is no longer visible in manage recordings
+#   # Then the schedule is no longer visible in view recordings
 
   @CreateAndManageCase
   Scenario: Search by case reference

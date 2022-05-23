@@ -183,8 +183,6 @@ namespace pre.test.pages
 
       var scheduleDateManage = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"[aria-label=\"{tomorrow} {tomoMonthWord} {tomoDateNum} {tomoYear}\\. Selected\\.\"]");
       await Task.Run(() => Assert.IsTrue(scheduleDateManage.IsVisibleAsync().Result));
-
-      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Recording Gallery\"] button:has-text(\"Record\")").First.ClickAsync();
     }
 
     public async Task checkDateViewRecordings()

@@ -12,8 +12,8 @@ namespace pre.test.Hooks
     [BeforeScenario("UpdatingSchedule", Order = 1)]
     public async Task goToUpdateSchedule()
     {
-      // using sandbox url whilst test is aligned, change in future
-      await HooksInitializer._context.Page.GotoAsync("https://apps.powerapps.com/play/97f0b518-0111-4c1e-9bbf-4bca71b82b84");
+       await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.demoUrl}");
+      await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Button\")").ClickAsync(); // Bug S28-522, clicking skip security button whilst, remove when fixed
       var book = HooksInitializer._context.Page.Frame("fullscreen-app-host").Locator("button:has-text(\"Book a Recording\")");
 
       await Task.Run(() => book.IsVisibleAsync().Result);
@@ -34,12 +34,12 @@ namespace pre.test.Hooks
       await HooksInitializer._context.Page.Frame("fullscreen-app-host")
         .ClickAsync("[aria-label=\"Enter\\ your\\ Defendants\\,\\ comma\\ seperated\"]");
       await HooksInitializer._context.Page.Frame("fullscreen-app-host")
-        .FillAsync("[aria-label=\"Enter\\ your\\ Defendants\\,\\ comma\\ seperated\"]", "defendants 1,\ndefendants 2");
+        .FillAsync("[aria-label=\"Enter\\ your\\ Defendants\\,\\ comma\\ seperated\"]", $"{UpdateSchedule.def1},\n{UpdateSchedule.def2}");
       await HooksInitializer._context.Page.Frame("fullscreen-app-host")
         .ClickAsync("[aria-label=\"Enter\\ your\\ Witnesses\\,\\ comma\\ seperated\"]");
       await HooksInitializer._context.Page.Frame("fullscreen-app-host")
         .FillAsync("[aria-label=\"Enter\\ your\\ Witnesses\\,\\ comma\\ seperated\"]",
-          "Witness surname1,\nWitness surname2");
+          $"{UpdateSchedule.wit1},\n{UpdateSchedule.wit2}");
       await HooksInitializer._context.Page.Frame("fullscreen-app-host").ClickAsync(":nth-match(button:has-text(\"Save\"), 2)");
       await HooksInitializer._context.Page.Frame("fullscreen-app-host")
         .ClickAsync("[aria-label=\"Select\\ Scheduled\\ Start\\ DateOpen\\ calendar\\ to\\ select\\ a\\ date\"]");
@@ -47,11 +47,11 @@ namespace pre.test.Hooks
       await HooksInitializer._context.Page.Frame("fullscreen-app-host").ClickAsync("button[role='button']:has-text(\"Ok\")");
       await HooksInitializer._context.Page.Frame("fullscreen-app-host").ClickAsync("[aria-label=\"Select\\ your\\ Witness\"]");
       await HooksInitializer._context.Page.Frame("fullscreen-app-host")
-        .ClickAsync("[aria-label=\"Select\\ your\\ Witness\\ items\"] div:has-text(\"Witness surname1\")");
+        .ClickAsync($"[aria-label=\"Select\\ your\\ Witness\\ items\"] div:has-text(\"{UpdateSchedule.wit1}\")");
       
       await HooksInitializer._context.Page.Frame("fullscreen-app-host").ClickAsync("[aria-label=\"Select\\ your\\ Defendants\"]");
       await HooksInitializer._context.Page.Frame("fullscreen-app-host")
-        .ClickAsync("[aria-label=\"Select\\ your\\ Defendants\\ items\"] div:has-text(\"defendants 1\")");
+        .ClickAsync($"[aria-label=\"Select\\ your\\ Defendants\\ items\"] div:has-text(\"{UpdateSchedule.def1}\")");
     }
   }
 }

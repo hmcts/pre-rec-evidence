@@ -10,8 +10,8 @@ namespace pre.test.Hooks
     [BeforeScenario("EditingRecordingDate", Order = 1)]
     public async Task goToAdminManageRecordings()
     {
-      // using sandbox url whilst test is aligned, change in future
-      await HooksInitializer._context.Page.GotoAsync("https://apps.powerapps.com/play/97f0b518-0111-4c1e-9bbf-4bca71b82b84");
+      await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.demoUrl}");
+      await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Button\")").ClickAsync(); // Bug S28-522, clicking skip security button whilst, remove when fixed
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Admin\")").ClickAsync();
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Manage Recordings\"]").ClickAsync();
     }

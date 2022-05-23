@@ -136,6 +136,7 @@ namespace pre.test.pages
     public async Task checkRemoved()
     {
       var check = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Recordings Gallery\"] div").Nth(1);
+      while (check.InnerTextAsync().Result == $"{emailToShare}"){}
       await Task.Run(() => Assert.That(check.InnerTextAsync().Result, Does.Not.Contain($"{emailToShare}")));
     }
   }

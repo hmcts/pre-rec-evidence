@@ -10,8 +10,7 @@ Scenario: Create Case
 @ScheduleCreate  
 Scenario: Arrange a schedule
  Given i fill required data for creating recording
- # Bug being worked on by Chris  
-#  Then the recordings box is filled
+ Then the recordings box is filled
  Then schedules will be created
 
 @ScheduleCreate  
@@ -20,10 +19,10 @@ Scenario: Arrange a schedule
  Then an error message is displayed
 
 # # Bug - will be fixed for MVP
-# @ScheduleCreate  
-# Scenario: Check Courts
-#   Given I select a court name
-#   Then I am presented only with MVP court names
+@ScheduleCreate  
+Scenario: Check Courts
+  Given I select a court name
+  Then I am presented only with MVP court names
 
 # Bug S28-480 - unskip when fixed
 # @ScheduleCreate @cleanUpRecordings 

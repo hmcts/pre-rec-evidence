@@ -15,8 +15,8 @@ namespace pre.test.Hooks
     {
       ManageRecording.caseRef = $"AutoManageTestCase{DateTime.UtcNow.ToString("yyyyMMddHHmmss")}";
 
-      // using sandbox url until environments are aligned, update to test in future
-      await HooksInitializer._context.Page.GotoAsync("https://apps.powerapps.com/play/97f0b518-0111-4c1e-9bbf-4bca71b82b84");
+      await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.demoUrl}");
+      await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Button\")").ClickAsync(); // Bug S28-522, clicking skip security button whilst, remove when fixed
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Book a Recording\")").ClickAsync();
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div[role=\"button\"]:has-text(\"Court Name\")").ClickAsync();
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("ul[role=\"listbox\"] div:has-text(\"Leeds\")").ClickAsync();
@@ -42,9 +42,9 @@ namespace pre.test.Hooks
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Search Case Ref\"]").FillAsync($"{ManageRecording.caseRef}");
 
       var results = HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("#publishedCanvas div:nth-child(19) div.virtualized-gallery div:nth-child(1) div.canvasContentDiv.container_1vt1y2p div div:nth-child(2)").First;
-      while (results.InnerTextAsync().Result.Contains($"{ManageRecording.caseRef}") == false){}
+      while (results.InnerTextAsync().Result.Contains($"{ManageRecording.caseRef}") == false) { }
       await Task.Run(() => Assert.That(results.InnerTextAsync().Result, Does.Contain($"{ManageRecording.caseRef}")));
-      
+
     }
   }
 }
