@@ -453,8 +453,12 @@ namespace pre.test.pages
 
     // }
 
-
-
+    public async Task checkSuccessMessage()
+    {
+      var successMessage = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=Recording Updated");
+      await Task.Run(() => Assert.IsTrue(successMessage.IsVisibleAsync().Result));
+      await Task.Run(() => Assert.That(successMessage.TextContentAsync().Result, Does.Contain("Recording Updated")));
+    }
   }
 
 
