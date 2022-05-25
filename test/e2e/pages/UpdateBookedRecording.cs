@@ -31,11 +31,11 @@ namespace pre.test.pages
     public async Task FindCaseToView()
     {
       await Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Manage Recordings\")");
-      var caseLocation = UpdateBookedRecordings._pagesetters.Page.Frame("fullscreen-app-host").Locator("div:nth-child(19) div.virtualized-gallery div:nth-child(1) > div.canvasContentDiv.container_1vt1y2p > div > div:nth-child(2)");
+      var caseLocation = Page.Frame("fullscreen-app-host").Locator("div:nth-child(19) div.virtualized-gallery div:nth-child(1) > div.canvasContentDiv.container_1vt1y2p > div > div:nth-child(2)");
       stringCase = caseLocation.TextContentAsync().Result.ToString().Trim();
       stringCase = stringCase.Substring(stringCase.LastIndexOf(':') + 1);
 
-      var courtLocation = UpdateBookedRecordings._pagesetters.Page.Frame("fullscreen-app-host").Locator("div:nth-child(19)  div.virtualized-gallery > div > div > div:nth-child(1)  div:nth-child(4)");
+      var courtLocation = Page.Frame("fullscreen-app-host").Locator("div:nth-child(19)  div.virtualized-gallery > div > div > div:nth-child(1)  div:nth-child(4)");
       stringCourt = courtLocation.TextContentAsync().Result.ToString().Trim();
       stringCourt = stringCourt.Substring(stringCourt.LastIndexOf(':') + 1);
     }
@@ -46,7 +46,7 @@ namespace pre.test.pages
       await Page.Frame("fullscreen-app-host").ClickAsync("[aria-label=\"Select\\ Court\"]");
       await Page.Frame("fullscreen-app-host").ClickAsync($"[aria-label=\"Select\\ Court\\ items\"] div:has-text(\"{stringCourt}\")");
 
-      var caseInput = UpdateBookedRecordings._pagesetters.Page.Frame("fullscreen-app-host").Locator("div:nth-child(42) .appmagic-borderfill-container .appmagic-border-inner .react-knockout-control .appmagic-textbox .appmagic-text");
+      var caseInput = Page.Frame("fullscreen-app-host").Locator("div:nth-child(42) .appmagic-borderfill-container .appmagic-border-inner .react-knockout-control .appmagic-textbox .appmagic-text");
       await Task.Run(() => Assert.IsTrue(caseInput.IsVisibleAsync().Result));
       await Page.IsVisibleAsync("div:nth-child(42) .appmagic-borderfill-container .appmagic-border-inner .react-knockout-control .appmagic-textbox .appmagic-text");
 
@@ -55,11 +55,11 @@ namespace pre.test.pages
     }
     public async Task FindCase()
     {
-      var caseLocation = UpdateBookedRecordings._pagesetters.Page.Frame("fullscreen-app-host")
+      var caseLocation = Page.Frame("fullscreen-app-host")
         .Locator("div.canvasContentDiv.container_1vt1y2p > div > div:nth-child(3)");
       await Task.Run(() => Assert.That(caseLocation.AllInnerTextsAsync().Result, Does.Contain($"{stringCourt.Trim()}")));
 
-      var caseName = UpdateBookedRecordings._pagesetters.Page.Frame("fullscreen-app-host").Locator(
+      var caseName = Page.Frame("fullscreen-app-host").Locator(
         "div:nth-child(45) div.canvasContentDiv.container_1vt1y2p > div > div:nth-child(1) ");
       await Task.Run(() => Assert.That(caseName.InnerTextAsync().Result, Does.Contain($"{stringCase.Trim()}")));
     }
@@ -151,7 +151,7 @@ namespace pre.test.pages
 
       await Page.Frame("fullscreen-app-host").ClickAsync($"[aria-label=\"Select\\ Court\\ items\"] div:has-text(\"{stringCourt}\")");
 
-      var caseInput = UpdateBookedRecordings._pagesetters.Page.Frame("fullscreen-app-host").Locator("div:nth-child(42) .appmagic-borderfill-container .appmagic-border-inner .react-knockout-control .appmagic-textbox .appmagic-text");
+      var caseInput = Page.Frame("fullscreen-app-host").Locator("div:nth-child(42) .appmagic-borderfill-container .appmagic-border-inner .react-knockout-control .appmagic-textbox .appmagic-text");
       await Task.Run(() => Assert.IsTrue(caseInput.IsVisibleAsync().Result));
       await Page.IsVisibleAsync("div:nth-child(42) .appmagic-borderfill-container .appmagic-border-inner .react-knockout-control .appmagic-textbox .appmagic-text");
 
@@ -214,13 +214,11 @@ namespace pre.test.pages
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Search Case Ref\"]").ClickAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Search Case Ref\"]").FillAsync($"{stringCase}");
 
-      var updatecaseScheduled = UpdateBookedRecordings._pagesetters.Page.Frame("fullscreen-app-host")
-        .Locator($"div.virtualized-gallery:has-text(\"{stringCourt}\")");
-      await Task.Run(() =>
-        Assert.That(updatecaseScheduled.InnerTextAsync().Result, Does.Contain($"{stringCase}")));
+      var updatecaseScheduled = Page.Frame("fullscreen-app-host").Locator($"div.virtualized-gallery:has-text(\"{stringCourt}\")");
+      await Task.Run(() =>Assert.That(updatecaseScheduled.InnerTextAsync().Result, Does.Contain($"{stringCase}")));
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Amend\")").First.ClickAsync();
 
-      var dropdown = UpdateBookedRecordings._pagesetters.Page.Frame("fullscreen-app-host").Locator("li[role='option']");
+      var dropdown = Page.Frame("fullscreen-app-host").Locator("li[role='option']");
 
       if (UpdateBookedRecordings.use == "W")
       {
