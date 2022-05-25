@@ -308,7 +308,6 @@ namespace pre.test.pages
             await checkErrorMessage();
           }
         }
-        while (inputBoxes.IsVisibleAsync().Result == true){}
         inputBoxes = null;
       }
     }
