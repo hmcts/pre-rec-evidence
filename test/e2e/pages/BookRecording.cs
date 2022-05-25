@@ -70,6 +70,10 @@ namespace pre.test.pages
       await Page.Frame("fullscreen-app-host")
         .ClickAsync($"[aria-label=\"Select\\ your\\ Defendants\\ items\"] div:has-text(\"{defendantName}\")");
       await Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Save\")");
+
+      var successMessage = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=Save Successful");
+      await Task.Run(() => Assert.IsTrue(successMessage.IsVisibleAsync().Result));
+      await Task.Run(() => Assert.That(successMessage.TextContentAsync().Result, Does.Contain("Save Successful")));
     }
 
     public async Task CheckCaseScheduled()
