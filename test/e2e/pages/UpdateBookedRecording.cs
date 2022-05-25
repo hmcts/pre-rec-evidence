@@ -274,11 +274,11 @@ namespace pre.test.pages
         {
           inputBoxes = Page.Frame("fullscreen-app-host").Locator("div.virtualized-gallery div.canvasContentDiv.container_1vt1y2p input").Nth(i);
         }
+
         if (UpdateBookedRecordings.use == "W" && inputBoxes != null)
         {
           if ((inputBoxes.InputValueAsync().Result).Contains($"{wit2}"))
           {
-
             await Page.Frame("fullscreen-app-host").Locator("div:nth-child(6) .appmagic-borderfill-container .appmagic-border-inner .react-knockout-control .powerapps-icon").Nth(i).ClickAsync();
           }
         }
@@ -302,14 +302,13 @@ namespace pre.test.pages
           }
           if ((inputBoxes.InputValueAsync().Result).Contains($"{def2}"))
           {
-
             await Page.Frame("fullscreen-app-host").Locator("div:nth-child(6) .appmagic-borderfill-container .appmagic-border-inner .react-knockout-control .powerapps-icon").Nth(i).ClickAsync();
             flag = true;
             UpdateBookedRecordings.use = "D";
             await checkErrorMessage();
-
           }
         }
+        while (inputBoxes.IsVisibleAsync().Result == true){}
         inputBoxes = null;
       }
     }
