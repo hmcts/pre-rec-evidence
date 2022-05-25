@@ -87,14 +87,14 @@ namespace pre.test
     [Then(@"the defendant will be visible in book recordings")]
     public async Task Thenthedefendantwillbevisibleinbookrecordings()
     {
-      await _updatebookedrecording.checkBook();
+      await _updatebookedrecording.checkBookAdd();
     }
 
 
     [Then(@"the defendant will be visible in schedule recordings")]
     public async Task Thenthedefendantwillbevisibleinschedulerecordings()
     {
-      await _updatebookedrecording.checkSchedule();
+      await _updatebookedrecording.checkScheduleAdd();
     }
 
     [Then(@"the defendant will be visible in manage recordings")]
@@ -119,14 +119,14 @@ namespace pre.test
     [Then(@"the witness will be visible in book recordings")]
     public async Task Thenthewitnesswillbevisibleinbookrecordings()
     {
-      await _updatebookedrecording.checkBook();
+      await _updatebookedrecording.checkBookAdd();
     }
 
 
     [Then(@"the witness will be visible in schedule recordings")]
     public async Task Thenthewitnesswillbevisibleinschedulerecordings()
     {
-      await _updatebookedrecording.checkSchedule();
+      await _updatebookedrecording.checkScheduleAdd();
     }
 
     [Then(@"the witness will be visible in manage recordings")]
@@ -150,13 +150,13 @@ namespace pre.test
     [Then(@"the witness and defendant will be visible in book recordings")]
     public async Task Thenthewitnessanddefendantwillbevisibleinbookrecordings()
     {
-      await _updatebookedrecording.checkBook();
+      await _updatebookedrecording.checkBookAdd();
     }
 
     [Then(@"the witness and defendant will be visible in schedule recordings")]
     public async Task Thenthewitnessanddefendantwillbevisibleinschedulerecordings()
     {
-      await _updatebookedrecording.checkSchedule();
+      await _updatebookedrecording.checkScheduleAdd();
     }
 
     [Then(@"the witness and defendant will be visible in manage recordings")]

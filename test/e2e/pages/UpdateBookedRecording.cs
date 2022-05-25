@@ -305,7 +305,7 @@ namespace pre.test.pages
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Refresh Recordings\"]").ClickAsync();
     }
 
-    public async Task checkBook()
+    public async Task checkBookAdd()
     {
       while (Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=HMCTS Logo").IsEnabledAsync().Result == false) { }
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=HMCTS Logo").ClickAsync();
@@ -337,7 +337,7 @@ namespace pre.test.pages
       }
     }
 
-    public async Task checkSchedule()
+    public async Task checkScheduleAdd()
     {
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Modify\")").ClickAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Save\")").Nth(2).ClickAsync();
