@@ -217,7 +217,7 @@ namespace pre.test.pages
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Search Case Ref\"]").FillAsync($"{stringCase}");
 
       var updatecaseScheduled = Page.Frame("fullscreen-app-host").Locator($"div.virtualized-gallery:has-text(\"{stringCourt}\")");
-      await Task.Run(() =>Assert.That(updatecaseScheduled.InnerTextAsync().Result, Does.Contain($"{stringCase}")));
+      await Task.Run(() => Assert.That(updatecaseScheduled.InnerTextAsync().Result, Does.Contain($"{stringCase}")));
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Amend\")").First.ClickAsync();
 
       var dropdown = Page.Frame("fullscreen-app-host").Locator("li[role='option']");
@@ -270,8 +270,9 @@ namespace pre.test.pages
 
       for (int i = 0; i < 4; i++)
       {
-        if(Page.Frame("fullscreen-app-host").Locator("div.virtualized-gallery div.canvasContentDiv.container_1vt1y2p input").Nth(i).IsVisibleAsync().Result == true){
-        inputBoxes = Page.Frame("fullscreen-app-host").Locator("div.virtualized-gallery div.canvasContentDiv.container_1vt1y2p input").Nth(i);
+        if (Page.Frame("fullscreen-app-host").Locator("div.virtualized-gallery div.canvasContentDiv.container_1vt1y2p input").Nth(i).IsVisibleAsync().Result == true)
+        {
+          inputBoxes = Page.Frame("fullscreen-app-host").Locator("div.virtualized-gallery div.canvasContentDiv.container_1vt1y2p input").Nth(i);
         }
         if (UpdateBookedRecordings.use == "W" && inputBoxes != null)
         {
@@ -308,8 +309,8 @@ namespace pre.test.pages
             await checkErrorMessage();
 
           }
-          inputBoxes = null;
-}
+        }
+        inputBoxes = null;
       }
     }
 
@@ -407,26 +408,22 @@ namespace pre.test.pages
       {
         await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Select\\ your\\ Witness\"]").ClickAsync();
         var witdropdown = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text= {wit2}");
-        while (witdropdown.IsVisibleAsync().Result == true) { }
         await Task.Run(() => Assert.IsFalse(witdropdown.IsVisibleAsync().Result));
       }
       else if (UpdateBookedRecordings.use == "D")
       {
         await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Select\\ your\\ Defendants\"]").ClickAsync();
         var defdropdown = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text= {def2}");
-        while (defdropdown.IsVisibleAsync().Result == true) { }
         await Task.Run(() => Assert.IsFalse(defdropdown.IsVisibleAsync().Result));
       }
       else if (UpdateBookedRecordings.use == "WD")
       {
         await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Select\\ your\\ Defendants\"]").ClickAsync();
         var defdropdown = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text= {def2}");
-        while (defdropdown.IsVisibleAsync().Result == true) { }
         await Task.Run(() => Assert.IsFalse(defdropdown.IsVisibleAsync().Result));
 
         await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Select\\ your\\ Witness\"]").ClickAsync();
         var witdropdown = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text= {wit2}");
-        while (witdropdown.IsVisibleAsync().Result == true) { }
         await Task.Run(() => Assert.IsFalse(witdropdown.IsVisibleAsync().Result));
       }
     }
@@ -503,22 +500,23 @@ namespace pre.test.pages
         await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"[aria-label=\"Selected\\:\\ {wit1}\"]").ClickAsync();
 
         await Task.Run(() => Assert.That(dropdown.AllInnerTextsAsync().Result, Does.Not.Contain($"{wit2}")));
-         await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div:nth-child(66) .appmagic-borderfill-container .appmagic-border-inner .react-knockout-control .appmagic-label").ClickAsync();
+        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div:nth-child(66) .appmagic-borderfill-container .appmagic-border-inner .react-knockout-control .appmagic-label").ClickAsync();
         await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"[aria-label=\"Court\\ Name\\.\\ Selected\\:\\ {def1}\"]").ClickAsync();
 
         await Task.Run(() => Assert.That(dropdown.AllInnerTextsAsync().Result, Does.Not.Contain($"{def2}")));
       }
     }
-     public async Task removeWitDefScheduled()
+    public async Task removeWitDefScheduled()
     {
       await Page.Frame("fullscreen-app-host").ClickAsync(".container_1f0sgyp div:nth-child(2) .react-knockout-control .appmagic-svg");
       await Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Modify\")");
 
       for (int i = 0; i < 4; i++)
-      
+
       {
-       if(Page.Frame("fullscreen-app-host").Locator("div.virtualized-gallery div.canvasContentDiv.container_1vt1y2p input").Nth(i).IsVisibleAsync().Result == true){
-        inputBoxes = Page.Frame("fullscreen-app-host").Locator("div.virtualized-gallery div.canvasContentDiv.container_1vt1y2p input").Nth(i);
+        if (Page.Frame("fullscreen-app-host").Locator("div.virtualized-gallery div.canvasContentDiv.container_1vt1y2p input").Nth(i).IsVisibleAsync().Result == true)
+        {
+          inputBoxes = Page.Frame("fullscreen-app-host").Locator("div.virtualized-gallery div.canvasContentDiv.container_1vt1y2p input").Nth(i);
         }
         if (UpdateBookedRecordings.use == "W" && inputBoxes != null)
         {
@@ -557,26 +555,26 @@ namespace pre.test.pages
           }
           inputBoxes = null;
         }
-        else if (UpdateBookedRecordings.use == "T" )
+        else if (UpdateBookedRecordings.use == "T")
         {
           if ((inputBoxes.InputValueAsync().Result).Contains($"{wit1}"))
           {
-            
+
             await inputBoxes.FillAsync("");
-            System.Console.WriteLine (inputBoxes);
-            var saveicon= Page.Frame("fullscreen-app-host").Locator($"div:nth-child(52) div:nth-child({i+1}) > div.canvasContentDiv.container_1vt1y2p > div > div:nth-child(3)");
+            System.Console.WriteLine(inputBoxes);
+            var saveicon = Page.Frame("fullscreen-app-host").Locator($"div:nth-child(52) div:nth-child({i + 1}) > div.canvasContentDiv.container_1vt1y2p > div > div:nth-child(3)");
             await saveicon.ClickAsync();
-            System.Console.WriteLine (saveicon);
-           await Task.Run(() => Assert.IsFalse(saveicon.IsCheckedAsync().Result));
-           
+            System.Console.WriteLine(saveicon);
+            await Task.Run(() => Assert.IsFalse(saveicon.IsCheckedAsync().Result));
+
           }
           if ((inputBoxes.InputValueAsync().Result).Contains($"{def1}"))
           {
 
             await inputBoxes.FillAsync("");
-            var saveicon= Page.Frame("fullscreen-app-host").Locator($"div:nth-child(52) div:nth-child({i + 1}) > div.canvasContentDiv.container_1vt1y2p > div > div:nth-child(3)");
+            var saveicon = Page.Frame("fullscreen-app-host").Locator($"div:nth-child(52) div:nth-child({i + 1}) > div.canvasContentDiv.container_1vt1y2p > div > div:nth-child(3)");
             await saveicon.ClickAsync();
-           await Task.Run(() => Assert.IsFalse(saveicon.IsDisabledAsync().Result));
+            await Task.Run(() => Assert.IsFalse(saveicon.IsDisabledAsync().Result));
 
           }
         }
@@ -611,8 +609,8 @@ namespace pre.test.pages
 
       }
       if (flag) { UpdateBookedRecordings.use = "WD"; flag = false; }
-  }
-     public async Task checkScheduleRemovedscheduledWitDef()
+    }
+    public async Task checkScheduleRemovedscheduledWitDef()
     {
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Save\")").Nth(2).ClickAsync();
 
@@ -708,7 +706,7 @@ namespace pre.test.pages
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Case\\ Ref\\ \\\\\\ URN\\ \\\\\\ ID\\ \\\\\\ Court\"]").FillAsync($"{stringCase}");
 
       var caseref = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text=Case Ref: {stringCase}").First;
-      while (caseref.IsVisibleAsync().Result == false){}
+      while (caseref.IsVisibleAsync().Result == false) { }
       await caseref.ClickAsync();
 
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text=Schedule Date: {datee}/{month}/{year}").ClickAsync();
@@ -717,7 +715,7 @@ namespace pre.test.pages
       await Task.Run(() => Assert.That(recStatus.InnerTextAsync().Result, Does.Contain("Deleted")));
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Edit\\ Recording\"]").ClickAsync();
 
-    //bug S28-535
+      //bug S28-535
       // var dropdown = UpdateBookedRecordings._pagesetters.Page.Frame("fullscreen-app-host").Locator("li[role='option']");
 
       // if (UpdateBookedRecordings.use == "W")
@@ -725,7 +723,7 @@ namespace pre.test.pages
       //   await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"[aria-label=\"Selected\\:\\ {wit1}\"]").ClickAsync();
 
       //   await Task.Run(() => Assert.That(dropdown.AllInnerTextsAsync().Result, Does.Not.Contain($"{wit2}")));
-       // }
+      // }
       // if (UpdateBookedRecordings.use == "D")
       // {
       //   await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"[aria-label=\"Court\\ Name\\.\\ Selected\\:\\ {def1}\"]").ClickAsync();
@@ -783,26 +781,27 @@ namespace pre.test.pages
     public async Task checkSaveIconDisabled()
     {
       for (int i = 0; i < 4; i++)
-      
+
       {
-        if(Page.Frame("fullscreen-app-host").Locator("div.virtualized-gallery div.canvasContentDiv.container_1vt1y2p input").Nth(i).IsVisibleAsync().Result == true){
-        inputBoxes = Page.Frame("fullscreen-app-host").Locator("div.virtualized-gallery div.canvasContentDiv.container_1vt1y2p input").Nth(i);
+        if (Page.Frame("fullscreen-app-host").Locator("div.virtualized-gallery div.canvasContentDiv.container_1vt1y2p input").Nth(i).IsVisibleAsync().Result == true)
+        {
+          inputBoxes = Page.Frame("fullscreen-app-host").Locator("div.virtualized-gallery div.canvasContentDiv.container_1vt1y2p input").Nth(i);
         }
-        if ((inputBoxes.InputValueAsync().Result).Contains("")  && inputBoxes != null)
-          {
+        if ((inputBoxes.InputValueAsync().Result).Contains("") && inputBoxes != null)
+        {
 
-           var saveicon= Page.Frame("fullscreen-app-host").Locator($"div:nth-child(52) div:nth-child({i + 1}) > div.canvasContentDiv.container_1vt1y2p > div > div:nth-child(3)");
-           await Task.Run(() => Assert.IsTrue(saveicon.IsEnabledAsync().Result));
-          }
+          var saveicon = Page.Frame("fullscreen-app-host").Locator($"div:nth-child(52) div:nth-child({i + 1}) > div.canvasContentDiv.container_1vt1y2p > div > div:nth-child(3)");
+          await Task.Run(() => Assert.IsTrue(saveicon.IsEnabledAsync().Result));
+        }
         if ((inputBoxes.InputValueAsync().Result).Contains($"{def1}") && inputBoxes != null)
-          {
+        {
 
-            var saveicon= Page.Frame("fullscreen-app-host").Locator($"div:nth-child(52) div:nth-child({i + 1}) > div.canvasContentDiv.container_1vt1y2p > div > div:nth-child(3)");
-            await Task.Run(() => Assert.IsTrue(saveicon.IsEnabledAsync().Result));
+          var saveicon = Page.Frame("fullscreen-app-host").Locator($"div:nth-child(52) div:nth-child({i + 1}) > div.canvasContentDiv.container_1vt1y2p > div > div:nth-child(3)");
+          await Task.Run(() => Assert.IsTrue(saveicon.IsEnabledAsync().Result));
 
-          }
-        inputBoxes = null;
         }
+        inputBoxes = null;
+      }
     }
     public async Task checkBook()
     {
