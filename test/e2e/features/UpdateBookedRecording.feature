@@ -3,7 +3,7 @@ Feature: Update Booked Recording
 In order to update existing cases
 I want to update witnesses and defendents
 
-#Cases now need to have recordings to be in view recordings....should checking the update here become zephyr tests? -TBC
+#Cases now need to have recordings to be in view recordings....check this using a recorded vid once we have test env
 
 @createCase
 Scenario: Search Case
@@ -19,6 +19,7 @@ Given I enter and save additional witnesses
 Then the case will be updated in manage recordings
 Then the case will be updated in schedule recordings
 Then the case will be updated in book recordings as well
+Then the case will be updated in admin, manage cases, recordings
 
 @createCase
 Scenario: Update defendant
@@ -26,6 +27,7 @@ Given I enter and save additional defendants
 Then the case will be updated in manage recordings
 Then the case will be updated in schedule recordings
 Then the case will be updated in book recordings as well
+Then the case will be updated in admin, manage cases, recordings
 
 @createCase
 Scenario: Update defendant and witness
@@ -33,6 +35,7 @@ Given I enter and save additional defendants and witnesses
 Then the case will be updated in manage recordings
 Then the case will be updated in schedule recordings
 Then the case will be updated in book recordings as well
+Then the case will be updated in admin, manage cases, recordings
 
  @createCase
 Scenario: Remove Witness that has not been scheduled
@@ -93,3 +96,25 @@ Then the case on manage cases will be updated
 # Scenario: Remove Witness and defendants and save 
 # Given I remove the text form witness and defendant fields and attempt to click save
 # Then  the save icon is disabled 
+
+@createCase
+Scenario: Add defendant
+Given I add an extra defendant
+Then the defendant will be visible in book recordings
+Then the defendant will be visible in schedule recordings
+Then the defendant will be visible in manage recordings
+Then the defendant will be visible in admin, manage cases, recordings
+
+@createCase
+Scenario: Add witness
+Given I add an extra witness
+Then the witness will be visible in book recordings
+Then the witness will be visible in schedule recordings
+Then the witness will be visible in admin, manage cases, recordings
+
+@createCase
+Scenario: Add witness and defendant
+Given I add an extra witness and defendant
+Then the witness and defendant will be visible in book recordings
+Then the witness and defendant will be visible in schedule recordings
+Then the witness and defendant will be visible in admin, manage cases, recordings

@@ -84,7 +84,6 @@ namespace pre.test
       await _updatebookedrecording.CheckUpdatedCase();
     }
 
-
     [Given(@"I attempt to remove the witnesses from the case")]
     public async Task GivenIattempttoremovethewitnessesfromthecase()
     {
@@ -142,6 +141,23 @@ namespace pre.test
     {
       await _updatebookedrecording.checkErrorMessage();
     }
+
+
+    [Given(@"I add an extra defendant")]
+    public async Task GivenIaddanextradefendant()
+    {
+      use = "D";
+      await _updatebookedrecording.addMoreParticipants();
+    }
+
+
+    [Then(@"the defendant will be visible in book recordings")]
+    public async Task Thenthedefendantwillbevisibleinbookrecordings()
+    {
+      await _updatebookedrecording.checkBookAdd
+      ();
+    }
+
 
     [Then(@"the case will be updated in book recordings as well")]
     public async Task Thenthecasewillbeupdatedinbookrecordingsaswell()
@@ -394,6 +410,94 @@ namespace pre.test
       await _updatebookedrecording.checkSaveIconDisabled();
     }
 
+
+
+    [Then(@"the defendant will be visible in schedule recordings")]
+    public async Task Thenthedefendantwillbevisibleinschedulerecordings()
+    {
+      await _updatebookedrecording.checkScheduleAdd();
+    }
+
+    [Then(@"the defendant will be visible in manage recordings")]
+    public async Task Thenthedefendantwillbevisibleinmanagerecordings()
+    {
+      await _updatebookedrecording.checkManageAdd();
+    }
+
+    [Then(@"the defendant will be visible in admin, manage cases, recordings")]
+    public async Task Thenthedefendantwillbevisibleinadminmanagecasesrecordings()
+    {
+      await _updatebookedrecording.checkAdminAdd();
+    }
+
+    [Given(@"I add an extra witness")]
+    public async Task WhenIaddanextrawitness()
+    {
+      use = "W";
+      await _updatebookedrecording.addMoreParticipants();
+    }
+
+    [Then(@"the witness will be visible in book recordings")]
+    public async Task Thenthewitnesswillbevisibleinbookrecordings()
+    {
+      await _updatebookedrecording.checkBookAdd();
+    }
+
+
+    [Then(@"the witness will be visible in schedule recordings")]
+    public async Task Thenthewitnesswillbevisibleinschedulerecordings()
+    {
+      await _updatebookedrecording.checkScheduleAdd();
+    }
+
+    [Then(@"the witness will be visible in manage recordings")]
+    public async Task Thenthewitnesswillbevisibleinmanagerecordings()
+    {
+      await _updatebookedrecording.checkManageAdd();
+    }
+
+    [Then(@"the witness will be visible in admin, manage cases, recordings")]
+    public async Task Thenthewitnesswillbevisibleinadminmanagecasesrecordings()
+    {
+      await _updatebookedrecording.checkAdminAdd();
+    }
+
+    [Given(@"I add an extra witness and defendant")]
+    public async Task WhenIaddanextrawitnessanddefendant()
+    {
+      await _updatebookedrecording.addMoreParticipants();
+    }
+
+    [Then(@"the witness and defendant will be visible in book recordings")]
+    public async Task Thenthewitnessanddefendantwillbevisibleinbookrecordings()
+    {
+      await _updatebookedrecording.checkBookAdd();
+    }
+
+    [Then(@"the witness and defendant will be visible in schedule recordings")]
+    public async Task Thenthewitnessanddefendantwillbevisibleinschedulerecordings()
+    {
+      await _updatebookedrecording.checkScheduleAdd();
+    }
+
+    [Then(@"the witness and defendant will be visible in manage recordings")]
+    public async Task Thenthewitnessanddefendantwillbevisibleinmanagerecordings()
+    {
+      await _updatebookedrecording.checkManageAdd();
+    }
+
+    [Then(@"the witness and defendant will be visible in admin, manage cases, recordings")]
+    public async Task Thenthewitnessanddefendantwillbevisibleinadminmanagecasesrecordings()
+    {
+      await _updatebookedrecording.checkAdminAdd();
+    }
+
+
+    [Then(@"the case will be updated in admin, manage cases, recordings")]
+    public async Task Thenthecasewillbeupdatedinadminmanagecasesrecordings()
+    {
+      await _updatebookedrecording.checkAdmin();
+    }
 
   }
 }
