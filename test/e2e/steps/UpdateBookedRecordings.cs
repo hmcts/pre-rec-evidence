@@ -415,7 +415,7 @@ namespace pre.test
     [Then(@"the defendant will be visible in schedule recordings")]
     public async Task Thenthedefendantwillbevisibleinschedulerecordings()
     {
-      await _updatebookedrecording.checkSchedule();
+      await _updatebookedrecording.checkScheduleAdd();
     }
 
     [Then(@"the defendant will be visible in manage recordings")]
