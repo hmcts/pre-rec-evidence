@@ -68,13 +68,17 @@ steps:
     artifact: 'Solution Archive'
     publishLocation: 'pipeline'
 
-
-- task: PowerPlatformImportSolution@0
+- task: DotNetCoreCLI@2
   inputs:
-    authenticationType: 'PowerPlatformSPN'
-    PowerPlatformSPN: ${{ parameters.serviceConnection }}
-    SolutionInputFile: 'dts_pre_recorded_evidence.zip'
-    AsyncOperation: false
-    OverwriteUnmanagedCustomizations: true
-    SkipProductUpdateDependencies: true
-    PublishWorkflows: true
+    command: 'test'
+    workingDirectory: 'src'
+
+    #- task: PowerPlatformImportSolution@0
+    #  inputs:
+    #    authenticationType: 'PowerPlatformSPN'
+    #    PowerPlatformSPN: ${{ parameters.serviceConnection }}
+    #    SolutionInputFile: 'dts_pre_recorded_evidence.zip'
+    #    AsyncOperation: false
+    #    OverwriteUnmanagedCustomizations: true
+    #    SkipProductUpdateDependencies: true
+    #    PublishWorkflows: true
