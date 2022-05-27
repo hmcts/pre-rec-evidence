@@ -71,11 +71,12 @@ steps:
 - task: CmdLine@2
   inputs:
     script: |
+      cd test/e2e
       dotnet add package Microsoft.Extensions.Configuration --version 6.0.0
       dotnet add package Microsoft.Extensions.Configuration.Json --version 6.0.0
       dotnet add package Microsoft.Playwright
       dotnet tool update --global PowerShell
-      pwsh bin\Debug\netX\playwright.ps1 install
+      pwsh playwright install
 
 - task: DotNetCoreCLI@2
   inputs:
