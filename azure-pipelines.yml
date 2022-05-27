@@ -68,26 +68,14 @@ steps:
     artifact: 'Solution Archive'
     publishLocation: 'pipeline'
 
-- task: DotNetCoreCLI@2
+- task: CmdLine@2
   inputs:
-    command: 'add package Microsoft.Extensions.Configuration --version 6.0.0'
-
-- task: DotNetCoreCLI@2
-  inputs:
-    command: 'add package Microsoft.Extensions.Configuration.Json --version 6.0.0'
-
-- task: DotNetCoreCLI@2
-  inputs:
-    command: 'add package Microsoft.Playwright'
-
-- task: DotNetCoreCLI@2
-  inputs:
-    command: 'tool update --global PowerShell'
-
-- task: PowerShell@2
-  inputs:
-    targetType: 'inline'
-    script: 'bin\Debug\netX\playwright.ps1 install'
+    script: |
+      dotnet add package Microsoft.Extensions.Configuration --version 6.0.0
+      dotnet add package Microsoft.Extensions.Configuration.Json --version 6.0.0
+      dotnet add package Microsoft.Playwright
+      dotnet tool update --global PowerShell
+      pwsh bin\Debug\netX\playwright.ps1 install
 
 - task: DotNetCoreCLI@2
   inputs:
