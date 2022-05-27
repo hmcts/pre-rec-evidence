@@ -68,13 +68,6 @@ steps:
     artifact: 'Solution Archive'
     publishLocation: 'pipeline'
 
-dotnet add package Microsoft.Extensions.Configuration --version 6.0.0
-dotnet add package Microsoft.Extensions.Configuration.Json --version 6.0.0
-dotnet add package Microsoft.Playwright
-```
-9. For, up to date version of powershell run, ```dotnet tool update --global PowerShell```
-10. Also, run ```pwsh bin\Debug\netX\playwright.ps1 install``` to install the chromium, firefox and webkit
-
 - task: DotNetCoreCLI@2
   inputs:
     command: 'add package Microsoft.Extensions.Configuration --version 6.0.0'
