@@ -88,6 +88,22 @@ namespace pre.test
     }
 
 
+    [Given(@"I delete a recording")]
+    public async Task GivenIdeletearecording()
+    {
+      await _manageRecording.DeleteRecording();
+    }
+
+
+    [Then(@"the success message says scheduled recording deleted")]
+    public async Task Thenthesuccessmessagesaysscheduledrecordingdeleted()
+    {
+      await _manageRecording.DeleterecordingConfirmationcheck();
+    }
+
+
+
+
 
   }
 

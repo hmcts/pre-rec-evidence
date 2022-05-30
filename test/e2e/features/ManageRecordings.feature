@@ -25,3 +25,8 @@ Scenario: Success message after clicking save should say recording updated
 Scenario: Check recording version number
   Given I've created a case
   Then I can see the version number for the recording
+
+  @CaseAndScheduleCreate
+Scenario: Success message after clicking delete should say scheduled recording deleted
+  Given I delete a recording
+  Then the success message says scheduled recording deleted

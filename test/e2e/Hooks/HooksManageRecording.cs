@@ -13,11 +13,11 @@ namespace pre.test.Hooks
     [BeforeScenario("CaseAndScheduleCreate", Order = 1)]
     public async Task createAndScheduleCase()
     {
-      ManageRecording.caseRef = $"AutoManageTestCase{DateTime.UtcNow.ToString("yyyyMMddHHmmss")}";
+      ManageRecording.caseRef = $"AutoT{DateTime.UtcNow.ToString("MMddmmss")}";
 
-      await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.demoUrl}");
-      await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Button\")").ClickAsync(); // Bug S28-522, clicking skip security button whilst, remove when fixed
+      await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.sboxUrl}");
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Book a Recording\")").ClickAsync();
+      await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div[role=\"button\"]:has-text(\"Court Name\")").ClickAsync();
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("ul[role=\"listbox\"] div:has-text(\"Leeds\")").ClickAsync();
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Case Number \\\\ URN\"]").First.ClickAsync();
