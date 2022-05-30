@@ -68,27 +68,23 @@ steps:
     artifact: 'Solution Archive'
     publishLocation: 'pipeline'
 
-- task: NodeTool@0 
+- task: NodeTool@0
   inputs:
     versionSpec: 18
 
 - script: ls -lah
 - script: ls -lah $(Build.SourcesDirectory)
 
-- script: ls -lah $(Build.SourcesDirectory)/pre-rec-evidence
 
 - task: Npm@1
   inputs:
     command: 'install'
-    workingDirectory: '$(Build.SourcesDirectory)/pre-rec-evidence'  
 
 - script: npx playwright codegen --save-storage=test/e2e/Hooks/auth.json
-  workingDirectory: '$(Build.SourcesDirectory)/pre-rec-evidence'
 
 - task: CmdLine@2
   inputs:
     script: |
-      run npx playwright codegen --save-storage=test/e2e/Hooks/auth.json
       cd test/e2e
       dotnet add package Microsoft.Extensions.Configuration --version 6.0.0
       dotnet add package Microsoft.Extensions.Configuration.Json --version 6.0.0
