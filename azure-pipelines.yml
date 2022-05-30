@@ -84,7 +84,8 @@ steps:
 - script: npx playwright install --with-deps
   displayName: Install Playwright
 
-  displayName: Playwright Codegen
+#- script:  --save-storage=test/e2e/Hooks/auth.json
+#  displayName: Playwright Codegen
 
 #- task: CmdLine@2
 #  inputs:
