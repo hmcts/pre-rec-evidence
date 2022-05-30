@@ -72,6 +72,11 @@ steps:
   inputs:
     versionSpec: 18
 
+- script: ls -lah
+- script: ls -lah $(Build.SourcesDirectory)
+
+- script: ls -lah $(Build.SourcesDirectory)/pre-rec-evidence
+
 - task: Npm@1
   inputs:
     command: 'install'
