@@ -75,8 +75,10 @@ steps:
 - task: Npm@1
   inputs:
     command: 'install'
+    workingDirectory: '$(Build.SourcesDirectory)/pre-rec-evidence'  
 
 - script: npx playwright codegen --save-storage=test/e2e/Hooks/auth.json
+  workingDirectory: '$(Build.SourcesDirectory)/pre-rec-evidence'
 
 - task: CmdLine@2
   inputs:
