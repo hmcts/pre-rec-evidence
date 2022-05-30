@@ -88,5 +88,16 @@ namespace pre.test.pages
       await Task.Run(() => Assert.IsTrue(version.IsVisibleAsync().Result));
     }
 
+    public async Task DeleteRecording()
+    {
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Amend\")").ClickAsync();
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Delete\")").ClickAsync();
+    }
+
+    public async Task DeleterecordingConfirmationcheck()
+    {
+      var ConfirmationMessage = Page.Frame("fullscreen-app-host").Locator("text= Scheduled Recording Deleted");
+      await Task.Run(() => Assert.That(ConfirmationMessage.TextContentAsync().Result, Does.Contain("Scheduled Recording Deleted")));
+    }
   }
 }
