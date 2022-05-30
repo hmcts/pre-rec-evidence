@@ -84,14 +84,16 @@ steps:
 - script: npx playwright install --with-deps
   displayName: Install Playwright
 
-- task: CmdLine@2
-  inputs:
-    script: |
-      cd test/e2e
-      dotnet add package Microsoft.Extensions.Configuration --version 6.0.0
-      dotnet add package Microsoft.Extensions.Configuration.Json --version 6.0.0
-      dotnet add package Microsoft.Playwright
-      dotnet tool update --global PowerShell
+  displayName: Playwright Codegen
+
+#- task: CmdLine@2
+#  inputs:
+#    script: |
+#      cd test/e2e
+#      dotnet add package Microsoft.Extensions.Configuration --version 6.0.0
+#      dotnet add package Microsoft.Extensions.Configuration.Json --version 6.0.0
+#      dotnet add package Microsoft.Playwright
+#      dotnet tool update --global PowerShell
 #      pwsh bin\Debug\netX\playwright.ps1 install
 
 - task: DotNetCoreCLI@2
