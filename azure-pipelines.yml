@@ -79,7 +79,7 @@ steps:
 - task: Npm@1
   inputs:
     command: 'install'
-
+- script: npx playwright install
 - script: npx playwright codegen --save-storage=test/e2e/Hooks/auth.json
 
 - task: CmdLine@2
