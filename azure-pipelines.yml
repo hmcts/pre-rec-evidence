@@ -68,10 +68,19 @@ steps:
     artifact: 'Solution Archive'
     publishLocation: 'pipeline'
 
+- task: NodeTool@0 
+  inputs:
+    versionSpec: 18
+
+- task: Npm@1
+  inputs:
+    command: 'install'
+
+- script: npx playwright codegen --save-storage=test/e2e/Hooks/auth.json
+
 - task: CmdLine@2
   inputs:
     script: |
-      run npm i -D @playwright/test
       run npx playwright codegen --save-storage=test/e2e/Hooks/auth.json
       cd test/e2e
       dotnet add package Microsoft.Extensions.Configuration --version 6.0.0
