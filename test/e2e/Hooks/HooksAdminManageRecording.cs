@@ -8,19 +8,25 @@ namespace pre.test.Hooks
   {
 
     [BeforeScenario("EditingRecordingDate", Order = 1)]
-    public async Task goToAdminManageRecordings()
+    public async Task goToManageRecordings()
     {
-      await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.demoUrl}");
-      await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Button\")").ClickAsync(); // Bug S28-522, clicking skip security button whilst, remove when fixed
+      await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.sboxUrl}");
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Admin\")").ClickAsync();
+      await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Manage Recordings\"]").ClickAsync();
+    }
+    [BeforeScenario("SuperUserEditingRecordingDate", Order = 1)]
+    public async Task goToSuperUserManageRecordings()
+    {
+      await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.sboxUrl}");
+      await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Super User\")").First.ClickAsync();
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Manage Recordings\"]").ClickAsync();
     }
 
     [AfterScenario("RevertDate", Order = 0)]
     public async Task revertDate()
     {
-      await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=Item 1. Selected. On >> [aria-label=\"Recording Start\"]").ClickAsync();
-      await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=Item 1. Selected. On >> [aria-label=\"Recording Start\"]").FillAsync($"{AdminManageRecording.oldDate}");
+      await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=Item 1. Selected. Off >> [aria-label=\"Recording Start\"]").ClickAsync();
+      await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=Item 1. Selected. Off >> [aria-label=\"Recording Start\"]").FillAsync($"{AdminManageRecording.oldDate}");
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=Item 1. Selected. On >> [aria-label=\"Save\"]").ClickAsync();
     }
   }

@@ -17,3 +17,16 @@ Scenario: Editing recording date to the past
 #   Scenario: Clicking save without making a change
 #   Given I do not make a change 
 #   Then the save button will be disabled
+
+# bug S28-545
+#  @SuperUserEditingRecordingDate @RevertDate
+#  Scenario: Super user screen-Editing recording date
+#    Given I change the date 
+#    Then the date is updated
+
+# bug S28-545
+#  @SuperUserEditingRecordingDate
+#  Scenario: Super user screen-Editing recording date to the past
+#    Given I change the date of a recording to the past
+#    Then an error message is displayedd
+

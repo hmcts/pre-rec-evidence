@@ -22,10 +22,9 @@ namespace pre.test.Hooks
     [BeforeScenario("CreateAndManageCase", Order = 1)]
     public async Task CreateAndManageCase()
     {
-      var date = DateTime.UtcNow.ToString("yyyyMMddHHmmss");
-      caseName = $"ManageCaseAuto{date}";
-      await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.demoUrl}");
-      await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Button\")").ClickAsync(); // Bug S28-522, clicking skip security button whilst, remove when fixed
+      var date = DateTime.UtcNow.ToString("MMddmmss");
+      caseName = $"AutoT{date}";
+      await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.sboxUrl}");
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Book a Recording\")").ClickAsync();
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div[role=\"button\"]:has-text(\"Court Name\")").ClickAsync();
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text={court}").ClickAsync();
@@ -41,16 +40,13 @@ namespace pre.test.Hooks
     [BeforeScenario("CreateAndManageCaseAndSchedule", Order = 2)]
     public async Task CreateAndManageCaseAndSchedule()
     {
-      await HooksInitializer._context.Page.Frame("fullscreen-app-host")
-        .ClickAsync("[aria-label=\"Select\\ Scheduled\\ Start\\ DateOpen\\ calendar\\ to\\ select\\ a\\ date\"]");
+      await HooksInitializer._context.Page.Frame("fullscreen-app-host").ClickAsync("[aria-label=\"Select\\ Scheduled\\ Start\\ DateOpen\\ calendar\\ to\\ select\\ a\\ date\"]");
       await HooksInitializer._context.Page.Frame("fullscreen-app-host").ClickAsync($"[aria-label=\"{day}\\ {month}\\ {dateNum}\\ {year}\"]");
       await HooksInitializer._context.Page.Frame("fullscreen-app-host").ClickAsync("button[role='button']:has-text(\"Ok\")");
       await HooksInitializer._context.Page.Frame("fullscreen-app-host").ClickAsync("[aria-label=\"Select\\ your\\ Witness\"]");
-      await HooksInitializer._context.Page.Frame("fullscreen-app-host")
-        .ClickAsync($"[aria-label=\"Select\\ your\\ Witness\\ items\"] div:has-text(\"{witnesses}\")");
+      await HooksInitializer._context.Page.Frame("fullscreen-app-host").ClickAsync($"[aria-label=\"Select\\ your\\ Witness\\ items\"] div:has-text(\"{witnesses}\")");
       await HooksInitializer._context.Page.Frame("fullscreen-app-host").ClickAsync("[aria-label=\"Select\\ your\\ Defendants\"]");
-      await HooksInitializer._context.Page.Frame("fullscreen-app-host")
-        .ClickAsync($"[aria-label=\"Select\\ your\\ Defendants\\ items\"] div:has-text(\"{defendants}\")");
+      await HooksInitializer._context.Page.Frame("fullscreen-app-host").ClickAsync($"[aria-label=\"Select\\ your\\ Defendants\\ items\"] div:has-text(\"{defendants}\")");
       await HooksInitializer._context.Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Save\")");
     }
 
@@ -60,6 +56,15 @@ namespace pre.test.Hooks
       // using sandbox url whilst test is aligned, change in future
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=HMCTS Logo").ClickAsync();
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Admin\")").ClickAsync();
+      await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Manage Cases\"]").First.ClickAsync();
+    }
+
+    [BeforeScenario("SuperUserManageCases", Order = 3)]
+    public async Task goToSuperUserManageCase()
+    {
+      // using sandbox url whilst test is aligned, change in future
+      await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=HMCTS Logo").ClickAsync();
+      await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Super User\")").ClickAsync();
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Manage Cases\"]").First.ClickAsync();
     }
 

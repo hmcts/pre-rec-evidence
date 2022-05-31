@@ -12,6 +12,7 @@ namespace pre.test
     public static AdminManageCase _manageCase;
     public static PageSetters _pagesetters;
     public static string use = "";
+    public static string usePage = "";
 
     public AdminManageCases(PageSetters pageSetters)
     {
@@ -98,6 +99,14 @@ namespace pre.test
       await _manageCase.search();
     }
 
+    [Then(@"I can search for it by the case id in manage cases")]
+    public async Task ThenIcansearchforitbythecaseidinmanagecases()
+    {
+      usePage = "super";
+      use = "caseId";
+      await _manageCase.search();
+    }
+
 
     [Then(@"I can search for it by court in manage cases")]
     public async Task ThenIcansearchforitbycourtinmanagecases()
@@ -161,6 +170,24 @@ namespace pre.test
       _manageCase.use = "schedule";
       await _manageCase.removeCaseRefCase();
     }
+
+
+    [When(@"I delete a case")]
+    public async Task WhenIdeleteacase()
+    {
+      usePage = "super";
+      await _manageCase.deleteCase();
+    }
+
+
+    [When(@"I restore a case")]
+    public async Task WhenIrestoreacase()
+    {
+      usePage = "super";
+      await _manageCase.restoreCase();
+    }
+
+
 
   }
 }

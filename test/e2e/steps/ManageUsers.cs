@@ -17,19 +17,27 @@ namespace pre.test
       _pagesetters = pageSetters;
       _manageuser = new ManageUser(_pagesetters.Page);
     }
+public HooksManageUsers Hook = new HooksManageUsers();
+
+
+
+  
+
 
     [Given(@"I try to add a new user with an existing email address")]
     public async Task WhenItrytoaddanewuserwithanexistingemailaddress()
     {
-      _manageuser.use = "duplicateEmail";
-      await _manageuser.CreateUser();
+      ManageUser.use = "duplicateEmail";
+      await Hook.CreateAUser();
     }
 
 
     [Then(@"an error message is displayed stating the email address already exists in PRE")]
     public async Task ThenanerrormessageisdisplayedstatingtheemailaddressalreadyexistsinPRE()
     {
+      
       await _manageuser.CheckEmailErrorMessage();
+      ManageUser.use ="";
     }
 
 
@@ -40,26 +48,18 @@ namespace pre.test
     }
 
 
-    [Given(@"I try to add a new user")]
-    public async Task WhenItrytoaddanewuser()
-    {
-      _manageuser.use = "newUser";
-      await _manageuser.CreateUser();
-    }
-
-
     [Then(@"the record is saved")]
     public async Task Thentherecordissaved()
     {
-      await _manageuser.CheckRecordIsCreated();
+      await Hook.CheckRecordIsCreated();
     }
 
 
     [Given(@"I try to add a new user with a blank email address")]
     public async Task GivenItrytoaddanewuserwithablankemailaddress()
     {
-      _manageuser.use = "blankEmail";
-      await _manageuser.CreateUser();
+      ManageUser.use = "blankEmail";
+      await Hook.CreateAUser();
     }
 
 
@@ -67,16 +67,12 @@ namespace pre.test
     public async Task Thenthesavebuttonisdisabled()
     {
       await _manageuser.DisabledSave();
+      ManageUser.use ="";
     }
 
-    
-[Given(@"I need to update a users First Name")]
-public async Task GivenIneedtoupdateausersFirstName()
-{
-	await _manageuser.CheckRecordIsCreated();
-}
 
-[When(@"I make this change in PRE for the user")]
+[Given(@"I need to update a users First Name")]
+//[When(@"I make this change in PRE for the user")]
 public async Task WhenImakethischangeinPREfortheuser()
 {
   
@@ -91,10 +87,10 @@ public async Task ThenthePREuserrecordwillbeupdatedwiththenewFirstName()
 }
 
 
-[When(@"I update the users Last Name")]
+[Given(@"I update the users Last Name")]
+
 public async Task WhenIupdatetheusersLastName()
 {
-	await _manageuser.CheckRecordIsCreated();
 	await _manageuser.UpdateLastName();
 }
 
@@ -121,10 +117,10 @@ public async Task ThenthePREuserrecordwillbeupdatedwiththenewEmail()
 }
 
 
-[When(@"I update the users Phone No")]
+[Given(@"I update the users Phone No")]
 public async Task WhenIupdatetheusersPhoneNo()
 {
-  await _manageuser.CheckRecordIsCreated();
+  
 	await _manageuser.UpdatePhoneNo();
 }
 
@@ -136,10 +132,10 @@ public async Task ThenthePREuserrecordwillbeupdatedwiththenewPhoneNo()
 }
 
 
-[When(@"I update the Oraganisation")]
+[Given(@"I update the Oraganisation")]
 public async Task WhenIupdatetheOraganisation()
 {
-  await _manageuser.CheckRecordIsCreated();
+  
 	await _manageuser.UpdateOrganisation();
 }
 
@@ -150,10 +146,9 @@ public async Task ThenthePREuserrecordwillbeupdatedwiththenewOraganisation()
 }
 
 
-[When(@"I update the users Role")]
+[Given(@"I update the users Role")]
 public async Task WhenIupdatetheusersRole()
 {
-  await _manageuser.CheckRecordIsCreated();
 	await _manageuser.UpdateRole();
 }
 
@@ -164,10 +159,10 @@ public async Task ThenthePREuserrecordwillbeupdatedwiththenewRole()
 }
 
 
-[When(@"I update every field")]
+[Given(@"I update every field")]
 public async Task WhenIupdateeveryfield()
 {
-  await _manageuser.CheckRecordIsCreated();
+  
 	await _manageuser.UpdateAll();
 }
 
@@ -176,15 +171,20 @@ public async Task WhenIupdateeveryfield()
 public async Task ThenthePREuserrecordwillbeupdated()
 {
 	await _manageuser.UpdateAllCheck();
+  ManageUser.use ="";
 }
 
 
-[When(@"I update the email to an existng email")]
-public async Task WhenIupdatetheemailtoanexistngemail()
+[Given(@"I update all fields")]
+public async Task GivenIupdateallfields()
 {
-  await _manageuser.CheckRecordIsCreated();
-	await _manageuser.UpdateExistingEmail();
+  ManageUser.use ="super";
+	await _manageuser.UpdateAll();
 }
+
+
+
+
 
 
 }
