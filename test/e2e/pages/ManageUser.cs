@@ -15,13 +15,8 @@ namespace pre.test.pages
     public static string existingEmailFirstName = "test";
     public static string existingEmailLastName = "existing email";
     public static string createUserFirstName = "Automated testUser";
-
-    
     public static string createUserLastName = "";
-    
     public static string use = "";
-
-
     public static string newUserEmail = "";
 
     public ManageUser(IPage page) : base(page) { }
@@ -34,7 +29,6 @@ namespace pre.test.pages
         await Task.Run(() => Assert.That(EmailError.InnerTextAsync().Result, Does.Contain("Email already exists in system")));
       }
     }
-
     public async Task CheckRecordIsntCreated()
     {
 
@@ -44,9 +38,6 @@ namespace pre.test.pages
       var UserBox = ManageUsers._pagesetters.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text={existingEmailFirstName} {existingEmailLastName}");
       await Task.Run(() => Assert.IsFalse(UserBox.IsVisibleAsync().Result));
     }
-
-    
-
     public async Task DisabledSave()
     {
       var saveButton = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Add New User\")");
@@ -128,6 +119,10 @@ namespace pre.test.pages
     {
       var role = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("#react-combobox-view-4");
       await Task.Run(() => Assert.IsTrue(role.IsVisibleAsync().Result));
+      await role.ClickAsync();
+      
+      var superuser = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=Super User functions");
+      await Task.Run(() => Assert.IsFalse(superuser.IsVisibleAsync().Result));
     }
 
     public async Task UpdateAll()
@@ -158,11 +153,7 @@ namespace pre.test.pages
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"User\\ Organisation\"]").First.FillAsync("n/aUpdate");
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"User\\ Roles\\.\\ Selected\\:\\ Level\\ 3\"]").First.ClickAsync();
       }
-      
-
-      
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=Clerks, Court Associates, Ushers, Legal Advisors, JIT").ClickAsync();
-
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Save User\")").ClickAsync();
     }
 
@@ -200,17 +191,41 @@ namespace pre.test.pages
       var role = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("#react-combobox-view-4");
       await Task.Run(() => Assert.IsTrue(role.IsVisibleAsync().Result));
       }
-
-      
     }
-
-    public async Task UpdateExistingEmail()
+     public async Task UpdateExistingEmail()
     {
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"User\\ Email\"]").ClickAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"User\\ Email\"]").FillAsync($"{existingEmail}");
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Save User\")").ClickAsync();
     }
+    public async Task searchNoRecords()
+    {
+      if (ManageUser.use == "super")
+      {
+         await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Search Users\"]").ClickAsync();
+      }
+      else
+      {
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Search User\"]").ClickAsync();
+      }
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Search - Name \\/ Email\"]").ClickAsync();
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Search - Name \\/ Email\"]").FillAsync("Invalid Value");
 
+    }
+    public async Task searchNoRecordsMessage()
+    {
+      var noRecordMessage = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=There are no records matching your search criteria. Consider changing your searc");
+      await Task.Run(() => Assert.That(noRecordMessage.TextContentAsync().Result, Does.Contain("no records matching")));
+    }
+    public async Task adminCheck()
+    {
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=HMCTS Logo").ClickAsync();
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Admin\")").ClickAsync();
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Manage\\ Users\"]").ClickAsync();
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Search User\"]").ClickAsync();
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Search - Name \\/ Email\"]").ClickAsync();
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Search - Name \\/ Email\"]").FillAsync($"{createUserLastName}");
+    }
   }
 }
 
