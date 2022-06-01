@@ -198,7 +198,6 @@ namespace pre.test.pages
       var scheduleDateViewGreyBox = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text=Date: {newScheduleDate}").Nth(1);
       await Task.Run(() => Assert.IsTrue(scheduleDateViewGreyBox.IsVisibleAsync().Result));
     }
-
     public async Task checkCaseCreated()
     {
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=HMCTS Logo").ClickAsync();
@@ -216,8 +215,6 @@ namespace pre.test.pages
 
     public async Task search()
     {
-
-
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=HMCTS Logo").ClickAsync();
       if (AdminManageCases.usePage == "super")
       {

@@ -53,7 +53,6 @@ namespace pre.test.Hooks
     [BeforeScenario("AdminManageCases", Order = 3)]
     public async Task goToAdminAdminManageCase()
     {
-      // using sandbox url whilst test is aligned, change in future
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=HMCTS Logo").ClickAsync();
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Admin\")").ClickAsync();
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Manage Cases\"]").First.ClickAsync();
@@ -62,7 +61,6 @@ namespace pre.test.Hooks
     [BeforeScenario("SuperUserManageCases", Order = 3)]
     public async Task goToSuperUserManageCase()
     {
-      // using sandbox url whilst test is aligned, change in future
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=HMCTS Logo").ClickAsync();
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Super User\")").ClickAsync();
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Manage Cases\"]").First.ClickAsync();

@@ -56,8 +56,6 @@ namespace pre.test.Hooks
     [BeforeScenario("CreateAUser", Order = 2)]
     public async Task CreateAUser()
     {
-      System.Console.WriteLine(ManageUser.use);
-      
       if (ManageUser.use == "duplicateEmail")
       {
         await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Add Users\"]").ClickAsync();

@@ -19,12 +19,7 @@ namespace pre.test
     }
 public HooksManageUsers Hook = new HooksManageUsers();
 
-
-
-  
-
-
-    [Given(@"I try to add a new user with an existing email address")]
+   [Given(@"I try to add a new user with an existing email address")]
     public async Task WhenItrytoaddanewuserwithanexistingemailaddress()
     {
       ManageUser.use = "duplicateEmail";
@@ -71,125 +66,110 @@ public HooksManageUsers Hook = new HooksManageUsers();
     }
 
 
-[Given(@"I need to update a users First Name")]
-//[When(@"I make this change in PRE for the user")]
-public async Task WhenImakethischangeinPREfortheuser()
-{
-  
-	await _manageuser.UpdateFirstName();
-}
+    [Given(@"I need to update a users First Name")]
+    //[When(@"I make this change in PRE for the user")]
+    public async Task WhenImakethischangeinPREfortheuser()
+    {
+
+      await _manageuser.UpdateFirstName();
+    }
+
+    [Then(@"the PRE user record will be updated with the new First Name")]
+    public async Task ThenthePREuserrecordwillbeupdatedwiththenewFirstName()
+    {
+      await _manageuser.UpdateFirstNameCheck();
+    }
+
+    [Given(@"I update the users Last Name")]
+
+    public async Task WhenIupdatetheusersLastName()
+    {
+      await _manageuser.UpdateLastName();
+    }
+
+    [Then(@"the PRE user record will be updated with the new Last Name")]
+    public async Task ThenthePREuserrecordwillbeupdatedwiththenewLastName()
+    {
+      await _manageuser.UpdateLastNameCheck();
+    }
+
+    [When(@"I update the users Email")]
+    public async Task WhenIupdatetheusersEmail()
+    {
+      //await _manageuser.CheckRecordIsCreated();
+      await _manageuser.UpdateEmail();
+    }
+
+    [Then(@"the PRE user record will be updated with the new Email")]
+    public async Task ThenthePREuserrecordwillbeupdatedwiththenewEmail()
+    {
+      await _manageuser.UpdateEmailCheck();
+    }
 
 
-[Then(@"the PRE user record will be updated with the new First Name")]
-public async Task ThenthePREuserrecordwillbeupdatedwiththenewFirstName()
-{
-	await _manageuser.UpdateFirstNameCheck();
-}
+    [Given(@"I update the users Phone No")]
+    public async Task WhenIupdatetheusersPhoneNo()
+    {
+
+      await _manageuser.UpdatePhoneNo();
+    }
 
 
-[Given(@"I update the users Last Name")]
-
-public async Task WhenIupdatetheusersLastName()
-{
-	await _manageuser.UpdateLastName();
-}
-
-
-[Then(@"the PRE user record will be updated with the new Last Name")]
-public async Task ThenthePREuserrecordwillbeupdatedwiththenewLastName()
-{
-	await _manageuser.UpdateLastNameCheck();
-}
+    [Then(@"the PRE user record will be updated with the new Phone No")]
+    public async Task ThenthePREuserrecordwillbeupdatedwiththenewPhoneNo()
+    {
+      await _manageuser.UpdatePhoneNoCheck();
+    }
 
 
+    [Given(@"I update the Oraganisation")]
+    public async Task WhenIupdatetheOraganisation()
+    {
 
-[When(@"I update the users Email")]
-public async Task WhenIupdatetheusersEmail()
-{
-  //await _manageuser.CheckRecordIsCreated();
-	await _manageuser.UpdateEmail();
-}
+      await _manageuser.UpdateOrganisation();
+    }
 
-[Then(@"the PRE user record will be updated with the new Email")]
-public async Task ThenthePREuserrecordwillbeupdatedwiththenewEmail()
-{
-	await _manageuser.UpdateEmailCheck();
-}
-
-
-[Given(@"I update the users Phone No")]
-public async Task WhenIupdatetheusersPhoneNo()
-{
-  
-	await _manageuser.UpdatePhoneNo();
-}
+    [Then(@"the PRE user record will be updated with the new Oraganisation")]
+    public async Task ThenthePREuserrecordwillbeupdatedwiththenewOraganisation()
+    {
+      await _manageuser.UpdateOrganisationCheck();
+    }
 
 
-[Then(@"the PRE user record will be updated with the new Phone No")]
-public async Task ThenthePREuserrecordwillbeupdatedwiththenewPhoneNo()
-{
-	await _manageuser.UpdatePhoneNoCheck();
-}
+    [Given(@"I update the users Role")]
+    public async Task WhenIupdatetheusersRole()
+    {
+      await _manageuser.UpdateRole();
+    }
+
+    [Then(@"the PRE user record will be updated with the new Role")]
+    public async Task ThenthePREuserrecordwillbeupdatedwiththenewRole()
+    {
+      await _manageuser.UpdateRoleCheck();
+    }
 
 
-[Given(@"I update the Oraganisation")]
-public async Task WhenIupdatetheOraganisation()
-{
-  
-	await _manageuser.UpdateOrganisation();
-}
+    [Given(@"I update every field")]
+    public async Task WhenIupdateeveryfield()
+    {
 
-[Then(@"the PRE user record will be updated with the new Oraganisation")]
-public async Task ThenthePREuserrecordwillbeupdatedwiththenewOraganisation()
-{
-	await _manageuser.UpdateOrganisationCheck();
-}
+      await _manageuser.UpdateAll();
+    }
 
 
-[Given(@"I update the users Role")]
-public async Task WhenIupdatetheusersRole()
-{
-	await _manageuser.UpdateRole();
-}
-
-[Then(@"the PRE user record will be updated with the new Role")]
-public async Task ThenthePREuserrecordwillbeupdatedwiththenewRole()
-{
-	await _manageuser.UpdateRoleCheck();
-}
+    [Then(@"the PRE user record will be updated")]
+    public async Task ThenthePREuserrecordwillbeupdated()
+    {
+      await _manageuser.UpdateAllCheck();
+      ManageUser.use = "";
+    }
 
 
-[Given(@"I update every field")]
-public async Task WhenIupdateeveryfield()
-{
-  
-	await _manageuser.UpdateAll();
-}
-
-
-[Then(@"the PRE user record will be updated")]
-public async Task ThenthePREuserrecordwillbeupdated()
-{
-	await _manageuser.UpdateAllCheck();
-  ManageUser.use ="";
-}
-
-
-[Given(@"I update all fields")]
-public async Task GivenIupdateallfields()
-{
-  ManageUser.use ="super";
-	await _manageuser.UpdateAll();
-}
-
-
-
-
-
-
-}
-
-
-
-
+    [Given(@"I update all fields")]
+    public async Task GivenIupdateallfields()
+    {
+      ManageUser.use = "super";
+      await _manageuser.UpdateAll();
+    }
+  }
   }
