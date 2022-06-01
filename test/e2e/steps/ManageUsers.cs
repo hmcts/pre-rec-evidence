@@ -67,8 +67,7 @@ public HooksManageUsers Hook = new HooksManageUsers();
 
 
     [Given(@"I need to update a users First Name")]
-    //[When(@"I make this change in PRE for the user")]
-    public async Task WhenImakethischangeinPREfortheuser()
+      public async Task WhenImakethischangeinPREfortheuser()
     {
 
       await _manageuser.UpdateFirstName();
@@ -96,7 +95,6 @@ public HooksManageUsers Hook = new HooksManageUsers();
     [When(@"I update the users Email")]
     public async Task WhenIupdatetheusersEmail()
     {
-      //await _manageuser.CheckRecordIsCreated();
       await _manageuser.UpdateEmail();
     }
 
@@ -152,10 +150,29 @@ public HooksManageUsers Hook = new HooksManageUsers();
     [Given(@"I update every field")]
     public async Task WhenIupdateeveryfield()
     {
-
       await _manageuser.UpdateAll();
     }
 
+    [Given(@"I want to search for a user and no records are returned")]
+    public async Task GivenIwanttosearchforauserandnorecordsarereturned()
+    {
+      await _manageuser.searchNoRecords();
+    }
+
+
+    [Then(@"a message should be displayed stating that no records were found")]
+    public async Task Thenamessageshouldbedisplayedstatingthatnorecordswerefound()
+    {
+      await _manageuser.searchNoRecordsMessage();
+    }
+
+
+    [Given(@"I search for a user and no records are returned")]
+    public async Task GivenIsearchforauserandnorecordsarereturned()
+    {
+      ManageUser.use = "super";
+      await _manageuser.searchNoRecords();
+    }
 
     [Then(@"the PRE user record will be updated")]
     public async Task ThenthePREuserrecordwillbeupdated()
@@ -171,5 +188,13 @@ public HooksManageUsers Hook = new HooksManageUsers();
       ManageUser.use = "super";
       await _manageuser.UpdateAll();
     }
+
+
+    [Then(@"the user will not be visible in Admin")]
+    public async Task ThentheuserwillnotbevisibleinAdmin()
+    {
+      await _manageuser.adminCheck();
+      await _manageuser.searchNoRecordsMessage();
+    }
   }
-  }
+}

@@ -3,7 +3,7 @@ TBC
 ## When test is aligned, add a test to check 'avaliable recordings' is yes for the case we use in auto tests with a recording
 #Cases now need to have recordings to be in view recordings....should these steps become zephyr tests?
 
-- Only one court in MVP - test not needed currently
+#- Only one court in MVP - test not needed currently
 @CreateAndManageCase @CreateAndManageCaseAndSchedule @AdminManageCases @RevertCourt
 Scenario: Update Court
   Given I update the court on a case
@@ -72,7 +72,7 @@ Then the scheduled date will be updated in view recordings
   Given I have created a case to search for
   Then I cannot remove the case reference in schedule details
 
-Add this test once we have test env to use the case with a recording in it
+#Add this test once we have test env to use the case with a recording in it
   Scenario: Remove case reference in recording details
   Given I have a case with a recording
   Then I cannot remove the case reference in recording details
