@@ -119,10 +119,9 @@ namespace pre.test.pages
     {
       var role = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("#react-combobox-view-4");
       await Task.Run(() => Assert.IsTrue(role.IsVisibleAsync().Result));
-
       await role.ClickAsync();
+      
       var superuser = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=Super User functions");
-      while (superuser.IsVisibleAsync().Result == true) { }
       await Task.Run(() => Assert.IsFalse(superuser.IsVisibleAsync().Result));
     }
 
