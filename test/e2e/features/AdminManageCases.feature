@@ -93,3 +93,9 @@ Then the scheduled date will be updated in view recordings
   # Then the case is visible in book recordings but not in schedule recordings
 
 #Do 1 update scenario once S28-546 bug is fixed
+
+#comment in once fixed
+# @CreateAndManageCase @CreateAndManageCaseAndSchedule @AdminManageCases @RevertCourt
+# Scenario: Update case ref with existing case 
+#   Given I update the case ref on a case
+#   Then an error message stating the case already exists will be displayed

@@ -34,8 +34,6 @@ namespace pre.test.pages
     public static string monthWord = "";
     public static string today = "";
 
-
-
     public async Task updateCourt()
     {
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Case Ref \\\\ URN \\\\ ID \\\\ Court\"]").FillAsync($"{HooksAdminManageCases.caseName}");
@@ -61,7 +59,6 @@ namespace pre.test.pages
 
       await Task.Run(() => Assert.That(courtLocator.InnerTextAsync().Result, Does.Contain($"{newCourt}")));
     }
-
     public async Task checkCourtManageRecordings()
     {
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=HMCTS Logo").ClickAsync();
@@ -76,7 +73,6 @@ namespace pre.test.pages
       var courtDropdown = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"[aria-label=\"Courts\\. Selected\\: {newCourt}\"]");
       await Task.Run(() => Assert.IsTrue(courtDropdown.IsVisibleAsync().Result));
     }
-
     public async Task checkCourtViewRecordings()
     {
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=HMCTS Logo").ClickAsync();
@@ -90,7 +86,6 @@ namespace pre.test.pages
       var caseInfoGreyBox = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div:nth-child(39) .appmagic-borderfill-container .appmagic-border-inner .react-knockout-control .appmagic-label .appmagic-label-text");
       await Task.Run(() => Assert.That(caseInfo.InnerTextAsync().Result, Does.Contain($"{newCourt}")));
     }
-
     public async Task checkCourtBookRecordings()
     {
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=HMCTS Logo").ClickAsync();
@@ -103,7 +98,6 @@ namespace pre.test.pages
       var caseInfo = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("#publishedCanvas  div.virtualized-gallery div.canvasContentDiv.container_1vt1y2p  div:nth-child(3)").First;
       await Task.Run(() => Assert.That(caseInfo.InnerTextAsync().Result, Does.Contain($"{newCourt}")));
     }
-
     public async Task updateDate()
     {
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Case Ref \\\\ URN \\\\ ID \\\\ Court\"]").FillAsync($"{HooksAdminManageCases.caseName}");
@@ -154,7 +148,6 @@ namespace pre.test.pages
 
       await Task.Run(() => Assert.That(scheduleDateLocator.InnerTextAsync().Result, Does.Contain($"{newScheduleDate}")));
     }
-
     public async Task checkDateBookRecordings()
     {
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=HMCTS Logo").ClickAsync();
@@ -171,7 +164,6 @@ namespace pre.test.pages
       var recordingDateBook = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text=Recording Start: {newScheduleDate}");
       while (recordingDateBook.IsVisibleAsync().Result == false){}
     }
-
     public async Task checkDateManageRecordings()
     {
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=HMCTS Logo").ClickAsync();
@@ -184,7 +176,6 @@ namespace pre.test.pages
       var scheduleDateManage = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"[aria-label=\"{tomorrow} {tomoMonthWord} {tomoDateNum} {tomoYear}\\. Selected\\.\"]");
       await Task.Run(() => Assert.IsTrue(scheduleDateManage.IsVisibleAsync().Result));
     }
-
     public async Task checkDateViewRecordings()
     {
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=HMCTS Logo").ClickAsync();
@@ -212,7 +203,6 @@ namespace pre.test.pages
       caseIdToSearch = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div:nth-child(16)").TextContentAsync().Result.ToString().Trim();
       caseIdToSearch = caseIdToSearch.Substring(caseIdToSearch.LastIndexOf(':') + 1).Trim();
     }
-
     public async Task search()
     {
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=HMCTS Logo").ClickAsync();
@@ -245,7 +235,6 @@ namespace pre.test.pages
         await Task.Run(() => Assert.That(results.TextContentAsync().Result, Does.Contain("Leeds")));
       }
     }
-
     public async Task deleteCase()
     {
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=HMCTS Logo").ClickAsync();
@@ -271,7 +260,6 @@ namespace pre.test.pages
 
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Delete\")").Nth(1).ClickAsync();
     }
-
     public async Task checkCaseDelete()
     {
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=HMCTS Logo").ClickAsync();
@@ -300,7 +288,6 @@ namespace pre.test.pages
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Case Ref \\\\ URN \\\\ ID \\\\ Court\"]").FillAsync($"{HooksAdminManageCases.caseName}");
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Restore Case\"]").ClickAsync();
     }
-
     public async Task checkBookNotSchedule()
     {
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=HMCTS Logo").ClickAsync();
@@ -388,10 +375,24 @@ namespace pre.test.pages
         var saveButton = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div:nth-child(121) .appmagic-borderfill-container .appmagic-border-inner .react-knockout-control .powerapps-icon");
         await Task.Run(() => Assert.IsTrue(saveButton.IsDisabledAsync().Result));
       }
+      
+    }
+    public async Task updateWithDuplicateCaseRef()
+    {
+
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Edit\\ Case\"]").ClickAsync();
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Case\\ Reference\"]").ClickAsync();
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Case\\ Reference\"]").FillAsync($"{HooksAdminManageCases.caseName}");
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div[role=\"button\"]:has-text(\"Save Case\")").ClickAsync();
+    }
+      public async Task checkDuplicateErrorMessage()
+    {
+      var DuplicateError = Page.Locator("text=This case already exists. Please check the case reference, or select the case sh");
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+      await Task.Run(() => Assert.That(DuplicateError.InnerTextAsync().Result, Does.Contain("This case already exists")));
+      
     }
   }
-
-
 }
 
 
