@@ -17,6 +17,8 @@ namespace pre.test.Hooks
       await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.sboxUrl}");
       ManageUser.createUserLastName = DateTime.UtcNow.ToString("yyyyMMddHHmmss");
       ManageUser.newUserEmail = $"autotest{ManageUser.createUserLastName}";
+      await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Admin\")").ClickAsync();
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Manage\\ Users\"]").ClickAsync();
       await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));

@@ -49,128 +49,143 @@ namespace pre.test.pages
 
     }
 
-
     public async Task Schedule()
     {
-
-
       if (UpdateSchedules.use == "DE")
       {
         await Page.Frame("fullscreen-app-host")
         .ClickAsync($"[aria-label=\"Select\\ your\\ Defendants\\ items\"] div:has-text(\"{def2}\")");
       }
       await Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Save\")");
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+      HooksInitializer.scheduleCount++;
 
     }
     public async Task FindSchedule()
     {
-
-
       await Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Home\")");
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Manage Recordings\")").Nth(1).ClickAsync();
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
 
       await Page.Frame("fullscreen-app-host").ClickAsync("[placeholder=\"Search\\ Case\\ Ref\"]");
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+
       await Page.Frame("fullscreen-app-host").FillAsync("[placeholder=\"Search\\ Case\\ Ref\"] ", $"{stringCase}");
-      var updatecaseScheduled = UpdateSchedules._pagesetters.Page.Frame("fullscreen-app-host").Locator($"div.virtualized-gallery:has-text(\"{stringCase}\")");
-      await Task.Run(() => Assert.That(updatecaseScheduled.TextContentAsync().Result, Does.Contain($"{stringCase}")));
-      await Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Amend\")");
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
 
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Amend\")").First.ClickAsync();
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
 
+      var updatecaseScheduled = Page.Frame("fullscreen-app-host").Locator("[aria-label=\"Edit Case Reference\"]");
+      await Task.Run(() => Assert.That(updatecaseScheduled.InputValueAsync().Result, Does.Contain($"{stringCase}")));
     }
 
 
     public async Task FindupdatedCase()
     {
       await Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Home\")");
+      await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
       await Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Book a Recording\")");
       await Page.Frame("fullscreen-app-host").ClickAsync("[aria-label=\"Select\\ Court\"]");
-      if (UpdateSchedules.use == "O")
-      {
-        // await Page.Frame("fullscreen-app-host").ClickAsync($"[aria-label=\"Select\\ Court\\ items\"] div:has-text(\"{newCourt}\")");
-        await Page.Frame("fullscreen-app-host").ClickAsync($"[aria-label=\"Select\\ Court\\ items\"] div:has-text(\"{court}\")");
+      // don't need to update court for MVP
+      // if (UpdateSchedules.use == "O")
+      // {
+      //   // await Page.Frame("fullscreen-app-host").ClickAsync($"[aria-label=\"Select\\ Court\\ items\"] div:has-text(\"{newCourt}\")");
+      //   await Page.Frame("fullscreen-app-host").ClickAsync($"[aria-label=\"Select\\ Court\\ items\"] div:has-text(\"{court}\")");
 
-      }
-      else if (UpdateSchedules.use == "A")
-      {
-        // await Page.Frame("fullscreen-app-host").ClickAsync($"[aria-label=\"Select\\ Court\\ items\"] div:has-text(\"{newCourt}\")");
-        await Page.Frame("fullscreen-app-host").ClickAsync($"[aria-label=\"Select\\ Court\\ items\"] div:has-text(\"{court}\")");
-      }
-      else
-      {
-        await Page.Frame("fullscreen-app-host").ClickAsync($"[aria-label=\"Select\\ Court\\ items\"] div:has-text(\"{court}\")");
-      }
+      // }
+      // else if (UpdateSchedules.use == "A")
+      // {
+      //   // await Page.Frame("fullscreen-app-host").ClickAsync($"[aria-label=\"Select\\ Court\\ items\"] div:has-text(\"{newCourt}\")");
+      //   await Page.Frame("fullscreen-app-host").ClickAsync($"[aria-label=\"Select\\ Court\\ items\"] div:has-text(\"{court}\")");
+      // }
+      // else
+      // {
+      await Page.Frame("fullscreen-app-host").ClickAsync($"[aria-label=\"Select\\ Court\\ items\"] div:has-text(\"{court}\")");
+      //}
 
-      var caseInput = UpdateSchedules._pagesetters.Page.Frame("fullscreen-app-host").Locator("div:nth-child(42) .appmagic-borderfill-container .appmagic-border-inner .react-knockout-control .appmagic-textbox .appmagic-text");
+      var caseInput = Page.Frame("fullscreen-app-host").Locator("div:nth-child(42) .appmagic-borderfill-container .appmagic-border-inner .react-knockout-control .appmagic-textbox .appmagic-text");
       await Task.Run(() => Assert.IsTrue(caseInput.IsVisibleAsync().Result));
       await Page.IsVisibleAsync("[placeholder=\"Case\\ Number\\ \\\\\\ URN\"]");
 
       await Page.Frame("fullscreen-app-host").ClickAsync("[placeholder=\"Case\\ Number\\ \\\\\\ URN\"]");
       await Page.Frame("fullscreen-app-host").FillAsync("[placeholder=\"Case\\ Number\\ \\\\\\ URN\"]", $"{stringCase.Trim()}");
 
-      var caseLocation = UpdateSchedules._pagesetters.Page.Frame("fullscreen-app-host").Locator("div.canvasContentDiv.container_1vt1y2p > div > div:nth-child(3)");
+      var caseLocation = Page.Frame("fullscreen-app-host").Locator("div.canvasContentDiv.container_1vt1y2p > div > div:nth-child(3)");
 
-      if (UpdateSchedules.use == "O")
-      {
-        // await Task.Run(() => Assert.That(caseLocation.AllInnerTextsAsync().Result, Does.Contain($"{newCourt}")));
-        await
-          Task.Run(() => Assert.That(caseLocation.AllInnerTextsAsync().Result, Does.Contain($"{court}")));
-      }
-      else if (UpdateSchedules.use == "A")
-      {
-        // await Task.Run(() => Assert.That(caseLocation.AllInnerTextsAsync().Result, Does.Contain($"{newCourt}")));
-        await
-          Task.Run(() => Assert.That(caseLocation.AllInnerTextsAsync().Result, Does.Contain($"{court}")));
-      }
-      else
-      {
-        await
-         Task.Run(() => Assert.That(caseLocation.AllInnerTextsAsync().Result, Does.Contain($"{court}")));
-      }
+      // don't need to update court for MVP
+      // if (UpdateSchedules.use == "O")
+      // {
+      //   // await Task.Run(() => Assert.That(caseLocation.AllInnerTextsAsync().Result, Does.Contain($"{newCourt}")));
+      //   await
+      //     Task.Run(() => Assert.That(caseLocation.AllInnerTextsAsync().Result, Does.Contain($"{court}")));
+      // }
+      // else if (UpdateSchedules.use == "A")
+      // {
+      //   // await Task.Run(() => Assert.That(caseLocation.AllInnerTextsAsync().Result, Does.Contain($"{newCourt}")));
+      //   await
+      //     Task.Run(() => Assert.That(caseLocation.AllInnerTextsAsync().Result, Does.Contain($"{court}")));
+      // }
+      // else
+      // {
+      // await Task.Run(() => Assert.That(caseLocation.AllInnerTextsAsync().Result, Does.Contain($"{court}")));
+      //}
 
       await Page.Frame("fullscreen-app-host").ClickAsync(".container_1f0sgyp div:nth-child(2) .react-knockout-control .appmagic-svg");
+      var courtLocation = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("span:has-text(\"Leeds\")");
+      await Task.Run(() => Assert.That(courtLocation.InnerTextAsync().Result, Does.Contain($"{court}")));
 
       await Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Modify\")");
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Save\")").Nth(2).ClickAsync();
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
     }
     public async Task Updatechildwitness()
     {
       await Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Amend\")");
       await Page.Frame("fullscreen-app-host").ClickAsync("[aria-label=\"Toggle\"] div >> nth=2");
       await Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Save\")");
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
     }
     public async Task ManageRecordingsCheckUpdatechildwitness()
     {
-      var Scheduledcase = Page.Frame("fullscreen-app-host").Locator($" div:nth-child(19) > div div.virtualized-gallery:has-text(\"{stringCase}\")");
-      await Task.Run(() => Assert.That(Scheduledcase.TextContentAsync().Result, Does.Contain("Child")));
+      var child = Page.Frame("fullscreen-app-host").Locator("div.canvasContentDiv.container_1vt1y2p  div:nth-child(7)");
+      await Task.Run(() => Assert.That(child.TextContentAsync().Result, Does.Contain("Child")));
     }
     public async Task Updatedate()
     {
-
       await Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Amend\")");
-
-
-
       await Page.Frame("fullscreen-app-host").ClickAsync("[placeholder=\"Session\\ Date\"]");
+      if (currentmonth != updatedmonth)
+      {
+        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Next Month\"]").ClickAsync();
+      }
       await Page.Frame("fullscreen-app-host").ClickAsync($"[aria-label=\"{updatedday}\\ {updatedmonthword}\\ {updateddate}\\ {updatedyear}\"]");
       await Page.Frame("fullscreen-app-host").ClickAsync("button[role=\"button\"]:has-text(\"Ok\")");
       await Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Save\")");
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
     }
 
     public async Task ManageRecordingsCheckUpdatedDate()
     {
       await Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Clear\")");
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
       await Page.Frame("fullscreen-app-host").ClickAsync("[placeholder=\"Search\\ Case\\ Ref\"]");
       await Page.Frame("fullscreen-app-host").FillAsync("[placeholder=\"Search\\ Case\\ Ref\"] ", $"{stringCase}");
-      var Scheduledcase = Page.Frame("fullscreen-app-host").Locator($" div:nth-child(19) > div div.virtualized-gallery:has-text(\"{stringCase}\")");
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
 
-      await Task.Run(() => Assert.That(Scheduledcase.TextContentAsync().Result, Does.Contain($"{stringCase}")));
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Amend\")").ClickAsync();
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"[aria-label=\"Select Scheduled Date\\, default Today{updateddate}\\/{updatedmonth}\\/{updatedyear}\\. Open calendar to select a date\"]").ClickAsync();
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+      var dateLocator = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"[aria-label=\"{updatedday} {updatedmonthword} {updateddate} {updatedyear}\\. Selected\\.\"]");                                                                                  
+      await Task.Run(() => Assert.IsTrue(dateLocator.IsVisibleAsync().Result));
     }
 
 
     public async Task BookRecordingsCheckUpdatedDate()
     {
-
-      var scheduledate = UpdateSchedules._pagesetters.Page.Frame("fullscreen-app-host").Locator($"text=Recording Start: {updateddate}/{updatedmonth}/{updatedyear}");
+      var scheduledate = Page.Frame("fullscreen-app-host").Locator($"text=Recording Start: {updateddate}/{updatedmonth}/{updatedyear}");
       await Task.Run(() => Assert.That(scheduledate.TextContentAsync().Result, Does.Contain($"{updateddate}/{updatedmonth}/{updatedyear}")));
     }
 
@@ -179,54 +194,58 @@ namespace pre.test.pages
       await Page.Frame("fullscreen-app-host").ClickAsync($"[aria-label=\"Defendants\\.\\ Selected\\:\\ {def1}\"]");
       await Page.Frame("fullscreen-app-host").ClickAsync($"text={def2}");
       await Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Save\")");
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
     }
 
     public async Task ManageRceordingsCheckUpdatedDefendant()
     {
-      var Scheduledcase = Page.Frame("fullscreen-app-host").Locator($" div:nth-child(19) > div div.virtualized-gallery:has-text(\"{stringCase}\")");
-
-      await Task.Run(() => Assert.That(Scheduledcase.TextContentAsync().Result, Does.Contain($"{def2}")));
+      var def = Page.Frame("fullscreen-app-host").Locator("div.canvasContentDiv.container_1vt1y2p  div:nth-child(9)");
+      await Task.Run(() => Assert.That(def.TextContentAsync().Result, Does.Contain($"{def2}")));
     }
 
     // public async Task BookRecordingsCheckUpdatedDefendant()
     // {
-      //Bug S28-496
-      // else if (UpdateSchedules.use == "E")
-      // {
-      //   //var defendant = UpdateSchedules._pagesetters.Page.Frame("fullscreen-app-host").Locator("text=Defendants: defendants 2");
-      //   //await Task.Run(() =>Assert.That(defendant.TextContentAsync().Result, Does.Contain("defendants 2")));
-      // }
+    //Bug S28-496
+    // else if (UpdateSchedules.use == "E")
+    // {
+    //   //var defendant = Page.Frame("fullscreen-app-host").Locator("text=Defendants: defendants 2");
+    //   //await Task.Run(() =>Assert.That(defendant.TextContentAsync().Result, Does.Contain("defendants 2")));
+    // }
     //}
 
     public async Task UpdateWitness()
     {
-      await Page.Frame("fullscreen-app-host").ClickAsync("[aria-label=\"Defendants\\.\\ Selected\\:\\ Witness\\ surname1\"]");
+      await Page.Frame("fullscreen-app-host").ClickAsync("[aria-label=\"Witness\\.\\ Selected\\:\\ Witness\\ surname1\"]");
       await Page.Frame("fullscreen-app-host").ClickAsync("text=Witness surname2");
       await Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Save\")");
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
     }
     public async Task ManageRecordingsCheckUpdatedWitness()
     {
-      var Scheduledcase = Page.Frame("fullscreen-app-host").Locator($" div:nth-child(19) > div div.virtualized-gallery:has-text(\"{stringCase}\")");
-
-      await Task.Run(() => Assert.That(Scheduledcase.TextContentAsync().Result, Does.Contain("Witness surname2")));
+      var wit = Page.Frame("fullscreen-app-host").Locator("div.canvasContentDiv.container_1vt1y2p  div:nth-child(6)");
+      await Task.Run(() => Assert.That(wit.TextContentAsync().Result, Does.Contain($"{wit2}")));
     }
     public async Task BookRecordingsCheckUpdatedWitness()
     {
 
-      var witness = UpdateSchedules._pagesetters.Page.Frame("fullscreen-app-host").Locator("text=Witness Name: Witness surname2");
+      var witness = Page.Frame("fullscreen-app-host").Locator("text=Witness Name: Witness surname2");
       await Task.Run(() => Assert.That(witness.TextContentAsync().Result, Does.Contain("Witness surname2")));
 
     }
     public async Task RemoveDefendant()
     {
-      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"[aria-label=\"Defendants\\. Selected\\: {def1}\\, {def2}\"]").ClickAsync();
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div.combobox-view-chevron.arrowContainer_1kmq8gc-o_O-container_r2h174-o_O-containerColors_1096g8n").Nth(2).ClickAsync();
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
       await Page.Frame("fullscreen-app-host").ClickAsync($"[aria-label=\"Remove\\ {def2}\\ from\\ selection\"]");
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
       await Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Save\")");
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
     }
     public async Task ManageRecordingsCheckRemovedDefendant()
     {
-      var Scheduledcase = Page.Frame("fullscreen-app-host").Locator($" div:nth-child(19) > div div.virtualized-gallery:has-text(\"{stringCase}\")");
-
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+      var Scheduledcase = Page.Frame("fullscreen-app-host").Locator(".container_1f0sgyp div .react-knockout-control .appmagic-svg").First;
       await Task.Run(() => Assert.That(Scheduledcase.TextContentAsync().Result, Does.Not.Contain($"{def2}")));
     }
     public async Task BookRecordingsCheckRemovedDefendant()
@@ -239,11 +258,10 @@ namespace pre.test.pages
 
     public async Task UpdateCourt()
     {
-
-
       await Page.Frame("fullscreen-app-host").ClickAsync($"[aria-label=\"Courts\\.\\ Selected\\:\\ {court}\"]");
       await Page.Frame("fullscreen-app-host").ClickAsync($"text={newCourt}");
       await Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Save\")");
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
     }
 
     public async Task ManageRecordingsCheckUpdatedCourt()
@@ -264,19 +282,19 @@ namespace pre.test.pages
 
     public async Task BookRecordingsCheckUpdatedCourt()
     {
-
-      var courtdropdown = UpdateSchedules._pagesetters.Page.Frame("fullscreen-app-host").Locator($"[aria-label=\"Select\\ Court\\.\\ Selected\\:\\ {newCourt}\"]");
+      var courtdropdown = Page.Frame("fullscreen-app-host").Locator($"[aria-label=\"Select\\ Court\\.\\ Selected\\:\\ {newCourt}\"]");
       await Task.Run(() => Assert.That(courtdropdown.AllInnerTextsAsync().Result, Does.Contain($"{newCourt}")));
       await Task.Run(() => Assert.That(courtdropdown.AllInnerTextsAsync().Result, Does.Not.Contain($"{court}")));
-
     }
 
     public async Task UpdateAllFields()
     {
-
-
       await Page.Frame("fullscreen-app-host").ClickAsync("[aria-label=\"Toggle\"] div >> nth=2");
       await Page.Frame("fullscreen-app-host").ClickAsync($"[aria-label=\"Select\\ Scheduled\\ Date\\,\\ default\\ Today{currentdate}\\/{currentmonth}\\/{currentyear}\\.\\ Open\\ calendar\\ to\\ select\\ a\\ date\"]");
+      if (currentmonth != updatedmonth)
+      {
+        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Next Month\"]").ClickAsync();
+      }
       await Page.Frame("fullscreen-app-host").ClickAsync($"[aria-label=\"{updatedday}\\ {updatedmonthword}\\ {updateddate}\\ {updatedyear}\"]");
       await Page.Frame("fullscreen-app-host").ClickAsync("button[role=\"button\"]:has-text(\"Ok\")");
 
@@ -286,36 +304,45 @@ namespace pre.test.pages
 
       await Page.Frame("fullscreen-app-host").ClickAsync($"[aria-label=\"Defendants\\. Selected\\: {def1}\"]");
       await Page.Frame("fullscreen-app-host").ClickAsync($"text={def2}");
-      await Page.Frame("fullscreen-app-host").ClickAsync($"[aria-label=\"Defendants\\. Selected\\: {wit1}\"]");
+      await Page.Frame("fullscreen-app-host").ClickAsync($"[aria-label=\"Witness\\. Selected\\: {wit1}\"]");
       await Page.Frame("fullscreen-app-host").ClickAsync($"text={wit2}");
       await Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Save\")");
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+
       await Page.Frame("fullscreen-app-host").ClickAsync("[placeholder=\"Search\\ Case\\ Ref\"]");
       //await Page.Frame("fullscreen-app-host").FillAsync("[placeholder=\"Case\\ Number\\ \\\\\\ URN\"]", $"{stringCase.Trim()}");
-
-
     }
 
     public async Task ManageRecordingsCheckAllUpdatedFields()
     {
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
 
-      var Scheduledcase = Page.Frame("fullscreen-app-host").Locator($" div:nth-child(19) > div div.virtualized-gallery:has-text(\"{stringCase}\")");
+      var child = Page.Frame("fullscreen-app-host").Locator("div.canvasContentDiv.container_1vt1y2p  div:nth-child(7)");
+      await Task.Run(() => Assert.That(child.TextContentAsync().Result, Does.Contain("Child")));
 
-
-      await Task.Run(() => Assert.That(Scheduledcase.TextContentAsync().Result, Does.Contain("Child")));
       await Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Amend\")");
-      var datefield = UpdateSchedules._pagesetters.Page.Frame("fullscreen-app-host").Locator($"[aria-label=\'Select\\ Scheduled\\ Date\\,\\ default\\ Today{updateddate}\\/{updatedmonth}\\/{updatedyear}\\.\\ Open\\ calendar\\ to\\ select\\ a\\ date\']");
+      var datefield = Page.Frame("fullscreen-app-host").Locator($"[aria-label=\'Select\\ Scheduled\\ Date\\,\\ default\\ Today{updateddate}\\/{updatedmonth}\\/{updatedyear}\\.\\ Open\\ calendar\\ to\\ select\\ a\\ date\']");
       await Task.Run(() => Assert.IsTrue(datefield.IsVisibleAsync().Result));
-      await Task.Run(() => Assert.That(Scheduledcase.TextContentAsync().Result, Does.Contain($"{wit2}")));
-      await Task.Run(() => Assert.That(Scheduledcase.TextContentAsync().Result, Does.Contain($"{def2}")));
+
+      var def = Page.Frame("fullscreen-app-host").Locator("div.canvasContentDiv.container_1vt1y2p  div:nth-child(9)");
+      var wit = Page.Frame("fullscreen-app-host").Locator("div.canvasContentDiv.container_1vt1y2p  div:nth-child(6)");
+      await Task.Run(() => Assert.That(wit.TextContentAsync().Result, Does.Contain($"{wit2}")));
+      await Task.Run(() => Assert.That(def.TextContentAsync().Result, Does.Contain($"{def2}")));
 
       // - Only one court in MVP - test not needed currently
       // await Task.Run(() => Assert.That(Scheduledcase.TextContentAsync().Result, Does.Contain($"{newCourt}")));
       // await Task.Run(() => Assert.That(Scheduledcase.TextContentAsync().Result, Does.Not.Contain($"{court}")));
 
       await Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Clear\")");
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
       await Page.Frame("fullscreen-app-host").ClickAsync("[aria-label=\"Select\\ Scheduled\\ Date\\,\\ default\\ TodayOpen\\ calendar\\ to\\ select\\ a\\ date\"]");
+      if (currentmonth != updatedmonth)
+      {
+        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Next Month\"]").ClickAsync();
+      }
       await Page.Frame("fullscreen-app-host").ClickAsync($"[aria-label=\"{updatedday}\\ {updatedmonthword}\\ {updateddate}\\ {updatedyear}\"]");
       await Page.Frame("fullscreen-app-host").ClickAsync("button[role=\"button\"]:has-text(\"Ok\")");
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
 
       // - Only one court in MVP - test not needed currently
       await Page.Frame("fullscreen-app-host").ClickAsync("div[role=\"button\"]:has-text(\"Court Name\")");
@@ -326,6 +353,7 @@ namespace pre.test.pages
 
       await Page.Frame("fullscreen-app-host").ClickAsync("[placeholder=\"Search\\ Case\\ Ref\"]");
       await Page.Frame("fullscreen-app-host").FillAsync("[placeholder=\"Search\\ Case\\ Ref\"] ", $"{stringCase}");
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
 
       // Only one court in MVP - test not needed currently
       // await Task.Run(() => Assert.That(Scheduledcase.TextContentAsync().Result, Does.Contain($"{newCourt}")));
@@ -334,22 +362,20 @@ namespace pre.test.pages
 
     public async Task BookRecordingsCheckAllUpdatedFields()
     {
-
-
-      var scheduledate = UpdateSchedules._pagesetters.Page.Frame("fullscreen-app-host").Locator($"text=Recording Start: {updateddate}/{updatedmonth}/{updatedyear}");
+      var scheduledate = Page.Frame("fullscreen-app-host").Locator($"text=Recording Start: {updateddate}/{updatedmonth}/{updatedyear}");
       await Task.Run(() => Assert.That(scheduledate.TextContentAsync().Result, Does.Contain($"{updateddate}/{updatedmonth}/{updatedyear}")));
 
-      var witness = UpdateSchedules._pagesetters.Page.Frame("fullscreen-app-host").Locator($"text=Witness Name: {wit2}");
+      var witness = Page.Frame("fullscreen-app-host").Locator($"text=Witness Name: {wit2}");
       await Task.Run(() => Assert.That(witness.TextContentAsync().Result, Does.Contain($"{wit2}")));
 
-      var defendant = UpdateSchedules._pagesetters.Page.Frame("fullscreen-app-host").Locator("div:nth-child(59) div div .container_w3lqqm .appmagic-gallery .virtualized-gallery div .react-gallery-items-window .virtualized-gallery-item .canvasContentDiv.container_1vt1y2p .container_1f0sgyp div:nth-child(3) .appmagic-borderfill-container .appmagic-border-inner .react-knockout-control .appmagic-label");
+      var defendant = Page.Frame("fullscreen-app-host").Locator("div:nth-child(59) div div .container_w3lqqm .appmagic-gallery .virtualized-gallery div .react-gallery-items-window .virtualized-gallery-item .canvasContentDiv.container_1vt1y2p .container_1f0sgyp div:nth-child(3) .appmagic-borderfill-container .appmagic-border-inner .react-knockout-control .appmagic-label");
       //await Task.Run(() =>Assert.That(defendant.TextContentAsync().Result, Does.Contain("defendants 2")));
 
-      // var courtdropdown = UpdateSchedules._pagesetters.Page.Frame("fullscreen-app-host").Locator($"[aria-label=\"Select\\ Court\\.\\ Selected\\:\\ {newCourt}\"]");
+      // var courtdropdown = Page.Frame("fullscreen-app-host").Locator($"[aria-label=\"Select\\ Court\\.\\ Selected\\:\\ {newCourt}\"]");
       // await Task.Run(() => Assert.That(courtdropdown.AllInnerTextsAsync().Result, Does.Contain($"{newCourt}")));
       // await Task.Run(() => Assert.That(courtdropdown.AllInnerTextsAsync().Result, Does.Not.Contain($"{court}")));
 
-      var courtdropdown = UpdateSchedules._pagesetters.Page.Frame("fullscreen-app-host").Locator($"[aria-label=\"Select\\ Court\\.\\ Selected\\:\\ {court}\"]");
+      var courtdropdown = Page.Frame("fullscreen-app-host").Locator($"[aria-label=\"Select\\ Court\\.\\ Selected\\:\\ {court}\"]");
       await Task.Run(() => Assert.That(courtdropdown.AllInnerTextsAsync().Result, Does.Contain($"{court}")));
     }
 
@@ -359,12 +385,9 @@ namespace pre.test.pages
     }
     public async Task ManageRceordingsCheckCloseAmendView()
     {
-      var savebutton = UpdateSchedules._pagesetters.Page.Frame("fullscreen-app-host").Locator("button:has-text(\"Save\")");
+      var savebutton = Page.Frame("fullscreen-app-host").Locator("button:has-text(\"Save\")");
       await Task.Run(() => Assert.IsFalse(savebutton.IsVisibleAsync().Result));
     }
-
-
-
 
     // await Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Home\")");
     // await Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"View Recordings\")");
@@ -372,7 +395,7 @@ namespace pre.test.pages
     // {
     //   await Page.Frame("fullscreen-app-host").ClickAsync("[aria-label=\"Court\\ Name\"]");
     //   await Page.Frame("fullscreen-app-host").ClickAsync("text={newCourt}");
-    //   var greyboxdef = UpdateSchedules._pagesetters.Page.Frame("fullscreen-app-host").Locator("div:nth-child(20) .appmagic-borderfill-container .appmagic-border-inner .react-knockout-control .appmagic-label");
+    //   var greyboxdef = Page.Frame("fullscreen-app-host").Locator("div:nth-child(20) .appmagic-borderfill-container .appmagic-border-inner .react-knockout-control .appmagic-label");
     //   System.Threading.Thread.Sleep(5000);
     //   await Task.Run(() =>Assert.That(Scheduledcase.TextContentAsync().Result, Does.Contain("{newCourt}")));
     //   await Task.Run(() =>Assert.That(greyboxdef.TextContentAsync().Result, Does.Not.Contain("{court}")));
@@ -397,12 +420,12 @@ namespace pre.test.pages
     // await Page.Frame("fullscreen-app-host").ClickAsync($"[aria-label=\"{day}\\ {month}\\ {date}\\ {year}\"]");
     // await Page.Frame("fullscreen-app-host").ClickAsync("text=Ok");
     // await Task.Run(() =>Assert.That(Scheduledcase.TextContentAsync().Result, Does.Contain($"Date: {updateddate}/{updatedmonth}/{updatedyear}")));
-    // var greybox = UpdateSchedules._pagesetters.Page.Frame("fullscreen-app-host").Locator("div:nth-child(17) > div > div > div > div > div");
+    // var greybox = Page.Frame("fullscreen-app-host").Locator("div:nth-child(17) > div > div > div > div > div");
     // await Task.Run(() =>Assert.That(greybox.TextContentAsync().Result, Does.Contain($"Date: {updateddate}/{updatedmonth}/{updatedyear}")));
     // }
     // else if (UpdateSchedules.use == "E")
     // {
-    //   var greyboxdef2 = UpdateSchedules._pagesetters.Page.Frame("fullscreen-app-host").Locator("div:nth-child(20) .appmagic-borderfill-container .appmagic-border-inner .react-knockout-control .appmagic-label");
+    //   var greyboxdef2 = Page.Frame("fullscreen-app-host").Locator("div:nth-child(20) .appmagic-borderfill-container .appmagic-border-inner .react-knockout-control .appmagic-label");
     //   //System.Threading.Thread.Sleep(5000);
     //   await Task.Run(() =>Assert.That(Scheduledcase.TextContentAsync().Result, Does.Contain("defendants 2")));
 
@@ -410,7 +433,7 @@ namespace pre.test.pages
     // }
     // else if (UpdateSchedules.use == "W")
     // {
-    //   var greyboxwit = UpdateSchedules._pagesetters.Page.Frame("fullscreen-app-host").Locator("div:nth-child(18) .appmagic-borderfill-container .appmagic-border-inner .react-knockout-control .appmagic-label");
+    //   var greyboxwit = Page.Frame("fullscreen-app-host").Locator("div:nth-child(18) .appmagic-borderfill-container .appmagic-border-inner .react-knockout-control .appmagic-label");
     //   System.Threading.Thread.Sleep(5000);
     //   await Task.Run(() =>Assert.That(Scheduledcase.TextContentAsync().Result, Does.Contain("Witness surname2")));
 
@@ -418,23 +441,23 @@ namespace pre.test.pages
     // }
     // else if (UpdateSchedules.use == "DE")
     // {
-    //   var greyboxdef = UpdateSchedules._pagesetters.Page.Frame("fullscreen-app-host").Locator("div:nth-child(20) .appmagic-borderfill-container .appmagic-border-inner .react-knockout-control .appmagic-label");
+    //   var greyboxdef = Page.Frame("fullscreen-app-host").Locator("div:nth-child(20) .appmagic-borderfill-container .appmagic-border-inner .react-knockout-control .appmagic-label");
     //   //System.Threading.Thread.Sleep(5000);
     //   await Task.Run(() =>Assert.That(Scheduledcase.TextContentAsync().Result, Does.Not.Contain("defendants 2")));
     //   await Task.Run(() =>Assert.That(greyboxdef.TextContentAsync().Result, Does.Not.Contain("defendants 2")));
     // }
     // else if (UpdateSchedules.use == "O")
     // {
-    //   var greyboxcourt = UpdateSchedules._pagesetters.Page.Frame("fullscreen-app-host").Locator("div:nth-child(19) .appmagic-borderfill-container .appmagic-border-inner .react-knockout-control .appmagic-label");
+    //   var greyboxcourt = Page.Frame("fullscreen-app-host").Locator("div:nth-child(19) .appmagic-borderfill-container .appmagic-border-inner .react-knockout-control .appmagic-label");
     //  // System.Threading.Thread.Sleep(5000);
     //   await Task.Run(() =>Assert.That(Scheduledcase.TextContentAsync().Result, Does.Contain("{newCourt}")));
     //   await Task.Run(() =>Assert.That(greyboxcourt.TextContentAsync().Result, Does.Not.Contain("{court}")));
     // }
     // else
     // {
-    //   var greyboxwit = UpdateSchedules._pagesetters.Page.Frame("fullscreen-app-host").Locator("div:nth-child(18) .appmagic-borderfill-container .appmagic-border-inner .react-knockout-control .appmagic-label");
-    //   var greyboxcourt = UpdateSchedules._pagesetters.Page.Frame("fullscreen-app-host").Locator("div:nth-child(19) .appmagic-borderfill-container .appmagic-border-inner .react-knockout-control .appmagic-label");
-    //   var greyboxdef = UpdateSchedules._pagesetters.Page.Frame("fullscreen-app-host").Locator("div:nth-child(20) .appmagic-borderfill-container .appmagic-border-inner .react-knockout-control .appmagic-label");
+    //   var greyboxwit = Page.Frame("fullscreen-app-host").Locator("div:nth-child(18) .appmagic-borderfill-container .appmagic-border-inner .react-knockout-control .appmagic-label");
+    //   var greyboxcourt = Page.Frame("fullscreen-app-host").Locator("div:nth-child(19) .appmagic-borderfill-container .appmagic-border-inner .react-knockout-control .appmagic-label");
+    //   var greyboxdef = Page.Frame("fullscreen-app-host").Locator("div:nth-child(20) .appmagic-borderfill-container .appmagic-border-inner .react-knockout-control .appmagic-label");
     //   //System.Threading.Thread.Sleep(5000);
     //   await Task.Run(() =>Assert.That(Scheduledcase.TextContentAsync().Result, Does.Contain("{newCourt}")));
     //   await Task.Run(() =>Assert.That(greyboxcourt.TextContentAsync().Result, Does.Not.Contain("{court}")));
@@ -444,7 +467,7 @@ namespace pre.test.pages
     //   await Task.Run(() =>Assert.That(greyboxdef.TextContentAsync().Result, Does.Contain("defendants 2")));
 
     //   await Task.Run(() =>Assert.That(Scheduledcase.TextContentAsync().Result, Does.Contain($"Date: {updateddate}/{updatedmonth}/{updatedyear}")));
-    //   var greybox = UpdateSchedules._pagesetters.Page.Frame("fullscreen-app-host").Locator("div:nth-child(17) > div > div > div > div > div");
+    //   var greybox = Page.Frame("fullscreen-app-host").Locator("div:nth-child(17) > div > div > div > div > div");
     //   await Task.Run(() =>Assert.That(greybox.TextContentAsync().Result, Does.Contain($"Date: {updateddate}/{updatedmonth}/{updatedyear}")));
     //   await Page.Frame("fullscreen-app-host").ClickAsync("[aria-label=\"Court\\ Name\"]");
     //   await Page.Frame("fullscreen-app-host").ClickAsync("text={newCourt}");
@@ -460,15 +483,4 @@ namespace pre.test.pages
       await Task.Run(() => Assert.That(successMessage.TextContentAsync().Result, Does.Contain("Recording Updated")));
     }
   }
-
-
-
-
-
-
-
-
-
-
-
 }

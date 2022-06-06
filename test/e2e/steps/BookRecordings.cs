@@ -102,6 +102,8 @@ namespace pre.test
         _bookrecording.month = (DateTime.UtcNow.AddDays(+i)).ToString("MMM");
         _bookrecording.dateNum = (DateTime.UtcNow.AddDays(+i)).ToString("dd");
         _bookrecording.year = (DateTime.UtcNow.AddDays(+i)).ToString("yyyy");
+
+        HooksInitializer.scheduleCount = HooksInitializer.scheduleCount+1;
         await _bookrecording.ScheduleRecording();
       }
     }

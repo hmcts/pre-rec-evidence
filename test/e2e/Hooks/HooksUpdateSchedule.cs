@@ -12,17 +12,15 @@ namespace pre.test.Hooks
     [BeforeScenario("UpdatingSchedule", Order = 1)]
     public async Task goToUpdateSchedule()
     {
-       await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.demoUrl}");
-      await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Button\")").ClickAsync(); // Bug S28-522, clicking skip security button whilst, remove when fixed
-      var book = HooksInitializer._context.Page.Frame("fullscreen-app-host").Locator("button:has-text(\"Book a Recording\")");
+      await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.sboxUrl}");
+      await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
 
-      await Task.Run(() => book.IsVisibleAsync().Result);
       await HooksInitializer._context.Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Book a Recording\")");
-      UpdateSchedule.CaseRefDate = DateTime.UtcNow.ToString("yyyyMMddHHmmss");
-      UpdateSchedule.stringCase = $"ScheduleUpdateAutoTest{UpdateSchedule.CaseRefDate}";
 
-
-
+      UpdateSchedule.CaseRefDate = DateTime.UtcNow.ToString("MMddmmss");
+      UpdateSchedule.stringCase = $"AutoT{UpdateSchedule.CaseRefDate}";
+      Hooks.HooksInitializer.caseref = UpdateSchedule.stringCase;
+      
       await HooksInitializer._context.Page.Frame("fullscreen-app-host").ClickAsync("div:nth-child(42) .appmagic-borderfill-container .appmagic-border-inner .react-knockout-control .appmagic-textbox .appmagic-text");
 
       await HooksInitializer._context.Page.Frame("fullscreen-app-host")
@@ -41,15 +39,22 @@ namespace pre.test.Hooks
         .FillAsync("[aria-label=\"Enter\\ your\\ Witnesses\\,\\ comma\\ seperated\"]",
           $"{UpdateSchedule.wit1},\n{UpdateSchedule.wit2}");
       await HooksInitializer._context.Page.Frame("fullscreen-app-host").ClickAsync(":nth-match(button:has-text(\"Save\"), 2)");
+      await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+      HooksInitializer.caseCount++;
+
       await HooksInitializer._context.Page.Frame("fullscreen-app-host")
         .ClickAsync("[aria-label=\"Select\\ Scheduled\\ Start\\ DateOpen\\ calendar\\ to\\ select\\ a\\ date\"]");
       await HooksInitializer._context.Page.Frame("fullscreen-app-host").ClickAsync($"[aria-label=\"{UpdateSchedule.currentday}\\ {UpdateSchedule.currentmonthword}\\ {UpdateSchedule.currentdate}\\ {UpdateSchedule.currentyear}\"]");
       await HooksInitializer._context.Page.Frame("fullscreen-app-host").ClickAsync("button[role='button']:has-text(\"Ok\")");
       await HooksInitializer._context.Page.Frame("fullscreen-app-host").ClickAsync("[aria-label=\"Select\\ your\\ Witness\"]");
+      await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+
       await HooksInitializer._context.Page.Frame("fullscreen-app-host")
         .ClickAsync($"[aria-label=\"Select\\ your\\ Witness\\ items\"] div:has-text(\"{UpdateSchedule.wit1}\")");
-      
+
       await HooksInitializer._context.Page.Frame("fullscreen-app-host").ClickAsync("[aria-label=\"Select\\ your\\ Defendants\"]");
+      await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+
       await HooksInitializer._context.Page.Frame("fullscreen-app-host")
         .ClickAsync($"[aria-label=\"Select\\ your\\ Defendants\\ items\"] div:has-text(\"{UpdateSchedule.def1}\")");
     }

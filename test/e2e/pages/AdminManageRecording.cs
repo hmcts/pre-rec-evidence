@@ -22,13 +22,22 @@ namespace pre.test.pages
       {
         await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=Item 1. Selected. Off >> [aria-label=\"Recording Start\"]").FillAsync($"{date}");
         await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=Item 1. Selected. On >> [aria-label=\"Save\"]").ClickAsync();
+        await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
       }
       else if (AdminManageRecordings.use == "past")
       {
         await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=Item 1. Selected. Off >> [aria-label=\"Recording Start\"]").FillAsync($"{pastDate}");
         var saveButton = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=Item 1. Selected. On >> [aria-label=\"Save\"]");
         await Task.Run(() => Assert.IsTrue(saveButton.IsDisabledAsync().Result));
+        
         await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=Recording ID").First.ClickAsync();
+        var dateLocation = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=Item 1. Selected. Off >> [aria-label=\"Recording Start\"]");
+        if (pastDate == dateLocation.InputValueAsync().Result){
+          pastDate = (DateTime.UtcNow.AddDays(-2)).ToString("dd/MM/yyyy");
+        }
+        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=Item 1. Selected. Off >> [aria-label=\"Recording Start\"]").FillAsync($"{pastDate}");
+        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=Item 1. Selected. On >> [aria-label=\"Save\"]").ClickAsync();
+        await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
       }
     }
     public async Task superUserDateChange()
@@ -64,6 +73,7 @@ namespace pre.test.pages
     public async Task pastDateError()
     {
       var error = Page.Locator("text=Date cannot be in the past.");
+      while(error.IsVisibleAsync().Result ==false){}
       await Task.Run(() => Assert.IsTrue(error.IsVisibleAsync().Result));
     }
     public async Task PageCheck()
@@ -73,10 +83,11 @@ namespace pre.test.pages
     }
     public async Task CheckSaveButtonDisabled()
     {
-      for(int i = 2; i < 7; i ++)
+      for (int i = 2; i < 7; i++)
       {
-         var Button = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text=Item {i} Off >> [aria-label=\"Save\"]");
+        var Button = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text=Item {i} Off >> [aria-label=\"Save\"]");
         await Task.Run(() => Assert.IsTrue(Button.IsDisabledAsync().Result));
+        await Task.Run(() => Assert.IsFalse(Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text=Item {i} Off >> [aria-label=\"Save\"]").IsVisibleAsync().Result));
       }
     }
   }
