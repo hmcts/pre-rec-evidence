@@ -15,8 +15,8 @@ namespace pre.test.pages
 
     public async Task FindCaseToView()
     {
-      var caseLocation = ViewRecordings._pagesetters.Page.Frame("fullscreen-app-host").Locator("div.canvasContentDiv.container_1vt1y2p > div >div:nth-child(2)").First;
-      stringCase = caseLocation.TextContentAsync().Result.ToString().Trim();
+      var caseLocation = ViewRecordings._pagesetters.Page.Frame("fullscreen-app-host").Locator("div.canvasContentDiv.container_1vt1y2p div:nth-child(3)").First;
+      stringCase = caseLocation.InnerTextAsync().Result.ToString().Trim();
       stringCase = stringCase.Substring(stringCase.LastIndexOf(':') + 1);
 
       await Page.Frame("fullscreen-app-host").ClickAsync("[placeholder='Search case ref']");
@@ -26,8 +26,8 @@ namespace pre.test.pages
 
     public async Task CheckSearch()
     {
-      var results = ViewRecordings._pagesetters.Page.Frame("fullscreen-app-host").Locator("div.canvasContentDiv.container_1vt1y2p > div >div:nth-child(2)").First;
-      await Task.Run(() => Assert.That(results.TextContentAsync().Result, Does.Contain($"{stringCase.Trim()}")));
+      var results = Page.Frame("fullscreen-app-host").Locator("div.canvasContentDiv.container_1vt1y2p div:nth-child(3)").First;
+      await Task.Run(() => Assert.That(results.InnerTextAsync().Result, Does.Contain($"{stringCase.Trim()}")));
     }
 
     public async Task SwitchTimestamp()

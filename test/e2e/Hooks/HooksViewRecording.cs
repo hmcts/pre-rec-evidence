@@ -9,7 +9,7 @@ namespace pre.test.Hooks
     [BeforeScenario("View", Order = 1)]
     public async Task goToViewRecordings()
     {
-      await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.sboxUrl}");
+      await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.testUrl}");
       await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
       await HooksInitializer._context.Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"View Recordings\")");
       await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));

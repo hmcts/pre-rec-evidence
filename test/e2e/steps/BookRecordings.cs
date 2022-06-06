@@ -197,8 +197,6 @@ namespace pre.test
       await _bookrecording.EnterCaseDetails();
       use= "D";
       await _bookrecording.EnterCaseDetails();
-      
-      
     }
 
     [Then(@"an error message is displayed stating the case exists")]
@@ -206,8 +204,5 @@ namespace pre.test
     {
       await _bookrecording.checkDuplicateErrorMessage();
     }
-
-
-
   }
 }

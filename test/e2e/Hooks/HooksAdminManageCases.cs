@@ -26,7 +26,7 @@ namespace pre.test.Hooks
       caseName = $"AutoT{date}";
       Hooks.HooksInitializer.caseref = caseName;
 
-      await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.sboxUrl}");
+      await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.testUrl}");
       await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
 
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Book a Recording\")").ClickAsync();

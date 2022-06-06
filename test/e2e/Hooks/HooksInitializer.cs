@@ -49,17 +49,17 @@ namespace pre.test.Hooks
     {
       if (scheduleCount > 0)
       {
-        await HooksInitializer._context.Page.GotoAsync($"{deleteScheduleUrlSbox}");
+        await HooksInitializer._context.Page.GotoAsync($"{deleteScheduleUrlTest}");
         await HooksInitializer._context.Page.Locator("div[role=\"button\"]:has-text(\"Created On\")").ClickAsync();
         await HooksInitializer._context.Page.Locator("div[role=\"button\"]:has-text(\"Created On\")").ClickAsync();
         await HooksInitializer._context.Page.Locator("[aria-label=\"Newer to older\"]").ClickAsync();
-        await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://orgdd5b37e6.crm11.dynamics.com/api/data"));
+        await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
 
         await HooksInitializer._context.Page.Locator("button:has-text(\"+20 more\")").ClickAsync();
         await HooksInitializer._context.Page.Locator("[placeholder=\"Search\"]").ClickAsync();
         await HooksInitializer._context.Page.Locator("[placeholder=\"Search\"]").FillAsync("owner");
         await HooksInitializer._context.Page.Locator("text=").First.ClickAsync();
-        await HooksInitializer._context.Page.Locator("text=SaveCancel").ClickAsync();
+        await HooksInitializer._context.Page.Locator("button:has-text(\"Save\")").ClickAsync();
         await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
 
         for (int i = 0; i < scheduleCount; i++)
@@ -72,11 +72,11 @@ namespace pre.test.Hooks
 
       if (caseCount > 0)
       {
-        await HooksInitializer._context.Page.GotoAsync($"{deleteCaseUrlSbox}");
+        await HooksInitializer._context.Page.GotoAsync($"{deleteCaseUrlTest}");
         await HooksInitializer._context.Page.Locator("div[role=\"button\"]:has-text(\"Created On\")").ClickAsync();
         await HooksInitializer._context.Page.Locator("div[role=\"button\"]:has-text(\"Created On\")").ClickAsync();
         await HooksInitializer._context.Page.Locator("[aria-label=\"Newer to older\"]").ClickAsync();
-        await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://orgdd5b37e6.crm11.dynamics.com/api/data"));
+        await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
 
         await HooksInitializer._context.Page.Locator("button:has-text(\"+19 more\")").ClickAsync();
         await HooksInitializer._context.Page.Locator("[placeholder=\"Search\"]").ClickAsync();
@@ -94,11 +94,11 @@ namespace pre.test.Hooks
       }
       if (scheduleCount > 0)
       {
-        await HooksInitializer._context.Page.GotoAsync($"{deleteRecordingUrlSbox}");
+        await HooksInitializer._context.Page.GotoAsync($"{deleteRecordingUrlTest}");
         await HooksInitializer._context.Page.Locator("div[role=\"button\"]:has-text(\"Created On\")").ClickAsync();
         await HooksInitializer._context.Page.Locator("div[role=\"button\"]:has-text(\"Created On\")").ClickAsync();
         await HooksInitializer._context.Page.Locator("[aria-label=\"Newer to older\"]").ClickAsync();
-        await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://orgdd5b37e6.crm11.dynamics.com/api/data"));
+        await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
 
         await HooksInitializer._context.Page.Locator("button:has-text(\"+38 more\")").ClickAsync();
         await HooksInitializer._context.Page.Locator("[placeholder=\"Search\"]").ClickAsync();
@@ -138,7 +138,7 @@ namespace pre.test.Hooks
       BrowserTypeLaunchOptions typeLaunchOptions = new BrowserTypeLaunchOptions { Headless = false };
       browser = await playwright.Chromium.LaunchAsync(typeLaunchOptions);
       //context = await browser.NewContextAsync();
-      context = await browser.NewContextAsync(new BrowserNewContextOptions { StorageStatePath = $"{authPath}", });
+      context = await browser.NewContextAsync(new BrowserNewContextOptions { StorageStatePath = $"{authPath}",});
       _context.Page = await context.NewPageAsync();
       _objectContainer.RegisterInstanceAs(_context.Page);
       //Generating living docs

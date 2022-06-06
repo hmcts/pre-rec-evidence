@@ -92,10 +92,11 @@ Then the case on book recordings will be updated
 # #Then the case on manage recording will be updated
 Then the case on manage cases will be updated
 
+# Commented out as assertion needs to be figured out
 # @createCase
 # Scenario: Remove Witness and defendants and save 
 # Given I remove the text form witness and defendant fields and attempt to click save
-# Then  the save icon is disabled 
+# Then the save icon is disabled 
 
 @createCase 
 Scenario: Add defendant

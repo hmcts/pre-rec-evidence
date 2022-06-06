@@ -38,7 +38,6 @@ namespace pre.test.pages
         await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
         await Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Book a Recording\")");
         await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
-
       }
       else
       {
@@ -47,9 +46,12 @@ namespace pre.test.pages
         caseName = $"AutoT{date}";
         Hooks.HooksInitializer.caseref = caseName;
       }
+
       await Page.Frame("fullscreen-app-host").FillAsync("[placeholder=\"Case\\ Number\\ \\\\\\ URN\"]", $"{caseName}");
       await Page.Frame("fullscreen-app-host").ClickAsync("[aria-label=\"Select\\ Court\"]");
       await Page.Frame("fullscreen-app-host").ClickAsync($"[aria-label=\"Select\\ Court\\ items\"] div:has-text(\"{court}\")");
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+
       await Page.Frame("fullscreen-app-host").ClickAsync("[aria-label=\"Enter\\ your\\ Defendants\\,\\ comma\\ seperated\"]");
       await Page.Frame("fullscreen-app-host").FillAsync("[aria-label=\"Enter\\ your\\ Defendants\\,\\ comma\\ seperated\"]", $"{defendantName},\n{defendantName}2");
       await Page.Frame("fullscreen-app-host").ClickAsync("[aria-label=\"Enter\\ your\\ Witnesses\\,\\ comma\\ seperated\"]");
@@ -57,7 +59,11 @@ namespace pre.test.pages
       await Page.Frame("fullscreen-app-host").ClickAsync(":nth-match(button:has-text(\"Save\"), 2)");
 
       await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
-      HooksInitializer.caseCount++;
+
+      if (BookRecordings.use != "D")
+      {
+        HooksInitializer.caseCount++;
+      }
     }
     public async Task gotoBook()
     {
@@ -340,10 +346,8 @@ namespace pre.test.pages
     }
     public async Task checkDuplicateErrorMessage()
     {
-      var DuplicateError = Page.Locator("text=This case already exists. Please check the case reference, or select the case sh");
-      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+      var DuplicateError = Page.Locator("text=This case already exists.");
       await Task.Run(() => Assert.That(DuplicateError.InnerTextAsync().Result, Does.Contain("This case already exists")));
-
     }
 
   }

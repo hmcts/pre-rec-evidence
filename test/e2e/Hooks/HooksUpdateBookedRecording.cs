@@ -18,7 +18,7 @@ namespace pre.test.Hooks
     [BeforeScenario("createCase", Order = 1)]
     public async Task goToUpdateBookedRecording()
     {
-      await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.sboxUrl}");
+      await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.testUrl}");
       await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
 
       await HooksInitializer._context.Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Book a Recording\")");
@@ -46,7 +46,7 @@ namespace pre.test.Hooks
           $"{UpdateBookedRecording.wit1},\n{UpdateBookedRecording.wit2}");
       await HooksInitializer._context.Page.Frame("fullscreen-app-host").ClickAsync(":nth-match(button:has-text(\"Save\"), 2)");
       await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
-      HooksInitializer.caseCount = HooksInitializer.caseCount+1;
+      HooksInitializer.caseCount++;
 
       await HooksInitializer._context.Page.Frame("fullscreen-app-host")
         .ClickAsync("[aria-label=\"Select\\ Scheduled\\ Start\\ DateOpen\\ calendar\\ to\\ select\\ a\\ date\"]");
@@ -62,7 +62,7 @@ namespace pre.test.Hooks
         .ClickAsync($"[aria-label=\"Select\\ your\\ Defendants\\ items\"] div:has-text(\"{UpdateBookedRecording.def1}\")");
       await HooksInitializer._context.Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Save\")");
 
-      HooksInitializer.scheduleCount = HooksInitializer.scheduleCount+1;
+      HooksInitializer.scheduleCount++;
 
       await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
 

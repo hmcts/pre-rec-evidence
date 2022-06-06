@@ -287,7 +287,6 @@ namespace pre.test.pages
     {
       await Page.Frame("fullscreen-app-host").ClickAsync(".container_1f0sgyp div:nth-child(2) .react-knockout-control .appmagic-svg");
       await Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Modify\")");
-
       await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
 
       for (int i = 0; i < 4; i++)
@@ -318,7 +317,6 @@ namespace pre.test.pages
         {
           if ((inputBoxes.InputValueAsync().Result).Contains($"{wit2}"))
           {
-
             await Page.Frame("fullscreen-app-host").Locator("div:nth-child(6) .appmagic-borderfill-container .appmagic-border-inner .react-knockout-control .powerapps-icon").Nth(i).ClickAsync();
             await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
             flag = true;
@@ -334,7 +332,7 @@ namespace pre.test.pages
             await checkErrorMessage();
           }
         }
-      inputBoxes = null;
+        inputBoxes = null;
       }
     }
 
@@ -706,10 +704,10 @@ namespace pre.test.pages
 
     public async Task checkBookAdd()
     {
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=HMCTS Logo").ClickAsync();
       await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Book a Recording\")").ClickAsync();
-
       await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div[role=\"button\"]:has-text(\"Court Name\")").ClickAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text={stringCourt}").First.ClickAsync();
@@ -1058,7 +1056,6 @@ namespace pre.test.pages
         var errorMessage = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div:nth-child(31)");
         await Task.Run(() => Assert.That(errorMessage.TextContentAsync().Result, Does.Contain("deleting")));
         await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Delete\")").ClickAsync();
-        await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
       }
     }
     public async Task saveButtonDisabledCheck()
@@ -1084,6 +1081,7 @@ namespace pre.test.pages
       await Page.Frame("fullscreen-app-host").ClickAsync("div:nth-child(42) .appmagic-borderfill-container .appmagic-border-inner .react-knockout-control .appmagic-textbox .appmagic-text");
       await Page.Frame("fullscreen-app-host").FillAsync("div:nth-child(42) .appmagic-borderfill-container .appmagic-border-inner .react-knockout-control .appmagic-textbox .appmagic-text", $"{stringCase}");
       await Page.Frame("fullscreen-app-host").ClickAsync(".container_1f0sgyp div:nth-child(2) .react-knockout-control .appmagic-svg");
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
 
       var witBox = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Enter\\ your\\ Witnesses\\,\\ comma\\ seperated\"]");
 
