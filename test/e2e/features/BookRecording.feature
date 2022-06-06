@@ -74,3 +74,9 @@ Scenario: Create case with blank values in list
 #   Given all fields entered and click save
 #   Then case will be created
 #   When I update a case with blank values they cannot be saved
+
+@ScheduleCreate 
+Scenario: Create case with Duplicate case ref
+Given I create a case with a duplicate case ref
+Then an error message is displayed stating the case exists
+

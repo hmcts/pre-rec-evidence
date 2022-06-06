@@ -186,5 +186,20 @@ namespace pre.test
       usePage = "super";
       await _manageCase.restoreCase();
     }
+
+
+    [Given(@"I update the case ref on a case")]
+    public async Task GivenIupdatethecaserefonacase()
+    {
+      await _manageCase.updateWithDuplicateCaseRef();
+    }
+
+    [Then(@"an error message stating the case already exists will be displayed")]
+    public async Task Thenanerrormessagestatingthecasealreadyexistswillbedisplayed()
+    {
+      await _manageCase.checkDuplicateErrorMessage();
+    }
+
+
   }
 }

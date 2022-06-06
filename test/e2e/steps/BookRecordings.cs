@@ -188,5 +188,24 @@ namespace pre.test
       await _bookrecording.UpdateBlank();
     }
 
+
+    [Given(@"I create a case with a duplicate case ref")]
+    public async Task GivenIcreateacasewithaduplicatecaseref()
+    {
+      await _bookrecording.EnterCaseDetails();
+      use= "D";
+      await _bookrecording.EnterCaseDetails();
+      
+      
+    }
+
+    [Then(@"an error message is displayed stating the case exists")]
+    public async Task Thenanerrormessageisdisplayedstatingthecaseexists()
+    {
+      await _bookrecording.checkDuplicateErrorMessage();
+    }
+
+
+
   }
 }
