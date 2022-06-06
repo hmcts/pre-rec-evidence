@@ -308,10 +308,9 @@ namespace pre.test.pages
     public async Task checkDuplicateErrorMessage()
     {
       var DuplicateError = Page.Locator("text=This case already exists. Please check the case reference, or select the case sh");
-      while (await Task.Run(() => DuplicateError.IsVisibleAsync().Result == false))
-      {
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
         await Task.Run(() => Assert.That(DuplicateError.InnerTextAsync().Result, Does.Contain("This case already exists")));
-      }
+      
     }
 
   }
