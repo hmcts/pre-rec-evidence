@@ -76,6 +76,12 @@ steps:
 - script: ls -lah
   displayName: Debug list directory
 
+- task: DotNetCoreCLI@2
+  displayName: Build
+  inputs:
+    command: 'build'
+    workingDirectory: 'test/e2e'
+
 - task: Npm@1
   displayName: Install NPM Packages
   inputs:
@@ -97,12 +103,6 @@ steps:
       dotnet tool update --global PowerShell
       playwright install
     workingDirectory: 'test\e2e'
-
-- task: DotNetCoreCLI@2
-  displayName: Build
-  inputs:
-    command: 'build'
-    workingDirectory: 'test/e2e'
 
 - task: DotNetCoreCLI@2
   displayName: Test
