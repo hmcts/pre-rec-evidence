@@ -15,10 +15,9 @@ namespace pre.test.Hooks
     public async Task goToManageUsers()
     {
       await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.testUrl}");
+
       ManageUser.createUserLastName = DateTime.UtcNow.ToString("yyyyMMddHHmmss");
       ManageUser.newUserEmail = $"autotest{ManageUser.createUserLastName}";
-      await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
-
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Admin\")").ClickAsync();
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Manage\\ Users\"]").ClickAsync();
       await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
@@ -29,6 +28,7 @@ namespace pre.test.Hooks
     public async Task goToManageUsersSuperUser()
     {
       await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.testUrl}");
+
       ManageUser.createUserLastName = DateTime.UtcNow.ToString("yyyyMMddHHmmss");
       ManageUser.newUserEmail = $"autotest{ManageUser.createUserLastName}";
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Super User\")").First.ClickAsync();
@@ -60,7 +60,7 @@ namespace pre.test.Hooks
     {
       if (ManageUser.use == "duplicateEmail")
       {
-      //  await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Add Users\"]").ClickAsync();
+        //  await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Add Users\"]").ClickAsync();
         await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"User First Name\"]").Nth(1).ClickAsync();
         await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"User First Name\"]").Nth(1).FillAsync($"{ManageUser.existingEmailFirstName}");
         await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"User Last Name\"]").Nth(1).ClickAsync();

@@ -72,6 +72,7 @@ namespace pre.test.Hooks
 
       if (caseCount > 0)
       {
+        await HooksInitializer._context.Page.ReloadAsync();
         await HooksInitializer._context.Page.GotoAsync($"{deleteCaseUrlTest}");
         await HooksInitializer._context.Page.Locator("div[role=\"button\"]:has-text(\"Created On\")").ClickAsync();
         await HooksInitializer._context.Page.Locator("div[role=\"button\"]:has-text(\"Created On\")").ClickAsync();
@@ -138,7 +139,7 @@ namespace pre.test.Hooks
       BrowserTypeLaunchOptions typeLaunchOptions = new BrowserTypeLaunchOptions { Headless = false };
       browser = await playwright.Chromium.LaunchAsync(typeLaunchOptions);
       //context = await browser.NewContextAsync();
-      context = await browser.NewContextAsync(new BrowserNewContextOptions { StorageStatePath = $"{authPath}",});
+      context = await browser.NewContextAsync(new BrowserNewContextOptions { StorageStatePath = $"{authPath}", });
       _context.Page = await context.NewPageAsync();
       _objectContainer.RegisterInstanceAs(_context.Page);
       //Generating living docs

@@ -138,8 +138,9 @@ namespace pre.test.pages
 
     public async Task checkRemoved()
     {
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Recording Gallery\"] button:has-text(\"Manage\")").ClickAsync();
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
       var check = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Recordings Gallery\"] div").Nth(1);
-      while (check.InnerTextAsync().Result == $"{emailToShare}") { }
       await Task.Run(() => Assert.That(check.InnerTextAsync().Result, Does.Not.Contain($"{emailToShare}")));
     }
   }
