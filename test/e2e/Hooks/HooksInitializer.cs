@@ -65,7 +65,6 @@ namespace pre.test.Hooks
         {
           await HooksInitializer._context.Page.Locator($"text={deleteOwner}").Nth(1).ClickAsync();
           await HooksInitializer._context.Page.Locator("button[role=\"menuitem\"]:has-text(\"Delete\")").ClickAsync();
-          await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
         }
       }
 
@@ -88,7 +87,6 @@ namespace pre.test.Hooks
         {
           await HooksInitializer._context.Page.Locator($"text={caseref}").First.ClickAsync();
           await HooksInitializer._context.Page.Locator("button[role=\"menuitem\"]:has-text(\"Delete\")").ClickAsync();
-          await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
         }
       }
       if (scheduleCount > 0)
@@ -110,7 +108,6 @@ namespace pre.test.Hooks
         {
           await HooksInitializer._context.Page.Locator($"text={caseref}").First.ClickAsync();
           await HooksInitializer._context.Page.Locator("button[role=\"menuitem\"]:has-text(\"Delete\")").ClickAsync();
-          await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
         }
       }
       caseCount = 0;

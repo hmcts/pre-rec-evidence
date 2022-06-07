@@ -435,6 +435,8 @@ namespace pre.test.pages
     }
     public async Task checkScheduleRemovedWitDef()
     {
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Save\")").Nth(2).ClickAsync();
       await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
 
@@ -599,7 +601,6 @@ namespace pre.test.pages
             flag = true;
             UpdateBookedRecordings.use = "D";
             await checkErrorMessagescheduledwitdef();
-
           }
         }
         else if (UpdateBookedRecordings.use == "T")
