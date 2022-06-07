@@ -71,7 +71,6 @@ namespace pre.test.pages
     public async Task pastDateError()
     {
       var error = Page.Locator("text=Date cannot be in the past.");
-      while(error.IsVisibleAsync().Result ==false){}
       await Task.Run(() => Assert.IsTrue(error.IsVisibleAsync().Result));
     }
     public async Task PageCheck()
