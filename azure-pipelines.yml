@@ -87,22 +87,25 @@ steps:
 #- script:  --save-storage=test/e2e/Hooks/auth.json
 #  displayName: Playwright Codegen
 
-#- task: CmdLine@2
-#  inputs:
-#    script: |
-#      cd test/e2e
-#      dotnet add package Microsoft.Extensions.Configuration --version 6.0.0
-#      dotnet add package Microsoft.Extensions.Configuration.Json --version 6.0.0
-#      dotnet add package Microsoft.Playwright
-#      dotnet tool update --global PowerShell
-#      pwsh bin\Debug\netX\playwright.ps1 install
+- task: CmdLine@2
+  displayName: dotnet setup
+  inputs:
+    script: |
+      dotnet add package Microsoft.Extensions.Configuration --version 6.0.0
+      dotnet add package Microsoft.Extensions.Configuration.Json --version 6.0.0
+      dotnet add package Microsoft.Playwright
+      dotnet tool update --global PowerShell
+      pwsh bin\Debug\netX\playwright.ps1 install
+    workingDirectory: 'test/e2e'
 
 - task: DotNetCoreCLI@2
+  displayName: Build
   inputs:
     command: 'build'
     workingDirectory: 'test/e2e'
 
 - task: DotNetCoreCLI@2
+  displayName: Test
   inputs:
     command: 'test'
     workingDirectory: 'test/e2e'
