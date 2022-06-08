@@ -68,10 +68,10 @@ steps:
     artifact: 'Solution Archive'
     publishLocation: 'pipeline'
 
-- task: NodeTool@0
-  displayName: Install Node
-  inputs:
-    versionSpec: 18
+#- task: NodeTool@0
+#  displayName: Install Node
+#  inputs:
+#    versionSpec: 18
 
 - script: ls -lah
   displayName: Debug list directory
@@ -82,13 +82,13 @@ steps:
     command: 'build'
     workingDirectory: 'test/e2e'
 
-- task: Npm@1
-  displayName: Install NPM Packages
-  inputs:
-    command: 'install'
-
-- script: npx playwright install --with-deps
-  displayName: Install Playwright
+#- task: Npm@1
+#  displayName: Install NPM Packages
+#  inputs:
+#    command: 'install'
+#
+#- script: npx playwright install --with-deps
+#  displayName: Install Playwright
 
 #- script:  --save-storage=test/e2e/Hooks/auth.json
 #  displayName: Playwright Codegen
