@@ -22,7 +22,9 @@ variables:
   solutionName: dts_pre_recorded_evidence
 
 pool:
-  vmImage: 'windows-latest'
+  vmImage: 'ubuntu-20.04'
+
+container: mcr.microsoft.com/playwright:v1.22.0-focal
 
 steps:
 
@@ -68,11 +70,6 @@ steps:
     artifact: 'Solution Archive'
     publishLocation: 'pipeline'
 
-#- task: NodeTool@0
-#  displayName: Install Node
-#  inputs:
-#    versionSpec: 18
-
 - script: ls -lah
   displayName: Debug list directory
 
@@ -82,13 +79,18 @@ steps:
     command: 'build'
     workingDirectory: 'test/e2e'
 
-#- task: Npm@1
-#  displayName: Install NPM Packages
-#  inputs:
-#    command: 'install'
-#
-#- script: npx playwright install --with-deps
-#  displayName: Install Playwright
+- task: NodeTool@0
+  displayName: Install Node
+  inputs:
+    versionSpec: 18
+
+- task: Npm@1
+  displayName: Install NPM Packages
+  inputs:
+    command: 'install'
+
+- script: npx playwright install --with-deps
+  displayName: Install Playwright
 
 #- script:  --save-storage=test/e2e/Hooks/auth.json
 #  displayName: Playwright Codegen
@@ -101,7 +103,7 @@ steps:
       dotnet add package Microsoft.Extensions.Configuration.Json --version 6.0.0
       dotnet add package Microsoft.Playwright
       dotnet tool update --global PowerShell
-    workingDirectory: 'test\e2e'
+    workingDirectory: 'test/e2e'
 
 - task: DotNetCoreCLI@2
   displayName: Test
