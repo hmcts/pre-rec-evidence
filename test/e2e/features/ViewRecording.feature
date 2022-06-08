@@ -2,7 +2,6 @@ Feature: View Recording
  In order to view a recording
  As a judge I want to view recordings before trials
 
-View recordings currently not working in test env
   @View 
   Scenario: View Recording
   Given I search for a case reference

@@ -3,8 +3,6 @@ Feature: Update Booked Recording
 In order to update existing cases
 I want to update witnesses and defendents
 
-# #Cases now need to have recordings to be in view recordings....check this using a recorded vid once we have test env
-
 @createCase
 Scenario: Search Case
 Given I want to find an existing Cases and enter the case reference
@@ -92,32 +90,35 @@ Then the case on book recordings will be updated
 # #Then the case on manage recording will be updated
 Then the case on manage cases will be updated
 
-# Commented out as assertion needs to be figured out
+# # Commented out as assertion needs to be figured out
+# # @createCase
+# # Scenario: Remove Witness and defendants and save 
+# # Given I remove the text form witness and defendant fields and attempt to click save
+# # Then the save icon is disabled 
+
+# Bug S28-577
+# @createCase 
+# Scenario: Add defendant
+# Given I add an extra defendant
+# Then the defendant will be visible in book recordings
+# Then the defendant will be visible in schedule recordings
+# Then the defendant will be visible in manage recordings
+# Then the defendant will be visible in admin, manage cases, recordings
+
+# Bug S28-577
 # @createCase
-# Scenario: Remove Witness and defendants and save 
-# Given I remove the text form witness and defendant fields and attempt to click save
-# Then the save icon is disabled 
+# Scenario: Add witness
+# Given I add an extra witness
+# Then the witness will be visible in book recordings
+# Then the witness will be visible in schedule recordings
+# Then the witness will be visible in admin, manage cases, recordings
 
-@createCase 
-Scenario: Add defendant
-Given I add an extra defendant
-Then the defendant will be visible in book recordings
-Then the defendant will be visible in schedule recordings
-Then the defendant will be visible in manage recordings
-Then the defendant will be visible in admin, manage cases, recordings
-
-@createCase
-Scenario: Add witness
-Given I add an extra witness
-Then the witness will be visible in book recordings
-Then the witness will be visible in schedule recordings
-Then the witness will be visible in admin, manage cases, recordings
-
-@createCase 
-Scenario: Add witness and defendant
-Given I add an extra witness and defendant
-Then the witness and defendant will be visible in book recordings
-Then the witness and defendant will be visible in schedule recordings
-Then the witness and defendant will be visible in admin, manage cases, recordings
+# Bug S28-577
+# @createCase 
+# Scenario: Add witness and defendant
+# Given I add an extra witness and defendant
+# Then the witness and defendant will be visible in book recordings
+# Then the witness and defendant will be visible in schedule recordings
+# Then the witness and defendant will be visible in admin, manage cases, recordings
 
 

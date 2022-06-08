@@ -30,6 +30,7 @@ namespace pre.test.Hooks
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Enter your Witnesses\\, comma seperated\"]").FillAsync("wit1");
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Save\")").Nth(1).ClickAsync();
       HooksInitializer.caseCount++;
+      HooksInitializer.contactCount = HooksInitializer.contactCount +2;
 
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Select Scheduled Start DateOpen calendar to select a date\"]").ClickAsync();
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"[aria-label=\"{ManageRecording.day}\\ {ManageRecording.month}\\ {ManageRecording.date}\\ {ManageRecording.year}\"]").ClickAsync();

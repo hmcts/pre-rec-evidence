@@ -19,7 +19,7 @@ namespace pre.test.Hooks
       UpdateSchedule.CaseRefDate = DateTime.UtcNow.ToString("MMddmmss");
       UpdateSchedule.stringCase = $"AutoT{UpdateSchedule.CaseRefDate}";
       Hooks.HooksInitializer.caseref = UpdateSchedule.stringCase;
-      
+
       await HooksInitializer._context.Page.Frame("fullscreen-app-host").ClickAsync("div:nth-child(42) .appmagic-borderfill-container .appmagic-border-inner .react-knockout-control .appmagic-textbox .appmagic-text");
 
       await HooksInitializer._context.Page.Frame("fullscreen-app-host")
@@ -38,15 +38,19 @@ namespace pre.test.Hooks
         .FillAsync("[aria-label=\"Enter\\ your\\ Witnesses\\,\\ comma\\ seperated\"]",
           $"{UpdateSchedule.wit1},\n{UpdateSchedule.wit2}");
       await HooksInitializer._context.Page.Frame("fullscreen-app-host").ClickAsync(":nth-match(button:has-text(\"Save\"), 2)");
-      await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
       HooksInitializer.caseCount++;
+      HooksInitializer.contactCount = HooksInitializer.contactCount + 4;
+
+      await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+
 
       await HooksInitializer._context.Page.Frame("fullscreen-app-host")
         .ClickAsync("[aria-label=\"Select\\ Scheduled\\ Start\\ DateOpen\\ calendar\\ to\\ select\\ a\\ date\"]");
       await HooksInitializer._context.Page.Frame("fullscreen-app-host").ClickAsync($"[aria-label=\"{UpdateSchedule.currentday}\\ {UpdateSchedule.currentmonthword}\\ {UpdateSchedule.currentdate}\\ {UpdateSchedule.currentyear}\"]");
       await HooksInitializer._context.Page.Frame("fullscreen-app-host").ClickAsync("button[role='button']:has-text(\"Ok\")");
-      await HooksInitializer._context.Page.Frame("fullscreen-app-host").ClickAsync("[aria-label=\"Select\\ your\\ Witness\"]");
       await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+
+      await HooksInitializer._context.Page.Frame("fullscreen-app-host").ClickAsync("[aria-label=\"Select\\ your\\ Witness\"]");
 
       await HooksInitializer._context.Page.Frame("fullscreen-app-host")
         .ClickAsync($"[aria-label=\"Select\\ your\\ Witness\\ items\"] div:has-text(\"{UpdateSchedule.wit1}\")");

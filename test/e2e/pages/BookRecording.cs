@@ -54,8 +54,9 @@ namespace pre.test.pages
       await Page.Frame("fullscreen-app-host").FillAsync("[aria-label=\"Enter\\ your\\ Defendants\\,\\ comma\\ seperated\"]", $"{defendantName},\n{defendantName}2");
       await Page.Frame("fullscreen-app-host").ClickAsync("[aria-label=\"Enter\\ your\\ Witnesses\\,\\ comma\\ seperated\"]");
       await Page.Frame("fullscreen-app-host").FillAsync("[aria-label=\"Enter\\ your\\ Witnesses\\,\\ comma\\ seperated\"]", $"{witnessName},\n{witnessName}2");
-      if (BookRecordings.use == "D"){
-              await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+      if (BookRecordings.use == "D")
+      {
+        await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
       }
       await Page.Frame("fullscreen-app-host").ClickAsync(":nth-match(button:has-text(\"Save\"), 2)");
 
@@ -64,6 +65,7 @@ namespace pre.test.pages
       if (BookRecordings.use != "D")
       {
         HooksInitializer.caseCount++;
+        HooksInitializer.contactCount = HooksInitializer.contactCount + 4;
       }
     }
     public async Task gotoBook()
