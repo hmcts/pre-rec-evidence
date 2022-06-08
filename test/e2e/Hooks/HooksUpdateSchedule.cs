@@ -13,8 +13,10 @@ namespace pre.test.Hooks
     public async Task goToUpdateSchedule()
     {
       await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.testUrl}");
+      await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
 
       await HooksInitializer._context.Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Book a Recording\")");
+      await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
 
       UpdateSchedule.CaseRefDate = DateTime.UtcNow.ToString("MMddmmss");
       UpdateSchedule.stringCase = $"AutoT{UpdateSchedule.CaseRefDate}";

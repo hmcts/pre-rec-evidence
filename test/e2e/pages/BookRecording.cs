@@ -46,6 +46,7 @@ namespace pre.test.pages
         caseName = $"AutoT{date}";
         Hooks.HooksInitializer.caseref = caseName;
       }
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
 
       await Page.Frame("fullscreen-app-host").FillAsync("[placeholder=\"Case\\ Number\\ \\\\\\ URN\"]", $"{caseName}");
       await Page.Frame("fullscreen-app-host").ClickAsync("[aria-label=\"Select\\ Court\"]");
