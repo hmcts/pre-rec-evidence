@@ -22,9 +22,7 @@ variables:
   solutionName: dts_pre_recorded_evidence
 
 pool:
-  vmImage: 'ubuntu-20.04'
-
-container: mcr.microsoft.com/playwright:v1.22.0-focal
+  vmImage: 'windows-latest'
 
 steps:
 
@@ -70,6 +68,11 @@ steps:
     artifact: 'Solution Archive'
     publishLocation: 'pipeline'
 
+- task: NodeTool@0
+  displayName: Install Node
+  inputs:
+    versionSpec: 18
+
 - script: ls -lah
   displayName: Debug list directory
 
@@ -77,12 +80,7 @@ steps:
   displayName: Build
   inputs:
     command: 'build'
-    workingDirectory: 'test/e2e'
-
-- task: NodeTool@0
-  displayName: Install Node
-  inputs:
-    versionSpec: 18
+    workingDirectory: 'test\e2e'
 
 - task: Npm@1
   displayName: Install NPM Packages
@@ -103,7 +101,7 @@ steps:
       dotnet add package Microsoft.Extensions.Configuration.Json --version 6.0.0
       dotnet add package Microsoft.Playwright
       dotnet tool update --global PowerShell
-    workingDirectory: 'test/e2e'
+    workingDirectory: 'test\e2e'
 
 - task: DotNetCoreCLI@2
   displayName: Test
