@@ -37,6 +37,7 @@ namespace pre.test.Hooks
     public static string deleteRecordingUrlSbox = config["deleteRecordingUrlSbox"];
     public static string deleteContactsUrlTest = config["deleteContactsUrlTest"];
     public static string deleteOwner = config["deleteOwner"];
+    public static bool headless = bool.Parse(config["headless"]);
     public HooksInitializer(IObjectContainer objectContainer, ScenarioContext scenarioContext, PageSetters context,
       ISpecFlowOutputHelper outputHelper)
     {
@@ -161,7 +162,7 @@ namespace pre.test.Hooks
     {
       playwright = await Playwright.CreateAsync();
       //BrowserTypeLaunchOptions typeLaunchOptions = new BrowserTypeLaunchOptions{ Headless = false };
-      BrowserTypeLaunchOptions typeLaunchOptions = new BrowserTypeLaunchOptions { Headless = false,  };
+      BrowserTypeLaunchOptions typeLaunchOptions = new BrowserTypeLaunchOptions { Headless = headless,};
       browser = await playwright.Chromium.LaunchAsync(typeLaunchOptions);
       //context = await browser.NewContextAsync();
       context = await browser.NewContextAsync(new BrowserNewContextOptions { StorageStatePath = $"{authPath}", });
