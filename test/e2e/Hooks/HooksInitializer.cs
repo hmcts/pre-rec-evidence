@@ -1,6 +1,7 @@
 using BoDi;
 using Microsoft.Playwright;
 using System.Threading.Tasks;
+using System.IO;
 using TechTalk.SpecFlow;
 using TechTalk.SpecFlow.Infrastructure;
 using Microsoft.Extensions.Configuration;
