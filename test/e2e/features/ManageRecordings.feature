@@ -14,7 +14,7 @@ Scenario: Amend button should not allow the schedule date to be updated to the p
 @CaseAndScheduleCreate 
 Scenario: Amend button should not allow the court to be removed
   Given I have removed the court
-  Then the save button should be disabled
+  Then an error message should appear
 
 @CaseAndScheduleCreate 
 Scenario: Success message after clicking save should say recording updated
