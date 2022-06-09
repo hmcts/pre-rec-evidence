@@ -167,7 +167,7 @@ namespace pre.test
     [Then(@"I cannot remove the case reference in schedule details")]
     public async Task ThenIcannotremovethecasereferenceinscheduledetails()
     {
-      _manageCase.use = "schedule";
+      use = "schedule";
       await _manageCase.removeCaseRefCase();
     }
 
@@ -201,5 +201,40 @@ namespace pre.test
     }
 
 
+    [Given(@"I have a case with a recoring")]
+    public async Task GivenIhaveacasewitharecoring()
+    {
+      await _pagesetters.Page.GotoAsync($"{HooksInitializer.testUrl}");
+      await _manageCase.goToAdmin();
+    }
+
+
+    [When(@"I delete the recording")]
+    public async Task WhenIdeletetherecording()
+    {
+      await _manageCase.deleterecording();
+    }
+
+
+    [Then(@"the case is no longer visible in view recordings")]
+    public async Task Thenthecaseisnolongervisibleinviewrecordings()
+    {
+      use = "deleted";
+      await _manageCase.checkViewRecording();
+    }
+
+    [When(@"I restore the recording")]
+    public async Task WhenIrestoretherecording()
+    {
+      use="recording";
+      await _manageCase.goToAdmin();
+    }
+
+
+    [Then(@"the recording is visible in view recordings")]
+    public async Task Thentherecordingisvisibleinviewrecordings()
+    {
+      await _manageCase.checkViewRecording();
+    }
   }
 }

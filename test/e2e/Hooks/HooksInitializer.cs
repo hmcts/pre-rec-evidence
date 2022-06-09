@@ -29,6 +29,7 @@ namespace pre.test.Hooks
     public static string testUrl = config["testUrl"];
     public static string demoUrl = config["demoUrl"];
     public static string sboxUrl = config["sboxUrl"];
+    public static string testPortalUrl = config["testPortalUrl"];
     public static string deleteCaseUrlTest = config["deleteCaseUrlTest"];
     public static string deleteScheduleUrlTest = config["deleteScheduleUrlTest"];
     public static string deleteRecordingUrlTest = config["deleteRecordingUrlTest"];
@@ -53,6 +54,8 @@ namespace pre.test.Hooks
       if (scheduleCount > 0)
       {
         await HooksInitializer._context.Page.GotoAsync($"{deleteScheduleUrlTest}");
+        await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+
         await HooksInitializer._context.Page.Locator("button:has-text(\"more\")").ClickAsync();
         await HooksInitializer._context.Page.Locator("[placeholder=\"Search\"]").ClickAsync();
         await HooksInitializer._context.Page.Locator("[placeholder=\"Search\"]").FillAsync("owner");
@@ -74,6 +77,7 @@ namespace pre.test.Hooks
       if (caseCount > 0)
       {
         await HooksInitializer._context.Page.GotoAsync($"{deleteCaseUrlTest}");
+        await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
         await HooksInitializer._context.Page.Locator("button:has-text(\"more\")").ClickAsync();
         await HooksInitializer._context.Page.Locator("[placeholder=\"Search\"]").ClickAsync();
         await HooksInitializer._context.Page.Locator("[placeholder=\"Search\"]").FillAsync("caseref");
@@ -94,6 +98,8 @@ namespace pre.test.Hooks
       if (scheduleCount > 0)
       {
         await HooksInitializer._context.Page.GotoAsync($"{deleteRecordingUrlTest}");
+        await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+
         await HooksInitializer._context.Page.Locator("button:has-text(\"more\")").ClickAsync();
         await HooksInitializer._context.Page.Locator("[placeholder=\"Search\"]").ClickAsync();
         await HooksInitializer._context.Page.Locator("[placeholder=\"Search\"]").FillAsync("case ref");
@@ -114,7 +120,9 @@ namespace pre.test.Hooks
       if (contactCount > 0)
       {
         await HooksInitializer._context.Page.GotoAsync($"{deleteContactsUrlTest}");
-        await HooksInitializer._context.Page.Locator("button:has-text(\"+221 more\")").ClickAsync();
+        await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+
+        await HooksInitializer._context.Page.Locator("button:has-text(\"more\")").ClickAsync();
         await HooksInitializer._context.Page.Locator(".ms-Checkbox-checkbox").First.ClickAsync();
         await HooksInitializer._context.Page.Locator("text=Full Name (Primary) >> i").First.ClickAsync();
         await HooksInitializer._context.Page.Locator("[placeholder=\"Search\"]").ClickAsync();

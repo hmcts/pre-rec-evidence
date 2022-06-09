@@ -3,13 +3,13 @@ TBC
 ## When test is aligned, add a test to check 'avaliable recordings' is yes for the case we use in auto tests with a recording
 #Cases now need to have recordings to be in view recordings....should these steps become zephyr tests?
 
-#- Only one court in MVP - test not needed currently
-# @CreateAndManageCase @CreateAndManageCaseAndSchedule @AdminManageCases @RevertCourt
-# Scenario: Update Court
-#   Given I update the court on a case
-#   Then the court will be updated in book recordings
-#   Then the court will be updated in manage recordings
-#   Then the court will be updated in view recordings 
+# #- Only one court in MVP - test not needed currently
+# # @CreateAndManageCase @CreateAndManageCaseAndSchedule @AdminManageCases @RevertCourt
+# # Scenario: Update Court
+# #   Given I update the court on a case
+# #   Then the court will be updated in book recordings
+# #   Then the court will be updated in manage recordings
+# #   Then the court will be updated in view recordings 
 
 @CreateAndManageCase @CreateAndManageCaseAndSchedule @AdminManageCases @RevertDateCase
   Scenario: Update Scheduled date
@@ -32,19 +32,17 @@ Scenario: Delete schedule
   When I delete the schedule 
   Then the case is visible in book recordings but not in schedule recordings
   Then the schedule is no longer visible in manage recordings
-#  Then the schedule is no longer visible in view recordings
-#  # Bug S28-489 - unskip when resolved and add restore steps
-#  When I delete the case 
-#  Then the case is no longer visible in book recordings
+# #  Then the schedule is no longer visible in view recordings
+# #  # Bug S28-489 - unskip when resolved and add restore steps
+# #  When I delete the case 
+# #  Then the case is no longer visible in book recordings
 
-# # add this test once the test env is working again so can use case with recording
-#   # @AdminManageCases 
-#   # Scenario: Delete case with recording 
-#   # Given I have a case with a recoring
-#   # When I delete the recording
-#   # Then the case is no longer visible in view recordings
-  # When I restore the recording
-  # Then the recording is visible in view recordings 
+  Scenario: Delete case with recording 
+  Given I have a case with a recoring
+  When I delete the recording
+  Then the case is no longer visible in view recordings
+  When I restore the recording
+  Then the recording is visible in view recordings 
 
   @CreateAndManageCase
   Scenario: Search by case reference
@@ -71,30 +69,25 @@ Scenario: Delete schedule
   Given I have created a case to search for
   Then I cannot remove the case reference in schedule details
 
-#Add this test once we have test env to use the case with a recording in it
-  # Scenario: Remove case reference in recording details
-  # Given I have a case with a recording
-  # Then I cannot remove the case reference in recording details
+# #S28-546
+# # @CreateAndManageCase 
+# #   Scenario: Super User-Search by case id
+# #   Given I have created a case to search for
+# #   Then I can search for it by the case id in manage cases
 
-#S28-546
-# @CreateAndManageCase 
-#   Scenario: Super User-Search by case id
-#   Given I have created a case to search for
-#   Then I can search for it by the case id in manage cases
+# #S28-546
+#   # @CreateAndManageCase 
+#   # Scenario: Delete case with no schedule and then restore it
+#   # Given I have created a case to search for
+#   # When I delete a case 
+#   # Then the case is no longer visible in book recordings
+#   # When I restore a case
+#   # Then the case is visible in book recordings but not in schedule recordings
 
-#S28-546
-  # @CreateAndManageCase 
-  # Scenario: Delete case with no schedule and then restore it
-  # Given I have created a case to search for
-  # When I delete a case 
-  # Then the case is no longer visible in book recordings
-  # When I restore a case
-  # Then the case is visible in book recordings but not in schedule recordings
+# #Do 1 update scenario once S28-546 bug is fixed
 
-#Do 1 update scenario once S28-546 bug is fixed
-
-#comment in once fixed
-# @CreateAndManageCase @CreateAndManageCaseAndSchedule @AdminManageCases @RevertCourt
-# Scenario: Update case ref with existing case 
-#   Given I update the case ref on a case
-#   Then an error message stating the case already exists will be displayed
+# #comment in once fixed
+# # @CreateAndManageCase @CreateAndManageCaseAndSchedule @AdminManageCases @RevertCourt
+# # Scenario: Update case ref with existing case 
+# #   Given I update the case ref on a case
+# #   Then an error message stating the case already exists will be displayed
