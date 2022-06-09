@@ -100,9 +100,11 @@ steps:
   displayName: Install NPM Packages
   inputs:
     command: 'install'
+    workingDirectory: 'test\e2e'
 
 - script: npx playwright install --with-deps
   displayName: Install Playwright
+  workingDirectory: 'test\e2e'
 
 #- script:  --save-storage=test/e2e/Hooks/auth.json
 #  displayName: Playwright Codegen
@@ -116,12 +118,6 @@ steps:
       dotnet add package Microsoft.Playwright
       dotnet tool update --global PowerShell
     workingDirectory: 'test\e2e'
-
-- script: ls -lah D:\a\1\s\test\e2e\
-  displayName: Debug list directory
-
-- script: cat D:\a\1\s\test\e2e\secrets.json
-  displayName: Debug list directory
 
 - task: DotNetCoreCLI@2
   displayName: Test
