@@ -31,37 +31,27 @@ namespace pre.test
     [When(@"I go to the portal")]
     public async Task NavigateToPortal()
     {
-      await _pagesetters.Page.GotoAsync("https://pre-test.powerappsportals.com/");
-      var checkLogin = _pagesetters.Page.Locator("text=Welcome to the Pre-recorded Evidence Portal‌‌...");
-      var flag = await Task.Run(() => (checkLogin.IsVisibleAsync().Result));
-      if (flag == false) { await HooksExternalPortal.PortalLogin(); }
-      await _pagesetters.Page.IsVisibleAsync("text=Welcome to the Pre-recorded Evidence Portal‌‌...");
+      await _pagesetters.Page.GotoAsync($"{HooksInitializer.testPortalUrl}");
+      
     }
-
-    [Then(@"the status changes")]
-    public async Task Thenthestatuschanges()
-    {
-      await _externalPortal.StatusChange();
-    }
-
 
     [Given(@"there have been no recordings shared with me")]
     public async Task CheckSharedRecordings()
     {
-      await _pagesetters.Page.GotoAsync("https://apps.powerapps.com/play/abb08c46-bf74-4873-af2f-0871eed97ee9");
+      await _pagesetters.Page.GotoAsync($"{HooksInitializer.testUrl}");
       await _externalPortal.CheckSharedRecordings();
     }
 
-    // [Then(@"a message should be displayed stating No recordings found")]
-    // public async Task NoRecordingsMessage()
-    // {
-    //   await _pagesetters.Page.GotoAsync("https://pre-test.powerappsportals.com/");
-    //   var checkLogin = _pagesetters.Page.Locator("text=Welcome to the Pre-recorded Evidence Portal‌‌...");
-    //   var flag = await Task.Run(() => (checkLogin.IsVisibleAsync().Result));
-    //   if (flag == false){await _externalPortal.PortalLogin();}
-    //   await _pagesetters.Page.IsVisibleAsync("text=Welcome to the Pre-recorded Evidence Portal‌‌...");
-    //   await _externalPortal.NoRecordingsMessage();
-    // }
+    [Then(@"a message should be displayed stating No recordings found")]
+    public async Task NoRecordingsMessage()
+    {
+      await _pagesetters.Page.GotoAsync($"{HooksInitializer.testPortalUrl}");
+      var checkLogin = _pagesetters.Page.Locator("text=Welcome to the Pre-recorded Evidence Portal‌‌...");
+      var flag = await Task.Run(() => (checkLogin.IsVisibleAsync().Result));
+      if (flag == false){await HooksExternalPortal.PortalLogin();}
+      await _pagesetters.Page.IsVisibleAsync("text=Welcome to the Pre-recorded Evidence Portal‌‌...");
+      //await _externalPortal.NoRecordingsMessage(); Write method :)
+    }
 
     [Given(@"I can see the witness names")]
     public async Task checkWit()
@@ -78,14 +68,15 @@ namespace pre.test
     [Then(@"I update these witness names")]
     public async Task updateWit()
     {
-      await _pagesetters.Page.GotoAsync("https://apps.powerapps.com/play/abb08c46-bf74-4873-af2f-0871eed97ee9");
+      await _pagesetters.Page.GotoAsync($"{HooksInitializer.testUrl}");
       await _externalPortal.updateWitnesses();
     }
 
 
-    [When(@"I go to Manage cases")]
+    [Given(@"I go to Manage cases")]
     public async Task WhenIgotoManagecases()
     {
+      await _pagesetters.Page.GotoAsync($"{HooksInitializer.testUrl}");
       await _externalPortal.goToManageCases();
     }
 
@@ -109,6 +100,14 @@ namespace pre.test
     {
       await _externalPortal.checkRemoved();
     }
+
+
+    [Then(@"I can view the recording uid")]
+    public async Task ThenIcanviewtherecordinguid()
+    {
+      await _externalPortal.checkRecordingUID();
+    }
+
 
 
 

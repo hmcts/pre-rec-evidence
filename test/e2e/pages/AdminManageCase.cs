@@ -11,7 +11,7 @@ namespace pre.test.pages
   {
     public AdminManageCase(IPage page) : base(page) { }
     public static String caseRef = "";
-    public String use = "";
+  
     protected String caseIdToSearch = "";
     public static String court = "";
     public static String newCourt = "";
@@ -21,6 +21,7 @@ namespace pre.test.pages
     public static String newScheduleDate = "";
 
     public static DateTime scheduleDate;
+    public static string recording = "NODELETEPLS";
 
     public static string tomoMonthWord = "";
     public static string tomorrow = "";
@@ -451,7 +452,7 @@ namespace pre.test.pages
       await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
 
 
-      if (use == "schedule")
+      if (AdminManageCases.use == "schedule")
       {
         await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text=Case Ref: {HooksAdminManageCases.caseName}").ClickAsync();
         await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
@@ -493,6 +494,59 @@ namespace pre.test.pages
       await Task.Run(() => Assert.That(DuplicateError.InnerTextAsync().Result, Does.Contain("This case already exists")));
 
     }
+
+    public async Task goToAdmin()
+    {
+      if(AdminManageCases.use == "recording")
+      {
+       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Home\")").ClickAsync();
+      }
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Admin\")").ClickAsync();
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Manage Cases\"]").First.ClickAsync();
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Case Ref \\\\ URN \\\\ ID \\\\ Court\"]").ClickAsync();
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Case Ref \\\\ URN \\\\ ID \\\\ Court\"]").FillAsync($"{recording}");
+      if(AdminManageCases.use == "recording")
+      {
+        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text=Case Ref: {recording}").Nth(1).ClickAsync();
+      }
+      else
+      {
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text=Case Ref: {recording}").ClickAsync();
+      }
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=Schedule Date: 07/06/2022").ClickAsync();
+      if(AdminManageCases.use == "recording")
+      {
+        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Restore\\ Recording\"]").ClickAsync();
+      }
+    }
+
+    public async Task deleterecording()
+    {
+       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Delete\\ Recording\"]").ClickAsync();
+       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Delete\")").First.ClickAsync();
+    }
+
+
+    public async Task checkViewRecording()
+    {
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=HMCTS Logo").ClickAsync();
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"View Recordings\")").First.ClickAsync();
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Search\\ case\\ ref\"]").ClickAsync();
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Search\\ case\\ ref\"]").FillAsync($"{recording}");
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+      var viewcase =  Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Session\\ Gallery\"] div").Nth(1);
+      System.Console.WriteLine("jgfhg" + AdminManageCases.use);
+      if (AdminManageCases.use == "deleted")
+      {
+        
+      await Task.Run(() => Assert.That(viewcase.TextContentAsync().Result, Does.Not.Contain($"{recording}")));
+      }
+      else
+      {
+       await Task.Run(() => Assert.That(viewcase.TextContentAsync().Result, Does.Contain($"{recording}")));
+      }
+    }
+
   }
 }
 
