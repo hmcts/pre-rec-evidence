@@ -174,7 +174,7 @@ namespace pre.test.Hooks
       BrowserTypeLaunchOptions typeLaunchOptions = new BrowserTypeLaunchOptions { Headless = headless,};
       browser = await playwright.Chromium.LaunchAsync(typeLaunchOptions);
       //context = await browser.NewContextAsync();
-      context = await browser.NewContextAsync(new BrowserNewContextOptions { StorageStatePath = $"{authPath}", });
+      context = await browser.NewContextAsync(new BrowserNewContextOptions{ StorageStatePath = Directory.GetCurrentDirectory() + "/../../../" + $"{authPath}", });
       _context.Page = await context.NewPageAsync();
       _objectContainer.RegisterInstanceAs(_context.Page);
       //Generating living docs
