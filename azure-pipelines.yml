@@ -76,6 +76,23 @@ steps:
 - script: ls -lah D:\a\1\s\test\e2e\
   displayName: Debug list directory
 
+- task: replacetokens@5
+  inputs:
+    rootDirectory: 'test/e2e'
+    targetFiles: 'secrets.json'
+    encoding: 'auto'
+    tokenPattern: 'default'
+    writeBOM: true
+    verbosity: 'detailed'
+    actionOnMissing: 'warn'
+    keepToken: false
+    actionOnNoFiles: 'continue'
+    enableTransforms: false
+    enableRecursion: false
+    useLegacyPattern: false
+    useLegacyEmptyFeature: false
+    enableTelemetry: false
+
 - task: DotNetCoreCLI@2
   displayName: Build
   inputs:
