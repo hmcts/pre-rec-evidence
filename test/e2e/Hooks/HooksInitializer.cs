@@ -24,7 +24,7 @@ namespace pre.test.Hooks
     public static int scheduleCount = 0;
     public static int contactCount = 0;
     protected static Microsoft.Extensions.Configuration.IConfigurationRoot config = new ConfigurationBuilder()
-    .AddJsonFile("secrets.json")
+    .AddJsonFile(Directory.GetCurrentDirectory() + "/../../../secrets.json")
     .Build();
     protected string authPath = config["authPath"];
     public static string testUrl = config["testUrl"];
