@@ -52,10 +52,10 @@ namespace pre.test
       await _manageRecording.RemoveCourt();
     }
 
-    [Then(@"the save button should be disabled")]
+    [Then(@"an error message should appear")]
     public async Task Thenthesavebuttonshouldbedisabled()
     {
-      await _manageRecording.checkSaveButtonDisabled();
+      await _manageRecording.checkErrorMessageSaveButton();
     }
 
 

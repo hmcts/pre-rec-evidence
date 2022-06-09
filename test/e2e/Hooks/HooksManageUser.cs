@@ -14,22 +14,24 @@ namespace pre.test.Hooks
     [BeforeScenario("ManageUsers", Order = 1)]
     public async Task goToManageUsers()
     {
-      await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.sboxUrl}");
+      await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.testUrl}");
+      await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+
       ManageUser.createUserLastName = DateTime.UtcNow.ToString("yyyyMMddHHmmss");
       ManageUser.newUserEmail = $"autotest{ManageUser.createUserLastName}";
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Admin\")").ClickAsync();
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Manage\\ Users\"]").ClickAsync();
-      await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Add Users\"]").ClickAsync();
     }
 
     [BeforeScenario("SuperUserManageUsers", Order = 1)]
     public async Task goToManageUsersSuperUser()
     {
-      await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.sboxUrl}");
+      await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.testUrl}");
+
       ManageUser.createUserLastName = DateTime.UtcNow.ToString("yyyyMMddHHmmss");
       ManageUser.newUserEmail = $"autotest{ManageUser.createUserLastName}";
-      await HooksInitializer._context. Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Super User\")").First.ClickAsync();
+      await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Super User\")").First.ClickAsync();
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Manage Users\"]").First.ClickAsync();
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Add User\"]").ClickAsync();
     }
@@ -50,7 +52,8 @@ namespace pre.test.Hooks
       await Task.Run(() => Assert.IsTrue(superUser.IsVisibleAsync().Result));
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=Super User functions").ClickAsync();
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Add New User\")").ClickAsync();
-      
+      await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+      HooksInitializer.contactCount++;
     }
 
     [BeforeScenario("CreateAUser", Order = 2)]
@@ -58,7 +61,6 @@ namespace pre.test.Hooks
     {
       if (ManageUser.use == "duplicateEmail")
       {
-        await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Add Users\"]").ClickAsync();
         await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"User First Name\"]").Nth(1).ClickAsync();
         await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"User First Name\"]").Nth(1).FillAsync($"{ManageUser.existingEmailFirstName}");
         await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"User Last Name\"]").Nth(1).ClickAsync();
@@ -87,26 +89,27 @@ namespace pre.test.Hooks
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"User Organisation\"]").Nth(1).ClickAsync();
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"User Organisation\"]").Nth(1).FillAsync("n/a");
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div.combobox-view-chevron.arrowContainer_1kmq8gc-o_O-container_r2h174-o_O-containerColors_1lj5p80").Nth(1).ClickAsync();
-      
       var superUser = HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=Super User functions");
       await Task.Run(() => Assert.IsFalse(superUser.IsVisibleAsync().Result));
-      
+
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=External Access via Portal").ClickAsync();
       if (ManageUser.use != "blankEmail")
       {
         await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Add New User\")").ClickAsync();
+        await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+        HooksInitializer.contactCount++;
       }
     }
 
     [BeforeScenario("SuperscreencheckUser", Order = 3)]
-      
-        public async Task superscreenCheckRecordIsCreated()
+    public async Task superscreenCheckRecordIsCreated()
     {
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Search Users\"]").ClickAsync();
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Search - Name \\/ Email\"]").ClickAsync();
-      
+
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Search - Name \\/ Email\"]").FillAsync($"{ManageUser.createUserLastName}");
-      
+      await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+
       var UserBox = HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text={ManageUser.createUserFirstName} {ManageUser.createUserLastName}");
       await Task.Run(() => Assert.IsTrue(UserBox.IsVisibleAsync().Result));
       await Task.Run(() => UserBox.ClickAsync());
@@ -124,7 +127,7 @@ namespace pre.test.Hooks
       await Task.Run(() => Assert.That(phoneNumber.InputValueAsync().Result, Does.Contain($"n/a")));
 
       var organisation = HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Organisation\\ Name\"]");
-     await Task.Run(() => Assert.That(organisation.InputValueAsync().Result, Does.Contain($"n/a")));
+      await Task.Run(() => Assert.That(organisation.InputValueAsync().Result, Does.Contain($"n/a")));
 
       var role = HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"User\\ Role\\.\\ Selected\\:\\ Super\\ User\"]");
       await Task.Run(() => Assert.IsTrue(role.IsVisibleAsync().Result));
@@ -134,17 +137,19 @@ namespace pre.test.Hooks
       // await Task.Run(() => Assert.That(status.InputValueAsync().Result, Does.Contain($"Active")));
 
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Lock\\ Account\"]").ClickAsync();
+      await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
     }
 
-      [BeforeScenario("checkUser", Order = 3)]
-      
-        public async Task CheckRecordIsCreated()
+    [BeforeScenario("checkUser", Order = 3)]
+
+    public async Task CheckRecordIsCreated()
     {
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Search User\"]").ClickAsync();
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Search - Name \\/ Email\"]").ClickAsync();
-      
+
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Search - Name \\/ Email\"]").FillAsync($"{ManageUser.createUserLastName}");
-      
+      await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+
       var UserBox = HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text={ManageUser.createUserFirstName} {ManageUser.createUserLastName}");
       await Task.Run(() => Assert.IsTrue(UserBox.IsVisibleAsync().Result));
       await Task.Run(() => UserBox.ClickAsync());
@@ -172,11 +177,12 @@ namespace pre.test.Hooks
       // await Task.Run(() => Assert.That(status.InputValueAsync().Result, Does.Contain($"Active")));
 
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Lock\"]").ClickAsync();
+      await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
     }
 
-    
+
   }
 
-    }
-  
-  
+}
+
+

@@ -102,6 +102,8 @@ namespace pre.test
         _bookrecording.month = (DateTime.UtcNow.AddDays(+i)).ToString("MMM");
         _bookrecording.dateNum = (DateTime.UtcNow.AddDays(+i)).ToString("dd");
         _bookrecording.year = (DateTime.UtcNow.AddDays(+i)).ToString("yyyy");
+
+        HooksInitializer.scheduleCount++;
         await _bookrecording.ScheduleRecording();
       }
     }
@@ -195,8 +197,6 @@ namespace pre.test
       await _bookrecording.EnterCaseDetails();
       use= "D";
       await _bookrecording.EnterCaseDetails();
-      
-      
     }
 
     [Then(@"an error message is displayed stating the case exists")]
@@ -204,8 +204,5 @@ namespace pre.test
     {
       await _bookrecording.checkDuplicateErrorMessage();
     }
-
-
-
   }
 }

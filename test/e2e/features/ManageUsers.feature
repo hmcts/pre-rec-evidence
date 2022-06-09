@@ -3,13 +3,16 @@ As a PRE Service Support user
 I'd want to add new PRE user details
 So that new users can be added the PRE
 
-  @ManageUsers  @CreateAUser @checkUser
+ @ManageUsers 
   Scenario: Duplicate email address
     Given I try to add a new user with an existing email address
     Then an error message is displayed stating the email address already exists in PRE
     Then the record is not saved
-    When I update the users Email
-    Then the PRE user record will be updated with the new Email
+
+  @ManageUsers @CreateAUser @checkUser
+  Scenario: Update Email
+  When I update the users Email
+  Then the PRE user record will be updated with the new Email
 
   @ManageUsers
   Scenario: Blank email address
@@ -25,7 +28,6 @@ So that new users can be added the PRE
   Scenario: Update Last Name
     Given I update the users Last Name
     Then the PRE user record will be updated with the new Last Name
-
 
   @ManageUsers @CreateAUser @checkUser
   Scenario: Update Phone No
@@ -62,4 +64,3 @@ So that new users can be added the PRE
   Scenario: Super user screen-Searching for a user with no results returns a message
     Given I search for a user and no records are returned
     Then a message should be displayed stating that no records were found
-

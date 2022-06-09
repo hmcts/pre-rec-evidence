@@ -15,24 +15,25 @@ namespace pre.test.pages
 
     public async Task FindCaseToView()
     {
-      var caseLocation = ViewRecordings._pagesetters.Page.Frame("fullscreen-app-host").Locator(
-        "div:nth-child(20)  div:nth-child(1) > div.canvasContentDiv.container_1vt1y2p > div > div:nth-child(3)");
-      stringCase = caseLocation.TextContentAsync().Result.ToString().Trim();
+      var caseLocation = ViewRecordings._pagesetters.Page.Frame("fullscreen-app-host").Locator("div.canvasContentDiv.container_1vt1y2p div:nth-child(3)").First;
+      stringCase = caseLocation.InnerTextAsync().Result.ToString().Trim();
       stringCase = stringCase.Substring(stringCase.LastIndexOf(':') + 1);
 
       await Page.Frame("fullscreen-app-host").ClickAsync("[placeholder='Search case ref']");
       await Page.Frame("fullscreen-app-host").FillAsync("[placeholder='Search case ref']", $"{stringCase.Trim()}");
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
     }
 
     public async Task CheckSearch()
     {
-      var results = ViewRecordings._pagesetters.Page.Frame("fullscreen-app-host").Locator("div:nth-child(20)  div:nth-child(1) > div.canvasContentDiv.container_1vt1y2p > div > div:nth-child(3)").First;
-      await Task.Run(() => Assert.That(results.TextContentAsync().Result, Does.Contain($"{stringCase.Trim()}")));
+      var results = Page.Frame("fullscreen-app-host").Locator("div.canvasContentDiv.container_1vt1y2p div:nth-child(3)").First;
+      await Task.Run(() => Assert.That(results.InnerTextAsync().Result, Does.Contain($"{stringCase.Trim()}")));
     }
 
     public async Task SwitchTimestamp()
     {
       await Page.Frame("fullscreen-app-host").ClickAsync("div[role='switch']");
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
     }
 
     public async Task CheckTimeStampOn()

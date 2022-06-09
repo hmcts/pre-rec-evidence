@@ -37,7 +37,7 @@ Feature: External portal recordings
 # #  Then I can view the recording uid
 #   Then the recording is unshared and no longer visible
 
-@AddingAndRemovingParticipant
+@AddingAndRemovingParticipant 
 Scenario: Confirmation message when removing participant from share
   Given I remove access for a participant to view a recording
 #   Then  a message is displayed to confirm I want to remove this participant - Bug S28-152, unskip when resolved
