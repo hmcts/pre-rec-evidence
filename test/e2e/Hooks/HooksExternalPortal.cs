@@ -17,6 +17,7 @@ namespace pre.test.Hooks
     {
       await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.testUrl}");
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"View Recordings\")").ClickAsync();
+      await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Search\\ case\\ ref\"]").ClickAsync();
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Search\\ case\\ ref\"]").FillAsync($"{ExternalPortal.caseName}");
       await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
@@ -32,11 +33,6 @@ namespace pre.test.Hooks
       var emailsSharedWith = HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Recordings Gallery\"] div").Nth(1);
       await Task.Run(() => Assert.That(emailsSharedWith.TextContentAsync().Result, Does.Not.Contain($"{ExternalPortal.emailToShare}")));
       await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.testPortalUrl}");
-      // await HooksInitializer._context.Page.Locator("text=PRE - Evidence Portal").IsVisibleAsync();
-      // var checkLogin = HooksInitializer._context.Page.Locator("text=Welcome to the Pre-recorded Evidence Portal‌‌");
-      //await checkLogin.ClickAsync();
-      //var flag = await Task.Run(() => (checkLogin.IsVisibleAsync().Result));
-      //if (flag == false) { await PortalLogin(); }
       await HooksInitializer._context.Page.IsVisibleAsync("text=Welcome to the Pre-recorded Evidence Portal‌‌");
       var tableCaseRef = HooksInitializer._context.Page.Locator($"text={ExternalPortal.caseName}");
       await Task.Run(() => Assert.IsFalse(tableCaseRef.IsVisibleAsync().Result));
@@ -135,9 +131,10 @@ namespace pre.test.Hooks
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"li[role='option'] >> text={ExternalPortal.emailToShare}").ClickAsync();
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=Version: 1").ClickAsync();
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Grant Access\")").ClickAsync();
+       await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
 
       var shareBox = HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Recordings Gallery\"] div").Nth(1);
-      //await Task.Run(() => Assert.That(shareBox.TextContentAsync().Result.Trim(), Does.Contain($"{ExternalPortal.emailToShare}")));
+      await Task.Run(() => Assert.That(shareBox.TextContentAsync().Result.Trim(), Does.Contain($"{ExternalPortal.emailToShare}")));
 
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Home\")").ClickAsync();
 
