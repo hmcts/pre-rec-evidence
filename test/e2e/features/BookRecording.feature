@@ -17,6 +17,22 @@ Scenario: Create schedule
  Scenario: Scheduling recording in the past error message
  Given I select a date in the past
  Then an error message is displayed
+ Then the save button disabled
+
+ @ScheduleCreate 
+ Scenario: Scheduling without a witness
+ Given I do not select a witness 
+ Then the save button disabled
+
+ @ScheduleCreate 
+ Scenario: Scheduling without a defendant
+ Given I do not select a defendant 
+ Then the save button disabled
+
+ @ScheduleCreate 
+ Scenario: Scheduling without a date
+ Given I do not select a date 
+ Then the save button disabled
 
 # # # Bug - will be fixed for MVP
 # @ScheduleCreate  
@@ -66,12 +82,12 @@ Scenario: Update case with blank values
   Given all fields entered and click save
   Then case will be created
   When I update the case with blank values
-#   Then an error message is displayed about the blank values - Bug S28-240
+# #   Then an error message is displayed about the blank values - Bug S28-240
 
 @ScheduleCreate 
 Scenario: Create case with blank values in list
   Given I create a case with blank values in a list
-  # Then the case is created but the blank values are ignored - Bug S28-240
+#   # Then the case is created but the blank values are ignored - Bug S28-240
 
 # Bug S28-240
 # @ScheduleCreate 
