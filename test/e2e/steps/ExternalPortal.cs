@@ -34,7 +34,7 @@ namespace pre.test
        var checkLogin = HooksInitializer._context.Page.Locator("text=Signin");
       var flag = await Task.Run(() => (checkLogin.IsVisibleAsync().Result));
       if (flag == true) { await HooksExternalPortal.PortalLogin(); }
-      await HooksInitializer._context.Page.IsVisibleAsync("text=Welcome to the Pre-recorded Evidence Portal‌‌...");
+      while(HooksInitializer._context.Page.Locator("text=Please note: Playback is preferred on non-mobile devices. If possible, please us").IsVisibleAsync().Result==false){}
     }
 
     [Given(@"there have been no recordings shared with me")]
@@ -51,7 +51,7 @@ namespace pre.test
       var checkLogin = _pagesetters.Page.Locator("text=Welcome to the Pre-recorded Evidence Portal‌‌...");
       var flag = await Task.Run(() => (checkLogin.IsVisibleAsync().Result));
       if (flag == false){await HooksExternalPortal.PortalLogin();}
-      await _pagesetters.Page.IsVisibleAsync("text=Welcome to the Pre-recorded Evidence Portal‌‌...");
+      while(HooksInitializer._context.Page.Locator("text=Please note: Playback is preferred on non-mobile devices. If possible, please us").IsVisibleAsync().Result==false){}
       //await _externalPortal.NoRecordingsMessage(); Write method :)
     }
 
