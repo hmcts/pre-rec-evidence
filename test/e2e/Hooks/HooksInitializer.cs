@@ -70,8 +70,6 @@ namespace pre.test.Hooks
           await HooksInitializer._context.Page.Locator($"text={deleteOwner}").Nth(1).ClickAsync();
           await HooksInitializer._context.Page.Locator("button[role=\"menuitem\"]:has-text(\"Delete\")").ClickAsync();
         }
-        await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
-
       }
 
       if (caseCount > 0)
@@ -92,8 +90,6 @@ namespace pre.test.Hooks
           await HooksInitializer._context.Page.Locator($"text={caseref}").First.ClickAsync();
           await HooksInitializer._context.Page.Locator("button[role=\"menuitem\"]:has-text(\"Delete\")").ClickAsync();
         }
-        await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
-
       }
       if (scheduleCount > 0)
       {
@@ -114,8 +110,6 @@ namespace pre.test.Hooks
           await HooksInitializer._context.Page.Locator($"text={caseref}").First.ClickAsync();
           await HooksInitializer._context.Page.Locator("button[role=\"menuitem\"]:has-text(\"Delete\")").ClickAsync();
         }
-        await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
-
       }
       if (contactCount > 0)
       {
@@ -146,8 +140,7 @@ namespace pre.test.Hooks
           await HooksInitializer._context.Page.Locator(".RowSelectionCheckMarkSpan").Nth(i).ClickAsync();
         }
         await HooksInitializer._context.Page.Locator("button[role=\"menuitem\"]:has-text(\"Delete\")").ClickAsync();
-        await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
-      }
+              }
       caseCount = 0;
       scheduleCount = 0;
       contactCount = 0;
@@ -170,7 +163,7 @@ namespace pre.test.Hooks
     {
       playwright = await Playwright.CreateAsync();
       //BrowserTypeLaunchOptions typeLaunchOptions = new BrowserTypeLaunchOptions{ Headless = false };
-      BrowserTypeLaunchOptions typeLaunchOptions = new BrowserTypeLaunchOptions { Headless = headless,};
+      BrowserTypeLaunchOptions typeLaunchOptions = new BrowserTypeLaunchOptions { Headless = headless, SlowMo = 25};
       browser = await playwright.Chromium.LaunchAsync(typeLaunchOptions);
       //context = await browser.NewContextAsync();
       context = await browser.NewContextAsync(new BrowserNewContextOptions { StorageStatePath = $"{authPath}", });

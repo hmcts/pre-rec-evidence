@@ -2,7 +2,6 @@ Feature: External portal recordings
  In order to view recordings as an external user
  I need to be able to see recordings shared with me
 
-
 # @SharedRecordingAtPortal
 # S28-195 AC2 - test needs to be added once editing functionality has been set up
   # Scenario: View shared editied recording details
@@ -22,7 +21,6 @@ Feature: External portal recordings
 #   Then I update these witness names
 #   When I go to the portal
 #   Then I can see the updated witness name 
-
 
 @SharedRecordingAtPortal @unSharedRecordingAtPortal
 Scenario: View shared recording id

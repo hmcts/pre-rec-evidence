@@ -14,7 +14,6 @@ namespace pre.test
 
     public static PageSetters _pagesetters;
 
-
     public ExternalPortals(PageSetters pageSetters)
     {
       _pagesetters = pageSetters;
@@ -32,7 +31,10 @@ namespace pre.test
     public async Task NavigateToPortal()
     {
       await _pagesetters.Page.GotoAsync($"{HooksInitializer.testPortalUrl}");
-      
+       var checkLogin = HooksInitializer._context.Page.Locator("text=Signin");
+      var flag = await Task.Run(() => (checkLogin.IsVisibleAsync().Result));
+      if (flag == true) { await HooksExternalPortal.PortalLogin(); }
+      await HooksInitializer._context.Page.IsVisibleAsync("text=Welcome to the Pre-recorded Evidence Portal‌‌...");
     }
 
     [Given(@"there have been no recordings shared with me")]
@@ -107,9 +109,5 @@ namespace pre.test
     {
       await _externalPortal.checkRecordingUID();
     }
-
-
-
-
   }
 }
