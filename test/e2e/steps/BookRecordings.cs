@@ -134,7 +134,7 @@ namespace pre.test
     [Given(@"I create a case with blank values in court")]
     public async Task GivenIcreateacasewithblankvaluesincourt()
     {
-      _bookrecording.use = "blankCourt";
+      use = "blankCourt";
       await _bookrecording.BlankValues();
     }
 
@@ -142,7 +142,7 @@ namespace pre.test
     [Given(@"I create a case with blank values in case ref")]
     public async Task GivenIcreateacasewithblankvaluesincaseref()
     {
-      _bookrecording.use = "blankCaseRef";
+      use = "blankCaseRef";
       await _bookrecording.BlankValues();
     }
 
@@ -150,7 +150,7 @@ namespace pre.test
     [Given(@"I create a case with blank values in witnesses")]
     public async Task GivenIcreateacasewithblankvaluesinwitnesses()
     {
-      _bookrecording.use = "blankWitnesses";
+      use = "blankWitnesses";
       await _bookrecording.BlankValues();
     }
 
@@ -158,7 +158,7 @@ namespace pre.test
     [Given(@"I create a case with blank values in defendants")]
     public async Task GivenIcreateacasewithblankvaluesindefendants()
     {
-      _bookrecording.use = "blankDefendants";
+      use = "blankDefendants";
       await _bookrecording.BlankValues();
     }
 
@@ -186,7 +186,7 @@ namespace pre.test
     [When(@"I update a case with blank values they cannot be saved")]
     public async Task GivenIupdateacasewithblankvaluesinalist()
     {
-      _bookrecording.use = "updateToBlankWitDef";
+      use = "updateToBlankWitDef";
       await _bookrecording.UpdateBlank();
     }
 
@@ -203,6 +203,38 @@ namespace pre.test
     public async Task Thenanerrormessageisdisplayedstatingthecaseexists()
     {
       await _bookrecording.checkDuplicateErrorMessage();
+    }
+
+
+    [Given(@"I do not select a witness")]
+    public async Task GivenIdonotselectawitness()
+    {
+      use= "witness";
+      await _bookrecording.EnterCaseDetails();
+      await _bookrecording.emptyField();
+    }
+
+    [Given(@"I do not select a defendant")]
+    public async Task GivenIdonotselectadefendant()
+    {
+      use= "defendant";
+      await _bookrecording.EnterCaseDetails();
+      await _bookrecording.emptyField();
+    }
+
+
+    [Given(@"I do not select a date")]
+    public async Task GivenIdonotselectadate()
+    {
+      use="date";
+      await _bookrecording.EnterCaseDetails();
+      await _bookrecording.emptyField();
+    }
+
+    [Then(@"the save button disabled")]
+    public async Task Thenthesavebuttondisabled()
+    {
+      await _bookrecording.SaveDisabled();
     }
   }
 }
