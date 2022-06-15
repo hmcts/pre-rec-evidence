@@ -10,7 +10,7 @@ namespace pre.test.pages
   {
 
     public BookRecording(IPage page) : base(page) { }
-    public int quotaNum = 10;
+    public int quotaNum = 30;
     public int changeMonthCount = 0;
     public string use = "";
     public int changeMonthCountManage = 0;
@@ -91,7 +91,6 @@ namespace pre.test.pages
       await Page.Frame("fullscreen-app-host").ClickAsync("[aria-label=\"Select\\ your\\ Defendants\"]");
       await Page.Frame("fullscreen-app-host").ClickAsync($"[aria-label=\"Select\\ your\\ Defendants\\ items\"] div:has-text(\"{defendantName}\")");
       await Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Save\")");
-      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
       HooksInitializer.scheduleCount++;
       var successMessage = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=Save Successful");
       await Task.Run(() => Assert.IsTrue(successMessage.IsVisibleAsync().Result));
@@ -213,8 +212,12 @@ namespace pre.test.pages
         await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button[role=\"button\"]:has-text(\"Ok\")").ClickAsync();
 
         await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Recording Gallery\"] button:has-text(\"Record\")").First.ClickAsync();
-        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div[role=\"button\"]:has-text(\"Room #\")").ClickAsync();
-        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=PRE008").ClickAsync();
+        await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+
+        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div.combobox-view-chevron.arrowContainer_1kmq8gc-o_O-container_r2h174-o_O-containerColors_1lj5p80").Nth(1).ClickAsync();
+        await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+
+        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=PRE007").ClickAsync();
         await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Start Recording\")").ClickAsync();
         await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
 

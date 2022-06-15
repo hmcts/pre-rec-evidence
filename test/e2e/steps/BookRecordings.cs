@@ -103,7 +103,6 @@ namespace pre.test
         _bookrecording.dateNum = (DateTime.UtcNow.AddDays(+i)).ToString("dd");
         _bookrecording.year = (DateTime.UtcNow.AddDays(+i)).ToString("yyyy");
 
-        HooksInitializer.scheduleCount++;
         await _bookrecording.ScheduleRecording();
       }
     }
