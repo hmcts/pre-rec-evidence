@@ -300,7 +300,7 @@ namespace pre.test.pages
       {
         inputBoxes = null;
 
-        if (Page.Frame("fullscreen-app-host").Locator("div.canvasContentDiv.container_1vt1y2p input").Nth(i).IsVisibleAsync().Result == true)
+        if (Page.Frame("fullscreen-app-host").Locator("div.canvasContentDiv.container_1vt1y2p input").Nth(i).CountAsync().Result > 0)
         {
           inputBoxes = Page.Frame("fullscreen-app-host").Locator("div.canvasContentDiv.container_1vt1y2p input").Nth(i);
         }
@@ -531,6 +531,8 @@ namespace pre.test.pages
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Manage\\ Cases\"]").First.ClickAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Case\\ Ref\\ \\\\\\ URN\\ \\\\\\ ID\\ \\\\\\ Court\"]").ClickAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Case\\ Ref\\ \\\\\\ URN\\ \\\\\\ ID\\ \\\\\\ Court\"]").FillAsync($"{stringCase}");
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+
       var caseref = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text=Case Ref: {stringCase}");
       await Task.Run(() => Assert.That(caseref.InnerTextAsync().Result, Does.Contain($"{stringCase}")));
       await caseref.ClickAsync();
@@ -1058,8 +1060,10 @@ namespace pre.test.pages
       var caseref = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text=Case Ref: {stringCase}").First;
       await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
       await caseref.ClickAsync();
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
 
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text=Schedule Date: {datee}/{month}/{year}").ClickAsync();
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
 
       var recStatus = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=Recording Status: Deleted");
       await Task.Run(() => Assert.That(recStatus.InnerTextAsync().Result, Does.Contain("Deleted")));

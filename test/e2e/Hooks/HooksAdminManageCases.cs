@@ -22,11 +22,12 @@ namespace pre.test.Hooks
     [BeforeScenario("CreateAndManageCase", Order = 1)]
     public async Task CreateAndManageCase()
     {
+      await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.testUrl}");
       var date = DateTime.UtcNow.ToString("MMddmmss");
       caseName = $"AutoT{date}";
       Hooks.HooksInitializer.caseref = caseName;
-
-      await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.testUrl}");
+      await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+      await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Book a Recording\")").IsVisibleAsync();
       await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
 
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Book a Recording\")").ClickAsync();
