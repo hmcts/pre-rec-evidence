@@ -166,7 +166,7 @@ namespace pre.test.pages
 
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"[aria-label=\"{tomorrow} {tomoMonthWord} {tomoDateNum} {tomoYear}\"]").ClickAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button[role=\"button\"]:has-text(\"Ok\")").ClickAsync();
-      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div:nth-child(127) .appmagic-borderfill-container .appmagic-border-inner .react-knockout-control .powerapps-icon").ClickAsync();
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div:nth-child(128) .appmagic-borderfill-container .appmagic-border-inner .react-knockout-control .powerapps-icon").ClickAsync();
       await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
       await Task.Run(() => Assert.That(scheduleDateLocator.InnerTextAsync().Result, Does.Contain($"{newScheduleDate}")));
     }
@@ -465,8 +465,9 @@ namespace pre.test.pages
 
         await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"[aria-label=\"Remove {HooksAdminManageCases.caseName} from selection\"]").ClickAsync();
         await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=Schedule Date").Nth(1).ClickAsync();
+        await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
 
-        var saveButton = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div:nth-child(127) .appmagic-borderfill-container .appmagic-border-inner .react-knockout-control .powerapps-icon");
+        var saveButton = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div:nth-child(128) .appmagic-borderfill-container .appmagic-border-inner .react-knockout-control .powerapps-icon");
         await Task.Run(() => Assert.IsTrue(saveButton.IsDisabledAsync().Result));
       }
       else
@@ -476,25 +477,32 @@ namespace pre.test.pages
         await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Case Reference\"]").FillAsync("");
         await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
 
-        var saveButton = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div:nth-child(121) .appmagic-borderfill-container .appmagic-border-inner .react-knockout-control .powerapps-icon");
+        var saveButton = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div[role=\"button\"]:has-text(\"Save Case\")");
         await Task.Run(() => Assert.IsTrue(saveButton.IsDisabledAsync().Result));
       }
 
     }
     public async Task updateWithDuplicateCaseRef()
     {
+      // Remove below 2 lines once issue in story s28-429 is resolved 
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Case Ref \\\\ URN \\\\ ID \\\\ Court\"]").First.ClickAsync();
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Case Ref \\\\ URN \\\\ ID \\\\ Court\"]").First.FillAsync($"{HooksAdminManageCases.court}");
 
-      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Edit\\ Case\"]").ClickAsync();
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Edit Case\"]").Nth(1).ClickAsync();
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Case\\ Reference\"]").ClickAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Case\\ Reference\"]").FillAsync($"{HooksAdminManageCases.caseName}");
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div[role=\"button\"]:has-text(\"Save Case\")").ClickAsync();
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
     }
     public async Task checkDuplicateErrorMessage()
     {
-      var DuplicateError = Page.Locator("text=This case already exists. Please check the case reference, or select the case sh");
+      var DuplicateError = Page.Locator("text=Case Reference already exists.");
       await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
-      await Task.Run(() => Assert.That(DuplicateError.InnerTextAsync().Result, Does.Contain("This case already exists")));
-
+      await Task.Run(() => Assert.IsTrue(DuplicateError.IsVisibleAsync().Result));
     }
 
     public async Task goToAdmin()
