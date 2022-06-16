@@ -47,35 +47,35 @@ Scenario: Create schedule
 #  Then schedules will be created
 #  Then i can start recordings for the ten schedules
 
-# # Bug S28-552
+# Bug fixed in sbox, tests written, needs to be commented in when sbox migrates to test
 # @ScheduleCreate 
 # Scenario: Create case with all blank values
 #   Given I create a case with blank values
-#   # Then an error message is displayed about the blank values - Bug S28-240
+#   Then an error message is displayed about the blank values
 
-# # Bug S28-552
+# Bug fixed in sbox, tests written, needs to be commented in when sbox migrates to test
 # @ScheduleCreate 
 # Scenario: Create case with court blank value
 #   Given I create a case with blank values in court
-# #   Then an error message is displayed about the blank values - Bug S28-240
+#   Then an error message is displayed about the blank values 
 
-# # Bug S28-552
+# Bug fixed in sbox, tests written, needs to be commented in when sbox migrates to test
 # @ScheduleCreate 
 # Scenario: Create case with case ref blank value
 #   Given I create a case with blank values in case ref
-# #   Then an error message is displayed about the blank values - Bug S28-240
+#   Then an error message is displayed about the blank values 
 
-# # Bug S28-552
+# Bug fixed in sbox, tests written, needs to be commented in when sbox migrates to test
 # @ScheduleCreate 
 # Scenario: Create case with witness blank values
 #   Given I create a case with blank values in witnesses
-# #   Then an error message is displayed about the blank values - Bug S28-240
+#   Then an error message is displayed about the blank values 
 
-# # Bug S28-552
+# Bug fixed in sbox, tests written, needs to be commented in when sbox migrates to test
 # @ScheduleCreate 
 # Scenario: Create case with defendant blank values
 #   Given I create a case with blank values in defendants
-#   # Then an error message is displayed about the blank values - Bug S28-240
+#   Then an error message is displayed about the blank values 
 
 @ScheduleCreate 
 Scenario: Update case with blank values
