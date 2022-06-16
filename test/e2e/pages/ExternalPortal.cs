@@ -33,7 +33,7 @@ namespace pre.test.pages
       var mobileWarning = Page.Locator("text=Please note: Playback is preferred on non-mobile devices. If possible, please us");
       await Task.Run(() => Assert.That(mobileWarning.TextContentAsync().Result, Does.Contain("Playback is preferred on non-mobile devices")));
     }
-   public async Task checkUnshared()
+    public async Task checkUnshared()
     {
       var tableCaseRef = Page.Locator($"text={caseName}");
       await Task.Run(() => Assert.IsFalse(tableCaseRef.IsVisibleAsync().Result));
@@ -60,6 +60,7 @@ namespace pre.test.pages
     }
     public async Task checkRecordingUID()
     {
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https"));
       var table = Page.Locator(".xrm-attribute-value div:nth-child(4)");
       await Task.Run(() => Assert.That(table.InnerTextAsync().Result, Does.Contain($"{recordingUID.Trim()}")));
     }
@@ -100,7 +101,7 @@ namespace pre.test.pages
 
     public async Task goToManageCases()
     {
-      
+
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Admin\")").ClickAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Manage Cases\"]").First.ClickAsync();
     }

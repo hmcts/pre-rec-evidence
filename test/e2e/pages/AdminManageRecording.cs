@@ -13,50 +13,55 @@ namespace pre.test.pages
     protected string date = DateTime.UtcNow.ToString("dd/MM/yyyy");
     protected string pastDate = (DateTime.UtcNow.AddDays(-1)).ToString("dd/MM/yyyy");
     public static string oldDate = "";
+    public static int n = 1;
 
     public async Task changeDate()
     {
-      oldDate = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=Item 1. Selected. Off >> [aria-label=\"Recording Start\"]").InputValueAsync().Result.Trim();
-      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=Item 1. Selected. Off >> [aria-label=\"Recording Start\"]").ClickAsync();
+      while (Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Video Link\"]").Nth(n).InputValueAsync().Result.Contains("http")){
+        n++;
+      }
+
+      oldDate = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Recording Start\"]").Nth(n).InputValueAsync().Result.Trim();
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Recording Start\"]").Nth(n).ClickAsync();
       if (AdminManageRecordings.use == "normal")
       {
         if (date == oldDate)
         {
           date = (DateTime.UtcNow.AddDays(1)).ToString("dd/MM/yyyy");
         }
-        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=Item 1. Selected. Off >> [aria-label=\"Recording Start\"]").FillAsync($"{date}");
+        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Recording Start\"]").Nth(n).FillAsync($"{date}");
         await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
 
-        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=Item 1. Selected. On >> [aria-label=\"Save\"]").ClickAsync();
+        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Save\"]").Nth(n).ClickAsync();
         await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
       }
       else if (AdminManageRecordings.use == "past")
       {
-        var dateLocation = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=Item 1. Selected. Off >> [aria-label=\"Recording Start\"]");
+        var dateLocation = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Recording Start\"]").Nth(n);
         if (pastDate == dateLocation.InputValueAsync().Result)
         {
           pastDate = (DateTime.UtcNow.AddDays(-2)).ToString("dd/MM/yyyy");
         }
-        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=Item 1. Selected. Off >> [aria-label=\"Recording Start\"]").FillAsync($"{pastDate}");
+        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Recording Start\"]").Nth(n).FillAsync($"{pastDate}");
         await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
 
-        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=Item 1. Selected. On >> [aria-label=\"Save\"]").ClickAsync();
+        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Save\"]").Nth(n).ClickAsync();
         await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
       }
     }
     public async Task superUserDateChange()
     {
-      oldDate = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=Item 1. Selected. Off >> [aria-label=\"Session\\ Start\"]").InputValueAsync().Result.Trim();
-      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=Item 1. Selected. Off >> [aria-label=\"Session\\ Start\"]").ClickAsync();
+      oldDate = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Session\\ Start\"]").Nth(n).InputValueAsync().Result.Trim();
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Session\\ Start\"]").Nth(n).ClickAsync();
       if (AdminManageRecordings.use == "supernormal")
       {
-        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=Item 1. Selected. Off >> [aria-label=\"Session\\ Start\"]").FillAsync($"{date}");
-        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=Item 1. Selected. On >> [aria-label=\"Save\\ Changes\"]").ClickAsync(); ;
+        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Session\\ Start\"]").Nth(n).FillAsync($"{date}");
+        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Save\\ Changes\"]").Nth(n).ClickAsync(); ;
       }
       else if (AdminManageRecordings.use == "superpast")
       {
-        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=Item 1. Selected. Off >> [aria-label=\"Session\\ Start\"]").FillAsync($"{pastDate}");
-        var saveButton = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=Item 1. Selected. On >> [aria-label=\"Save\\ Changes\"]");
+        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Session\\ Start\"]").Nth(n).FillAsync($"{pastDate}");
+        var saveButton = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Save\\ Changes\"]").Nth(n);
         await Task.Run(() => Assert.IsTrue(saveButton.IsDisabledAsync().Result));
         await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=Recording ID").First.ClickAsync();
       }
@@ -65,12 +70,12 @@ namespace pre.test.pages
     {
       if (AdminManageRecordings.use == "supernormal")
       {
-        var dateLoc = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=Item 1. Selected. Off >> [aria-label=\"Session\\ Start\"]");
+        var dateLoc = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Session\\ Start\"]").Nth(n);
         await Task.Run(() => Assert.That(dateLoc.InputValueAsync().Result, Does.Contain($"{date}")));
       }
       else
       {
-        var dateLocator = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=Item 1. Selected. Off >> [aria-label=\"Recording Start\"]");
+        var dateLocator = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Recording Start\"]").Nth(n);
         await Task.Run(() => Assert.That(dateLocator.InputValueAsync().Result, Does.Contain($"{date}")));
       }
     }
@@ -89,8 +94,8 @@ namespace pre.test.pages
     {
       for (int i = 2; i < 7; i++)
       {
-        var Button = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text=Item {i} Off >> [aria-label=\"Save\"]");
-        await Task.Run(() => Assert.IsFalse(Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text=Item {i} Off >> [aria-label=\"Save\"]").IsVisibleAsync().Result));
+        var Button = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Save\"]").Nth(n);
+        await Task.Run(() => Assert.IsFalse(Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Save\"]").Nth(n).IsVisibleAsync().Result));
       }
     }
   }

@@ -306,6 +306,7 @@ namespace pre.test.pages
           //var saveButton = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Save\")").Nth(2);
           await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div.canvasContentDiv.container_1vt1y2p div:nth-child(6) > div > div > div > div").First.ClickAsync();
           await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Delete\")").ClickAsync();
+          await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
           //await Task.Run(() => Assert.IsTrue(saveButton.IsDisabledAsync().Result));
         }
       }
