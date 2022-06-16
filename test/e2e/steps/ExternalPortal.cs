@@ -44,7 +44,7 @@ namespace pre.test
       await _externalPortal.CheckSharedRecordings();
     }
 
-    [Then(@"a message should be displayed stating No recordings found")]
+ [Then(@"a message should be displayed stating No recordings found")]
     public async Task NoRecordingsMessage()
     {
       await _pagesetters.Page.GotoAsync($"{HooksInitializer.testPortalUrl}");
@@ -52,7 +52,7 @@ namespace pre.test
       var flag = await Task.Run(() => (checkLogin.IsVisibleAsync().Result));
       if (flag == false){await HooksExternalPortal.PortalLogin();}
       while(HooksInitializer._context.Page.Locator("text=Please note: Playback is preferred on non-mobile devices. If possible, please us").IsVisibleAsync().Result==false){}
-      //await _externalPortal.NoRecordingsMessage(); Write method :)
+      await _externalPortal.NoRecordingsMessage(); 
     }
 
     [Given(@"I can see the witness names")]
