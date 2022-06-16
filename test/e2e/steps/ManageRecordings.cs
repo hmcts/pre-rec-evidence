@@ -58,14 +58,11 @@ namespace pre.test
       await _manageRecording.checkErrorMessageSaveButton();
     }
 
-
-
     [Given(@"I update a recording")]
     public async Task GivenIupdatearecording()
     {
       await _manageRecording.UpdateRecording();
     }
-
 
     [Then(@"the success message says recording updated")]
     public async Task Thenthesuccessmessagesaysrecordingupdated()
@@ -73,13 +70,11 @@ namespace pre.test
       await _manageRecording.updaterecordingConfirmationcheck();
     }
 
-
     [Given(@"I've created a case")]
     public async Task GivenIvecreatedacase()
     {
       await _manageRecording.createdCase();
     }
-
 
     [Then(@"I can see the version number for the recording")]
     public async Task ThenIcanseetheversionnumberfortherecording()
@@ -87,13 +82,11 @@ namespace pre.test
       await _manageRecording.checkVersionNumber();
     }
 
-
     [Given(@"I delete a recording")]
     public async Task GivenIdeletearecording()
     {
       await _manageRecording.DeleteRecording();
     }
-
 
     [Then(@"the success message says scheduled recording deleted")]
     public async Task Thenthesuccessmessagesaysscheduledrecordingdeleted()
@@ -101,10 +94,28 @@ namespace pre.test
       await _manageRecording.DeleterecordingConfirmationcheck();
     }
 
+    [Given(@"there's no recording")]
+    public async Task Giventheresnorecording()
+    {
+      await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Close Amend Recording\"]").First.ClickAsync();
+    }
 
+    [Then(@"the amend, manage and record buttons should be visible with a no recording status")]
+    public async Task Thentheamendmanageandrecordbuttonsshouldbevisiblewithanorecordingstatus()
+    {
+      await _manageRecording.noRecordingCheck();
+    }
 
+    [When(@"I start the recording")]
+    public async Task WhenIstarttherecording()
+    {
+      await _manageRecording.startRecording();
+    }
 
-
+    [Then(@"the manage, check, view and finish buttons should be visible with a in recording mode status")]
+    public async Task Thenthemanagecheckviewandfinishbuttonsshouldbevisiblewithainrecordingmodestatus()
+    {
+      await _manageRecording.recordingStartedCheck();
+    }
   }
-
 }
