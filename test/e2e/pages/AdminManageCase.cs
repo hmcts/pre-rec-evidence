@@ -465,8 +465,9 @@ namespace pre.test.pages
 
         await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"[aria-label=\"Remove {HooksAdminManageCases.caseName} from selection\"]").ClickAsync();
         await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=Schedule Date").Nth(1).ClickAsync();
+        await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
 
-        var saveButton = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div:nth-child(127) .appmagic-borderfill-container .appmagic-border-inner .react-knockout-control .powerapps-icon");
+        var saveButton = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div:nth-child(128) .appmagic-borderfill-container .appmagic-border-inner .react-knockout-control .powerapps-icon");
         await Task.Run(() => Assert.IsTrue(saveButton.IsDisabledAsync().Result));
       }
       else
@@ -476,7 +477,7 @@ namespace pre.test.pages
         await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Case Reference\"]").FillAsync("");
         await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
 
-        var saveButton = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div:nth-child(121) .appmagic-borderfill-container .appmagic-border-inner .react-knockout-control .powerapps-icon");
+        var saveButton = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div[role=\"button\"]:has-text(\"Save Case\")");
         await Task.Run(() => Assert.IsTrue(saveButton.IsDisabledAsync().Result));
       }
 
