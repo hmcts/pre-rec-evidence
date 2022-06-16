@@ -37,6 +37,7 @@ namespace pre.test.Hooks
     public static string deleteScheduleUrlSbox = config["deleteScheduleUrlSbox"];
     public static string deleteRecordingUrlSbox = config["deleteRecordingUrlSbox"];
     public static string deleteContactsUrlTest = config["deleteContactsUrlTest"];
+    public static string deleteContactsUrlSbox = config["deleteContactsUrlSbox"];
     public static string deleteOwner = config["deleteOwner"];
     public static bool headless = bool.Parse(config["headless"]);
     public HooksInitializer(IObjectContainer objectContainer, ScenarioContext scenarioContext, PageSetters context,
