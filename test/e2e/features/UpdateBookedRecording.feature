@@ -86,7 +86,7 @@ Then the case on schedule recording will be updated
 Then the case on book recordings will be updated
 Then the case on manage cases will be updated
 
-# Need to figure out assertion
+# Need to figure out assertion here
 # @createCase
 # Scenario: Remove Witness and defendants and save 
 # Given I remove the text form witness and defendant fields and attempt to click save
