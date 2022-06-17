@@ -136,6 +136,12 @@ namespace pre.test.pages
       var check = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Recordings Gallery\"] div").Nth(1);
       await Task.Run(() => Assert.That(check.InnerTextAsync().Result, Does.Not.Contain($"{emailToShare}")));
     }
+
+    public async Task NoRecordingsMessage()
+    {
+      var errorMessage = Page.Locator("text=No records found");
+      await Task.Run(() => Assert.IsTrue(errorMessage.IsVisibleAsync().Result));
+    }
   }
 }
 

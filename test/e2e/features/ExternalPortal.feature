@@ -8,8 +8,8 @@ Feature: External portal recordings
   # Given a recording has been edited
   # Then I can see all versions of each recording
 
+# Bug fixed in sbox, tests written, needs to be commented in when sbox migrates to test
 # @SharedRecordingAtPortal
-# # Bug S28-419 - unskip when resolved
 # Scenario: No recordings shared
 #  Given there have been no recordings shared with me
 #  Then a message should be displayed stating No recordings found
