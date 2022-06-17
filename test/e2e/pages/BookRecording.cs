@@ -289,7 +289,7 @@ namespace pre.test.pages
           await Task.Run(() => Assert.AreEqual(inputBoxes.InputValueAsync().Result, ""));
           await Task.Run(() => Assert.IsTrue(saveButton.IsDisabledAsync().Result));
         }
-        var saveButton2 = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Save\")").Nth(2);
+        var saveButton2 = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Save\")").Nth(1);
         await Task.Run(() => Assert.IsTrue(saveButton2.IsDisabledAsync().Result));
       }
       else
@@ -297,7 +297,7 @@ namespace pre.test.pages
         for (int i = 0; i < 4; i++)
         {
           // Bug S28-240 - unskip when resolved
-          //var saveButton = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Save\")").Nth(2);
+          //var saveButton = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Save\")").Nth(1);
           await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div.canvasContentDiv.container_1vt1y2p div:nth-child(6) > div > div > div > div").First.ClickAsync();
           await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Delete\")").ClickAsync();
           await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
@@ -378,7 +378,6 @@ namespace pre.test.pages
        var save = Page.Frame("fullscreen-app-host").Locator("button:has-text(\"Save\")").First;
        await Task.Run(() => Assert.IsTrue(save.IsDisabledAsync().Result));
     }
-
     public async Task blankErrorMessage()
     {
       await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
@@ -400,6 +399,17 @@ namespace pre.test.pages
         DuplicateError = Page.Locator("text=Please select a Court from the dropdown.");
       }
       await Task.Run(() => Assert.IsTrue(DuplicateError.IsVisibleAsync().Result));
+    }
+     public async Task entermorethanthirteencharacters()
+     {
+       await Page.Frame("fullscreen-app-host").FillAsync("[placeholder=\"Case\\ Number\\ \\\\\\ URN\"]", "morethan13char");
+     }
+    public async Task cannotentermorethanthirteencharacters()
+    {
+      var casref = Page.Frame("fullscreen-app-host").Locator("[placeholder=\"Case\\ Number\\ \\\\\\ URN\"]");
+      await Task.Run(() => Assert.That(casref.InputValueAsync().Result, Does.Contain("morethan13cha")));
+      await Task.Run(() => Assert.That(casref.InputValueAsync().Result, Does.Not.Contain("morethan13char")));
+
     }
   }
 }

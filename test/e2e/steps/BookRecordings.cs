@@ -217,5 +217,17 @@ namespace pre.test
     {
       await _bookrecording.SaveDisabled();
     }
+
+    [Given(@"I try to create a case ref more than thirteen characters")]
+    public async Task GivenItrytocreateacaserefmorethanthirteencharacters()
+    {
+      await _bookrecording.entermorethanthirteencharacters();
+    }
+
+    [Then(@"I am Unable to")]
+    public async Task ThenIamUnableto()
+    {
+      await _bookrecording.cannotentermorethanthirteencharacters();
+    }
   }
 }
