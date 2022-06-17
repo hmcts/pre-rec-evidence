@@ -290,6 +290,7 @@ namespace pre.test.pages
     }
     public async Task removeWitDefNotScheduled()
     {
+      var first = true;
       await Page.Frame("fullscreen-app-host").ClickAsync(".container_1f0sgyp div:nth-child(2) .react-knockout-control .appmagic-svg");
       await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
 
@@ -299,6 +300,10 @@ namespace pre.test.pages
       for (int i = 0; i < 4; i++)
       {
         inputBoxes = null;
+        if (!(first))
+        {
+          await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+        }
 
         if (Page.Frame("fullscreen-app-host").Locator("div.canvasContentDiv.container_1vt1y2p input").Nth(i).CountAsync().Result > 0)
         {
@@ -344,6 +349,7 @@ namespace pre.test.pages
             await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
           }
         }
+        first = false;
       }
     }
 
@@ -375,7 +381,6 @@ namespace pre.test.pages
         await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
       }
       if (flag) { UpdateBookedRecordings.use = "WD"; flag = false; }
-      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
     }
 
     public async Task createAdditonalSchedule()
