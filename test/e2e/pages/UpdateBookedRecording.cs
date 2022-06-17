@@ -583,7 +583,7 @@ namespace pre.test.pages
         {
           inputBoxes = Page.Frame("fullscreen-app-host").Locator("div.canvasContentDiv.container_1vt1y2p input").Nth(i);
         }
-        
+
         if (UpdateBookedRecordings.use == "W" && inputBoxes != null)
         {
           if ((inputBoxes.InputValueAsync().Result).Contains($"{wit1}"))
@@ -621,28 +621,25 @@ namespace pre.test.pages
             await checkErrorMessagescheduledwitdef();
           }
         }
-        // else if (UpdateBookedRecordings.use == "T")
-        // {
-        //   if ((inputBoxes.InputValueAsync().Result).Contains($"{wit1}"))
-        //   {
-
-        //     await inputBoxes.FillAsync("");
-        //     System.Console.WriteLine(inputBoxes);
-        //     var saveicon = Page.Frame("fullscreen-app-host").Locator($"div:nth-child(52) div:nth-child({i + 1}) > div.canvasContentDiv.container_1vt1y2p > div > div:nth-child(3)");
-        //     await saveicon.ClickAsync();
-        //     System.Console.WriteLine(saveicon);
-        //     await Task.Run(() => Assert.IsFalse(saveicon.IsCheckedAsync().Result));
-
-        //   }
-        //   if ((inputBoxes.InputValueAsync().Result).Contains($"{def1}"))
-        //   {
-
-        //     await inputBoxes.FillAsync("");
-        //     var saveicon = Page.Frame("fullscreen-app-host").Locator($"div:nth-child(52) div:nth-child({i + 1}) > div.canvasContentDiv.container_1vt1y2p > div > div:nth-child(3)");
-        //     await saveicon.ClickAsync();
-        //     await Task.Run(() => Assert.IsFalse(saveicon.IsDisabledAsync().Result));
-        //   }
-        //}
+        else if (UpdateBookedRecordings.use == "T")
+        {
+          if ((inputBoxes.InputValueAsync().Result).Contains($"{wit1}"))
+          {
+            await inputBoxes.FillAsync("");
+            var saveicon = Page.Frame("fullscreen-app-host").Locator("div:nth-child(52)   div:nth-child(1)  div.canvasContentDiv.container_1vt1y2p > div > div:nth-child(3)").Nth(i);
+            System.Console.WriteLine(saveicon);
+            System.Console.WriteLine(stringCase);
+            await Task.Run(() => Assert.IsTrue(saveicon.IsHiddenAsync().Result));
+          }
+          if ((inputBoxes.InputValueAsync().Result).Contains($"{def1}"))
+          {
+            await inputBoxes.FillAsync("");
+            var saveicon = Page.Frame("fullscreen-app-host").Locator("div:nth-child(52)   div:nth-child(1)  div.canvasContentDiv.container_1vt1y2p > div > div:nth-child(3)").Nth(i + 1);
+            System.Console.WriteLine(saveicon);
+            System.Console.WriteLine(stringCase);
+            await Task.Run(() => Assert.IsTrue(saveicon.IsHiddenAsync().Result));
+          }
+        }
       }
     }
 
@@ -651,11 +648,11 @@ namespace pre.test.pages
       if (UpdateBookedRecordings.use == "W")
       {
         var errorMessage = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text=You are deleting {wit1} from the system");
-        var errorMessage2 = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text={wit1} is associated with: 1 Recordings.");
+        var errorMessage2 = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text={wit1} is associated with: 1 scheduled recordings.");
         var errorMessage3 = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text=If you choose to delete {wit1}, all associated recordings will also be deleted.");
 
         await Task.Run(() => Assert.That(errorMessage.TextContentAsync().Result, Does.Contain($"You are deleting {wit1} from the system")));
-        await Task.Run(() => Assert.That(errorMessage2.TextContentAsync().Result, Does.Contain($"{wit1} is associated with: 1 Recordings.")));
+        await Task.Run(() => Assert.That(errorMessage2.TextContentAsync().Result, Does.Contain($"{wit1} is associated with: 1 scheduled recordings.")));
         await Task.Run(() => Assert.That(errorMessage3.TextContentAsync().Result, Does.Contain($"If you choose to delete {wit1}, all associated recordings will also be deleted.")));
         await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Delete\")").ClickAsync();
         await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
@@ -664,11 +661,11 @@ namespace pre.test.pages
       else if (UpdateBookedRecordings.use == "D")
       {
         var errorMessage = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text=You are deleting {def1} from the system");
-        var errorMessage2 = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text={def1} is associated with: 1 Recordings.");
+        var errorMessage2 = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text={def1} is associated with: 1 scheduled recordings.");
         var errorMessage3 = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text=If you choose to delete {def1}, all associated recordings will also be deleted.");
 
         await Task.Run(() => Assert.That(errorMessage.TextContentAsync().Result, Does.Contain($"You are deleting {def1} from the system")));
-        await Task.Run(() => Assert.That(errorMessage2.TextContentAsync().Result, Does.Contain($"{def1} is associated with: 1 Recordings.")));
+        await Task.Run(() => Assert.That(errorMessage2.TextContentAsync().Result, Does.Contain($"{def1} is associated with: 1 scheduled recordings.")));
         await Task.Run(() => Assert.That(errorMessage3.TextContentAsync().Result, Does.Contain($"If you choose to delete {def1}, all associated recordings will also be deleted.")));
         await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Delete\")").ClickAsync();
         await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
@@ -836,12 +833,18 @@ namespace pre.test.pages
       await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Admin\")").ClickAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Manage Cases\"]").First.ClickAsync();
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Case Ref \\\\ URN \\\\ ID \\\\ Court\"]").ClickAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Case Ref \\\\ URN \\\\ ID \\\\ Court\"]").FillAsync($"{stringCase}");
       await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
 
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text=Case Ref: {stringCase}").ClickAsync();
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator(".container_1f0sgyp div:nth-child(6) .react-knockout-control .appmagic-svg").ClickAsync();
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Edit Recording\"]").ClickAsync();
 
       if (UpdateBookedRecordings.use == "D")
@@ -1159,16 +1162,15 @@ namespace pre.test.pages
         }
         if ((inputBoxes.InputValueAsync().Result).Contains("") && inputBoxes != null)
         {
-
-          var saveicon = Page.Frame("fullscreen-app-host").Locator($"div:nth-child(52) div:nth-child({i + 1}) > div.canvasContentDiv.container_1vt1y2p > div > div:nth-child(3)");
-          await Task.Run(() => Assert.IsTrue(saveicon.IsEnabledAsync().Result));
+          var saveicon = Page.Frame("fullscreen-app-host").Locator("div:nth-child(52)   div:nth-child(1)  div.canvasContentDiv.container_1vt1y2p > div > div:nth-child(3)").Nth(i + 1);
+          System.Console.WriteLine(saveicon);
+          System.Console.WriteLine(stringCase);
+          await Task.Run(() => Assert.IsFalse(saveicon.IsEditableAsync().Result));
         }
         if ((inputBoxes.InputValueAsync().Result).Contains($"{def1}") && inputBoxes != null)
         {
-
-          var saveicon = Page.Frame("fullscreen-app-host").Locator($"div:nth-child(52) div:nth-child({i + 1}) > div.canvasContentDiv.container_1vt1y2p > div > div:nth-child(3)");
+          var saveicon = Page.Frame("fullscreen-app-host").Locator("div:nth-child(52)   div:nth-child(1)  div.canvasContentDiv.container_1vt1y2p > div > div:nth-child(3)").Nth(i + 1);
           await Task.Run(() => Assert.IsTrue(saveicon.IsEnabledAsync().Result));
-
         }
         inputBoxes = null;
       }

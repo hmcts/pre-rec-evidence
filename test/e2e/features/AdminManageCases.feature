@@ -1,22 +1,18 @@
 Feature: Admin > Manage Case
 TBC
-## When test is aligned, add a test to check 'avaliable recordings' is yes for the case we use in auto tests with a recording
-#Cases now need to have recordings to be in view recordings....should these steps become zephyr tests?
 
-# #- Only one court in MVP - test not needed currently
-# # @CreateAndManageCase @CreateAndManageCaseAndSchedule @AdminManageCases @RevertCourt
-# # Scenario: Update Court
-# #   Given I update the court on a case
-# #   Then the court will be updated in book recordings
-# #   Then the court will be updated in manage recordings
-# #   Then the court will be updated in view recordings 
+#- Only one court in MVP - test not needed currently
+# @CreateAndManageCase @CreateAndManageCaseAndSchedule @AdminManageCases @RevertCourt
+# Scenario: Update Court
+#   Given I update the court on a case
+#   Then the court will be updated in book recordings
+#   Then the court will be updated in manage recordings
 
 @CreateAndManageCase @CreateAndManageCaseAndSchedule @AdminManageCases @RevertDateCase
   Scenario: Update Scheduled date
   Given I update the scheduled date on a recording
   Then the scheduled date will be updated in book recordings
   Then the scheduled date will be updated in manage recordings
-  ## Then the scheduled date will be updated in view recordings
 
 @CreateAndManageCase
 Scenario: Delete case with no schedule and then restore it
@@ -32,10 +28,11 @@ Scenario: Delete schedule
   When I delete the schedule 
   Then the case is visible in book recordings but not in schedule recordings
   Then the schedule is no longer visible in manage recordings
-# #  Then the schedule is no longer visible in view recordings
-# #  # Bug S28-489 - unskip when resolved and add restore steps
-# #  When I delete the case 
-# #  Then the case is no longer visible in book recordings
+  When I delete the case 
+  Then the case is no longer visible in book recordings
+  When I restore the schedule and case
+  # Bug S28-606
+  # Then the schedule is visible in manage recordings
 
   Scenario: Delete case with recording 
   Given I have a case with a recoring
@@ -84,9 +81,9 @@ Scenario: Delete schedule
 #   # When I restore a case
 #   # Then the case is visible in book recordings but not in schedule recordings
 
-# #Do 1 update scenario once S28-546 bug is fixed
+# # # #Do 1 update scenario once S28-546 bug is fixed
 
-# Bug fixed in sbox, tests written, needs to be commented in when sbox migrates to test
+# S28-609
 # @CreateAndManageCase @AdminManageCases 
 # Scenario: Update case ref with existing case 
 #   Given I update the case ref on a case

@@ -113,9 +113,9 @@ namespace pre.test.pages
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Case Ref \\\\ URN \\\\ ID \\\\ Court\"]").First.ClickAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Case Ref \\\\ URN \\\\ ID \\\\ Court\"]").First.FillAsync($"{caseName}");
       var results = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text=Case Ref: {caseName}");
-      //.await Task.Run(() => Assert.IsTrue(results.IsVisibleAsync().Result));
+      await Task.Run(() => Assert.IsTrue(results.IsVisibleAsync().Result));
       await results.ClickAsync();
-      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=Schedule Date: 07/06/2022").ClickAsync();
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div:nth-child(48)  div.virtualized-gallery > div > div > div").ClickAsync();
       recordingUID = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"File\\ path\\.\\.\\.\"]").First.InputValueAsync().Result;
 
     }

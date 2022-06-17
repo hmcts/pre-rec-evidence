@@ -40,7 +40,7 @@ Scenario: Create schedule
 #   Given I select a court name
 #   Then I am presented only with MVP court names
 
-# Bug S28-480 - unskip when fixed
+# quota test, use when required
 # @ScheduleCreate @cleanUpRecordings 
 # Scenario: Test microsoft quota more than 5 recordings
 #  Given i fill required data for creating ten recordings
@@ -73,7 +73,7 @@ Scenario: Create case with defendant blank values
   Then an error message is displayed about the blank values 
 
 #validation message will be implemented post MVP
-  @ScheduleCreate 
+@ScheduleCreate 
 Scenario: Cannot Create case with more than 13 characters
   Given I try to create a case ref more than thirteen characters
   Then I am Unable to 
