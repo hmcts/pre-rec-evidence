@@ -47,49 +47,52 @@ Scenario: Create schedule
 #  Then schedules will be created
 #  Then i can start recordings for the ten schedules
 
-# Bug fixed in sbox, tests written, needs to be commented in when sbox migrates to test
-# @ScheduleCreate 
-# Scenario: Create case with all blank values
-#   Given I create a case with blank values
-#   Then an error message is displayed about the blank values
-
-# Bug fixed in sbox, tests written, needs to be commented in when sbox migrates to test
-# @ScheduleCreate 
-# Scenario: Create case with court blank value
-#   Given I create a case with blank values in court
-#   Then an error message is displayed about the blank values 
-
-# Bug fixed in sbox, tests written, needs to be commented in when sbox migrates to test
-# @ScheduleCreate 
-# Scenario: Create case with case ref blank value
-#   Given I create a case with blank values in case ref
-#   Then an error message is displayed about the blank values 
-
-# Bug fixed in sbox, tests written, needs to be commented in when sbox migrates to test
-# @ScheduleCreate 
-# Scenario: Create case with witness blank values
-#   Given I create a case with blank values in witnesses
-#   Then an error message is displayed about the blank values 
-
-# Bug fixed in sbox, tests written, needs to be commented in when sbox migrates to test
-# @ScheduleCreate 
-# Scenario: Create case with defendant blank values
-#   Given I create a case with blank values in defendants
-#   Then an error message is displayed about the blank values 
+@ScheduleCreate 
+Scenario: Create case with all blank values
+  Given I create a case with blank values
+  Then an error message is displayed about the blank values
 
 @ScheduleCreate 
-Scenario: Update case with blank values
-  Given all fields entered and click save
-  Then case will be created
-  When I update the case with blank values
-# #   Then an error message is displayed about the blank values - Bug S28-240
+Scenario: Create case with court blank value
+  Given I create a case with blank values in court
+  Then an error message is displayed about the blank values 
+
+ @ScheduleCreate 
+Scenario: Create case with case ref blank value
+  Given I create a case with blank values in case ref
+  Then an error message is displayed about the blank values 
 
 @ScheduleCreate 
-Scenario: Create case with blank values in list
-  Given I create a case with blank values in a list
-#   # Then the case is created but the blank values are ignored - Bug S28-240
+Scenario: Create case with witness blank values
+  Given I create a case with blank values in witnesses
+  Then an error message is displayed about the blank values 
 
-# Bug S28-240
+@ScheduleCreate 
+Scenario: Create case with defendant blank values
+  Given I create a case with blank values in defendants
+  Then an error message is displayed about the blank values 
+
+#validation message will be implemented post MVP
+  @ScheduleCreate 
+Scenario: Cannot Create case with more than 13 characters
+  Given I try to create a case ref more than thirteen characters
+  Then I am Unable to 
+
+# # # Bug S28-240
+# @ScheduleCreate 
+# Scenario: Update case with blank values
+#   Given all fields entered and click save
+#   Then case will be created
+#   When I update the case with blank values
+# Then an error message is displayed about the blank values 
+
+# # # Bug S28-240
+# @ScheduleCreate 
+# Scenario: Create case with blank values in list
+#   Given I create a case with blank values in a list
+# Then the case is created but the blank values are ignored 
+
+# # # Bug S28-240
 # @ScheduleCreate 
 # Scenario: Update case with blank values in list
 #   Given all fields entered and click save
