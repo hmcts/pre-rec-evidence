@@ -147,6 +147,7 @@ namespace pre.test
     [Given(@"I update every field")]
     public async Task WhenIupdateeveryfield()
     {
+      ManageUser.use = "";
       await _manageuser.UpdateAll();
     }
 
