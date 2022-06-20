@@ -6,7 +6,7 @@
     "standard": "WCAG2AA",
     "viewport": {
       "width": 2500,
-      "height": 1784
+      "height": 3500
     },
     "concurrency": 1,
     "reporters": [
@@ -16,13 +16,13 @@
   },
   "urls": [
     {
-      "url": "https://pre-test.powerappsportals.com/SignIn?ReturnUrl=%2F?Before-log-in?After-log-in",
+      "url": "https://pre-testing.powerappsportals.com//SignIn?ReturnUrl=%2F?Before-log-in",
       "actions": [
         "screen capture Screenshots/Portal-Home-Page.png"
       ]
     },
     {
-      "url": "https://pre-test.powerappsportals.com/",
+      "url": "https://pre-testing.powerappsportals.com/?After-log-in",
       "actions": [
         "set field #Email to <email>",
         "set field #PasswordValue to <password>",
@@ -32,7 +32,7 @@
       ]
     },
     {
-      "url": "https://pre-test.powerappsportals.com/Register?returnUrl=%2F?Redeem-invitation",
+      "url": "https://pre-testing.powerappsportals.com//Register?returnUrl=%2F?Redeem-invitation",
       "actions": [
         
         "wait for element div:nth-child(5) to be visible",
@@ -40,7 +40,7 @@
       ]
     },
     {
-      "url": "https://pre-test.powerappsportals.com/SignIn?ReturnUrl=%2F?Codeverification",
+      "url": "https://pre-testing.powerappsportals.com//SignIn?ReturnUrl=%2F?Codeverification",
       "actions": [
         "set field #Email to <email>",
         "set field #PasswordValue to <password>",
@@ -50,21 +50,34 @@
       ]
     },
     {
-      "url": "https://pre-test.powerappsportals.com/Account/Login/ForgotPassword?Forgot-Password",
+      "url": "https://pre-testing.powerappsportals.com//Account/Login/ForgotPassword?Forgot-Password",
       "actions": [
         "wait for element #Email to be visible",
         "screen capture Screenshots/Forgot-Password-Link.png"
       ]
     },
     {
-
-      "url": "https://pre-test.powerappsportals.com/Account/Login/ForgotPassword?Forgot-Password-email-sent",
+      "url": "https://pre-testing.powerappsportals.com//Account/Login/ForgotPassword?Forgot-Password-email-sent",
       "actions": [
-      "set field #Email to <email>",
+        "set field #Email to <email>",
         "click element #submit-forgot-password",
         "wait for element  div.form-horizontal > div > div  to be visible",
         "screen capture Screenshots/Forgot-Password-Email-Link.png"
-
+      ]
+    },
+    {
+      "url": "https://portal-test.pre-recorded-evidence.justice.gov.uk/TermsAndConditions?Terms&Condiitons",
+      "actions": [
+        "screen capture Screenshots/Terms&Condiitons.png"
+      ]
+    },
+    {
+      "url": "https://portal-test.pre-recorded-evidence.justice.gov.uk/Accessibility/",
+      "actions": [
+        "set field #Email to <email>",
+        "set field #PasswordValue to <password>",
+        "click element #submit-signin-local",
+        "screen capture Screenshots/Accessibility.png"
       ]
     }
   ]
