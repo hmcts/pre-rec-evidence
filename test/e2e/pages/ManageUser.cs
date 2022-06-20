@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.Playwright;
 using NUnit.Framework;
 using Microsoft.Extensions.Configuration;
+using pre.test.Hooks;
 
 namespace pre.test.pages
 {
@@ -18,6 +19,7 @@ namespace pre.test.pages
     public static string createUserLastName = "";
     public static string use = "";
     public static string newUserEmail = "";
+    public static bool first = true;
 
     public ManageUser(IPage page) : base(page) { }
 
@@ -40,6 +42,18 @@ namespace pre.test.pages
     {
       var saveButton = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Add New User\")");
       await Task.Run(() => Assert.IsTrue(saveButton.IsDisabledAsync().Result));
+    }
+
+    public async Task enabledSave()
+    {
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+
+      var saveButton = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Add New User\")");
+      await Task.Run(() => Assert.IsFalse(saveButton.IsDisabledAsync().Result));
+
+      await saveButton.ClickAsync();
+      HooksInitializer.contactCount++;
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
     }
 
     public async Task UpdateFirstName()
@@ -240,6 +254,98 @@ namespace pre.test.pages
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Search - Name \\/ Email\"]").FillAsync($"{createUserLastName}");
       await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
     }
+
+    public async Task checkValidation()
+    {
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"User First Name\"]").Nth(1).ClickAsync();
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"User First Name\"]").Nth(1).FillAsync($"{ManageUsers.firstName}");
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"User Last Name\"]").Nth(1).ClickAsync();
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"User Last Name\"]").Nth(1).FillAsync($"{ManageUsers.lastName}");
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Add User Email\"]").FillAsync($"{ManageUsers.email}");
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"User Phone Number\"]").Nth(1).ClickAsync();
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"User Phone Number\"]").Nth(1).FillAsync($"{ManageUsers.phoneNumber}");
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"User Organisation\"]").Nth(1).ClickAsync();
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"User Organisation\"]").Nth(1).FillAsync($"{ManageUsers.organisation}");
+      if (first)
+      {
+        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div.combobox-view-chevron.arrowContainer_1kmq8gc-o_O-container_r2h174-o_O-containerColors_1lj5p80").Nth(1).ClickAsync();
+        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=External Access via Portal").ClickAsync();
+      }
+    }
+
+    public async Task checkCharacterLimit()
+    {
+      if (use == "FN")
+      {
+        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"User First Name\"]").Nth(1).ClickAsync();
+        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"User First Name\"]").Nth(1).FillAsync($"{ManageUsers.firstName}extra");
+
+        var textFN = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"User First Name\"]").Nth(1);
+        await Task.Run(() => Assert.AreEqual(textFN.InputValueAsync().Result, $"{ManageUsers.firstName}"));
+      }
+      else if (use == "LN")
+      {
+        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"User Last Name\"]").Nth(1).ClickAsync();
+        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"User Last Name\"]").Nth(1).FillAsync($"{ManageUsers.lastName}extra");
+
+        var textLN = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"User Last Name\"]").Nth(1);
+        await Task.Run(() => Assert.AreEqual(textLN.InputValueAsync().Result, $"{ManageUsers.lastName}"));
+      }
+      else if (use == "E")
+      {
+        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Add User Email\"]").ClickAsync();
+        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Add User Email\"]").FillAsync($"{ManageUsers.email}extra");
+
+        var textE = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Add User Email\"]");
+        await Task.Run(() => Assert.AreEqual(textE.InputValueAsync().Result, $"{ManageUsers.email}"));
+      }
+      else if (use == "P")
+      {
+        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"User Phone Number\"]").Nth(1).ClickAsync();
+        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"User Phone Number\"]").Nth(1).FillAsync($"{ManageUsers.phoneNumber}extra");
+
+        var textP = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"User Phone Number\"]").Nth(1);
+        await Task.Run(() => Assert.AreEqual(textP.InputValueAsync().Result, $"{ManageUsers.phoneNumber}"));
+      }
+      else if (use == "O")
+      {
+        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"User Organisation\"]").Nth(1).ClickAsync();
+        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"User Organisation\"]").Nth(1).FillAsync($"{ManageUsers.organisation}extra");
+
+        var textO = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"User Organisation\"]").Nth(1);
+        await Task.Run(() => Assert.AreEqual(textO.InputValueAsync().Result, $"{ManageUsers.organisation}"));
+      }
+    }
+
+    public async Task checkUserCreated()
+    {
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Search User\"]").ClickAsync();
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Search - Name \\/ Email\"]").ClickAsync();
+
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Search - Name \\/ Email\"]").FillAsync($"{ManageUsers.firstName}");
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+
+      var UserBox = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text={ManageUsers.firstName} {ManageUsers.lastName}");
+      await Task.Run(() => Assert.IsTrue(UserBox.IsVisibleAsync().Result));
+      await Task.Run(() => UserBox.ClickAsync());
+
+      var firstName = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"User\\ First\\ Name\"]").First;
+      await Task.Run(() => Assert.That(firstName.InputValueAsync().Result, Does.Contain($"{ManageUsers.firstName}")));
+
+      var lastName = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"User Last Name\"]").First;
+      await Task.Run(() => Assert.That(lastName.InputValueAsync().Result, Does.Contain($"{ManageUsers.lastName}")));
+
+      var email = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"User Email\"]");
+      await Task.Run(() => Assert.That(email.InputValueAsync().Result, Does.Contain($"{ManageUsers.email}")));
+
+      var phoneNumber = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"User Phone Number\"]").First;
+      await Task.Run(() => Assert.That(phoneNumber.InputValueAsync().Result, Does.Contain($"{ManageUsers.phoneNumber}")));
+
+      var organisation = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"User Organisation\"]").First;
+      await Task.Run(() => Assert.That(organisation.InputValueAsync().Result, Does.Contain($"{ManageUsers.organisation}")));
+
+      var role = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"User Roles\\. Selected\\: Level 3\"]").First;
+      await Task.Run(() => Assert.IsTrue(role.IsVisibleAsync().Result));
+    }
   }
 }
-
