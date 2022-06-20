@@ -5,9 +5,8 @@ I want to update witnesses and defendents
 
 @createCase
 Scenario: Search Case
-Given I want to find an existing Cases and enter the case reference
+Given I want to find an existing Case
 Then the application will check if the case reference already exists
-# Then I cannot make a case with the same name - Bug S28-491
 Then I can create additional schedules
 Then this schedule will be visible in manage recordings
 
@@ -41,8 +40,6 @@ Given I attempt to remove the witnesses from the case
 Then an error message will appear Or the delete button is disabled 
 Then the case will be updated in schedule recording
 Then the case will be updated in book recordings
-#bug S28-534
-#Then the case will be updated in manage recording
 Then the case will be updated in manage cases
 
 @createCase 
@@ -86,39 +83,34 @@ Given I try to remove the non scheduled witness and defendant from the case
 Then an error message appears Or the delete button is disabled 
 Then the case on schedule recording will be updated
 Then the case on book recordings will be updated
-# #bug S28-534
-# #Then the case on manage recording will be updated
 Then the case on manage cases will be updated
 
-# # Commented out as assertion needs to be figured out
-# # @createCase
-# # Scenario: Remove Witness and defendants and save 
-# # Given I remove the text form witness and defendant fields and attempt to click save
+# Need to figure out assertion here
+# @createCase
+# Scenario: Remove Witness and defendants and save 
+# Given I remove the text form witness and defendant fields and attempt to click save
 # # Then the save icon is disabled 
 
-# Bug S28-577
-# @createCase 
-# Scenario: Add defendant
-# Given I add an extra defendant
-# Then the defendant will be visible in book recordings
-# Then the defendant will be visible in schedule recordings
-# Then the defendant will be visible in manage recordings
-# Then the defendant will be visible in admin, manage cases, recordings
+@createCase 
+Scenario: Add defendant
+Given I add an extra defendant
+Then the defendant will be visible in book recordings
+Then the defendant will be visible in schedule recordings
+Then the defendant will be visible in manage recordings
+Then the defendant will be visible in admin, manage cases, recordings
 
-# Bug S28-577
-# @createCase
-# Scenario: Add witness
-# Given I add an extra witness
-# Then the witness will be visible in book recordings
-# Then the witness will be visible in schedule recordings
-# Then the witness will be visible in admin, manage cases, recordings
+@createCase
+Scenario: Add witness
+Given I add an extra witness
+Then the witness will be visible in book recordings
+Then the witness will be visible in schedule recordings
+Then the witness will be visible in admin, manage cases, recordings
 
-# Bug S28-577
-# @createCase 
-# Scenario: Add witness and defendant
-# Given I add an extra witness and defendant
-# Then the witness and defendant will be visible in book recordings
-# Then the witness and defendant will be visible in schedule recordings
-# Then the witness and defendant will be visible in admin, manage cases, recordings
+@createCase 
+Scenario: Add witness and defendant
+Given I add an extra witness and defendant
+Then the witness and defendant will be visible in book recordings
+Then the witness and defendant will be visible in schedule recordings
+Then the witness and defendant will be visible in admin, manage cases, recordings
 
 

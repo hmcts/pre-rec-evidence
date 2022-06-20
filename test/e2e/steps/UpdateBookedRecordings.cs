@@ -29,7 +29,7 @@ namespace pre.test
     }
 
 
-    [Given(@"I want to find an existing Cases and enter the case reference")]
+    [Given(@"I want to find an existing Case")]
     public async Task GivenIwanttofindanexistingCase()
     {
       await _updatebookedrecording.SearchCase();

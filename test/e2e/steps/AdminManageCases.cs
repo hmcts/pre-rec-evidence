@@ -203,7 +203,7 @@ namespace pre.test
     [When(@"I restore the recording")]
     public async Task WhenIrestoretherecording()
     {
-      use="recording";
+      use = "recording";
       await _manageCase.goToAdmin();
     }
 
@@ -211,6 +211,18 @@ namespace pre.test
     public async Task Thentherecordingisvisibleinviewrecordings()
     {
       await _manageCase.checkViewRecording();
+    }
+
+    [When(@"I restore the schedule and case")]
+    public async Task WhenIrestorethescheduleandcase()
+    {
+      await _manageCase.restoreScheduleCase();
+    }
+
+    [Then(@"the schedule is visible in manage recordings")]
+    public async Task Thenthescheduleisvisibleinmanagerecordings()
+    {
+      await _manageCase.checkScheduleRestore();
     }
   }
 }
