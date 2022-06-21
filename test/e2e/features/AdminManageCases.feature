@@ -34,12 +34,11 @@ Scenario: Delete schedule
   # Bug S28-606
   # Then the schedule is visible in manage recordings
 
-  Scenario: Delete case with recording 
-  Given I have a case with a recoring
-  When I delete the recording
-  Then the case is no longer visible in view recordings
-  When I restore the recording
-  Then the recording is visible in view recordings 
+  Scenario: Cannot delete or edit a case with recording 
+  Given I have a case with a recording
+  Then I cannot edit or delete the case
+  Then I cannot edit or delete the schedule
+  Then I cannot edit or delete the recording
 
   @CreateAndManageCase
   Scenario: Search by case reference

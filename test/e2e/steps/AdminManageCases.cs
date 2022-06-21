@@ -180,37 +180,11 @@ namespace pre.test
       await _manageCase.checkDuplicateErrorMessage();
     }
 
-    [Given(@"I have a case with a recoring")]
+    [Given(@"I have a case with a recording")]
     public async Task GivenIhaveacasewitharecoring()
     {
       await _pagesetters.Page.GotoAsync($"{HooksInitializer.testUrl}");
       await _manageCase.goToAdmin();
-    }
-
-    [When(@"I delete the recording")]
-    public async Task WhenIdeletetherecording()
-    {
-      await _manageCase.deleterecording();
-    }
-
-    [Then(@"the case is no longer visible in view recordings")]
-    public async Task Thenthecaseisnolongervisibleinviewrecordings()
-    {
-      use = "deleted";
-      await _manageCase.checkViewRecording();
-    }
-
-    [When(@"I restore the recording")]
-    public async Task WhenIrestoretherecording()
-    {
-      use = "recording";
-      await _manageCase.goToAdmin();
-    }
-
-    [Then(@"the recording is visible in view recordings")]
-    public async Task Thentherecordingisvisibleinviewrecordings()
-    {
-      await _manageCase.checkViewRecording();
     }
 
     [When(@"I restore the schedule and case")]
@@ -223,6 +197,24 @@ namespace pre.test
     public async Task Thenthescheduleisvisibleinmanagerecordings()
     {
       await _manageCase.checkScheduleRestore();
+    }
+
+    [Then(@"I cannot edit or delete the case")]
+    public async Task ThenIcannoteditordeletethecase()
+    {
+      await _manageCase.cannotEditOrDeleteCase();
+    }
+
+    [Then(@"I cannot edit or delete the schedule")]
+    public async Task ThenIcannoteditordeletetheschedule()
+    {
+      await _manageCase.cannotEditOrDeleteSchedule();
+    }
+
+    [Then(@"I cannot edit or delete the recording")]
+    public async Task ThenIcannoteditordeletetherecording()
+    {
+      await _manageCase.cannotEditOrDeleteRecording();
     }
   }
 }

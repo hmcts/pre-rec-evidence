@@ -504,79 +504,19 @@ namespace pre.test.pages
 
     public async Task goToAdmin()
     {
-      if (AdminManageCases.use == "recording")
-      {
-        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Home\")").ClickAsync();
-      }
-
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Admin\")").ClickAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Manage Cases\"]").First.ClickAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Case Ref \\\\ URN \\\\ ID \\\\ Court\"]").ClickAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Case Ref \\\\ URN \\\\ ID \\\\ Court\"]").FillAsync($"{recording}");
       await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
 
-      if (AdminManageCases.use == "recording")
-      {
-        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text=Case Ref: {recording}").Nth(1).ClickAsync();
-      }
-      else
-      {
-        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text=Case Ref: {recording}").ClickAsync();
-      }
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text=Case Ref: {recording}").ClickAsync();
       await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
 
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div:nth-child(48)  div.virtualized-gallery > div > div > div").ClickAsync();
       await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
-
-      var restore = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Restore\\ Recording\"]");
-      if (restore.IsVisibleAsync().Result == true) { AdminManageCases.use = "recordingyes"; }
-      if (AdminManageCases.use == "recording" || AdminManageCases.use == "recordingyes")
-      {
-        await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
-        await restore.ClickAsync();
-      }
     }
 
-    public async Task deleterecording()
-    {
-      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
-
-      if (Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Restore\\ Recording\"]").First.IsVisibleAsync().Result == true)
-      {
-        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Restore\\ Recording\"]").First.ClickAsync();
-        await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
-      }
-      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Delete\\ Recording\"]").ClickAsync();
-      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
-
-      var confirmation = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=Recording Available: true");
-      await Task.Run(() => Assert.IsTrue(confirmation.IsVisibleAsync().Result));
-
-      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Delete\")").First.ClickAsync();
-      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
-    }
-
-    public async Task checkViewRecording()
-    {
-      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=HMCTS Logo").ClickAsync();
-      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
-
-      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"View Recordings\")").First.ClickAsync();
-      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
-
-      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Search\\ case\\ ref\"]").ClickAsync();
-      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Search\\ case\\ ref\"]").FillAsync($"{recording}");
-      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
-      var viewcase = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Session\\ Gallery\"] div").Nth(1);
-      if (AdminManageCases.use == "deleted")
-      {
-        await Task.Run(() => Assert.That(viewcase.TextContentAsync().Result, Does.Not.Contain($"{recording}")));
-      }
-      else
-      {
-        await Task.Run(() => Assert.That(viewcase.TextContentAsync().Result, Does.Contain($"{recording}")));
-      }
-    }
 
     public async Task restoreScheduleCase()
     {
@@ -612,6 +552,33 @@ namespace pre.test.pages
 
       var results = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator(".container_1f0sgyp div .react-knockout-control .appmagic-svg").First;
       await Task.Run(() => Assert.IsTrue(results.IsVisibleAsync().Result));
+    }
+
+    public async Task cannotEditOrDeleteCase()
+    {
+      var editButton = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Edit Case\"]");
+      await Task.Run(() => Assert.IsTrue(editButton.IsDisabledAsync().Result));
+
+      var deleteButton = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Delete Case\"]");
+      await Task.Run(() => Assert.IsTrue(deleteButton.IsDisabledAsync().Result));
+    }
+
+    public async Task cannotEditOrDeleteSchedule()
+    {
+      var editButton = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Edit Schedule\"]");
+      await Task.Run(() => Assert.IsTrue(editButton.IsDisabledAsync().Result));
+
+      var deleteButton = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Delete Schedule\"]");
+      await Task.Run(() => Assert.IsTrue(deleteButton.IsDisabledAsync().Result));
+    }
+
+    public async Task cannotEditOrDeleteRecording()
+    {
+      var editButton = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Edit Recording\"]");
+      await Task.Run(() => Assert.IsTrue(editButton.IsDisabledAsync().Result));
+
+      var deleteButton = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Delete Recording\"]");
+      await Task.Run(() => Assert.IsTrue(deleteButton.IsDisabledAsync().Result)); 
     }
   }
 }
