@@ -170,7 +170,7 @@ namespace pre.test.Hooks
       await HooksInitializer._context.Page.Locator("div[role=\"button\"]:has-text(\"Email\")").ClickAsync();
       await HooksInitializer._context.Page.Locator("div[role=\"button\"]:has-text(\"Email\")").ClickAsync();
       await HooksInitializer._context.Page.Locator("[aria-label=\"Filter by\"]").ClickAsync();
-      await HooksInitializer._context.Page.Locator("[aria-label=\"Filter by value\"]").FillAsync("shehreem.haddad@solirius.com");
+      await HooksInitializer._context.Page.Locator("[aria-label=\"Filter by value\"]").FillAsync($"{ExternalPortal.FAemailToShare}");
       await HooksInitializer._context.Page.Locator("button:has-text(\"Apply\")").ClickAsync();
       await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
 
