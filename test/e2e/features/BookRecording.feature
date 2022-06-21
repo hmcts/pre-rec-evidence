@@ -72,27 +72,24 @@ Scenario: Create case with defendant blank values
   Given I create a case with blank values in defendants
   Then an error message is displayed about the blank values 
 
-#validation message will be implemented post MVP
+# # # # #validation message will be implemented post MVP
 @ScheduleCreate 
 Scenario: Cannot Create case with more than 13 characters
   Given I try to create a case ref more than thirteen characters
   Then I am Unable to 
 
-# # # Bug S28-240
-# @ScheduleCreate 
-# Scenario: Update case with blank values
-#   Given all fields entered and click save
-#   Then case will be created
-#   When I update the case with blank values
-# Then an error message is displayed about the blank values 
+ @ScheduleCreate 
+Scenario: Update case with blank values
+  Given all fields entered and click save
+  Then case will be created
+  When I delete all witnesses and defendants the save button is disabled
 
-# # # Bug S28-240
-# @ScheduleCreate 
-# Scenario: Create case with blank values in list
-#   Given I create a case with blank values in a list
-# Then the case is created but the blank values are ignored 
+@ScheduleCreate 
+Scenario: Create case with blank values in list
+  Given I create a case with blank values in a list
+Then the case is created but the blank values are ignored 
 
-# # # Bug S28-240
+# Need to figure out assertion
 # @ScheduleCreate 
 # Scenario: Update case with blank values in list
 #   Given all fields entered and click save

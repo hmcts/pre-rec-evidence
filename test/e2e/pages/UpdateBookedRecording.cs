@@ -629,25 +629,6 @@ namespace pre.test.pages
             await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
           }
         }
-        else if (UpdateBookedRecordings.use == "T")
-        {
-          if ((inputBoxes.InputValueAsync().Result).Contains($"{wit1}"))
-          {
-            await inputBoxes.FillAsync("");
-            var saveicon = Page.Frame("fullscreen-app-host").Locator("div:nth-child(52)   div:nth-child(1)  div.canvasContentDiv.container_1vt1y2p > div > div:nth-child(3)").Nth(i);
-            System.Console.WriteLine(saveicon);
-            System.Console.WriteLine(stringCase);
-            await Task.Run(() => Assert.IsTrue(saveicon.IsHiddenAsync().Result));
-          }
-          if ((inputBoxes.InputValueAsync().Result).Contains($"{def1}"))
-          {
-            await inputBoxes.FillAsync("");
-            var saveicon = Page.Frame("fullscreen-app-host").Locator("div:nth-child(52)   div:nth-child(1)  div.canvasContentDiv.container_1vt1y2p > div > div:nth-child(3)").Nth(i + 1);
-            System.Console.WriteLine(saveicon);
-            System.Console.WriteLine(stringCase);
-            await Task.Run(() => Assert.IsTrue(saveicon.IsHiddenAsync().Result));
-          }
-        }
       }
     }
 
@@ -1155,30 +1136,6 @@ namespace pre.test.pages
 
       await Task.Run(() => Assert.That(defBox.InputValueAsync().Result, Does.Not.Contain($"{def1}")));
       await Task.Run(() => Assert.That(defBox.InputValueAsync().Result, Does.Not.Contain($"{def2}")));
-    }
-    public async Task checkSaveIconDisabled()
-    {
-
-      for (int i = 0; i < 4; i++)
-      {
-        if (Page.Frame("fullscreen-app-host").Locator("div.virtualized-gallery div.canvasContentDiv.container_1vt1y2p input").Nth(i).IsVisibleAsync().Result == true)
-        {
-          inputBoxes = Page.Frame("fullscreen-app-host").Locator("div.virtualized-gallery div.canvasContentDiv.container_1vt1y2p input").Nth(i);
-        }
-        if ((inputBoxes.InputValueAsync().Result).Contains("") && inputBoxes != null)
-        {
-          var saveicon = Page.Frame("fullscreen-app-host").Locator("div:nth-child(52)   div:nth-child(1)  div.canvasContentDiv.container_1vt1y2p > div > div:nth-child(3)").Nth(i + 1);
-          System.Console.WriteLine(saveicon);
-          System.Console.WriteLine(stringCase);
-          await Task.Run(() => Assert.IsFalse(saveicon.IsEditableAsync().Result));
-        }
-        if ((inputBoxes.InputValueAsync().Result).Contains($"{def1}") && inputBoxes != null)
-        {
-          var saveicon = Page.Frame("fullscreen-app-host").Locator("div:nth-child(52)   div:nth-child(1)  div.canvasContentDiv.container_1vt1y2p > div > div:nth-child(3)").Nth(i + 1);
-          await Task.Run(() => Assert.IsTrue(saveicon.IsEnabledAsync().Result));
-        }
-        inputBoxes = null;
-      }
     }
 
     public async Task checkBook()

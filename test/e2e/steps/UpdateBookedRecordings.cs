@@ -395,24 +395,7 @@ namespace pre.test
       await _updatebookedrecording.checkAdminRemovedWitDef();
     }
 
-
-    [Given(@"I remove the text form witness and defendant fields and attempt to click save")]
-    public async Task GivenIremovethetextformwitnessanddefendantfieldsandattempttoclicksave()
-    {
-      use = "T";
-      await _updatebookedrecording.removeWitDefScheduled();
-    }
-
-
-    [Then(@"the save icon is disabled")]
-    public async Task Thenthesaveiconisdisabled()
-    {
-      await _updatebookedrecording.checkSaveIconDisabled();
-    }
-
-
-
-    [Then(@"the defendant will be visible in schedule recordings")]
+     [Then(@"the defendant will be visible in schedule recordings")]
     public async Task Thenthedefendantwillbevisibleinschedulerecordings()
     {
       await _updatebookedrecording.checkScheduleAdd();
