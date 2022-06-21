@@ -147,7 +147,7 @@ namespace pre.test
       await _bookrecording.BlankValues();
     }
 
-    [When(@"I update the case with blank values")]
+    [When(@"I delete all witnesses and defendants the save button is disabled")]
     public async Task WhenIupdatethecasewithblankvalues()
     {
       await _bookrecording.UpdateBlank();
