@@ -89,6 +89,8 @@ namespace pre.test.Hooks
 
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div:nth-child(11) .appmagic-borderfill-container .appmagic-border-inner .react-knockout-control .powerapps-icon").ClickAsync();
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Share\")").ClickAsync();
+      await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Find Users to Share Recording\"]").ClickAsync();
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Find items\"]").FillAsync($"{ExternalPortal.emailToShare}");
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"li[role='option'] >> text={ExternalPortal.emailToShare}").ClickAsync();
@@ -128,7 +130,7 @@ namespace pre.test.Hooks
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div:nth-child(11) .appmagic-borderfill-container .appmagic-border-inner .react-knockout-control .powerapps-icon").ClickAsync();
       await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
 
-      await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text=Item 1 {ExternalPortal.emailToShare} >> [aria-label=\"Cases Gallery\"]").ClickAsync();
+      await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text=Item 1. Selected. {ExternalPortal.emailToShare} >> [aria-label=\"Cases Gallery\"]").ClickAsync();
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Remove Access\")").ClickAsync();
       await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Close\\ Manage\\ Sessions\"]").ClickAsync();
@@ -147,6 +149,64 @@ namespace pre.test.Hooks
       await HooksInitializer._context.Page.IsVisibleAsync("text=Welcome to the Pre-recorded Evidence Portal‌‌");
       var tableCaseRef = HooksInitializer._context.Page.Locator($"text={ExternalPortal.caseName}");
       await Task.Run(() => Assert.IsFalse(tableCaseRef.IsVisibleAsync().Result));
+    }
+
+    [AfterScenario("unlockAccount", Order = 0)]
+    public async Task unlockAccount()
+    {
+      await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.deleteContactsUrlTest}");
+      await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+
+      await HooksInitializer._context.Page.Locator("button:has-text(\"+221 more\")").ClickAsync();
+      await HooksInitializer._context.Page.Locator("text=(Select All) >> div").Nth(2).ClickAsync();
+      await HooksInitializer._context.Page.Locator("[placeholder=\"Search\"]").FillAsync("email");
+      await HooksInitializer._context.Page.Locator(".ms-Checkbox-checkmark").First.ClickAsync();
+      await HooksInitializer._context.Page.Locator("button:has-text(\"\")").ClickAsync();
+      await HooksInitializer._context.Page.Locator("[placeholder=\"Search\"]").FillAsync("login enabled");
+      await HooksInitializer._context.Page.Locator("text=").ClickAsync();
+      await HooksInitializer._context.Page.Locator("button:has-text(\"Save\")").ClickAsync();
+      await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+
+      await HooksInitializer._context.Page.Locator("div[role=\"button\"]:has-text(\"Email\")").ClickAsync();
+      await HooksInitializer._context.Page.Locator("div[role=\"button\"]:has-text(\"Email\")").ClickAsync();
+      await HooksInitializer._context.Page.Locator("[aria-label=\"Filter by\"]").ClickAsync();
+      await HooksInitializer._context.Page.Locator("[aria-label=\"Filter by value\"]").FillAsync($"{ExternalPortal.FAemailToShare}");
+      await HooksInitializer._context.Page.Locator("button:has-text(\"Apply\")").ClickAsync();
+      await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+
+      await HooksInitializer._context.Page.Locator("button[role=\"switch\"]").ClickAsync();
+      await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+
+     
+      await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.deleteContactsUrlTest}");
+      await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+      await HooksInitializer._context.Page.Locator("button[role=\"switch\"]").ClickAsync();
+      await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+    }
+
+    [AfterScenario("unlockAccount", Order = 1)]
+    public async Task unlockAccount2()
+    {
+      await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.deleteContactsUrlTest}");
+      await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+
+      await HooksInitializer._context.Page.Locator("button:has-text(\"+223 more\")").ClickAsync();
+      await HooksInitializer._context.Page.Locator("text=(Select All) >> div").Nth(2).ClickAsync();
+      await HooksInitializer._context.Page.Locator("[placeholder=\"Search\"]").FillAsync("email");
+      await HooksInitializer._context.Page.Locator(".ms-Checkbox-checkmark").First.ClickAsync();
+      await HooksInitializer._context.Page.Locator("button:has-text(\"\")").ClickAsync();
+      await HooksInitializer._context.Page.Locator("[placeholder=\"Search\"]").FillAsync("lockout enabled");
+      await HooksInitializer._context.Page.Locator("text=").ClickAsync();
+      await HooksInitializer._context.Page.Locator("button:has-text(\"Save\")").ClickAsync();
+      await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+
+      await HooksInitializer._context.Page.Locator("button[role=\"switch\"]").ClickAsync();
+      await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+     
+      await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.deleteContactsUrlTest}");
+      await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+      await HooksInitializer._context.Page.Locator("button[role=\"switch\"]").ClickAsync();
+      await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
     }
 
     public static async Task PortalLogin()

@@ -9,9 +9,7 @@ namespace pre.test
   [Binding]
   public class ExternalPortals
   {
-    public static string use = "";
     public static ExternalPortal _externalPortal;
-
     public static PageSetters _pagesetters;
 
     public ExternalPortals(PageSetters pageSetters)
@@ -31,10 +29,10 @@ namespace pre.test
     public async Task NavigateToPortal()
     {
       await _pagesetters.Page.GotoAsync($"{HooksInitializer.testPortalUrl}");
-       var checkLogin = HooksInitializer._context.Page.Locator("text=Signin");
+      var checkLogin = HooksInitializer._context.Page.Locator("text=Signin");
       var flag = await Task.Run(() => (checkLogin.IsVisibleAsync().Result));
       if (flag == true) { await HooksExternalPortal.PortalLogin(); }
-      while(HooksInitializer._context.Page.Locator("text=Please note: Playback is preferred on non-mobile devices. If possible, please us").IsVisibleAsync().Result==false){}
+      while (HooksInitializer._context.Page.Locator("text=Please note: Playback is preferred on non-mobile devices. If possible, please us").IsVisibleAsync().Result == false) { }
     }
 
     [Given(@"there have been no recordings shared with me")]
@@ -44,15 +42,15 @@ namespace pre.test
       await _externalPortal.CheckSharedRecordings();
     }
 
- [Then(@"a message should be displayed stating No recordings found")]
+    [Then(@"a message should be displayed stating No recordings found")]
     public async Task NoRecordingsMessage()
     {
       await _pagesetters.Page.GotoAsync($"{HooksInitializer.testPortalUrl}");
       var checkLogin = _pagesetters.Page.Locator("text=Welcome to the Pre-recorded Evidence Portal‌‌...");
       var flag = await Task.Run(() => (checkLogin.IsVisibleAsync().Result));
-      if (flag == false){await HooksExternalPortal.PortalLogin();}
-      while(HooksInitializer._context.Page.Locator("text=Please note: Playback is preferred on non-mobile devices. If possible, please us").IsVisibleAsync().Result==false){}
-      await _externalPortal.NoRecordingsMessage(); 
+      if (flag == false) { await HooksExternalPortal.PortalLogin(); }
+      while (HooksInitializer._context.Page.Locator("text=Please note: Playback is preferred on non-mobile devices. If possible, please us").IsVisibleAsync().Result == false) { }
+      await _externalPortal.NoRecordingsMessage();
     }
 
     [Given(@"I can see the witness names")]
@@ -103,11 +101,46 @@ namespace pre.test
       await _externalPortal.checkRemoved();
     }
 
-
     [Then(@"I can view the recording uid")]
     public async Task ThenIcanviewtherecordinguid()
     {
       await _externalPortal.checkRecordingUID();
     }
+
+    [Given(@"I enter the wrong log-in details")]
+    public async Task GivenIenterthewronglogindetails()
+    {
+      await _pagesetters.Page.GotoAsync($"{HooksInitializer.testPortalUrl}");
+      await _externalPortal.enterWrongLogIn();
+      ExternalPortal.use = "pw";
+    }
+
+    [Then(@"I see an error message")]
+    public async Task ThenIseeanerrormessage()
+    {
+      await _externalPortal.errorMessage();
+    }
+
+    [When(@"I do this five times")]
+    public async Task WhenIdothisfivetimes()
+    {
+      await _externalPortal.invalidFiveTimes();
+    }
+
+    [Then(@"my account is locked")]
+    public async Task Thenmyaccountislocked()
+    {
+      ExternalPortal.use = "locked";
+      await _externalPortal.errorMessage();
+    }
+
+    [Given(@"I enter the wrong (.*)FA code")]
+    public async Task GivenIenterthewrongFAcode(int args1)
+    {
+      await _pagesetters.Page.GotoAsync($"{HooksInitializer.testPortalUrl}");
+      await _externalPortal.enterWrong2FA();
+      ExternalPortal.use = "2FA";
+    }
+
   }
 }

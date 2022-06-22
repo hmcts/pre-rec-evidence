@@ -12,9 +12,12 @@ namespace pre.test.pages
     .AddJsonFile("secrets.json")
     .Build();
     public ExternalPortal(IPage page) : base(page) { }
+    public static string use = "";
     public static string date = DateTime.UtcNow.ToString("MMddmmss");
     public static string emailToShare = config["portalEmail"];
     public static string emailPassword = config["portalPassword"];
+    public static string FAemailToShare = config["2FAportalEmail"];
+    public static string FAemailPassword = config["2FAportalPassword"];
     public static string caseName = "NODELETEPLS";
     public static string witnessName = "null";
     public static string recordingUID = "null";
@@ -41,18 +44,31 @@ namespace pre.test.pages
 
     public async Task CheckSharedRecordings()
     {
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"View Recordings\")").ClickAsync();
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Search\\ case\\ ref\"]").ClickAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Search\\ case\\ ref\"]").FillAsync($"{caseName}");
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div:nth-child(11) .appmagic-borderfill-container .appmagic-border-inner .react-knockout-control .powerapps-icon").ClickAsync();
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+
       var emailsSharedWith = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Recordings Gallery\"] div").Nth(1);
+      var text = emailsSharedWith.TextContentAsync().Result;
+      if (text.Contains($"{emailToShare}"))
+      {
+        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text=Item 1. Selected. {emailToShare} >> [aria-label=\"Cases Gallery\"]").ClickAsync();
+        await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+
+        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Remove Access\")").ClickAsync();
+        await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+      }
+
       await Task.Run(() => Assert.That(emailsSharedWith.TextContentAsync().Result, Does.Not.Contain($"{emailToShare}")));
     }
-
-    // public async Task NoRecordingsMessage(){
-    //   // bug S28-419 - once fixed add an assertion to check for the message
-    // }
-
     public async Task checkWitnesses()
     {
       var table = ExternalPortals._pagesetters.Page.Locator(".xrm-attribute-value div:nth-child(4)");
@@ -112,6 +128,8 @@ namespace pre.test.pages
       var test = ExternalPortals._pagesetters.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text=Case Ref: {caseName}");
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Case Ref \\\\ URN \\\\ ID \\\\ Court\"]").First.ClickAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Case Ref \\\\ URN \\\\ ID \\\\ Court\"]").First.FillAsync($"{caseName}");
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+
       var results = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text=Case Ref: {caseName}");
       await Task.Run(() => Assert.IsTrue(results.IsVisibleAsync().Result));
       await results.ClickAsync();
@@ -126,6 +144,9 @@ namespace pre.test.pages
       await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
 
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Cases Gallery\"]").ClickAsync();
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Remove Access\")").ClickAsync();
       await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
     }
 
@@ -142,6 +163,78 @@ namespace pre.test.pages
       var errorMessage = Page.Locator("text=No records found");
       await Task.Run(() => Assert.IsTrue(errorMessage.IsVisibleAsync().Result));
     }
+
+    public async Task enterWrongLogIn()
+    {
+      await Page.Locator("input[name=\"Email\"]").ClickAsync();
+      await Page.Locator("input[name=\"Email\"]").FillAsync($"{FAemailToShare}");
+      await Page.Locator("input[name=\"PasswordValue\"]").ClickAsync();
+      await Page.Locator("input[name=\"PasswordValue\"]").FillAsync($"{FAemailPassword}wrongmwahahah");
+      await Page.Locator("input[name=\"PasswordValue\"]").PressAsync("Enter");
+    }
+
+    public async Task enterWrong2FA()
+    {
+      await Page.Locator("input[name=\"Email\"]").ClickAsync();
+      await Page.Locator("input[name=\"Email\"]").FillAsync($"{FAemailToShare}");
+      await Page.Locator("input[name=\"PasswordValue\"]").ClickAsync();
+      await Page.Locator("input[name=\"PasswordValue\"]").FillAsync($"{FAemailPassword}");
+      await Page.Locator("input[name=\"PasswordValue\"]").PressAsync("Enter");
+      await Page.Locator("input[name=\"Code\"]").ClickAsync();
+      await Page.Locator("input[name=\"Code\"]").FillAsync("hahaimwrong");
+      await Page.Locator("text=Verify").ClickAsync();
+    }
+
+    public async Task errorMessage()
+    {
+      var error = "";
+      if (use == "pw")
+      {
+        error = "Invalid sign-in attempt.";
+      }
+      else if (use == "locked")
+      {
+        error = "The user account is currently locked. Please try again later.";
+      }
+      else
+      {
+        error = "Invalid code.";
+      }
+      var message = Page.Locator($"text={error}");
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://pre-testing.powerappsportals.com"));
+      await Task.Run(() => Assert.IsTrue(message.IsVisibleAsync().Result));
+    }
+
+    public async Task invalidFiveTimes()
+    {
+      for (int i = 0; i < 4; i++)
+      {
+        if (use == "pw")
+        {
+          await Page.Locator("input[name=\"Email\"]").ClickAsync();
+          await Page.Locator("input[name=\"Email\"]").FillAsync($"{FAemailToShare}");
+          await Page.Locator("input[name=\"PasswordValue\"]").ClickAsync();
+          await Page.Locator("input[name=\"PasswordValue\"]").FillAsync($"{FAemailPassword}wrongmwahahah");
+          await Page.Locator("input[name=\"PasswordValue\"]").PressAsync("Enter");
+        }
+        else
+        {
+          await Page.Locator("input[name=\"Code\"]").ClickAsync();
+          await Page.Locator("input[name=\"Code\"]").FillAsync("hahaimwrong");
+          await Page.Locator("text=Verify").ClickAsync();
+        }
+
+        if (i != 3)
+        {
+          await errorMessage();
+        }
+        else
+        {
+          use = "locked";
+        }
+      }
+    }
   }
 }
+
 

@@ -49,7 +49,7 @@ namespace pre.test.Hooks
       _specFlowOutputHelper = outputHelper;
     }
 
-    [AfterScenario(Order = 1)]
+    [AfterScenario(Order = 2)]
     public async Task cleanUpEnv()
     {
       if (scheduleCount > 0)
