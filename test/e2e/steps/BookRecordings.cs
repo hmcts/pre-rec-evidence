@@ -40,6 +40,8 @@ namespace pre.test
       await _bookrecording.ScheduleRecording();
     }
 
+
+    [Then(@"I can search for the schedule")]
     [Then(@"schedules will be created")]
     public async Task Thenscheduleswillbecreated()
     {
@@ -116,7 +118,7 @@ namespace pre.test
     [Then(@"an error message is displayed about the blank values")]
     public async Task Thenanerrormessageisdisplayedblank()
     {
-    	await _bookrecording.blankErrorMessage();
+      await _bookrecording.blankErrorMessage();
     }
 
     [Given(@"I create a case with blank values in court")]
@@ -176,7 +178,7 @@ namespace pre.test
     public async Task GivenIcreateacasewithaduplicatecaseref()
     {
       await _bookrecording.EnterCaseDetails();
-      use= "D";
+      use = "D";
       await _bookrecording.EnterCaseDetails();
     }
 
@@ -190,7 +192,7 @@ namespace pre.test
     [Given(@"I do not select a witness")]
     public async Task GivenIdonotselectawitness()
     {
-      use= "witness";
+      use = "witness";
       await _bookrecording.EnterCaseDetails();
       await _bookrecording.emptyField();
     }
@@ -198,7 +200,7 @@ namespace pre.test
     [Given(@"I do not select a defendant")]
     public async Task GivenIdonotselectadefendant()
     {
-      use= "defendant";
+      use = "defendant";
       await _bookrecording.EnterCaseDetails();
       await _bookrecording.emptyField();
     }
@@ -207,7 +209,7 @@ namespace pre.test
     [Given(@"I do not select a date")]
     public async Task GivenIdonotselectadate()
     {
-      use="date";
+      use = "date";
       await _bookrecording.EnterCaseDetails();
       await _bookrecording.emptyField();
     }
@@ -228,6 +230,39 @@ namespace pre.test
     public async Task ThenIamUnableto()
     {
       await _bookrecording.cannotentermorethanthirteencharacters();
+    }
+
+    [Given(@"I create a schedule")]
+    public async Task GivenIcreateaschedule()
+    {
+      await _bookrecording.EnterCaseDetails();
+      await _bookrecording.ScheduleRecording();
+    }
+
+    [Then(@"I can delete the schedule")]
+    public async Task ThenIcandeletetheschedule()
+    {
+      await _bookrecording.CheckCaseCreated();
+      await _bookrecording.deleteSchedule();
+    }
+
+    [Then(@"I can no longer search for the schedule")]
+    public async Task ThenIcannolongersearchfortheschedule()
+    {
+      await _bookrecording.checkDeletedSchedule();
+    }
+
+    [Given(@"there's a schedule with a recording")]
+    public async Task Giventheresaschedulewitharecording()
+    {
+      await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.testUrl}");
+      await _bookrecording.findScheduleWithRecording();
+    }
+
+    [Then(@"I cannot delete the schedule")]
+    public async Task ThenIcannotdeletetheschedule()
+    {
+      await _bookrecording.checkCannotDeleteScheduleWithRecording();
     }
   }
 }
