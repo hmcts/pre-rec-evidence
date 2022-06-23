@@ -6,46 +6,28 @@ Feature: Book Recording
 Scenario: Create Case
   Given all fields entered and click save
   Then case will be created
-  
-@ScheduleCreate 
-Scenario: Create schedule
- Given i fill required data for creating recording
- Then the recordings box is filled
- Then schedules will be created
 
-@ScheduleCreate 
- Scenario: Scheduling recording in the past error message
- Given I select a date in the past
- Then an error message is displayed
- Then the save button disabled
-
- @ScheduleCreate 
- Scenario: Scheduling without a witness
- Given I do not select a witness 
- Then the save button disabled
-
- @ScheduleCreate 
- Scenario: Scheduling without a defendant
- Given I do not select a defendant 
- Then the save button disabled
-
- @ScheduleCreate 
- Scenario: Scheduling without a date
- Given I do not select a date 
- Then the save button disabled
-
-# # # Bug - will be fixed for MVP
-# @ScheduleCreate  
-# Scenario: Check Courts
-#   Given I select a court name
-#   Then I am presented only with MVP court names
-
-# quota test, use when required
-# @ScheduleCreate @cleanUpRecordings 
-# Scenario: Test microsoft quota more than 5 recordings
-#  Given i fill required data for creating ten recordings
+#quota test- comment in when needed 
+# @ScheduleCreate 
+# Scenario: Create schedules
+#  Given i fill required data for creating recording
+#  Then the recordings box is filled
 #  Then schedules will be created
 #  Then i can start recordings for the ten schedules
+
+@ScheduleCreate
+Scenario:Create schedule
+Given i fill required data for creating recording
+Then the recordings box is filled
+Given I click the open case button
+Given all fields entered and click save
+Then case will be created
+
+@ScheduleCreate
+Scenario:Create schedule as child witness
+Given i fill required data for creating schedule as a child
+Then the recordings box is filled
+Then schedules will be created
 
 @ScheduleCreate 
 Scenario: Create case with all blank values
@@ -85,20 +67,15 @@ Scenario: Update case with blank values
   When I delete all witnesses and defendants the save button is disabled
 
 @ScheduleCreate 
-Scenario: Create case with blank values in list
-  Given I create a case with blank values in a list
-  Then the case is created but the blank values are ignored 
-
-@ScheduleCreate 
 Scenario: Update case with blank values in list
   Given all fields entered and click save
   Then case will be created
   When I update a case with blank values they cannot be saved
 
 @ScheduleCreate 
-Scenario: Create case with Duplicate case ref
-Given I create a case with a duplicate case ref
-Then an error message is displayed stating the case exists
+Scenario: Create case with blank values in list
+  Given I create a case with blank values in a list
+Then the case is created but the blank values are ignored 
 
 # Bug in S28-269
 @ScheduleCreate 
@@ -109,6 +86,17 @@ Scenario: Delete schedule
   # Then I see a confirmation message
   Then I can no longer search for the schedule
 
-Scenario: Delete schedule with recording
-  Given there's a schedule with a recording
-  Then I cannot delete the schedule
+  Scenario: Delete schedule with recording
+    Given there's a schedule with a recording
+    Then I cannot delete the schedule
+
+  @ScheduleCreate
+  Scenario: Create case with Duplicate case ref
+    Given I create a case with a duplicate case ref
+    Then an error message is displayed stating the case exists
+
+  Scenario: Display Terms and conditions
+    Given I click the Terms and Conditions and link
+    Then the terms and conditions are displayed
+    When I click back
+    Then it goes back to the correct page

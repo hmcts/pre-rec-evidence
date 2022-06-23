@@ -15,7 +15,6 @@ namespace pre.test.Hooks
     {
       var date = DateTime.UtcNow.ToString("MMddmmss");
       ManageRecording.caseRef = $"AutoT{date}";
-      Hooks.HooksInitializer.caseref = ManageRecording.caseRef;
 
       await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.testUrl}");
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Book a Recording\")").ClickAsync();
@@ -28,8 +27,9 @@ namespace pre.test.Hooks
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Enter your Defendants\\, comma seperated\"]").PressAsync("Tab");
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Enter your Witnesses\\, comma seperated\"]").FillAsync("wit1");
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Save\")").Nth(1).ClickAsync();
-      HooksInitializer.caseCount++;
-      HooksInitializer.contactCount = HooksInitializer.contactCount +2;
+      Hooks.HooksInitializer.caseRef.Add(ManageRecording.caseRef);
+      Hooks.HooksInitializer.contacts.Add("def1");
+      Hooks.HooksInitializer.contacts.Add("wit1");
 
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Select Scheduled Start DateOpen calendar to select a date\"]").ClickAsync();
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"[aria-label=\"{ManageRecording.day}\\ {ManageRecording.month}\\ {ManageRecording.date}\\ {ManageRecording.year}\"]").ClickAsync();

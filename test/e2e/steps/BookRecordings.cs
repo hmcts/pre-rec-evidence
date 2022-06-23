@@ -41,6 +41,15 @@ namespace pre.test
     }
 
 
+    [Given(@"i fill required data for creating schedule as a child")]
+    public async Task Givenifillrequireddataforcreatingscheduleasachild()
+    {
+      use = "Child";
+      await _bookrecording.EnterCaseDetails();
+      await _bookrecording.ScheduleRecording();
+    }
+
+
     [Then(@"I can search for the schedule")]
     [Then(@"schedules will be created")]
     public async Task Thenscheduleswillbecreated()
@@ -264,5 +273,40 @@ namespace pre.test
     {
       await _bookrecording.checkCannotDeleteScheduleWithRecording();
     }
+
+    [Given(@"I click the Terms and Conditions and link")]
+    public async Task GivenIclicktheTermsandConditionsandlink()
+    {
+      await _pagesetters.Page.GotoAsync($"{HooksInitializer.testUrl}");
+      await _bookrecording.clickTermsandConditions();
+    }
+
+
+    [Then(@"the terms and conditions are displayed")]
+    public async Task Thenthetermsandconditionsaredisplayed()
+    {
+      await _bookrecording.checkTermsandConditions();
+    }
+
+
+    [When(@"I click back")]
+    public async Task WhenIclickback()
+    {
+      await _bookrecording.clickBack();
+    }
+
+    [Then(@"it goes back to the correct page")]
+    public async Task Thenitgoesbacktothecorrectpage()
+    {
+      await _bookrecording.checkPage();
+    }
+
+
+    [Given(@"I click the open case button")]
+    public async Task GivenIclicktheopencasebutton()
+    {
+      await _bookrecording.clickOpenPage();
+    }
+
   }
 }

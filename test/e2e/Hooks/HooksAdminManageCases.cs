@@ -25,7 +25,8 @@ namespace pre.test.Hooks
       await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.testUrl}");
       var date = DateTime.UtcNow.ToString("MMddmmss");
       caseName = $"AutoT{date}";
-      Hooks.HooksInitializer.caseref = caseName;
+     
+      
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Book a Recording\")").IsVisibleAsync();
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Book a Recording\")").ClickAsync();
       await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
@@ -40,8 +41,9 @@ namespace pre.test.Hooks
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Enter your Witnesses\\, comma seperated\"]").FillAsync($"{witnesses}");
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Save\")").Nth(1).ClickAsync();
       await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
-      HooksInitializer.caseCount++;
-      HooksInitializer.contactCount = HooksInitializer.contactCount + 2;
+     Hooks.HooksInitializer.caseRef.Add(caseName);
+      Hooks.HooksInitializer.contacts.Add(defendants);
+      Hooks.HooksInitializer.contacts.Add(witnesses);
     }
 
     [BeforeScenario("CreateAndManageCaseAndSchedule", Order = 2)]

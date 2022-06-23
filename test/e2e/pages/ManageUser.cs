@@ -52,7 +52,8 @@ namespace pre.test.pages
       await Task.Run(() => Assert.IsFalse(saveButton.IsDisabledAsync().Result));
 
       await saveButton.ClickAsync();
-      HooksInitializer.contactCount++;
+      Hooks.HooksInitializer.contacts.Add($"{existingEmailFirstName} {existingEmailLastName}");
+       
       await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
     }
 
