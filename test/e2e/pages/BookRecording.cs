@@ -16,7 +16,7 @@ namespace pre.test.pages
     public static int count = 0;
     public string day = DateTime.UtcNow.ToString("ddd");
     public static DateTime originalDay = DateTime.UtcNow;
-    protected string caseName = "";
+    public static string caseName = "";
     protected string yesterday = ((DateTime.UtcNow.AddDays(-1)).ToString("ddd"));
     public string month = DateTime.UtcNow.ToString("MMM");
     public string monthNum = DateTime.UtcNow.ToString("MM");
@@ -44,8 +44,8 @@ namespace pre.test.pages
         var date = DateTime.UtcNow.ToString("MMddmmss");
         await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Case Number \\\\ URN\"]").First.ClickAsync();
         caseName = $"AutoT{date}";
-        
-        
+
+
       }
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Case Number \\\\ URN\"]").First.FillAsync($"{caseName}");
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div.combobox-view-chevron.arrowContainer_1kmq8gc-o_O-container_r2h174-o_O-containerColors_rv6t10").First.ClickAsync();
@@ -94,13 +94,15 @@ namespace pre.test.pages
       await Page.Frame("fullscreen-app-host").ClickAsync($"[aria-label=\"Select\\ your\\ Witness\\ items\"] div:has-text(\"{witnessName}\")");
       await Page.Frame("fullscreen-app-host").ClickAsync("[aria-label=\"Select\\ your\\ Defendants\"]");
       await Page.Frame("fullscreen-app-host").ClickAsync($"[aria-label=\"Select\\ your\\ Defendants\\ items\"] div:has-text(\"{defendantName}\")");
-      if(BookRecordings.use == "Child")
+      if (BookRecordings.use == "Child")
       {
-         await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Is\\ your\\ Witness\\ a\\ Child\\,\\ default\\ No\"] div").Nth(2).ClickAsync();
+        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Is\\ your\\ Witness\\ a\\ Child\\,\\ default\\ No\"] div").Nth(2).ClickAsync();
       }
       await Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Save\")");
-      
+
       HooksInitializer.scheduleCount++;
+      HooksInitializer.recordings.Add(caseName);
+
       var successMessage = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=Save Successful");
       await successMessage.WaitForAsync();
       await Task.Run(() => Assert.IsTrue(successMessage.IsVisibleAsync().Result));
@@ -122,9 +124,9 @@ namespace pre.test.pages
 
       var caseScheduled = Page.Frame("fullscreen-app-host").Locator($"div.virtualized-gallery:has-text(\"{caseName}\")");
       await Task.Run(() => Assert.That(caseScheduled.TextContentAsync().Result, Does.Contain($"{caseName}")));
-      if(BookRecordings.use == "Child")
+      if (BookRecordings.use == "Child")
       {
-      await Task.Run(() => Assert.That(caseScheduled.TextContentAsync().Result, Does.Contain("Child")));
+        await Task.Run(() => Assert.That(caseScheduled.TextContentAsync().Result, Does.Contain("Child")));
       }
     }
     public async Task CheckCaseCreated()
@@ -151,7 +153,7 @@ namespace pre.test.pages
       await Task.Run(() => Assert.That(caseNameLocator.AllTextContentsAsync().Result, Does.Contain($"{caseName}")));
 
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div:nth-child(14)").ClickAsync();
-      
+
     }
     public async Task SelectCourt()
     {
@@ -328,7 +330,7 @@ namespace pre.test.pages
       var date = DateTime.UtcNow.ToString("MMddmmss");
 
       caseName = $"AutoT{date}";
-    
+
 
       await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div.combobox-view-chevron.arrowContainer_1kmq8gc-o_O-container_r2h174-o_O-containerColors_rv6t10").First.ClickAsync();
@@ -519,12 +521,12 @@ namespace pre.test.pages
 
     public async Task clickTermsandConditions()
     {
-      
+
       var termslink = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Terms & Conditions\")");
       await termslink.WaitForAsync();
       await Task.Run(() => Assert.IsTrue(termslink.IsVisibleAsync().Result));
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Terms & Conditions\")").ClickAsync();
-     
+
     }
 
     public async Task checkTermsandConditions()
@@ -532,18 +534,18 @@ namespace pre.test.pages
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").FrameLocator("iframe").Locator("#viewer").WaitForAsync();
       var TermsandConditions = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").FrameLocator("iframe").Locator("#viewer");
       //await TermsandConditions.WaitForAsync();
-       await Task.Run(() => Assert.IsTrue(TermsandConditions.IsVisibleAsync().Result));
+      await Task.Run(() => Assert.IsTrue(TermsandConditions.IsVisibleAsync().Result));
     }
     public async Task clickBack()
     {
-     await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Back\")").ClickAsync();
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Back\")").ClickAsync();
     }
     public async Task checkPage()
     {
       var landingpage = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=Pre-Recorded Evidence");
       await Task.Run(() => Assert.IsTrue(landingpage.IsVisibleAsync().Result));
     }
-    
+
     public async Task clickOpenPage()
     {
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Open New Case\")").ClickAsync();

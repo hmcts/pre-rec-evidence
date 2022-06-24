@@ -51,7 +51,7 @@ namespace pre.test.Hooks
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=Super User functions").ClickAsync();
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Add New User\")").ClickAsync();
       await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
-       Hooks.HooksInitializer.contacts.Add($"{ManageUser.createUserFirstName} {ManageUser.createUserLastName}");
+      HooksInitializer.contacts.Add($"{ManageUser.createUserFirstName} {ManageUser.createUserLastName}");
       
     }
 
@@ -96,7 +96,7 @@ namespace pre.test.Hooks
       {
         await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Add New User\")").ClickAsync();
         await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
-         Hooks.HooksInitializer.contacts.Add($"{ManageUser.createUserFirstName} {ManageUser.createUserLastName}");
+        HooksInitializer.contacts.Add($"{ManageUser.createUserFirstName} {ManageUser.createUserLastName}");
       }
     }
 

@@ -18,6 +18,7 @@ namespace pre.test.pages
     public static string emailPassword = config["portalPassword"];
     public static string FAemailToShare = config["2FAportalEmail"];
     public static string FAemailPassword = config["2FAportalPassword"];
+    public static string badPwPortalEmail = config["badPwPortalEmail"];
     public static string caseName = "NODELETEPLS";
     public static string witnessName = "null";
     public static string recordingUID = "null";
@@ -60,7 +61,7 @@ namespace pre.test.pages
       var text = emailsSharedWith.TextContentAsync().Result;
       if (text.Contains($"{emailToShare}"))
       {
-        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text=Item 1. Selected. {emailToShare} >> [aria-label=\"Cases Gallery\"]").ClickAsync();
+        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text=Item 1. Selected. {ExternalPortal.emailToShare} >> [aria-label=\"Cases Gallery\"]").ClickAsync();
         await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
 
         await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Remove Access\")").ClickAsync();
@@ -167,20 +168,17 @@ namespace pre.test.pages
     public async Task enterWrongLogIn()
     {
       await Page.Locator("input[name=\"Email\"]").ClickAsync();
-      await Page.Locator("input[name=\"Email\"]").FillAsync($"{FAemailToShare}");
+      await Page.Locator("input[name=\"Email\"]").FillAsync($"{badPwPortalEmail}");
       await Page.Locator("input[name=\"PasswordValue\"]").ClickAsync();
-      await Page.Locator("input[name=\"PasswordValue\"]").FillAsync($"{FAemailPassword}wrongmwahahah");
+      await Page.Locator("input[name=\"PasswordValue\"]").FillAsync("wrongmwahahah");
       await Page.Locator("input[name=\"PasswordValue\"]").PressAsync("Enter");
     }
 
     public async Task enterWrong2FA()
     {
-      await Page.Locator("input[name=\"Email\"]").ClickAsync();
       await Page.Locator("input[name=\"Email\"]").FillAsync($"{FAemailToShare}");
-      await Page.Locator("input[name=\"PasswordValue\"]").ClickAsync();
       await Page.Locator("input[name=\"PasswordValue\"]").FillAsync($"{FAemailPassword}");
       await Page.Locator("input[name=\"PasswordValue\"]").PressAsync("Enter");
-      await Page.Locator("input[name=\"Code\"]").ClickAsync();
       await Page.Locator("input[name=\"Code\"]").FillAsync("hahaimwrong");
       await Page.Locator("text=Verify").ClickAsync();
     }
@@ -212,9 +210,9 @@ namespace pre.test.pages
         if (use == "pw")
         {
           await Page.Locator("input[name=\"Email\"]").ClickAsync();
-          await Page.Locator("input[name=\"Email\"]").FillAsync($"{FAemailToShare}");
+          await Page.Locator("input[name=\"Email\"]").FillAsync($"{badPwPortalEmail}");
           await Page.Locator("input[name=\"PasswordValue\"]").ClickAsync();
-          await Page.Locator("input[name=\"PasswordValue\"]").FillAsync($"{FAemailPassword}wrongmwahahah");
+          await Page.Locator("input[name=\"PasswordValue\"]").FillAsync($"{badPwPortalEmail}wrongmwahahah");
           await Page.Locator("input[name=\"PasswordValue\"]").PressAsync("Enter");
         }
         else

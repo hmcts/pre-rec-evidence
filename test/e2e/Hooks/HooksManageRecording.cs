@@ -27,9 +27,9 @@ namespace pre.test.Hooks
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Enter your Defendants\\, comma seperated\"]").PressAsync("Tab");
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Enter your Witnesses\\, comma seperated\"]").FillAsync("wit1");
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Save\")").Nth(1).ClickAsync();
-      Hooks.HooksInitializer.caseRef.Add(ManageRecording.caseRef);
-      Hooks.HooksInitializer.contacts.Add("def1");
-      Hooks.HooksInitializer.contacts.Add("wit1");
+      HooksInitializer.caseRef.Add(ManageRecording.caseRef);
+      HooksInitializer.contacts.Add("def1");
+      HooksInitializer.contacts.Add("wit1");
 
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Select Scheduled Start DateOpen calendar to select a date\"]").ClickAsync();
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"[aria-label=\"{ManageRecording.day}\\ {ManageRecording.month}\\ {ManageRecording.date}\\ {ManageRecording.year}\"]").ClickAsync();
@@ -42,6 +42,8 @@ namespace pre.test.Hooks
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=def1 def1").ClickAsync();
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Save\")").First.ClickAsync();
       HooksInitializer.scheduleCount++;
+      HooksInitializer.recordings.Add(ManageRecording.caseRef);
+
       await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
 
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=HMCTS Logo").ClickAsync();

@@ -59,7 +59,7 @@ namespace pre.test.pages
       await Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Save\")");
       await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
       HooksInitializer.scheduleCount++;
-
+      HooksInitializer.recordings.Add(stringCase);
     }
     public async Task FindSchedule()
     {
@@ -178,7 +178,7 @@ namespace pre.test.pages
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Amend\")").ClickAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"[aria-label=\"Select Scheduled Date\\, default Today{updateddate}\\/{updatedmonth}\\/{updatedyear}\\. Open calendar to select a date\"]").ClickAsync();
       await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
-      var dateLocator = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"[aria-label=\"{updatedday} {updatedmonthword} {updateddate} {updatedyear}\\. Selected\\.\"]");                                                                                  
+      var dateLocator = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"[aria-label=\"{updatedday} {updatedmonthword} {updateddate} {updatedyear}\\. Selected\\.\"]");
       await Task.Run(() => Assert.IsTrue(dateLocator.IsVisibleAsync().Result));
     }
 

@@ -30,11 +30,11 @@ namespace pre.test.Hooks
       await HooksInitializer._context.Page.Frame("fullscreen-app-host").ClickAsync("[aria-label=\"Enter\\ your\\ Witnesses\\,\\ comma\\ seperated\"]");
       await HooksInitializer._context.Page.Frame("fullscreen-app-host").FillAsync("[aria-label=\"Enter\\ your\\ Witnesses\\,\\ comma\\ seperated\"]",$"{UpdateSchedule.wit1},\n{UpdateSchedule.wit2}");
       await HooksInitializer._context.Page.Frame("fullscreen-app-host").ClickAsync(":nth-match(button:has-text(\"Save\"), 2)");
-       Hooks.HooksInitializer.caseRef.Add(UpdateSchedule.stringCase);
-      Hooks.HooksInitializer.contacts.Add(UpdateSchedule.def1);
-      Hooks.HooksInitializer.contacts.Add(UpdateSchedule.def2);
-      Hooks.HooksInitializer.contacts.Add(UpdateSchedule.wit1);
-      Hooks.HooksInitializer.contacts.Add(UpdateSchedule.wit2);
+      HooksInitializer.caseRef.Add(UpdateSchedule.stringCase);
+      HooksInitializer.contacts.Add(UpdateSchedule.def1);
+      HooksInitializer.contacts.Add(UpdateSchedule.def2);
+      HooksInitializer.contacts.Add(UpdateSchedule.wit1);
+      HooksInitializer.contacts.Add(UpdateSchedule.wit2);
 
       await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
 

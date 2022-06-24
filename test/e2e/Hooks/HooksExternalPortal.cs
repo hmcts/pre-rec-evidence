@@ -41,6 +41,7 @@ namespace pre.test.Hooks
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Save\")").First.ClickAsync();
       await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
       HooksInitializer.scheduleCount++;
+      HooksInitializer.recordings.Add(ExternalPortal.caseRef);
 
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=HMCTS Logo").ClickAsync();
       await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
@@ -118,6 +119,89 @@ namespace pre.test.Hooks
       await Task.Run(() => Assert.That(mobileWarning.TextContentAsync().Result, Does.Contain("Playback is preferred on non-mobile devices")));
     }
 
+    [BeforeScenario("createAccount", Order = 1)]
+    public async Task createAccount()
+    {
+      await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.testUrl}");
+      await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Admin\")").ClickAsync();
+      await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Manage Users\"]").ClickAsync();
+      await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Add Users\"]").ClickAsync();
+      await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"User First Name\"]").Nth(1).ClickAsync();
+      await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"User First Name\"]").Nth(1).FillAsync("testacc");
+      await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"User First Name\"]").Nth(1).PressAsync("Tab");
+      await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"User Last Name\"]").Nth(1).FillAsync("2");
+      await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"User Last Name\"]").Nth(1).PressAsync("Tab");
+      await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Add User Email\"]").FillAsync($"{ExternalPortal.badPwPortalEmail}");
+      await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Add User Email\"]").PressAsync("Tab");
+      await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"User Phone Number\"]").Nth(1).FillAsync("o");
+      await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"User Phone Number\"]").Nth(1).PressAsync("Tab");
+      await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"User Organisation\"]").Nth(1).FillAsync("o");
+      await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"User Organisation\"]").Nth(1).PressAsync("Tab");
+      await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("#react-combobox-view-5").ClickAsync();
+      await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=External Access via Portal").ClickAsync();
+      await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Add New User\")").ClickAsync();
+      await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+
+      await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.deleteContactsUrlTest}");
+      await HooksInitializer._context.Page.Locator("button:has-text(\"+221 more\")").ClickAsync();
+      await HooksInitializer._context.Page.Locator("text=(Select All) >> div").Nth(2).ClickAsync();
+      await HooksInitializer._context.Page.Locator("[placeholder=\"Search\"]").ClickAsync();
+      await HooksInitializer._context.Page.Locator("[placeholder=\"Search\"]").FillAsync("email");
+      await HooksInitializer._context.Page.Locator(".ms-Checkbox-checkmark").First.ClickAsync();
+      await HooksInitializer._context.Page.Locator("[placeholder=\"Search\"]").ClickAsync();
+      await HooksInitializer._context.Page.Locator("[placeholder=\"Search\"]").FillAsync("email conf");
+      await HooksInitializer._context.Page.Locator("text=").ClickAsync();
+      await HooksInitializer._context.Page.Locator("button:has-text(\"Save\")").ClickAsync();
+
+      await HooksInitializer._context.Page.Locator("div[role=\"button\"]:has-text(\"Email\")").ClickAsync();
+      await HooksInitializer._context.Page.Locator("div[role=\"button\"]:has-text(\"Email\")").ClickAsync();
+      await HooksInitializer._context.Page.Locator("[aria-label=\"Filter by\"]").ClickAsync();
+      await HooksInitializer._context.Page.Locator("[aria-label=\"Filter by value\"]").FillAsync($"{ExternalPortal.badPwPortalEmail}");
+      await HooksInitializer._context.Page.Locator("button:has-text(\"Apply\")").ClickAsync();
+
+      await HooksInitializer._context.Page.Locator("[aria-label=\"\\$Email Confirmed\\, row 0\"]").ClickAsync();
+      await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+
+      await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.deleteContactsUrlTest}");
+      await HooksInitializer._context.Page.Locator("button:has-text(\"+223 more\")").ClickAsync();
+      await HooksInitializer._context.Page.Locator("text=(Select All) >> div").Nth(2).ClickAsync();
+      await HooksInitializer._context.Page.Locator("[placeholder=\"Search\"]").ClickAsync();
+      await HooksInitializer._context.Page.Locator("[placeholder=\"Search\"]").FillAsync("email");
+      await HooksInitializer._context.Page.Locator(".ms-Checkbox-checkmark").First.ClickAsync();
+      await HooksInitializer._context.Page.Locator("[placeholder=\"Search\"]").ClickAsync();
+      await HooksInitializer._context.Page.Locator("[placeholder=\"Search\"]").FillAsync("lockout enabled");
+      await HooksInitializer._context.Page.Locator("text=").ClickAsync();
+      await HooksInitializer._context.Page.Locator("button:has-text(\"Save\")").ClickAsync();
+      await HooksInitializer._context.Page.Locator("[aria-label=\"\\$Lockout Enabled\\, row 0\"]").ClickAsync();
+      await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+
+      await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.deleteContactsUrlTest}");
+      await HooksInitializer._context.Page.Locator("button:has-text(\"+223 more\")").ClickAsync();
+      await HooksInitializer._context.Page.Locator("text=(Select All) >> div").Nth(2).ClickAsync();
+      await HooksInitializer._context.Page.Locator("[placeholder=\"Search\"]").ClickAsync();
+      await HooksInitializer._context.Page.Locator("[placeholder=\"Search\"]").FillAsync("email");
+      await HooksInitializer._context.Page.Locator(".ms-Checkbox-checkmark").First.ClickAsync();
+      await HooksInitializer._context.Page.Locator("[placeholder=\"Search\"]").ClickAsync();
+      await HooksInitializer._context.Page.Locator("[placeholder=\"Search\"]").FillAsync("login enabled");
+      await HooksInitializer._context.Page.Locator("text=").ClickAsync();
+      await HooksInitializer._context.Page.Locator("button:has-text(\"Save\")").ClickAsync();
+      await HooksInitializer._context.Page.Locator("[aria-label=\"\\$Login Enabled\\, row 0\"]").ClickAsync();
+      await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+
+      await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.deleteContactsUrlTest}");
+      await HooksInitializer._context.Page.Locator("button:has-text(\"+223 more\")").ClickAsync();
+      await HooksInitializer._context.Page.Locator("text=(Select All) >> div").Nth(2).ClickAsync();
+      await HooksInitializer._context.Page.Locator("[placeholder=\"Search\"]").ClickAsync();
+      await HooksInitializer._context.Page.Locator("[placeholder=\"Search\"]").FillAsync("email");
+      await HooksInitializer._context.Page.Locator(".ms-Checkbox-checkmark").First.ClickAsync();
+      await HooksInitializer._context.Page.Locator("[placeholder=\"Search\"]").ClickAsync();
+      await HooksInitializer._context.Page.Locator("[placeholder=\"Search\"]").FillAsync("two factor enabled");
+      await HooksInitializer._context.Page.Locator("text=").ClickAsync();
+      await HooksInitializer._context.Page.Locator("button:has-text(\"Save\")").ClickAsync();
+      await HooksInitializer._context.Page.Locator("[aria-label=\"\\$Two Factor Enabled\\, row 0\"]").ClickAsync();
+      await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+    }
+
     [AfterScenario("unSharedRecordingAtPortal", Order = 0)]
     public async Task UnsharedRecordingAtPortal()
     {
@@ -152,61 +236,12 @@ namespace pre.test.Hooks
       await Task.Run(() => Assert.IsFalse(tableCaseRef.IsVisibleAsync().Result));
     }
 
-    [AfterScenario("unlockAccount", Order = 0)]
+    [AfterScenario("unlockAccount", Order = 1)]
     public async Task unlockAccount()
     {
       await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.deleteContactsUrlTest}");
-      await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
-
-      await HooksInitializer._context.Page.Locator("button:has-text(\"+221 more\")").ClickAsync();
-      await HooksInitializer._context.Page.Locator("text=(Select All) >> div").Nth(2).ClickAsync();
-      await HooksInitializer._context.Page.Locator("[placeholder=\"Search\"]").FillAsync("email");
-      await HooksInitializer._context.Page.Locator(".ms-Checkbox-checkmark").First.ClickAsync();
-      await HooksInitializer._context.Page.Locator("button:has-text(\"\")").ClickAsync();
-      await HooksInitializer._context.Page.Locator("[placeholder=\"Search\"]").FillAsync("login enabled");
-      await HooksInitializer._context.Page.Locator("text=").ClickAsync();
-      await HooksInitializer._context.Page.Locator("button:has-text(\"Save\")").ClickAsync();
-      await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
-
-      await HooksInitializer._context.Page.Locator("div[role=\"button\"]:has-text(\"Email\")").ClickAsync();
-      await HooksInitializer._context.Page.Locator("div[role=\"button\"]:has-text(\"Email\")").ClickAsync();
-      await HooksInitializer._context.Page.Locator("[aria-label=\"Filter by\"]").ClickAsync();
-      await HooksInitializer._context.Page.Locator("[aria-label=\"Filter by value\"]").FillAsync($"{ExternalPortal.FAemailToShare}");
-      await HooksInitializer._context.Page.Locator("button:has-text(\"Apply\")").ClickAsync();
-      await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
-
-      await HooksInitializer._context.Page.Locator("button[role=\"switch\"]").ClickAsync();
-      await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
-
-     
-      await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.deleteContactsUrlTest}");
-      await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
-      await HooksInitializer._context.Page.Locator("button[role=\"switch\"]").ClickAsync();
-      await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
-    }
-
-    [AfterScenario("unlockAccount", Order = 1)]
-    public async Task unlockAccount2()
-    {
-      await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.deleteContactsUrlTest}");
-      await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
-
-      await HooksInitializer._context.Page.Locator("button:has-text(\"+223 more\")").ClickAsync();
-      await HooksInitializer._context.Page.Locator("text=(Select All) >> div").Nth(2).ClickAsync();
-      await HooksInitializer._context.Page.Locator("[placeholder=\"Search\"]").FillAsync("email");
-      await HooksInitializer._context.Page.Locator(".ms-Checkbox-checkmark").First.ClickAsync();
-      await HooksInitializer._context.Page.Locator("button:has-text(\"\")").ClickAsync();
-      await HooksInitializer._context.Page.Locator("[placeholder=\"Search\"]").FillAsync("lockout enabled");
-      await HooksInitializer._context.Page.Locator("text=").ClickAsync();
-      await HooksInitializer._context.Page.Locator("button:has-text(\"Save\")").ClickAsync();
-      await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
-
-      await HooksInitializer._context.Page.Locator("button[role=\"switch\"]").ClickAsync();
-      await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
-     
-      await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.deleteContactsUrlTest}");
-      await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
-      await HooksInitializer._context.Page.Locator("button[role=\"switch\"]").ClickAsync();
+      await HooksInitializer._context.Page.Locator("[aria-label=\"select or deselect the row\"]").First.ClickAsync();
+      await HooksInitializer._context.Page.Locator("button[role=\"menuitem\"]:has-text(\"Delete 1 record(s)\")").ClickAsync();
       await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
     }
 

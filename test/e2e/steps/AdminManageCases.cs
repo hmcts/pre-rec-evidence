@@ -89,14 +89,6 @@ namespace pre.test
       await _manageCase.search();
     }
 
-    [Then(@"I can search for it by the case id in manage cases")]
-    public async Task ThenIcansearchforitbythecaseidinmanagecases()
-    {
-      usePage = "super";
-      use = "caseId";
-      await _manageCase.search();
-    }
-
     [Then(@"I can search for it by court in manage cases")]
     public async Task ThenIcansearchforitbycourtinmanagecases()
     {
@@ -156,15 +148,12 @@ namespace pre.test
     [When(@"I delete a case")]
     public async Task WhenIdeleteacase()
     {
-      usePage = "super";
       await _manageCase.deleteCase();
     }
-
 
     [When(@"I restore a case")]
     public async Task WhenIrestoreacase()
     {
-      usePage = "super";
       await _manageCase.restoreCase();
     }
 
@@ -184,6 +173,7 @@ namespace pre.test
     public async Task GivenIhaveacasewitharecoring()
     {
       await _pagesetters.Page.GotoAsync($"{HooksInitializer.testUrl}");
+      await _pagesetters.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
       await _manageCase.goToAdmin();
     }
 
@@ -216,5 +206,12 @@ namespace pre.test
     {
       await _manageCase.cannotEditOrDeleteRecording();
     }
+
+    [Then(@"the witness and defendants cannot be edited")]
+    public async Task Thenthewitnessanddefendantscannotbeedited()
+    {
+      await _manageCase.cannotEditOrDeleteWitDef();
+    }
+
   }
 }
