@@ -6,6 +6,8 @@ Feature: Book Recording
 Scenario: Create Case
   Given all fields entered and click save
   Then case will be created
+  Given i click the reset button
+  Then the fields are empty/reset
 
 #quota test- comment in when needed 
 # @ScheduleCreate 
@@ -28,6 +30,13 @@ Scenario:Create schedule as child witness
 Given i fill required data for creating schedule as a child
 Then the recordings box is filled
 Then schedules will be created
+
+@ScheduleCreate
+Scenario: Create a schedule with more than one witness
+Given all fields entered and click save
+When I try to add more than one witness to the schedule
+Then only one witness is selected
+
 
 @ScheduleCreate 
 Scenario: Create case with all blank values

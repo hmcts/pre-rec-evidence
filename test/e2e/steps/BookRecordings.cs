@@ -310,5 +310,37 @@ namespace pre.test
       await _bookrecording.clickOpenPage();
     }
 
+
+    [Given(@"i click the reset button")]
+    public async Task Giveniclicktheresetbutton()
+    {
+      await _bookrecording.clickReset();
+    }
+
+
+    [Then(@"the fields are empty/reset")]
+    public async Task Thenthefieldsaremptyreset()
+    {
+      await _bookrecording.checkReset();
+    }
+
+
+    [When(@"I try to add more than one witness to the schedule")]
+    public async Task WhenItrytoaddmorethanonewitnesstotheschedule()
+    {
+      await _bookrecording.Schedule2wit();
+    }
+
+
+    [Then(@"only one witness is selected")]
+    public async Task Thenonlyonewitnessisselected()
+    {
+      await _bookrecording.checkWit();
+    }
+
+
+
+
+
   }
 }

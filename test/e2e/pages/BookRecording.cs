@@ -35,8 +35,10 @@ namespace pre.test.pages
       if (BookRecordings.use == "D")
       {
         await Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Home\")");
-        await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
-        await Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Book a Recording\")");
+       
+       var bookbutton = Page.Frame("fullscreen-app-host").Locator("button:has-text(\"Book a Recording\")");
+       await bookbutton.WaitForAsync();
+       await bookbutton.ClickAsync();
       }
       else
       {
@@ -61,13 +63,15 @@ namespace pre.test.pages
       }
       await Page.Frame("fullscreen-app-host").ClickAsync(":nth-match(button:has-text(\"Save\"), 2)");
 
+      //await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+
       if (BookRecordings.use != "D")
       {
-        Hooks.HooksInitializer.caseRef.Add(caseName);
-        Hooks.HooksInitializer.contacts.Add(defendantName);
-        Hooks.HooksInitializer.contacts.Add(witnessName);
-        Hooks.HooksInitializer.contacts.Add($"{defendantName}2");
-        Hooks.HooksInitializer.contacts.Add($"{witnessName}2");
+        HooksInitializer.caseRef.Add(caseName);
+        HooksInitializer.contacts.Add(defendantName);
+        HooksInitializer.contacts.Add(witnessName);
+        HooksInitializer.contacts.Add($"{defendantName}2");
+        HooksInitializer.contacts.Add($"{witnessName}2");
       }
     }
     public async Task gotoBook()
@@ -151,9 +155,7 @@ namespace pre.test.pages
 
       var caseNameLocator = Page.Frame("fullscreen-app-host").Locator("#publishedCanvas div.canvasContentDiv.container_1vt1y2p div div:nth-child(1) div div div div div");
       await Task.Run(() => Assert.That(caseNameLocator.AllTextContentsAsync().Result, Does.Contain($"{caseName}")));
-
-      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div:nth-child(14)").ClickAsync();
-
+      
     }
     public async Task SelectCourt()
     {
@@ -372,15 +374,15 @@ namespace pre.test.pages
 
       var options = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("li[role=\"option\"]");
       await Task.Run(() => Assert.AreEqual(options.CountAsync().Result, 2));
-      await Task.Run(() => Assert.That(options.AllInnerTextsAsync().Result, Does.Contain("value 1")));
-      await Task.Run(() => Assert.That(options.AllInnerTextsAsync().Result, Does.Contain("value 2")));
+      await Task.Run(() => Assert.That(options.AllInnerTextsAsync().Result, Does.Contain("value 3")));
+      await Task.Run(() => Assert.That(options.AllInnerTextsAsync().Result, Does.Contain("value 4")));
 
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Select your Defendants\"]").ClickAsync();
       await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
 
       await Task.Run(() => Assert.AreEqual(options.CountAsync().Result, 2));
-      await Task.Run(() => Assert.That(options.AllInnerTextsAsync().Result, Does.Contain("value 3")));
-      await Task.Run(() => Assert.That(options.AllInnerTextsAsync().Result, Does.Contain("value 4")));
+      await Task.Run(() => Assert.That(options.AllInnerTextsAsync().Result, Does.Contain("value 1")));
+      await Task.Run(() => Assert.That(options.AllInnerTextsAsync().Result, Does.Contain("value 2")));
     }
     public async Task checkDuplicateErrorMessage()
     {
@@ -550,6 +552,40 @@ namespace pre.test.pages
     {
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Open New Case\")").ClickAsync();
     }
+    public async Task clickReset()
+    {
+    await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div:nth-child(14)").ClickAsync();
+    }
+    public async Task checkReset()
+    {
+    var courtdropdwn = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div.combobox-view-chevron.arrowContainer_1kmq8gc-o_O-container_r2h174-o_O-containerColors_rv6t10").First;
+    await Task.Run(() => Assert.AreEqual(courtdropdwn.InnerTextAsync().Result, ""));
 
+    var caseRefField = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Case\\ Number\\ \\\\\\ URN\"]").First;
+    await Task.Run(() => Assert.AreEqual(caseRefField.InnerTextAsync().Result, ""));
+
+    var deffield = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Enter\\ your\\ Defendants\\,\\ comma\\ seperated\"]");
+    await Task.Run(() => Assert.AreEqual(deffield.InnerTextAsync().Result, ""));
+
+    var witfield = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Enter\\ your\\ Witnesses\\,\\ comma\\ seperated\"]");
+    await Task.Run(() => Assert.AreEqual(witfield.InnerTextAsync().Result, ""));
+    }
+
+    public async Task Schedule2wit()
+    {
+       await Page.Frame("fullscreen-app-host").ClickAsync("[aria-label=\"Select\\ your\\ Witness\"]");
+      await Page.Frame("fullscreen-app-host").ClickAsync($"[aria-label=\"Select\\ your\\ Witness\\ items\"] div:has-text(\"{witnessName}\")");
+       
+       await Page.Frame("fullscreen-app-host").ClickAsync($"[aria-label=\"Select\\ your\\ Witness\\.\\ Selected\\:\\ {witnessName}\"]");
+        await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+       await Page.Frame("fullscreen-app-host").ClickAsync($"text={witnessName}2");
+
+    }
+
+    public async Task checkWit()
+    {
+       var witdropdwn = Page.Frame("fullscreen-app-host").Locator($"[aria-label=\"Select\\ your\\ Witness\\.\\ Selected\\:\\ {witnessName}2\"]");
+       await Task.Run(() => Assert.AreEqual(witdropdwn.InnerTextAsync().Result,($"{witnessName}2")));
+    }
   }
 }
