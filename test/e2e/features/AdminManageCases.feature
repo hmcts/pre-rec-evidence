@@ -1,12 +1,12 @@
 Feature: Admin > Manage Case
 TBC
 
-# # - Only one court in MVP - test not needed currently
-# # @CreateAndManageCase @CreateAndManageCaseAndSchedule @AdminManageCases @RevertCourt
-# # Scenario: Update Court
-# #   Given I update the court on a case
-# #   Then the court will be updated in book recordings
-# #   Then the court will be updated in manage recordings
+# - Only one court in MVP - test not needed currently
+# @CreateAndManageCase @CreateAndManageCaseAndSchedule @AdminManageCases @RevertCourt
+# Scenario: Update Court
+#   Given I update the court on a case
+#   Then the court will be updated in book recordings
+#   Then the court will be updated in manage recordings
 
 @CreateAndManageCase @CreateAndManageCaseAndSchedule @AdminManageCases @RevertDateCase
   Scenario: Update Scheduled date
@@ -66,8 +66,7 @@ Scenario: Remove case reference in schedule details
   Given I have created a case to search for
   Then I cannot remove the case reference in schedule details
 
-# Figure me out mwahahahhha
-# @CreateAndManageCase @AdminManageCases 
-# Scenario: Update case ref with existing case 
-#   Given I update the case ref on a case
-#   Then an error message stating the case already exists will be displayed
+@CreateAndManageCase @AdminManageCases 
+Scenario: Update case ref with existing case 
+  Given I update the case ref on a case
+  Then an error message stating the case already exists will be displayed

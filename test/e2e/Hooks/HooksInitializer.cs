@@ -53,6 +53,9 @@ namespace pre.test.Hooks
     [AfterScenario(Order = 2)]
     public async Task cleanUpEnv()
     {
+      await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
+      await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+
       if (scheduleCount > 0)
       {
         await HooksInitializer._context.Page.GotoAsync($"{deleteScheduleUrlTest}");
@@ -67,22 +70,20 @@ namespace pre.test.Hooks
         await HooksInitializer._context.Page.Locator("div[role=\"button\"]:has-text(\"Created On\")").ClickAsync();
         await HooksInitializer._context.Page.Locator("div[role=\"button\"]:has-text(\"Created On\")").ClickAsync();
         await HooksInitializer._context.Page.Locator("[aria-label=\"Newer to older\"]").ClickAsync();
-        await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
 
         for (int i = 0; i < scheduleCount; i++)
         {
           await HooksInitializer._context.Page.Locator($"text={deleteOwner}").Nth(1).ClickAsync();
           await HooksInitializer._context.Page.Locator("button[role=\"menuitem\"]:has-text(\"Delete\")").ClickAsync();
-          if (i != scheduleCount - 1)
-          {
-            await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
-          }
+          await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
+          await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
         }
       }
 
       if (caseRef.Count > 0)
       {
         await HooksInitializer._context.Page.GotoAsync($"{deleteCaseUrlTest}");
+
         await HooksInitializer._context.Page.Locator("button:has-text(\"more\")").WaitForAsync();
 
         await HooksInitializer._context.Page.Locator("button:has-text(\"more\")").ClickAsync();
@@ -94,17 +95,14 @@ namespace pre.test.Hooks
         await HooksInitializer._context.Page.Locator("div[role=\"button\"]:has-text(\"Created On\")").ClickAsync();
         await HooksInitializer._context.Page.Locator("div[role=\"button\"]:has-text(\"Created On\")").ClickAsync();
         await HooksInitializer._context.Page.Locator("[aria-label=\"Newer to older\"]").ClickAsync();
-        await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
-
 
         for (int j = 0; j < caseRef.Count; j++)
         {
           await HooksInitializer._context.Page.Locator($"text={caseRef[j]}").First.ClickAsync();
           await HooksInitializer._context.Page.Locator("button[role=\"menuitem\"]:has-text(\"Delete\")").ClickAsync();
-          if (j != caseRef.Count - 1)
-          {
-            await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
-          }
+          await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
+          await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+
         }
       }
       if (recordings.Count > 0)
@@ -121,23 +119,21 @@ namespace pre.test.Hooks
         await HooksInitializer._context.Page.Locator("div[role=\"button\"]:has-text(\"Created On\")").ClickAsync();
         await HooksInitializer._context.Page.Locator("div[role=\"button\"]:has-text(\"Created On\")").ClickAsync();
         await HooksInitializer._context.Page.Locator("[aria-label=\"Newer to older\"]").ClickAsync();
-        await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
 
         for (int j = 0; j < recordings.Count; j++)
         {
           await HooksInitializer._context.Page.Locator($"text={recordings[j]}").First.ClickAsync();
           await HooksInitializer._context.Page.Locator("button[role=\"menuitem\"]:has-text(\"Delete\")").ClickAsync();
-          if (j != recordings.Count - 1)
-          {
-            await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
-          }
+          await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
+          await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+
         }
       }
       if (contacts.Count > 0)
       {
         await HooksInitializer._context.Page.GotoAsync($"{deleteContactsUrlTest}");
-        await HooksInitializer._context.Page.Locator("button:has-text(\"more\")").WaitForAsync();
 
+        await HooksInitializer._context.Page.Locator("button:has-text(\"more\")").WaitForAsync();
         await HooksInitializer._context.Page.Locator("button:has-text(\"more\")").ClickAsync();
         await HooksInitializer._context.Page.Locator(".ms-Checkbox-checkbox").First.ClickAsync();
         await HooksInitializer._context.Page.Locator("text=Full Name (Primary) >> i").First.ClickAsync();
@@ -157,16 +153,13 @@ namespace pre.test.Hooks
         await HooksInitializer._context.Page.Locator("[aria-label=\"Filter by\"]").ClickAsync();
         await HooksInitializer._context.Page.Locator("[aria-label=\"Filter by value\"]").FillAsync($"{deleteOwner}");
         await HooksInitializer._context.Page.Locator("button:has-text(\"Apply\")").ClickAsync();
-        await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
 
         for (int i = 0; i < contacts.Count; i++)
         {
           await HooksInitializer._context.Page.Locator($"text={contacts[i]}").First.ClickAsync();
           await HooksInitializer._context.Page.Locator("button[role=\"menuitem\"]:has-text(\"Delete\")").ClickAsync();
-          if (i != contacts.Count - 1)
-          {
-            await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
-          }
+          await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
+          await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
         }
       }
       scheduleCount = 0;
@@ -192,7 +185,7 @@ namespace pre.test.Hooks
     {
       playwright = await Playwright.CreateAsync();
       //BrowserTypeLaunchOptions typeLaunchOptions = new BrowserTypeLaunchOptions{ Headless = false };
-      BrowserTypeLaunchOptions typeLaunchOptions = new BrowserTypeLaunchOptions { Headless = headless, SlowMo = 50};
+      BrowserTypeLaunchOptions typeLaunchOptions = new BrowserTypeLaunchOptions { Headless = headless, SlowMo = 50 };
       browser = await playwright.Chromium.LaunchAsync(typeLaunchOptions);
       //context = await browser.NewContextAsync();
       context = await browser.NewContextAsync(new BrowserNewContextOptions { StorageStatePath = $"{authPath}", });
