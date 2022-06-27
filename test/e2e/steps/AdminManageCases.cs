@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 using TechTalk.SpecFlow;
 using pre.test.pages;
 using pre.test.Hooks;
-
+using Microsoft.Playwright;
 
 namespace pre.test
 {
@@ -32,12 +32,6 @@ namespace pre.test
       await _manageCase.checkCourtManageRecordings();
     }
 
-    [Then(@"the court will be updated in view recordings")]
-    public async Task Thenthecourtwillbeupdatedinviewrecordings()
-    {
-      await _manageCase.checkCourtViewRecordings();
-    }
-
     [Then(@"the court will be updated in book recordings")]
     public async Task Thenthecourtwillbeupdatedinbookrecordings()
     {
@@ -62,16 +56,10 @@ namespace pre.test
       await _manageCase.checkDateManageRecordings();
     }
 
-
-    [Then(@"the scheduled date will be updated in view recordings")]
-    public async Task Thenthescheduleddatewillbeupdatedinviewrecordings()
-    {
-      await _manageCase.checkDateViewRecordings();
-    }
-
     [Given(@"I have created a case to search for")]
     public async Task GivenIhavecreatedacase()
     {
+      await _pagesetters.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
       await _manageCase.checkCaseCreated();
     }
 
@@ -173,7 +161,7 @@ namespace pre.test
     public async Task GivenIhaveacasewitharecoring()
     {
       await _pagesetters.Page.GotoAsync($"{HooksInitializer.testUrl}");
-      await _pagesetters.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+      await _pagesetters.Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
       await _manageCase.goToAdmin();
     }
 

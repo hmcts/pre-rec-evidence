@@ -83,26 +83,19 @@ namespace pre.test.Hooks
 
         await HooksInitializer._context.Page.Locator("[aria-label=\"Newer to older\"]").ClickAsync();
 
-
         for (int i = 0; i < scheduleCount; i++)
 
         {
 
           await HooksInitializer._context.Page.Locator($"text={deleteOwner}").Nth(1).ClickAsync();
-          var time = (DateTime.UtcNow);
 
-          var futureTime = (DateTime.UtcNow).AddMinutes(7);
           if (HooksInitializer._context.Page.Locator("button[role=\"menuitem\"]:has-text(\"Delete\")").IsVisibleAsync().Result == false)
           {
             await HooksInitializer._context.Page.ReloadAsync();
             await HooksInitializer._context.Page.Locator($"text={deleteOwner}").Nth(1).ClickAsync();
           }
 
-
           await HooksInitializer._context.Page.Locator("button[role=\"menuitem\"]:has-text(\"Delete\")").ClickAsync();
-
-
-
         }
 
       }
@@ -113,6 +106,7 @@ namespace pre.test.Hooks
       {
 
         await HooksInitializer._context.Page.GotoAsync($"{deleteCaseUrlTest}");
+
         await HooksInitializer._context.Page.Locator("button:has-text(\"more\")").WaitForAsync();
         await HooksInitializer._context.Page.Locator("button:has-text(\"more\")").ClickAsync();
         await HooksInitializer._context.Page.Locator("[placeholder=\"Search\"]").ClickAsync();
@@ -123,14 +117,10 @@ namespace pre.test.Hooks
         await HooksInitializer._context.Page.Locator("div[role=\"button\"]:has-text(\"Created On\")").ClickAsync();
         await HooksInitializer._context.Page.Locator("[aria-label=\"Newer to older\"]").ClickAsync();
 
-         for (int j = 0; j < caseRef.Count; j++)
-
+        for (int j = 0; j < caseRef.Count; j++)
         {
-
           await HooksInitializer._context.Page.Locator($"text={caseRef[j]}").First.ClickAsync();
-          var time = (DateTime.UtcNow);
 
-          var futureTime = (DateTime.UtcNow).AddMinutes(7);
           if (HooksInitializer._context.Page.Locator("button[role=\"menuitem\"]:has-text(\"Delete\")").IsVisibleAsync().Result == false)
           {
             await HooksInitializer._context.Page.ReloadAsync();
@@ -138,6 +128,7 @@ namespace pre.test.Hooks
           }
 
           await HooksInitializer._context.Page.Locator("button[role=\"menuitem\"]:has-text(\"Delete\")").ClickAsync();
+
         }
 
       }
@@ -174,9 +165,7 @@ namespace pre.test.Hooks
         {
 
           await HooksInitializer._context.Page.Locator($"text={recordings[j]}").First.ClickAsync();
-          var time = (DateTime.UtcNow);
-
-          var futureTime = (DateTime.UtcNow).AddMinutes(7);
+          
           if (HooksInitializer._context.Page.Locator("button[role=\"menuitem\"]:has-text(\"Delete\")").IsVisibleAsync().Result == false)
           {
             await HooksInitializer._context.Page.ReloadAsync();
@@ -184,8 +173,6 @@ namespace pre.test.Hooks
           }
 
           await HooksInitializer._context.Page.Locator("button[role=\"menuitem\"]:has-text(\"Delete\")").ClickAsync();
-
-
         }
 
       }
@@ -199,6 +186,7 @@ namespace pre.test.Hooks
 
         await HooksInitializer._context.Page.Locator("button:has-text(\"more\")").WaitForAsync();
 
+        await HooksInitializer._context.Page.Locator("button:has-text(\"more\")").WaitForAsync();
         await HooksInitializer._context.Page.Locator("button:has-text(\"more\")").ClickAsync();
 
         await HooksInitializer._context.Page.Locator(".ms-Checkbox-checkbox").First.ClickAsync();
@@ -235,16 +223,13 @@ namespace pre.test.Hooks
 
         await HooksInitializer._context.Page.Locator("button:has-text(\"Apply\")").ClickAsync();
 
-
         for (int i = 0; i < contacts.Count; i++)
 
         {
 
           await HooksInitializer._context.Page.Locator($"text={contacts[i]}").First.ClickAsync();
 
-          var time = (DateTime.UtcNow);
-
-          var futureTime = (DateTime.UtcNow).AddMinutes(7);
+         
 
           if (HooksInitializer._context.Page.Locator("button[role=\"menuitem\"]:has-text(\"Delete\")").IsVisibleAsync().Result == false)
           {
@@ -252,9 +237,10 @@ namespace pre.test.Hooks
             await HooksInitializer._context.Page.Locator($"text={contacts[i]}").First.ClickAsync();
           }
 
+
           await HooksInitializer._context.Page.Locator("button[role=\"menuitem\"]:has-text(\"Delete\")").ClickAsync();
-
-
+          await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
+          await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
         }
 
       }

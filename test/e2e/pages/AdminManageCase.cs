@@ -73,22 +73,7 @@ namespace pre.test.pages
       var courtDropdown = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"[aria-label=\"Courts\\. Selected\\: {newCourt}\"]");
       await Task.Run(() => Assert.IsTrue(courtDropdown.IsVisibleAsync().Result));
     }
-    public async Task checkCourtViewRecordings()
-    {
-      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=HMCTS Logo").ClickAsync();
-      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"View Recordings\")").WaitForAsync();
 
-      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"View Recordings\")").ClickAsync();
-      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Search case ref\"]").ClickAsync();
-      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Search case ref\"]").FillAsync($"{caseRef}");
-
-      var caseInfo = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("#publishedCanvas  div:nth-child(20) div.virtualized-gallery.hideScrollbar div div div:nth-child(1)  div.canvasContentDiv.container_1vt1y2p");
-      await caseInfo.WaitForAsync();
-      await Task.Run(() => Assert.That(caseInfo.InnerTextAsync().Result, Does.Contain($"{newCourt}")));
-
-      var caseInfoGreyBox = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div:nth-child(39) .appmagic-borderfill-container .appmagic-border-inner .react-knockout-control .appmagic-label .appmagic-label-text");
-      await Task.Run(() => Assert.That(caseInfo.InnerTextAsync().Result, Does.Contain($"{newCourt}")));
-    }
     public async Task checkCourtBookRecordings()
     {
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=HMCTS Logo").ClickAsync();
@@ -105,6 +90,7 @@ namespace pre.test.pages
     }
     public async Task updateDate()
     {
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Case Ref \\\\ URN \\\\ ID \\\\ Court\"]").First.FillAsync($"{HooksAdminManageCases.caseName}");
       await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
 
@@ -129,7 +115,8 @@ namespace pre.test.pages
       scheduleDateString = scheduleDateLocator.TextContentAsync().Result.ToString().Trim();
       scheduleDateString = scheduleDateString.Substring(scheduleDateString.LastIndexOf(':') + 1).Trim();
 
-      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+      await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"[aria-label='Edit Schedule']").WaitForAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"[aria-label='Edit Schedule']").ClickAsync();
 
@@ -154,29 +141,40 @@ namespace pre.test.pages
       {
         await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Next Month\"]").ClickAsync();
       }
-      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"[aria-label=\"{tomorrow} {tomoMonthWord} {tomoDateNum} {tomoYear}\"]").WaitForAsync();
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+      await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"[aria-label=\"{tomorrow} {tomoMonthWord} {tomoDateNum} {tomoYear}\"]").ClickAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button[role=\"button\"]:has-text(\"Ok\")").ClickAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div:nth-child(128) .appmagic-borderfill-container .appmagic-border-inner .react-knockout-control .powerapps-icon").ClickAsync();
       await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+      await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
 
       await Task.Run(() => Assert.That(scheduleDateLocator.InnerTextAsync().Result, Does.Contain($"{newScheduleDate}")));
     }
     public async Task checkDateBookRecordings()
     {
+      await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+      await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=HMCTS Logo").ClickAsync();
-      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Book a Recording\")").WaitForAsync();
+      await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+      await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Book a Recording\")").ClickAsync();
+
+      await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+      await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator(" div.combobox-view-chevron.arrowContainer_1kmq8gc-o_O-container_r2h174-o_O-containerColors_rv6t10").First.WaitForAsync();
 
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator(" div.combobox-view-chevron.arrowContainer_1kmq8gc-o_O-container_r2h174-o_O-containerColors_rv6t10").First.ClickAsync();
-      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"li[role=\"option\"]:has-text(\"{court}\")").ClickAsync();
-      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Case Number \\\\ URN\"]").First.FillAsync($"{caseRef}");
-      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator(".container_1f0sgyp div:nth-child(2) .react-knockout-control .appmagic-svg").First.WaitForAsync();
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"li[role=\"option\"]:has-text(\"{HooksAdminManageCases.court}\")").ClickAsync();
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Case Number \\\\ URN\"]").First.FillAsync($"{HooksAdminManageCases.caseName}");
+      await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+      await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
 
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator(".container_1f0sgyp div:nth-child(2) .react-knockout-control .appmagic-svg").First.WaitForAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator(".container_1f0sgyp div:nth-child(2) .react-knockout-control .appmagic-svg").First.ClickAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Modify\")").ClickAsync();
       await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Save\")").Nth(2).ClickAsync();
       await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
 
@@ -187,44 +185,32 @@ namespace pre.test.pages
     {
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=HMCTS Logo").ClickAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Manage Recordings\")").Nth(1).WaitForAsync();
-
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Manage Recordings\")").Nth(1).ClickAsync();
+      await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
+
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Search Case Ref\"]").ClickAsync();
-      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Search Case Ref\"]").FillAsync($"{caseRef}");
-      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Search Case Ref\"]").FillAsync($"{HooksAdminManageCases.caseName}");
+      await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
 
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Amend\")").First.ClickAsync();
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Session Date\"]").ClickAsync();
+      await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
 
       var scheduleDateManage = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"[aria-label=\"{tomorrow} {tomoMonthWord} {tomoDateNum} {tomoYear}\\. Selected\\.\"]");
       await Task.Run(() => Assert.IsTrue(scheduleDateManage.IsVisibleAsync().Result));
     }
-    public async Task checkDateViewRecordings()
-    {
-      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=HMCTS Logo").ClickAsync();
-      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"View Recordings\")").WaitForAsync();
-
-      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"View Recordings\")").ClickAsync();
-      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Search case ref\"]").ClickAsync();
-      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Search case ref\"]").FillAsync($"{caseRef}");
-
-      var scheduleDateView = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("#publishedCanvas  div:nth-child(20) div.virtualized-gallery.hideScrollbar div div div:nth-child(1)  div.canvasContentDiv.container_1vt1y2p");
-      await scheduleDateView.WaitForAsync();
-      await Task.Run(() => Assert.That(scheduleDateView.InnerTextAsync().Result, Does.Contain($"{newScheduleDate}")));
-
-      var scheduleDateViewGreyBox = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text=Date: {newScheduleDate}").Nth(1);
-      await Task.Run(() => Assert.IsTrue(scheduleDateViewGreyBox.IsVisibleAsync().Result));
-    }
     public async Task checkCaseCreated()
     {
-      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=HMCTS Logo").WaitForAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=HMCTS Logo").ClickAsync();
       await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Book a Recording\")").ClickAsync();
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
 
-      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator(" div.combobox-view-chevron.arrowContainer_1kmq8gc-o_O-container_r2h174-o_O-containerColors_rv6t10").First.WaitForAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator(" div.combobox-view-chevron.arrowContainer_1kmq8gc-o_O-container_r2h174-o_O-containerColors_rv6t10").First.ClickAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=Leeds").First.ClickAsync();
+
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Case Number \\\\ URN\"]").First.FillAsync($"{HooksAdminManageCases.caseName}");
       await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
 
@@ -232,6 +218,7 @@ namespace pre.test.pages
       await exists.WaitForAsync();
       await Task.Run(() => Assert.IsTrue(exists.IsVisibleAsync().Result));
       await exists.ClickAsync();
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
 
       caseIdToSearch = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div:nth-child(16)").InnerTextAsync().Result.ToString().Trim();
       caseIdToSearch = caseIdToSearch.Substring(caseIdToSearch.LastIndexOf(':') + 1).Trim();
@@ -273,36 +260,43 @@ namespace pre.test.pages
     public async Task deleteCase()
     {
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=HMCTS Logo").ClickAsync();
-
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Admin\")").ClickAsync();
-
-      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Manage Cases\"]").First.ClickAsync();
-      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Case Ref \\\\ URN \\\\ ID \\\\ Court\"]").First.FillAsync($"{HooksAdminManageCases.caseName}");
       await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
 
-      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Delete Case\"]").WaitForAsync();
-      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Delete Case\"]").ClickAsync();
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Manage Cases\"]").First.ClickAsync();
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Case Ref \\\\ URN \\\\ ID \\\\ Court\"]").First.FillAsync($"{HooksAdminManageCases.caseName}");
+      await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
+
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Delete Case\"]").First.ClickAsync();
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Close Case\"]").First.ClickAsync();
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Delete Case\"]").First.ClickAsync();
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
 
       var title = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=There are no scheduled Recordings for this Case.");
-      await title.WaitForAsync();
       await Task.Run(() => Assert.IsTrue(title.IsVisibleAsync().Result));
 
       var courtTitle = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text=Court: {HooksAdminManageCases.court}").First;
-      await Task.Run(() => Assert.IsTrue(courtTitle.IsVisibleAsync().Result));
+      await Task.Run(() => Assert.That(courtTitle.TextContentAsync().Result, Does.Contain($"{HooksAdminManageCases.court}")));
+
       var caseRefTitle = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div:nth-child(42) .appmagic-borderfill-container .appmagic-border-inner .react-knockout-control .appmagic-label").First;
       await Task.Run(() => Assert.That(caseRefTitle.TextContentAsync().Result, Does.Contain($"{HooksAdminManageCases.caseName}")));
 
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Delete\")").Nth(1).ClickAsync();
-      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+
+      await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+      await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
     }
     public async Task checkCaseDelete()
     {
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=HMCTS Logo").ClickAsync();
-      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Book a Recording\")").WaitForAsync();
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
 
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Book a Recording\")").ClickAsync();
-      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator(" div.combobox-view-chevron.arrowContainer_1kmq8gc-o_O-container_r2h174-o_O-containerColors_rv6t10").First.WaitForAsync();
-
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator(" div.combobox-view-chevron.arrowContainer_1kmq8gc-o_O-container_r2h174-o_O-containerColors_rv6t10").First.ClickAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"ul[role=\"listbox\"] div:has-text(\"{HooksAdminManageCases.court}\")").ClickAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Case Number \\\\ URN\"]").First.WaitForAsync();
@@ -322,11 +316,13 @@ namespace pre.test.pages
 
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Manage Cases\"]").First.ClickAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Case Ref \\\\ URN \\\\ ID \\\\ Court\"]").First.FillAsync($"{HooksAdminManageCases.caseName}");
-      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+      await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+
 
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Restore Case\"]").WaitForAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Restore Case\"]").ClickAsync();
-      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+      await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+
     }
     public async Task checkBookNotSchedule()
     {
@@ -334,6 +330,7 @@ namespace pre.test.pages
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Book a Recording\")").WaitForAsync();
 
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Book a Recording\")").ClickAsync();
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator(" div.combobox-view-chevron.arrowContainer_1kmq8gc-o_O-container_r2h174-o_O-containerColors_rv6t10").First.WaitForAsync();
 
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator(" div.combobox-view-chevron.arrowContainer_1kmq8gc-o_O-container_r2h174-o_O-containerColors_rv6t10").First.ClickAsync();
@@ -345,7 +342,11 @@ namespace pre.test.pages
       await Task.Run(() => Assert.IsTrue(results.IsVisibleAsync().Result));
 
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator(".container_1f0sgyp div:nth-child(2) .react-knockout-control .appmagic-svg").ClickAsync();
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Modify\")").ClickAsync();
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Save\")").Nth(2).ClickAsync();
 
       var checkSchedule = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Delete Recording\"]");
@@ -361,6 +362,8 @@ namespace pre.test.pages
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Manage Cases\"]").First.WaitForAsync();
 
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Manage Cases\"]").First.ClickAsync();
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Case Ref \\\\ URN \\\\ ID \\\\ Court\"]").First.FillAsync($"{HooksAdminManageCases.caseName}");
       await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
 
@@ -415,11 +418,13 @@ namespace pre.test.pages
 
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Admin\")").ClickAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Manage Cases\"]").First.ClickAsync();
-      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+      await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
+
 
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Case Ref \\\\ URN \\\\ ID \\\\ Court\"]").First.ClickAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Case Ref \\\\ URN \\\\ ID \\\\ Court\"]").First.FillAsync($"{HooksAdminManageCases.caseName}");
-      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+      await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
+
 
       if (AdminManageCases.use == "schedule")
       {
@@ -440,8 +445,8 @@ namespace pre.test.pages
       }
       else
       {
-        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Edit Case\"]").WaitForAsync();
-        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Edit Case\"]").ClickAsync();
+        await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
+        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Edit Case\"]").First.ClickAsync();
         await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Case Reference\"]").ClickAsync();
         await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Case Reference\"]").FillAsync("");
 
@@ -456,18 +461,27 @@ namespace pre.test.pages
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Case Ref \\\\ URN \\\\ ID \\\\ Court\"]").First.FillAsync($"{HooksAdminManageCases.court}");
       await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
 
+
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Edit Case\"]").Nth(1).ClickAsync();
       await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+      await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
+
 
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Case\\ Reference\"]").ClickAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Case\\ Reference\"]").FillAsync($"{HooksAdminManageCases.caseName}");
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+      await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
+
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div[role=\"button\"]:has-text(\"Save Case\")").ClickAsync();
       await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+      await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
     }
     public async Task checkDuplicateErrorMessage()
     {
       var DuplicateError = Page.Locator("text=Case Reference already exists.");
-      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+      await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+      await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
+
       await Task.Run(() => Assert.IsTrue(DuplicateError.IsVisibleAsync().Result));
     }
 
@@ -476,23 +490,32 @@ namespace pre.test.pages
     {
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Admin\")").ClickAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Manage Cases\"]").First.ClickAsync();
-      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Case Ref \\\\ URN \\\\ ID \\\\ Court\"]").ClickAsync();
-      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Case Ref \\\\ URN \\\\ ID \\\\ Court\"]").FillAsync($"{recording}");
-      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text=Case Ref: {recording}").ClickAsync();
-      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div:nth-child(48)  div.virtualized-gallery > div > div > div").WaitForAsync();
+      await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+      await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
 
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Case Ref \\\\ URN \\\\ ID \\\\ Court\"]").ClickAsync();
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Case Ref \\\\ URN \\\\ ID \\\\ Court\"]").FillAsync($"{recording}"); await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+      await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
+      await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text=Case Ref: {recording}").ClickAsync();
+      await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
+      await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div:nth-child(48)  div.virtualized-gallery > div > div > div").ClickAsync();
+      await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
+      await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
     }
 
     public async Task restoreScheduleCase()
     {
       await Page.ReloadAsync();
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Admin\")").ClickAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Manage Cases\"]").First.ClickAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Case Ref \\\\ URN \\\\ ID \\\\ Court\"]").First.WaitForAsync();
 
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Case Ref \\\\ URN \\\\ ID \\\\ Court\"]").First.FillAsync($"{HooksAdminManageCases.caseName}");
-      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text=Case Ref: {HooksAdminManageCases.caseName}").WaitForAsync();
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
 
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Restore Case\"]").WaitForAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Restore Case\"]").ClickAsync();
@@ -531,6 +554,9 @@ namespace pre.test.pages
 
     public async Task cannotEditOrDeleteSchedule()
     {
+      await Page.WaitForLoadStateAsync(LoadState.Load);
+      await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
+
       var editButton = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Edit Schedule\"]");
       await Task.Run(() => Assert.IsTrue(editButton.IsDisabledAsync().Result));
 
@@ -550,21 +576,27 @@ namespace pre.test.pages
     public async Task cannotEditOrDeleteWitDef()
     {
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=HMCTS Logo").ClickAsync();
+      await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Book a Recording\")").WaitForAsync();
-
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Book a Recording\")").ClickAsync();
-      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator(" div.combobox-view-chevron.arrowContainer_1kmq8gc-o_O-container_r2h174-o_O-containerColors_rv6t10").First.WaitForAsync();
+      await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
 
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator(" div.combobox-view-chevron.arrowContainer_1kmq8gc-o_O-container_r2h174-o_O-containerColors_rv6t10").First.WaitForAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator(" div.combobox-view-chevron.arrowContainer_1kmq8gc-o_O-container_r2h174-o_O-containerColors_rv6t10").First.ClickAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=Leeds").ClickAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Case Number \\\\ URN\"]").First.ClickAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Case Number \\\\ URN\"]").First.FillAsync($"{recording}");
-      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator(".container_1f0sgyp div:nth-child(2) .react-knockout-control .appmagic-svg").WaitForAsync();
 
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator(".container_1f0sgyp div:nth-child(2) .react-knockout-control .appmagic-svg").WaitForAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator(".container_1f0sgyp div:nth-child(2) .react-knockout-control .appmagic-svg").ClickAsync();
-      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+      await Page.WaitForLoadStateAsync(LoadState.Load);
+      await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
 
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Modify\")").ClickAsync();
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=Role:").First.ClickAsync();
 
       for (int i = 0; i < 2; i++)
       {
