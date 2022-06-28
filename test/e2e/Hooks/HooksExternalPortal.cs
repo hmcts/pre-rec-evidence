@@ -83,7 +83,7 @@ namespace pre.test.Hooks
     public async Task SharedRecordingAtPortal()
     {
       await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.testUrl}");
-      await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+      await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
 
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"View Recordings\")").ClickAsync();
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Search\\ case\\ ref\"]").ClickAsync();
