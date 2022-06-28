@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using TechTalk.SpecFlow;
 using pre.test.pages;
 using NUnit.Framework;
+using Microsoft.Playwright;
 
 namespace pre.test.Hooks
 {
@@ -17,13 +18,12 @@ namespace pre.test.Hooks
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("ul[role=\"listbox\"] div:has-text(\"Leeds\")").ClickAsync();
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Case Number \\\\ URN\"]").First.ClickAsync();
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Case Number \\\\ URN\"]").First.FillAsync($"{ExternalPortal.caseRef}");
-      
+
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Enter your Defendants\\, comma seperated\"]").ClickAsync();
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Enter your Defendants\\, comma seperated\"]").FillAsync("def1");
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Enter your Defendants\\, comma seperated\"]").PressAsync("Tab");
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Enter your Witnesses\\, comma seperated\"]").FillAsync("wit1");
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Save\")").Nth(1).ClickAsync();
-      await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
 
       Hooks.HooksInitializer.caseRef.Add(ExternalPortal.caseRef);
 
@@ -31,59 +31,64 @@ namespace pre.test.Hooks
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"[aria-label=\"{ExternalPortal.day}\\ {ExternalPortal.month}\\ {ExternalPortal.dateNum}\\ {ExternalPortal.year}\"]").ClickAsync();
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button[role=\"button\"]:has-text(\"Ok\")").ClickAsync();
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Select your Witness\"]").ClickAsync();
-      await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
-
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("li[role=\"option\"] div:has-text(\"wit1 wit1\")").ClickAsync();
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Select your Defendants\"]").ClickAsync();
-      await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
-
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=def1 def1").ClickAsync();
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Save\")").First.ClickAsync();
-      await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
       HooksInitializer.scheduleCount++;
       HooksInitializer.recordings.Add(ExternalPortal.caseRef);
+      await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+      await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
 
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=HMCTS Logo").ClickAsync();
-      await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+      await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+      await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
 
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Manage Recordings\")").Nth(1).ClickAsync();
-      await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+      await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+      await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
 
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Search Case Ref\"]").ClickAsync();
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Search Case Ref\"]").FillAsync($"{ExternalPortal.caseRef}");
-      await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+      await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+      await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
 
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Amend\")").First.ClickAsync();
-      await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+      await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+      await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
 
       var results = HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Edit Case Reference\"]");
       await Task.Run(() => Assert.That(results.InputValueAsync().Result, Does.Contain($"{ExternalPortal.caseRef}")));
 
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Recording Gallery\"] button:has-text(\"Manage\")").ClickAsync();
-      await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+      await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+      await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
 
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Share\")").ClickAsync();
-      await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+      await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+      await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
 
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Find Users to Share Recording\"]").ClickAsync();
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text={ExternalPortal.emailToShare}").ClickAsync();
-      await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+      await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+      await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
 
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=HMCTS Logo Dev Home Manage Recordings Court Court NameOpen popup to select items").ClickAsync();
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Grant Access\")").ClickAsync();
-      await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+      await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+      await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
     }
 
     [BeforeScenario("SharedRecordingAtPortal", Order = 1)]
     public async Task SharedRecordingAtPortal()
     {
       await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.testUrl}");
-      await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"View Recordings\")").ClickAsync();
       await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
 
+      await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"View Recordings\")").ClickAsync();
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Search\\ case\\ ref\"]").ClickAsync();
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Search\\ case\\ ref\"]").FillAsync($"{ExternalPortal.caseName}");
-      await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+      await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0")); ;
 
       var witness = HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div.canvasContentDiv.container_1vt1y2p > div > div:nth-child(5)");
       ExternalPortal.witnessName = witness.TextContentAsync().Result.ToString().Trim();
@@ -160,7 +165,8 @@ namespace pre.test.Hooks
       await HooksInitializer._context.Page.Locator("button:has-text(\"Apply\")").ClickAsync();
 
       await HooksInitializer._context.Page.Locator("[aria-label=\"\\$Email Confirmed\\, row 0\"]").ClickAsync();
-      await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+      await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+      await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
 
       await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.deleteContactsUrlTest}");
       await HooksInitializer._context.Page.Locator("button:has-text(\"+223 more\")").ClickAsync();
@@ -173,7 +179,8 @@ namespace pre.test.Hooks
       await HooksInitializer._context.Page.Locator("text=").ClickAsync();
       await HooksInitializer._context.Page.Locator("button:has-text(\"Save\")").ClickAsync();
       await HooksInitializer._context.Page.Locator("[aria-label=\"\\$Lockout Enabled\\, row 0\"]").ClickAsync();
-      await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+      await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+      await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
 
       await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.deleteContactsUrlTest}");
       await HooksInitializer._context.Page.Locator("button:has-text(\"+223 more\")").ClickAsync();
@@ -186,7 +193,8 @@ namespace pre.test.Hooks
       await HooksInitializer._context.Page.Locator("text=").ClickAsync();
       await HooksInitializer._context.Page.Locator("button:has-text(\"Save\")").ClickAsync();
       await HooksInitializer._context.Page.Locator("[aria-label=\"\\$Login Enabled\\, row 0\"]").ClickAsync();
-      await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+      await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+      await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
 
       await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.deleteContactsUrlTest}");
       await HooksInitializer._context.Page.Locator("button:has-text(\"+223 more\")").ClickAsync();
@@ -199,7 +207,8 @@ namespace pre.test.Hooks
       await HooksInitializer._context.Page.Locator("text=").ClickAsync();
       await HooksInitializer._context.Page.Locator("button:has-text(\"Save\")").ClickAsync();
       await HooksInitializer._context.Page.Locator("[aria-label=\"\\$Two Factor Enabled\\, row 0\"]").ClickAsync();
-      await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+      await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+      await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
     }
 
     [AfterScenario("unSharedRecordingAtPortal", Order = 0)]
@@ -207,19 +216,24 @@ namespace pre.test.Hooks
     {
       await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.testUrl}");
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"View Recordings\")").ClickAsync();
-      await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+      await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+      await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Search\\ case\\ ref\"]").ClickAsync();
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Search\\ case\\ ref\"]").FillAsync($"{ExternalPortal.caseName}");
-      await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+      await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0")); ;
+
 
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div:nth-child(11) .appmagic-borderfill-container .appmagic-border-inner .react-knockout-control .powerapps-icon").ClickAsync();
-      await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+      await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0")); ;
+
 
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text=Item 1. Selected. {ExternalPortal.emailToShare} >> [aria-label=\"Cases Gallery\"]").ClickAsync();
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Remove Access\")").ClickAsync();
-      await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+      await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0")); ;
+
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Close\\ Manage\\ Sessions\"]").ClickAsync();
-      await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+      await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+      await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div:nth-child(11) .appmagic-borderfill-container .appmagic-border-inner .react-knockout-control .powerapps-icon").ClickAsync();
 
       var emailsSharedWith = HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Recordings Gallery\"] div").Nth(1);
@@ -242,7 +256,8 @@ namespace pre.test.Hooks
       await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.deleteContactsUrlTest}");
       await HooksInitializer._context.Page.Locator("[aria-label=\"select or deselect the row\"]").First.ClickAsync();
       await HooksInitializer._context.Page.Locator("button[role=\"menuitem\"]:has-text(\"Delete 1 record(s)\")").ClickAsync();
-      await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+      await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+      await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
     }
 
     public static async Task PortalLogin()

@@ -62,17 +62,14 @@ namespace pre.test.pages
       if (text.Contains($"{emailToShare}"))
       {
         await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text=Item 1. Selected. {ExternalPortal.emailToShare} >> [aria-label=\"Cases Gallery\"]").ClickAsync();
-        await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
-
         await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Remove Access\")").ClickAsync();
         await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
       }
-
       await Task.Run(() => Assert.That(emailsSharedWith.TextContentAsync().Result, Does.Not.Contain($"{emailToShare}")));
     }
     public async Task checkWitnesses()
     {
-      var table = ExternalPortals._pagesetters.Page.Locator(".xrm-attribute-value div:nth-child(4)");
+      var table = Page.Locator(".xrm-attribute-value div:nth-child(4)");
       await Task.Run(() => Assert.That(table.InnerTextAsync().Result, Does.Contain($"{witnessName.Trim()}")));
     }
     public async Task checkRecordingUID()
@@ -97,22 +94,21 @@ namespace pre.test.pages
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Enter your Witnesses\\, comma seperated\"]").FillAsync($"automated 2 {date}");
       UpdatedWitnessName = $"automated 2 {date}";
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Save\")").Nth(2).ClickAsync();
-      var checkWitnesses = ExternalPortals._pagesetters.Page.Locator(".container_1f0sgyp div .react-knockout-control .appmagic-svg");
+      var checkWitnesses = Page.Locator(".container_1f0sgyp div .react-knockout-control .appmagic-svg");
       await Task.Run(() => Assert.That(checkWitnesses.InnerTextAsync().Result, Does.Not.Contain($"{witnessName.Trim()}")));
       await Task.Run(() => Assert.That(checkWitnesses.InnerTextAsync().Result, Does.Contain($"{UpdatedWitnessName.Trim()}")));
     }
 
-
     public async Task checkUpdatedWitnesses()
     {
-      var table = ExternalPortals._pagesetters.Page.Locator(".xrm-attribute-value div:nth-child(4)");
+      var table = Page.Locator(".xrm-attribute-value div:nth-child(4)");
       await Task.Run(() => Assert.That(table.InnerTextAsync().Result, Does.Not.Contain($"{witnessName.Trim()}")));
       await Task.Run(() => Assert.That(table.InnerTextAsync().Result, Does.Contain($"{UpdatedWitnessName.Trim()}")));
     }
 
     public async Task checkCourt()
     {
-      var table = ExternalPortals._pagesetters.Page.Locator(".xrm-attribute-value div:nth-child(4)");
+      var table = Page.Locator(".xrm-attribute-value div:nth-child(4)");
       await Task.Run(() => Assert.That(table.InnerTextAsync().Result, Does.Contain($"{courtName.Trim()}")));
     }
 
@@ -125,8 +121,8 @@ namespace pre.test.pages
 
     public async Task findRecordingId()
     {
-      var test2 = ExternalPortals._pagesetters.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator(".react-gallery-items-window").First;
-      var test = ExternalPortals._pagesetters.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text=Case Ref: {caseName}");
+      var test2 = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator(".react-gallery-items-window").First;
+      var test = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text=Case Ref: {caseName}");
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Case Ref \\\\ URN \\\\ ID \\\\ Court\"]").First.ClickAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Case Ref \\\\ URN \\\\ ID \\\\ Court\"]").First.FillAsync($"{caseName}");
       await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
@@ -136,16 +132,17 @@ namespace pre.test.pages
       await results.ClickAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div:nth-child(48)  div.virtualized-gallery > div > div > div").ClickAsync();
       recordingUID = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"File\\ path\\.\\.\\.\"]").First.InputValueAsync().Result;
-
     }
 
     public async Task removeAccess()
     {
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Recording Gallery\"] button:has-text(\"Manage\")").ClickAsync();
-      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+      await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+      await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
 
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Cases Gallery\"]").ClickAsync();
-      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+      await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+      await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
 
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Remove Access\")").ClickAsync();
       await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
@@ -154,13 +151,15 @@ namespace pre.test.pages
     public async Task checkRemoved()
     {
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Recording Gallery\"] button:has-text(\"Manage\")").ClickAsync();
-      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+      await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+      await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
       var check = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Recordings Gallery\"] div").Nth(1);
       await Task.Run(() => Assert.That(check.InnerTextAsync().Result, Does.Not.Contain($"{emailToShare}")));
     }
 
     public async Task NoRecordingsMessage()
     {
+      await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
       var errorMessage = Page.Locator("text=No records found");
       await Task.Run(() => Assert.IsTrue(errorMessage.IsVisibleAsync().Result));
     }
@@ -185,6 +184,7 @@ namespace pre.test.pages
 
     public async Task errorMessage()
     {
+      await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
       var error = "";
       if (use == "pw")
       {
@@ -199,7 +199,8 @@ namespace pre.test.pages
         error = "Invalid code.";
       }
       var message = Page.Locator($"text={error}");
-      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://pre-testing.powerappsportals.com"));
+      await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+      await message.WaitForAsync();
       await Task.Run(() => Assert.IsTrue(message.IsVisibleAsync().Result));
     }
 
