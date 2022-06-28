@@ -62,13 +62,6 @@ namespace pre.test
       await _adminManageRecordings.CheckSaveButtonDisabled();
     }
 
-    [Given(@"I change the date")]
-    public async Task GivenIchangethedate()
-    {
-      use = "supernormal";
-      await _adminManageRecordings.superUserDateChange();
-    }
-
     [Then(@"the date is updated")]
     public async Task Thenthedateisupdated()
     {
