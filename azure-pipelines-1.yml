@@ -11,4 +11,4 @@ steps:
   - task: PowerPlatformWhoAmi@0
     inputs:
       authenticationType: 'PowerPlatformSPN'
-      PowerPlatformSPN: 'Power Platform'
+      PowerPlatformSPN: 'PowerPlatform'
