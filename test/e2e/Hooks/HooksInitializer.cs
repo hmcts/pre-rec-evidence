@@ -53,8 +53,10 @@ namespace pre.test.Hooks
     [AfterScenario(Order = 2)]
     public async Task cleanUpEnv()
     {
+      if (scheduleCount > 0 || caseRef.Count > 0 || recordings.Count > 0 || contacts.Count > 0){
       await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
       await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+      }
 
       if (scheduleCount > 0)
       {
