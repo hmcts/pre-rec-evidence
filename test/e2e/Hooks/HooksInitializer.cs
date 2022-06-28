@@ -53,9 +53,10 @@ namespace pre.test.Hooks
     [AfterScenario(Order = 2)]
     public async Task cleanUpEnv()
     {
-      if (scheduleCount > 0 || caseRef.Count > 0 || recordings.Count > 0 || contacts.Count > 0){
-      await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
-      await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+      if (scheduleCount > 0 || caseRef.Count > 0 || recordings.Count > 0 || contacts.Count > 0)
+      {
+        await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
+        await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
       }
 
       if (scheduleCount > 0)
@@ -76,6 +77,7 @@ namespace pre.test.Hooks
         for (int i = 0; i < scheduleCount; i++)
         {
           await HooksInitializer._context.Page.Locator($"text={deleteOwner}").Nth(1).ClickAsync();
+          await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
           await HooksInitializer._context.Page.Locator("button[role=\"menuitem\"]:has-text(\"Delete\")").ClickAsync();
           await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
           await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
@@ -101,10 +103,10 @@ namespace pre.test.Hooks
         for (int j = 0; j < caseRef.Count; j++)
         {
           await HooksInitializer._context.Page.Locator($"text={caseRef[j]}").First.ClickAsync();
+          await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
           await HooksInitializer._context.Page.Locator("button[role=\"menuitem\"]:has-text(\"Delete\")").ClickAsync();
           await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
           await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
-
         }
       }
       if (recordings.Count > 0)
@@ -125,6 +127,7 @@ namespace pre.test.Hooks
         for (int j = 0; j < recordings.Count; j++)
         {
           await HooksInitializer._context.Page.Locator($"text={recordings[j]}").First.ClickAsync();
+          await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
           await HooksInitializer._context.Page.Locator("button[role=\"menuitem\"]:has-text(\"Delete\")").ClickAsync();
           await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
           await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
@@ -159,6 +162,7 @@ namespace pre.test.Hooks
         for (int i = 0; i < contacts.Count; i++)
         {
           await HooksInitializer._context.Page.Locator($"text={contacts[i]}").First.ClickAsync();
+          await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
           await HooksInitializer._context.Page.Locator("button[role=\"menuitem\"]:has-text(\"Delete\")").ClickAsync();
           await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
           await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
