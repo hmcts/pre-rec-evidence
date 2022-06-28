@@ -65,6 +65,7 @@ namespace pre.test.pages
         await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Remove Access\")").ClickAsync();
         await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
       }
+      await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
       await Task.Run(() => Assert.That(emailsSharedWith.TextContentAsync().Result, Does.Not.Contain($"{emailToShare}")));
     }
     public async Task checkWitnesses()
