@@ -24,10 +24,28 @@ pool:
   vmImage: windows-latest
 
 steps:
+
+  - checkout: self
+    persistCredentials: true
+    clean: true
   - task: PowerPlatformToolInstaller@0
     inputs:
       DefaultVersion: true
-  - task: PowerPlatformWhoAmi@0
+  - task: PowerPlatformExportSolution@0
     inputs:
       authenticationType: 'PowerPlatformSPN'
-      PowerPlatformSPN: 'PowerPlatform'
+      PowerPlatformSPN: ${{ parameters.serviceConnection }}
+      SolutionName: $(solutionName)
+      SolutionOutputFile: 'dts_pre_recorded_evidence.zip'
+      AsyncOperation: false
+      Managed: false
+      MaxAsyncWaitTime: 120
+      ExportAutoNumberingSettings: true
+      ExportCalendarSettings: true
+      ExportCustomizationSettings: true
+      ExportEmailTrackingSettings: true
+      ExportGeneralSettings: true
+      ExportIsvConfig: true
+      ExportMarketingSettings: true
+      ExportOutlookSynchronizationSettings: true
+      ExportRelationshipRoles: true
