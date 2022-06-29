@@ -56,7 +56,6 @@ namespace pre.test.Hooks
     public async Task cleanUpEnv()
 
     {
-
       if (scheduleCount > 0)
 
       {
@@ -239,12 +238,9 @@ namespace pre.test.Hooks
 
 
           await HooksInitializer._context.Page.Locator("button[role=\"menuitem\"]:has-text(\"Delete\")").ClickAsync();
-          await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
-          await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
         }
 
       }
-
     }
 
 
