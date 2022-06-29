@@ -59,3 +59,14 @@ steps:
     inputs:
       SolutionInputFile: 'dts_pre_recorded_evidence.zip'
       SolutionTargetFolder: 'src'
+  - task: CmdLine@2
+    inputs:
+      script: |
+        echo Commit Power Platform Solution
+        git config user.email "prebuildpipeline@hmcts.net"
+        git config user.name "PRE Build Pipeline"
+        git pull origin master
+        git checkout -b ${{ parameters.exportToBranch }}
+        git add --all
+        git commit -m "Automatic solution commit"
+        git -c http.extraheader="AUTHORIZATION: bearer $(system.githubPat)" push origin ${{ parameters.exportToBranch }}
