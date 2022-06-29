@@ -50,6 +50,11 @@ steps:
       ExportOutlookSynchronizationSettings: true
       ExportRelationshipRoles: true
   
+  - task: PublishPipelineArtifact@1
+    inputs:
+      targetPath: 'dts_pre_recorded_evidence.zip'
+      artifact: 'Solution Archive'
+      publishLocation: 'pipeline'
   - task: PowerPlatformUnpackSolution@0
     inputs:
       SolutionInputFile: 'dts_pre_recorded_evidence.zip'
