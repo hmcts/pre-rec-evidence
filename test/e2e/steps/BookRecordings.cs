@@ -189,6 +189,7 @@ namespace pre.test
     public async Task GivenIcreateacasewithaduplicatecaseref()
     {
       await _bookrecording.EnterCaseDetails();
+      
       use = "D";
       await _bookrecording.EnterCaseDetails();
     }

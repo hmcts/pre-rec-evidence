@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using TechTalk.SpecFlow;
 using pre.test.pages;
-
+using Microsoft.Playwright;
 namespace pre.test.Hooks
 {
 
@@ -9,10 +9,10 @@ namespace pre.test.Hooks
   public class HooksBookRecording
   {
     [BeforeScenario("ScheduleCreate", Order = 1)]
-    public async Task goToAdminManageRecordings()
+    public async Task ScheduleCreate()
     {
       await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.testUrl}");
-      await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Book a Recording\")").IsVisibleAsync();
+      await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Book a Recording\")").WaitForAsync();
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Book a Recording\")").ClickAsync();
     }
 
