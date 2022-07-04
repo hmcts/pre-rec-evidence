@@ -10,7 +10,6 @@ namespace pre.test.pages
     public ViewRecording(IPage page) : base(page)
     {
     }
-
     private String stringCase = "";
 
     public async Task FindCaseToView()
@@ -21,7 +20,7 @@ namespace pre.test.pages
 
       await Page.Frame("fullscreen-app-host").ClickAsync("[placeholder='Search case ref']");
       await Page.Frame("fullscreen-app-host").FillAsync("[placeholder='Search case ref']", $"{stringCase.Trim()}");
-      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+      await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
     }
 
     public async Task CheckSearch()
@@ -33,7 +32,7 @@ namespace pre.test.pages
     public async Task SwitchTimestamp()
     {
       await Page.Frame("fullscreen-app-host").ClickAsync("div[role='switch']");
-      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+      await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
     }
 
     public async Task CheckTimeStampOn()
