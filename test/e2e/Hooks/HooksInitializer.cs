@@ -51,8 +51,16 @@ namespace pre.test.Hooks
       _specFlowOutputHelper = outputHelper;
     }
 
-    [AfterScenario(Order = 2)]
+    [AfterScenario(Order = 3)]
+    public async Task takeScreenshotIfFailed()
+    {
+      if (_scenarioContext.TestError != null)
+      {
+        await Helpers.ScreenShotHelper.Screenshot(_context.Page);
+      }
+    }
 
+    [AfterScenario(Order = 4)]
     public async Task cleanUpEnv()
 
     {
@@ -63,8 +71,6 @@ namespace pre.test.Hooks
         await HooksInitializer._context.Page.GotoAsync($"{deleteScheduleUrlTest}");
 
         await HooksInitializer._context.Page.Locator("button:has-text(\"more\")").WaitForAsync();
-
-
         await HooksInitializer._context.Page.Locator("button:has-text(\"more\")").ClickAsync();
 
         await HooksInitializer._context.Page.Locator("[placeholder=\"Search\"]").ClickAsync();
@@ -87,25 +93,20 @@ namespace pre.test.Hooks
         {
 
           await HooksInitializer._context.Page.Locator($"text={deleteOwner}").Nth(1).ClickAsync();
-
           if (HooksInitializer._context.Page.Locator("button[role=\"menuitem\"]:has-text(\"Delete\")").IsVisibleAsync().Result == false)
           {
             await HooksInitializer._context.Page.ReloadAsync();
             await HooksInitializer._context.Page.Locator($"text={deleteOwner}").Nth(1).ClickAsync();
           }
-
           await HooksInitializer._context.Page.Locator("button[role=\"menuitem\"]:has-text(\"Delete\")").ClickAsync();
         }
 
       }
-
-
       if (caseRef.Count > 0)
 
       {
 
         await HooksInitializer._context.Page.GotoAsync($"{deleteCaseUrlTest}");
-
         await HooksInitializer._context.Page.Locator("button:has-text(\"more\")").WaitForAsync();
         await HooksInitializer._context.Page.Locator("button:has-text(\"more\")").ClickAsync();
         await HooksInitializer._context.Page.Locator("[placeholder=\"Search\"]").ClickAsync();
@@ -119,13 +120,11 @@ namespace pre.test.Hooks
         for (int j = 0; j < caseRef.Count; j++)
         {
           await HooksInitializer._context.Page.Locator($"text={caseRef[j]}").First.ClickAsync();
-
           if (HooksInitializer._context.Page.Locator("button[role=\"menuitem\"]:has-text(\"Delete\")").IsVisibleAsync().Result == false)
           {
             await HooksInitializer._context.Page.ReloadAsync();
             await HooksInitializer._context.Page.Locator($"text={caseRef[j]}").First.ClickAsync();
           }
-
           await HooksInitializer._context.Page.Locator("button[role=\"menuitem\"]:has-text(\"Delete\")").ClickAsync();
 
         }
@@ -139,8 +138,6 @@ namespace pre.test.Hooks
         await HooksInitializer._context.Page.GotoAsync($"{deleteRecordingUrlTest}");
 
         await HooksInitializer._context.Page.Locator("button:has-text(\"more\")").WaitForAsync();
-
-
         await HooksInitializer._context.Page.Locator("button:has-text(\"more\")").ClickAsync();
 
         await HooksInitializer._context.Page.Locator("[placeholder=\"Search\"]").ClickAsync();
@@ -164,13 +161,11 @@ namespace pre.test.Hooks
         {
 
           await HooksInitializer._context.Page.Locator($"text={recordings[j]}").First.ClickAsync();
-          
           if (HooksInitializer._context.Page.Locator("button[role=\"menuitem\"]:has-text(\"Delete\")").IsVisibleAsync().Result == false)
           {
             await HooksInitializer._context.Page.ReloadAsync();
             await HooksInitializer._context.Page.Locator($"text={recordings[j]}").First.ClickAsync();
           }
-
           await HooksInitializer._context.Page.Locator("button[role=\"menuitem\"]:has-text(\"Delete\")").ClickAsync();
         }
 
@@ -181,10 +176,6 @@ namespace pre.test.Hooks
       {
 
         await HooksInitializer._context.Page.GotoAsync($"{deleteContactsUrlTest}");
-
-
-        await HooksInitializer._context.Page.Locator("button:has-text(\"more\")").WaitForAsync();
-
         await HooksInitializer._context.Page.Locator("button:has-text(\"more\")").WaitForAsync();
         await HooksInitializer._context.Page.Locator("button:has-text(\"more\")").ClickAsync();
 
@@ -227,30 +218,30 @@ namespace pre.test.Hooks
         {
 
           await HooksInitializer._context.Page.Locator($"text={contacts[i]}").First.ClickAsync();
-
-         
-
           if (HooksInitializer._context.Page.Locator("button[role=\"menuitem\"]:has-text(\"Delete\")").IsVisibleAsync().Result == false)
           {
             await HooksInitializer._context.Page.ReloadAsync();
             await HooksInitializer._context.Page.Locator($"text={contacts[i]}").First.ClickAsync();
           }
-
-
           await HooksInitializer._context.Page.Locator("button[role=\"menuitem\"]:has-text(\"Delete\")").ClickAsync();
         }
 
       }
     }
 
-
-    [AfterScenario(Order = 2)]
-    public async Task closeBrowser()
+    [AfterScenario(Order = 5)]
+    public async Task takeScreenshotIfFailed2()
     {
       if (_scenarioContext.TestError != null)
       {
         await Helpers.ScreenShotHelper.Screenshot(_context.Page);
       }
+    }
+
+
+    [AfterScenario(Order = 6)]
+    public async Task closeBrowser()
+    {
       await browser.DisposeAsync();
       //Generating living docs
       _specFlowOutputHelper.WriteLine("Browser Closed");
