@@ -51,6 +51,26 @@ namespace pre.test.Hooks
       _specFlowOutputHelper = outputHelper;
     }
 
+    [BeforeScenario(Order = 0)]
+    public async Task createBrowser()
+    {
+      scheduleCount = 0;
+      contacts.Clear();
+      caseRef.Clear();
+      recordings.Clear();
+
+      playwright = await Playwright.CreateAsync();
+      //BrowserTypeLaunchOptions typeLaunchOptions = new BrowserTypeLaunchOptions{ Headless = false };
+      BrowserTypeLaunchOptions typeLaunchOptions = new BrowserTypeLaunchOptions { Headless = headless, SlowMo = 50 };
+      browser = await playwright.Chromium.LaunchAsync(typeLaunchOptions);
+      //context = await browser.NewContextAsync();
+      context = await browser.NewContextAsync(new BrowserNewContextOptions { StorageStatePath = $"{authPath}", });
+      _context.Page = await context.NewPageAsync();
+      _objectContainer.RegisterInstanceAs(_context.Page);
+      //Generating living docs
+      _specFlowOutputHelper.WriteLine("Browser Launched");
+    }
+
     [AfterScenario(Order = 3)]
     public async Task takeScreenshotIfFailed()
     {
@@ -238,33 +258,12 @@ namespace pre.test.Hooks
       }
     }
 
-
     [AfterScenario(Order = 6)]
     public async Task closeBrowser()
     {
       await browser.DisposeAsync();
       //Generating living docs
       _specFlowOutputHelper.WriteLine("Browser Closed");
-    }
-
-    [BeforeScenario(Order = 0)]
-    public async Task createBrowser()
-    {
-      scheduleCount = 0;
-      contacts.Clear();
-      caseRef.Clear();
-      recordings.Clear();
-
-      playwright = await Playwright.CreateAsync();
-      //BrowserTypeLaunchOptions typeLaunchOptions = new BrowserTypeLaunchOptions{ Headless = false };
-      BrowserTypeLaunchOptions typeLaunchOptions = new BrowserTypeLaunchOptions { Headless = headless, SlowMo = 50 };
-      browser = await playwright.Chromium.LaunchAsync(typeLaunchOptions);
-      //context = await browser.NewContextAsync();
-      context = await browser.NewContextAsync(new BrowserNewContextOptions { StorageStatePath = $"{authPath}", });
-      _context.Page = await context.NewPageAsync();
-      _objectContainer.RegisterInstanceAs(_context.Page);
-      //Generating living docs
-      _specFlowOutputHelper.WriteLine("Browser Launched");
     }
   }
 }

@@ -12,8 +12,6 @@ namespace pre.test
   {
     public static ViewRecording _viewrecording;
     public static PageSetters _pagesetters;
-
-
     public ViewRecordings(PageSetters pageSetters)
     {
       _pagesetters = pageSetters;
@@ -57,13 +55,10 @@ namespace pre.test
       await _viewrecording.CheckTimeStampOn();
     }
 
-    
-[Then(@"I can see the version for the recording")]
-public async Task ThenIcanseetheversionfortherecording()
-{
-	await _viewrecording.checkVersion();
-}
-
-
+    [Then(@"I can see the version for the recording")]
+    public async Task ThenIcanseetheversionfortherecording()
+    {
+      await _viewrecording.checkVersion();
+    }
   }
 }
