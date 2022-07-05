@@ -272,7 +272,8 @@ namespace pre.test.pages
 
       var results = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Edit Case Reference\"]");
       await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
-      await results.WaitForAsync();
+      await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+
       await Task.Run(() => Assert.That(results.InputValueAsync().Result, Does.Contain($"{stringCase}")));
       await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
 
@@ -1178,10 +1179,12 @@ namespace pre.test.pages
       var datee = DateTime.UtcNow.ToString("dd");
       var year = DateTime.UtcNow.ToString("yyyy");
       await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
-
+      await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
+      await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Home\")").ClickAsync();
       await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
-
+      await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
+      await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Admin\")").ClickAsync();
       await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
       await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
