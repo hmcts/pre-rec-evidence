@@ -80,7 +80,7 @@ namespace pre.test.Hooks
     }
 
     [AfterScenario(Order = 4)]
-    public async Task cleanUpEnv()
+    public async Task cleanUpEnvSchedule()
     {
       if (scheduleCount > 0)
       {
@@ -106,7 +106,13 @@ namespace pre.test.Hooks
           }
           await HooksInitializer._context.Page.Locator("button[role=\"menuitem\"]:has-text(\"Delete\")").ClickAsync();
         }
+
       }
+    }
+
+    [AfterScenario(Order = 5)]
+    public async Task cleanUpEnvCase()
+    {
       if (caseRef.Count > 0)
       {
         await HooksInitializer._context.Page.GotoAsync($"{deleteCaseUrlTest}");
@@ -132,6 +138,11 @@ namespace pre.test.Hooks
           await HooksInitializer._context.Page.Locator("button[role=\"menuitem\"]:has-text(\"Delete\")").ClickAsync();
         }
       }
+    }
+
+    [AfterScenario(Order = 6)]
+    public async Task cleanUpEnvRecordings()
+    {
       if (recordings.Count > 0)
       {
         await HooksInitializer._context.Page.GotoAsync($"{deleteRecordingUrlTest}");
@@ -157,6 +168,11 @@ namespace pre.test.Hooks
           await HooksInitializer._context.Page.Locator("button[role=\"menuitem\"]:has-text(\"Delete\")").ClickAsync();
         }
       }
+    }
+
+    [AfterScenario(Order = 7)]
+    public async Task cleanUpEnvContacts()
+    {
       if (contacts.Count > 0)
       {
         await HooksInitializer._context.Page.GotoAsync($"{deleteContactsUrlTest}");
@@ -194,7 +210,7 @@ namespace pre.test.Hooks
       }
     }
 
-    [AfterScenario(Order = 5)]
+    [AfterScenario(Order = 8)]
     public async Task takeScreenshotIfFailed2()
     {
       if (_scenarioContext.TestError != null)
@@ -203,7 +219,7 @@ namespace pre.test.Hooks
       }
     }
 
-    [AfterScenario(Order = 6)]
+    [AfterScenario(Order = 9)]
     public async Task closeBrowser()
     {
       await browser.DisposeAsync();

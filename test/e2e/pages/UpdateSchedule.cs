@@ -10,34 +10,24 @@ namespace pre.test.pages
   {
     public static string CaseRefDate = "";
     public static String stringCase = "";
-
     public static String court = "Leeds";
-
     public static String newCourt = "Birmingham";
-
     public static DateTime today = DateTime.Today;
     public static DateTime tomorrow = today.AddDays(1);
     public static String updatedmonth = tomorrow.ToString("MM");
     public static String updateddate = tomorrow.ToString("dd");
     public static String updatedyear = tomorrow.ToString("yyyy");
     public static String updatedday = tomorrow.ToString("ddd");
-    //public static String day = tomorrow.ToString("ddd");
     public static String updatedmonthword = tomorrow.ToString("MMM");
-
     public static String currentmonth = today.ToString("MM");
     public static String currentdate = today.ToString("dd");
     public static String currentyear = today.ToString("yyyy");
     public static String currentday = today.ToString("ddd");
-    //public static String day = tomorrow.ToString("ddd");
     public static String currentmonthword = today.ToString("MMM");
-    // public static String date = tomorrow.ToString("dd");
-    // public static String year = tomorrow.ToString("yyyy");
-
     public static string wit1 = "Witness surname1";
     public static string wit2 = "Witness surname2";
     public static string def1 = "defendants 1";
     public static string def2 = "defendants 2";
-
     public static string Uwit1 = "UWitness surname1";
     public static string Uwit2 = "UWitness surname2";
     public static string Udef1 = "Udefendants 1";
@@ -51,6 +41,8 @@ namespace pre.test.pages
 
     public async Task Schedule()
     {
+      await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
+      await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
       if (UpdateSchedules.use == "DE")
       {
         await Page.Frame("fullscreen-app-host")
@@ -60,34 +52,48 @@ namespace pre.test.pages
       await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
       HooksInitializer.scheduleCount++;
       HooksInitializer.recordings.Add(stringCase);
+      await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
+      await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
     }
     public async Task FindSchedule()
     {
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+      await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
+      await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
       await Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Home\")");
       await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
-
+      await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
+      await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Manage Recordings\")").Nth(1).ClickAsync();
+      await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
+      await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Search\\ Case\\ Ref\"]").FillAsync($"{stringCase}");
+      await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
+      await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
       await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+      await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
+      await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
 
-      await Page.Frame("fullscreen-app-host").ClickAsync("[placeholder=\"Search\\ Case\\ Ref\"]");
-      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
-
-      await Page.Frame("fullscreen-app-host").FillAsync("[placeholder=\"Search\\ Case\\ Ref\"] ", $"{stringCase}");
-      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
-
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Amend\")").First.WaitForAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Amend\")").First.ClickAsync();
       await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+      await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+      await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
 
-      var updatecaseScheduled = Page.Frame("fullscreen-app-host").Locator("[aria-label=\"Edit Case Reference\"]");
+      var updatecaseScheduled = Page.Frame("fullscreen-app-host").Locator("[aria-label=\"Edit Case Reference\"]").First;
       await Task.Run(() => Assert.That(updatecaseScheduled.InputValueAsync().Result, Does.Contain($"{stringCase}")));
     }
 
 
     public async Task FindupdatedCase()
     {
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
       await Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Home\")");
-      await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
       await Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Book a Recording\")");
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+
       await Page.Frame("fullscreen-app-host").ClickAsync("[aria-label=\"Select\\ Court\"]");
       // don't need to update court for MVP
       // if (UpdateSchedules.use == "O")
@@ -106,13 +112,13 @@ namespace pre.test.pages
       await Page.Frame("fullscreen-app-host").ClickAsync($"[aria-label=\"Select\\ Court\\ items\"] div:has-text(\"{court}\")");
       //}
 
-      var caseInput = Page.Frame("fullscreen-app-host").Locator("div:nth-child(42) .appmagic-borderfill-container .appmagic-border-inner .react-knockout-control .appmagic-textbox .appmagic-text");
+      var caseInput = Page.Frame("fullscreen-app-host").Locator("[placeholder=\"Case Number \\\\ URN\"]").First;
       await Task.Run(() => Assert.IsTrue(caseInput.IsVisibleAsync().Result));
       await Page.IsVisibleAsync("[placeholder=\"Case\\ Number\\ \\\\\\ URN\"]");
 
       await Page.Frame("fullscreen-app-host").ClickAsync("[placeholder=\"Case\\ Number\\ \\\\\\ URN\"]");
       await Page.Frame("fullscreen-app-host").FillAsync("[placeholder=\"Case\\ Number\\ \\\\\\ URN\"]", $"{stringCase.Trim()}");
-
+      await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
       var caseLocation = Page.Frame("fullscreen-app-host").Locator("div.canvasContentDiv.container_1vt1y2p > div > div:nth-child(3)");
 
       // don't need to update court for MVP
@@ -144,13 +150,18 @@ namespace pre.test.pages
     public async Task Updatechildwitness()
     {
       await Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Amend\")");
-      await Page.Frame("fullscreen-app-host").ClickAsync("[aria-label=\"Toggle\"] div >> nth=2");
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Toggle\"] div").Nth(2).ClickAsync();
       await Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Save\")");
       await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
     }
     public async Task ManageRecordingsCheckUpdatechildwitness()
     {
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+
       var child = Page.Frame("fullscreen-app-host").Locator("div.canvasContentDiv.container_1vt1y2p  div:nth-child(7)");
+      await child.WaitForAsync();
       await Task.Run(() => Assert.That(child.TextContentAsync().Result, Does.Contain("Child")));
     }
     public async Task Updatedate()
@@ -171,13 +182,15 @@ namespace pre.test.pages
     {
       await Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Clear\")");
       await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
-      await Page.Frame("fullscreen-app-host").ClickAsync("[placeholder=\"Search\\ Case\\ Ref\"]");
       await Page.Frame("fullscreen-app-host").FillAsync("[placeholder=\"Search\\ Case\\ Ref\"] ", $"{stringCase}");
+      await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
       await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
 
-      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Amend\")").ClickAsync();
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Amend\")").First.ClickAsync();
+      await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
+
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"[aria-label=\"Select Scheduled Date\\, default Today{updateddate}\\/{updatedmonth}\\/{updatedyear}\\. Open calendar to select a date\"]").ClickAsync();
-      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+      await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
       var dateLocator = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"[aria-label=\"{updatedday} {updatedmonthword} {updateddate} {updatedyear}\\. Selected\\.\"]");
       await Task.Run(() => Assert.IsTrue(dateLocator.IsVisibleAsync().Result));
     }
@@ -227,33 +240,40 @@ namespace pre.test.pages
     }
     public async Task BookRecordingsCheckUpdatedWitness()
     {
-
       var witness = Page.Frame("fullscreen-app-host").Locator("text=Witness Name: Witness surname2");
       await Task.Run(() => Assert.That(witness.TextContentAsync().Result, Does.Contain("Witness surname2")));
-
     }
     public async Task RemoveDefendant()
     {
       await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
-      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div.combobox-view-chevron.arrowContainer_1kmq8gc-o_O-container_r2h174-o_O-containerColors_1096g8n").Nth(2).ClickAsync();
+      await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
+      await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label]:has-text(\"Defendants\")").Last.ClickAsync();
+
+      await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
       await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+
       await Page.Frame("fullscreen-app-host").ClickAsync($"[aria-label=\"Remove\\ {def2}\\ from\\ selection\"]");
       await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
       await Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Save\")");
       await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+      await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
+      await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
     }
     public async Task ManageRecordingsCheckRemovedDefendant()
     {
-      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+      await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
       var Scheduledcase = Page.Frame("fullscreen-app-host").Locator(".container_1f0sgyp div .react-knockout-control .appmagic-svg").First;
+      await Scheduledcase.WaitForAsync();
       await Task.Run(() => Assert.That(Scheduledcase.TextContentAsync().Result, Does.Not.Contain($"{def2}")));
     }
     public async Task BookRecordingsCheckRemovedDefendant()
     {
-      await Page.Frame("fullscreen-app-host").ClickAsync("[aria-label=\"Select\\ your\\ Defendants\"]");
-      var defendant = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div:nth-child(59) div div .container_w3lqqm .appmagic-gallery .virtualized-gallery div .react-gallery-items-window .virtualized-gallery-item .canvasContentDiv.container_1vt1y2p .container_1f0sgyp div:nth-child(3) .appmagic-borderfill-container .appmagic-border-inner .react-knockout-control .appmagic-label");
-      //Bug S28-496
-      //await Task.Run(() =>Assert.That(defendant.TextContentAsync().Result, Does.Not.Contain("defendants 2")));
+      await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
+      var defendant = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div[role=\"presentation\"]");
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+      await Task.Run(() => Assert.That(defendant.AllTextContentsAsync().Result, Does.Not.Contain("defendants 2")));
     }
 
     public async Task UpdateCourt()
@@ -270,6 +290,7 @@ namespace pre.test.pages
 
       await Task.Run(() => Assert.That(Scheduledcase.TextContentAsync().Result, Does.Contain($"{newCourt}")));
       await Task.Run(() => Assert.That(Scheduledcase.TextContentAsync().Result, Does.Not.Contain($"{court}")));
+
       await Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Clear\")");
       await Page.Frame("fullscreen-app-host").ClickAsync("div[role=\"button\"]:has-text(\"Court Name\")");
       await Page.Frame("fullscreen-app-host").ClickAsync($"ul[role=\"listbox\"] >> text={newCourt}");
@@ -334,7 +355,7 @@ namespace pre.test.pages
       // await Task.Run(() => Assert.That(Scheduledcase.TextContentAsync().Result, Does.Not.Contain($"{court}")));
 
       await Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Clear\")");
-      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+      await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
       await Page.Frame("fullscreen-app-host").ClickAsync("[aria-label=\"Select\\ Scheduled\\ Date\\,\\ default\\ TodayOpen\\ calendar\\ to\\ select\\ a\\ date\"]");
       if (currentmonth != updatedmonth)
       {
@@ -342,7 +363,7 @@ namespace pre.test.pages
       }
       await Page.Frame("fullscreen-app-host").ClickAsync($"[aria-label=\"{updatedday}\\ {updatedmonthword}\\ {updateddate}\\ {updatedyear}\"]");
       await Page.Frame("fullscreen-app-host").ClickAsync("button[role=\"button\"]:has-text(\"Ok\")");
-      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+      await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
 
       // - Only one court in MVP - test not needed currently
       await Page.Frame("fullscreen-app-host").ClickAsync("div[role=\"button\"]:has-text(\"Court Name\")");
@@ -353,7 +374,7 @@ namespace pre.test.pages
 
       await Page.Frame("fullscreen-app-host").ClickAsync("[placeholder=\"Search\\ Case\\ Ref\"]");
       await Page.Frame("fullscreen-app-host").FillAsync("[placeholder=\"Search\\ Case\\ Ref\"] ", $"{stringCase}");
-      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+      await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
 
       // Only one court in MVP - test not needed currently
       // await Task.Run(() => Assert.That(Scheduledcase.TextContentAsync().Result, Does.Contain($"{newCourt}")));
@@ -381,7 +402,7 @@ namespace pre.test.pages
 
     public async Task CloseAmendView()
     {
-      await Page.Frame("fullscreen-app-host").ClickAsync("[aria-label=\"Close\\ Amend\\ Recording\"]");
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Close Amend Recording\"]").First.ClickAsync();
     }
     public async Task ManageRceordingsCheckCloseAmendView()
     {
