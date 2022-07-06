@@ -469,7 +469,6 @@ namespace pre.test.pages
       {
         DuplicateError = Page.Locator("text=Please select a Court from the dropdown.");
       }
-      Console.WriteLine(DuplicateError);
       await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
       await DuplicateError.WaitForAsync(); 
       await Task.Run(() => Assert.IsTrue(DuplicateError.IsVisibleAsync().Result));
