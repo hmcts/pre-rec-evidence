@@ -57,7 +57,8 @@ namespace pre.test.pages
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Amend\")").ClickAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Courts\\. Selected\\: Leeds\"]").ClickAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Remove Leeds from selection\"]").ClickAsync();
-      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+      await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+      await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=HMCTS Logo Dev Home Manage Recordings Court Court NameOpen popup to select items").ClickAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Save\")").ClickAsync();
       await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
@@ -66,7 +67,9 @@ namespace pre.test.pages
 
     public async Task checkErrorMessageSaveButton()
     {
+      await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
       var message = Page.Locator("text=Please ensure all fields are completed.");
+      await message.WaitForAsync();
       await Task.Run(() => Assert.IsTrue(message.IsVisibleAsync().Result));
     }
 
@@ -74,8 +77,8 @@ namespace pre.test.pages
     public async Task UpdateRecording()
     {
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Amend\")").ClickAsync();
-      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
-
+      await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+      await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
       await Page.Frame("fullscreen-app-host").ClickAsync("[aria-label=\"Toggle\"] div >> nth=2");
       await Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Save\")");
       await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
@@ -137,25 +140,26 @@ namespace pre.test.pages
 
     public async Task recordingStartedCheck()
     {
-      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
-      await Page.WaitForLoadStateAsync();
-
       var amendButton = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Amend\")");
       var recordButton = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Recording Gallery\"] button:has-text(\"Record\")");
-
-      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
-      await Page.WaitForLoadStateAsync();
-
       var viewButton = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"View\")");
-      var manageButton = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Recording Gallery\"] button:has-text(\"Manage\")");
+      var status = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div.canvasContentDiv.container_1vt1y2p div:nth-child(10)");
       var finishButton = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Recording Gallery\"] button:has-text(\"Finish\")");
       var checkButton = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Check Stream\")");
-      var status = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div.canvasContentDiv.container_1vt1y2p div:nth-child(10)");
+      var rtmps = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Search Recording ID\"]").Nth(2);
+      var manageButton = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Recording Gallery\"] button:has-text(\"Manage\")");
 
-      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
-      await Page.WaitForLoadStateAsync();
-      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
-      await Page.WaitForLoadStateAsync();
+      var time = (DateTime.UtcNow);
+      var futureTime = (DateTime.UtcNow).AddMinutes(7);
+
+      while (rtmps.IsVisibleAsync().Result == false) { if (time > futureTime){break;}}
+
+      await rtmps.WaitForAsync();
+      await viewButton.WaitForAsync();
+      await manageButton.WaitForAsync();
+      await finishButton.WaitForAsync();
+      await checkButton.WaitForAsync();
+      await status.WaitForAsync();
 
       await Task.Run(() => Assert.IsTrue(viewButton.IsVisibleAsync().Result));
       await Task.Run(() => Assert.IsTrue(manageButton.IsVisibleAsync().Result));
@@ -166,12 +170,13 @@ namespace pre.test.pages
       await Task.Run(() => Assert.IsFalse(amendButton.IsVisibleAsync().Result));
       await Task.Run(() => Assert.IsFalse(recordButton.IsVisibleAsync().Result));
 
-      var rtmps = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Search Recording ID\"]").Nth(2);
       await Task.Run(() => Assert.IsTrue(rtmps.IsVisibleAsync().Result));
       await Task.Run(() => Assert.That(rtmps.InputValueAsync().Result, Does.Contain("rtmps")));
 
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Ok\")").First.ClickAsync();
       await finishButton.ClickAsync();
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Yes\")").ClickAsync();
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
     }
   }
 }
