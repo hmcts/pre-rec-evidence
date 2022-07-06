@@ -25,6 +25,7 @@ namespace pre.test.Hooks
 
       var date = DateTime.UtcNow.ToString("MMddmmss");
       UpdateBookedRecording.stringCase = $"AutoT{date}";
+      await HooksInitializer._context.Page.Frame("fullscreen-app-host").Locator("[placeholder=\"Case Number \\\\ URN\"]").First.WaitForAsync();
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Case Number \\\\ URN\"]").First.FillAsync($"{UpdateBookedRecording.stringCase}");
 
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Select\\ Court\"]").First.ClickAsync();
