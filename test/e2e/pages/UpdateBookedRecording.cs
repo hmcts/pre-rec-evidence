@@ -80,8 +80,11 @@ namespace pre.test.pages
       for (int i = 0; i < 4; i++)
       {
         var inputBoxes = Page.Frame("fullscreen-app-host").Locator("div.virtualized-gallery div.canvasContentDiv.container_1vt1y2p input").Nth(i);
-        await inputBoxes.WaitForAsync();
-        await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
+
+        if (i == 0)
+        {
+          await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+        }
 
         if (UpdateBookedRecordings.use == "W")
         {
@@ -90,19 +93,21 @@ namespace pre.test.pages
             await inputBoxes.ClickAsync();
             await inputBoxes.FillAsync($"{Uwit1}");
             await Page.Frame("fullscreen-app-host").Locator($"div:nth-child(56)  div:nth-child({i + 1}) > div.canvasContentDiv.container_1vt1y2p > div > div:nth-child(3)").ClickAsync();
-            await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
             HooksInitializer.contacts.RemoveAll(u => u.StartsWith(wit1));
             HooksInitializer.contacts.Add(Uwit1);
+            await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
           }
           if ((inputBoxes.InputValueAsync().Result).Contains($"{wit2}"))
           {
             await inputBoxes.ClickAsync();
             await inputBoxes.FillAsync($"{Uwit2}");
             await Page.Frame("fullscreen-app-host").Locator($"div:nth-child(56)  div:nth-child({i + 1}) > div.canvasContentDiv.container_1vt1y2p > div > div:nth-child(3)").ClickAsync();
-            await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
             HooksInitializer.contacts.RemoveAll(u => u.StartsWith(wit2));
             HooksInitializer.contacts.Add(Uwit2);
+            await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
           }
+          await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
+          await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
         }
         else if (UpdateBookedRecordings.use == "D")
         {
@@ -111,19 +116,21 @@ namespace pre.test.pages
             await inputBoxes.ClickAsync();
             await inputBoxes.FillAsync($"{Udef1}");
             await Page.Frame("fullscreen-app-host").Locator($"div:nth-child(56)  div:nth-child({i + 1}) > div.canvasContentDiv.container_1vt1y2p > div > div:nth-child(3)").ClickAsync();
-            await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
             HooksInitializer.contacts.RemoveAll(u => u.StartsWith(def1));
             HooksInitializer.contacts.Add(Udef1);
+            await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
           }
           if ((inputBoxes.InputValueAsync().Result).Contains($"{def2}"))
           {
             await inputBoxes.ClickAsync();
             await inputBoxes.FillAsync($"{Udef2}");
             await Page.Frame("fullscreen-app-host").Locator($"div:nth-child(56)  div:nth-child({i + 1}) > div.canvasContentDiv.container_1vt1y2p > div > div:nth-child(3)").ClickAsync();
-            await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
             HooksInitializer.contacts.RemoveAll(u => u.StartsWith(def2));
             HooksInitializer.contacts.Add(Udef2);
+            await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
           }
+          await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
+          await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
         }
         else
         {
@@ -132,46 +139,45 @@ namespace pre.test.pages
             await inputBoxes.ClickAsync();
             await inputBoxes.FillAsync($"{Uwit1}");
             await Page.Frame("fullscreen-app-host").Locator($"div:nth-child(56)  div:nth-child({i + 1}) > div.canvasContentDiv.container_1vt1y2p > div > div:nth-child(3)").ClickAsync();
-            await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
             HooksInitializer.contacts.RemoveAll(u => u.StartsWith(wit1));
             HooksInitializer.contacts.Add(Uwit1);
+            await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
           }
           if ((inputBoxes.InputValueAsync().Result).Contains($"{wit2}"))
           {
             await inputBoxes.ClickAsync();
             await inputBoxes.FillAsync($"{Uwit2}");
             await Page.Frame("fullscreen-app-host").Locator($"div:nth-child(56)  div:nth-child({i + 1}) > div.canvasContentDiv.container_1vt1y2p > div > div:nth-child(3)").ClickAsync();
-            await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
             HooksInitializer.contacts.RemoveAll(u => u.StartsWith(wit2));
             HooksInitializer.contacts.Add(Uwit2);
+            await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
           }
           if ((inputBoxes.InputValueAsync().Result).Contains($"{def1}"))
           {
             await inputBoxes.ClickAsync();
             await inputBoxes.FillAsync($"{Udef1}");
             await Page.Frame("fullscreen-app-host").Locator($"div:nth-child(56)  div:nth-child({i + 1}) > div.canvasContentDiv.container_1vt1y2p > div > div:nth-child(3)").ClickAsync();
-            await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
             HooksInitializer.contacts.RemoveAll(u => u.StartsWith(def1));
             HooksInitializer.contacts.Add(Udef1);
+            await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
           }
           if ((inputBoxes.InputValueAsync().Result).Contains($"{def2}"))
           {
             await inputBoxes.ClickAsync();
             await inputBoxes.FillAsync($"{Udef2}");
             await Page.Frame("fullscreen-app-host").Locator($"div:nth-child(56)  div:nth-child({i + 1}) > div.canvasContentDiv.container_1vt1y2p > div > div:nth-child(3)").ClickAsync();
-            await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
             HooksInitializer.contacts.RemoveAll(u => u.StartsWith(def2));
             HooksInitializer.contacts.Add(Udef2);
+            await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
           }
+          await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
+          await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
         }
         await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
         await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
-        await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
       }
       var saveButton = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Save\")").Nth(2);
       await saveButton.WaitForAsync();
-      await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
-      await Task.Run(() => Assert.IsFalse(saveButton.IsDisabledAsync().Result));
       await Task.Run(() => saveButton.ClickAsync());
       await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
       await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
@@ -246,17 +252,12 @@ namespace pre.test.pages
     }
     public async Task checkManage()
     {
-      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
-      await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
-      await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
-
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=HMCTS Logo").ClickAsync();
       await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Manage Recordings\")").Nth(1).ClickAsync();
       await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
       await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
       await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
-      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
 
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Search Case Ref\"]").ClickAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Search Case Ref\"]").FillAsync($"{stringCase}");
@@ -278,9 +279,14 @@ namespace pre.test.pages
       await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
 
       var dropdown = Page.Frame("fullscreen-app-host").Locator("li[role='option']");
+      await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
+      await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
 
       if (UpdateBookedRecordings.use == "W")
       {
+        await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
+        await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+
         await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"[aria-label=\"Witness\\. Selected\\: {Uwit1}\"]").ClickAsync();
         await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
         await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
@@ -292,6 +298,8 @@ namespace pre.test.pages
       }
       else if (UpdateBookedRecordings.use == "D")
       {
+        await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
+        await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
         await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"[aria-label=\"Defendants\\. Selected\\: {Udef1}\"]").ClickAsync();
         await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
         await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
@@ -314,6 +322,8 @@ namespace pre.test.pages
       }
       else
       {
+        await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
+        await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
         await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"[aria-label=\"Witness\\. Selected\\: {Uwit1}\"]").ClickAsync();
         await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
         await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
@@ -376,20 +386,16 @@ namespace pre.test.pages
           if ((inputBoxes.InputValueAsync().Result).Contains($"{wit2}"))
           {
             await Page.Frame("fullscreen-app-host").Locator("div:nth-child(6) .appmagic-borderfill-container .appmagic-border-inner .react-knockout-control .powerapps-icon").Nth(i).ClickAsync();
-            await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
             flag = true;
             UpdateBookedRecordings.use = "W";
             await checkErrorMessage();
-            await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
           }
           if ((inputBoxes.InputValueAsync().Result).Contains($"{def2}"))
           {
             await Page.Frame("fullscreen-app-host").Locator("div:nth-child(6) .appmagic-borderfill-container .appmagic-border-inner .react-knockout-control .powerapps-icon").Nth(i).ClickAsync();
-            await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
             flag = true;
             UpdateBookedRecordings.use = "D";
             await checkErrorMessage();
-            await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
           }
         }
         // first = false;
@@ -424,7 +430,6 @@ namespace pre.test.pages
         await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
       }
       if (flag) { UpdateBookedRecordings.use = "WD"; flag = false; }
-      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
     }
 
     public async Task createAdditonalSchedule()
@@ -514,7 +519,6 @@ namespace pre.test.pages
         await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
 
         var witdropdown = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text= {wit2}");
-        await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
         await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
         await Task.Run(() => Assert.IsFalse(witdropdown.IsVisibleAsync().Result));
       }
@@ -528,7 +532,6 @@ namespace pre.test.pages
         await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
 
         var defdropdown = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text= {def2}");
-        await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
         await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
         await Task.Run(() => Assert.IsFalse(defdropdown.IsVisibleAsync().Result));
       }
@@ -538,15 +541,14 @@ namespace pre.test.pages
         await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
 
         await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Select\\ your\\ Defendants\"]").ClickAsync();
+        await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
 
         var defdropdown = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text= {def2}");
         await Task.Run(() => Assert.IsFalse(defdropdown.IsVisibleAsync().Result));
-        await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
         await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
 
         await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Select\\ your\\ Witness\"]").ClickAsync();
         var witdropdown = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text= {wit2}");
-        await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
         await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
         await Task.Run(() => Assert.IsFalse(witdropdown.IsVisibleAsync().Result));
       }
@@ -647,10 +649,13 @@ namespace pre.test.pages
 
       await Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Modify\")");
       await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+      await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
 
       for (int i = 0; i < 4; i++)
       {
         inputBoxes = null;
+        await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
+       
         if (Page.Frame("fullscreen-app-host").Locator("div.canvasContentDiv.container_1vt1y2p input").Nth(i).CountAsync().Result > 0)
         {
           inputBoxes = Page.Frame("fullscreen-app-host").Locator("div.canvasContentDiv.container_1vt1y2p input").Nth(i);
@@ -677,22 +682,16 @@ namespace pre.test.pages
           if ((inputBoxes.InputValueAsync().Result).Contains($"{wit1}"))
           {
             await Page.Frame("fullscreen-app-host").Locator("div:nth-child(6) .appmagic-borderfill-container .appmagic-border-inner .react-knockout-control .powerapps-icon").Nth(i).ClickAsync();
-            await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
-
             flag = true;
             UpdateBookedRecordings.use = "W";
             await checkErrorMessagescheduledwitdef();
-            await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
           }
           if ((inputBoxes.InputValueAsync().Result).Contains($"{def1}"))
           {
             await Page.Frame("fullscreen-app-host").Locator("div:nth-child(6) .appmagic-borderfill-container .appmagic-border-inner .react-knockout-control .powerapps-icon").Nth(i).ClickAsync();
-            await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
-
             flag = true;
             UpdateBookedRecordings.use = "D";
             await checkErrorMessagescheduledwitdef();
-            await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
           }
         }
       }
@@ -700,6 +699,8 @@ namespace pre.test.pages
 
     public async Task checkErrorMessagescheduledwitdef()
     {
+      await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
+
       if (UpdateBookedRecordings.use == "W")
       {
         var errorMessage = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text=You are deleting {wit1} from the system");
@@ -728,7 +729,6 @@ namespace pre.test.pages
       {
         UpdateBookedRecordings.use = "WD"; flag = false;
       }
-      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
     }
 
     public async Task addMoreParticipants()
@@ -918,11 +918,10 @@ namespace pre.test.pages
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Manage\\ Cases\"]").First.ClickAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Case Ref \\\\ URN \\\\ ID \\\\ Court\"]").ClickAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Case Ref \\\\ URN \\\\ ID \\\\ Court\"]").FillAsync($"{stringCase}");
-      await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text=Case Ref: {stringCase}").ClickAsync();
-      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator(".container_1f0sgyp div:nth-child(6) .react-knockout-control .appmagic-svg").WaitForAsync();
+
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator(".container_1f0sgyp div:nth-child(6) .react-knockout-control .appmagic-svg").ClickAsync();
-      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Edit Recording\"]").First.WaitForAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Edit Recording\"]").First.ClickAsync();
       await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
       await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
@@ -957,16 +956,23 @@ namespace pre.test.pages
 
     public async Task checkAdmin()
     {
+      await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=HMCTS Logo").ClickAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Admin\")").WaitForAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Admin\")").ClickAsync();
+
+      await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Manage Cases\"]").First.WaitForAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Manage Cases\"]").First.ClickAsync();
-      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Case Ref \\\\ URN \\\\ ID \\\\ Court\"]").ClickAsync();
+      await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Case Ref \\\\ URN \\\\ ID \\\\ Court\"]").FillAsync($"{stringCase}");
       await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
-
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text=Case Ref: {stringCase}").WaitForAsync();
+      await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text=Case Ref: {stringCase}").ClickAsync();
+      await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
+      await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator(".container_1f0sgyp div:nth-child(6) .react-knockout-control .appmagic-svg").ClickAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Edit Recording\"]").First.WaitForAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Edit Recording\"]").First.ClickAsync();
@@ -1034,7 +1040,6 @@ namespace pre.test.pages
     }
     public async Task checkScheduleRemovedscheduledWitDef()
     {
-      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
       await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
       await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
 
@@ -1179,12 +1184,10 @@ namespace pre.test.pages
       var datee = DateTime.UtcNow.ToString("dd");
       var year = DateTime.UtcNow.ToString("yyyy");
       await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
-      await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
-      await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Home\")").ClickAsync();
       await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
-      await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
-      await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Admin\")").ClickAsync();
       await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
       await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
@@ -1255,7 +1258,6 @@ namespace pre.test.pages
         await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
         await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
       }
-      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
     }
     public async Task saveButtonDisabledCheck()
     {

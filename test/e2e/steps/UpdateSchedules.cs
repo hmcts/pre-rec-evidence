@@ -115,17 +115,13 @@ namespace pre.test
       await _updateschedule.BookRecordingsCheckUpdatedWitness();
     }
 
-
     [Given(@"I have chosen a particular scheduled recording")]
     public async Task GivenIhaveschosenaparticularscheduledrecording()
     {
       use = "DE";
       await _updateschedule.Schedule();
       await _updateschedule.FindSchedule();
-
-
     }
-
 
     [When(@"I remove a defendant and save the updated record")]
     public async Task WhenIremoveadefendantandsavetheupdatedrecord()
@@ -146,7 +142,6 @@ namespace pre.test
     public async Task GivenIhaveaparticularschedule()
     {
       use = "O";
-
       await _updateschedule.Schedule();
       await _updateschedule.FindSchedule();
     }
@@ -157,7 +152,6 @@ namespace pre.test
       await _updateschedule.UpdateCourt();
     }
 
-
     [Then(@"the schedule will show the updated court")]
     public async Task Thentheschedulewillshowtheupdatedcourt()
     {
@@ -165,7 +159,6 @@ namespace pre.test
       await _updateschedule.FindupdatedCase();
       await _updateschedule.BookRecordingsCheckUpdatedCourt();
     }
-
 
     [Given(@"I have a recording scheduled")]
     public async Task GivenIhavearecordingscheduled()
@@ -187,7 +180,6 @@ namespace pre.test
       await _updateschedule.ManageRceordingsCheckCloseAmendView();
     }
 
-
     [Given(@"I have scheduled a recording")]
     public async Task GivenIhavescheduledarecording()
     {
@@ -196,7 +188,6 @@ namespace pre.test
       await _updateschedule.Schedule();
       await _updateschedule.FindSchedule();
     }
-
 
     [When(@"I change every field and save the updated record")]
     public async Task WhenIchangeeveryfieldandsavetheupdatedrecord()
@@ -213,19 +204,11 @@ namespace pre.test
       await _updateschedule.BookRecordingsCheckAllUpdatedFields();
     }
 
-
     [Then(@"a success message is shown")]
     public async Task Thenasuccessmessageisshown()
     {
       await _updateschedule.checkSuccessMessage();
     }
-
-
   }
-
-
-
-
-
 }
 
