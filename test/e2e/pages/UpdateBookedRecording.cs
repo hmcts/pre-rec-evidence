@@ -344,7 +344,6 @@ namespace pre.test.pages
     }
     public async Task removeWitDefNotScheduled()
     {
-      // var first = true;
       await Page.Frame("fullscreen-app-host").ClickAsync(".container_1f0sgyp div:nth-child(2) .react-knockout-control .appmagic-svg");
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Modify\")").WaitForAsync();
       await Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Modify\")");
@@ -353,10 +352,6 @@ namespace pre.test.pages
       for (int i = 0; i < 4; i++)
       {
         inputBoxes = null;
-        // if (!(first))
-        // {
-        //   await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
-        // }
 
         if (Page.Frame("fullscreen-app-host").Locator("div.canvasContentDiv.container_1vt1y2p input").Nth(i).CountAsync().Result > 0)
         {

@@ -40,7 +40,6 @@ namespace pre.test.pages
       }
       else
       {
-        //await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
         var date = DateTime.UtcNow.ToString("MMddmmss");
         await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Case Number \\\\ URN\"]").First.ClickAsync();
         caseName = $"AutoT{date}";
