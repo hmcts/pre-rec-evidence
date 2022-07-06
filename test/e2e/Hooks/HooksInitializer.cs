@@ -84,33 +84,22 @@ namespace pre.test.Hooks
     public async Task cleanUpEnvSchedule()
     {
       if (scheduleCount > 0)
-
       {
-
         await HooksInitializer._context.Page.GotoAsync($"{deleteScheduleUrlTest}");
-
         await HooksInitializer._context.Page.Locator("button:has-text(\"more\")").WaitForAsync();
         await HooksInitializer._context.Page.Locator("button:has-text(\"more\")").ClickAsync();
-
         await HooksInitializer._context.Page.Locator("[placeholder=\"Search\"]").ClickAsync();
-
         await HooksInitializer._context.Page.Locator("[placeholder=\"Search\"]").FillAsync("owner");
-
         await HooksInitializer._context.Page.Locator("text=").First.ClickAsync();
         await HooksInitializer._context.Page.Locator("button:has-text(\"Save\")").WaitForAsync();
         await HooksInitializer._context.Page.Locator("button:has-text(\"Save\")").ClickAsync();
 
-
         await HooksInitializer._context.Page.Locator("div[role=\"button\"]:has-text(\"Created On\")").ClickAsync();
-
         await HooksInitializer._context.Page.Locator("div[role=\"button\"]:has-text(\"Created On\")").ClickAsync();
-
         await HooksInitializer._context.Page.Locator("[aria-label=\"Newer to older\"]").ClickAsync();
 
         for (int i = 0; i < scheduleCount; i++)
-
         {
-
           await HooksInitializer._context.Page.Locator($"text={deleteOwner}").Nth(1).ClickAsync();
           if (HooksInitializer._context.Page.Locator("button[role=\"menuitem\"]:has-text(\"Delete\")").IsVisibleAsync().Result == false)
           {
@@ -119,7 +108,6 @@ namespace pre.test.Hooks
           }
           await HooksInitializer._context.Page.Locator("button[role=\"menuitem\"]:has-text(\"Delete\")").ClickAsync();
         }
-
       }
     }
 
@@ -127,9 +115,7 @@ namespace pre.test.Hooks
     public async Task cleanUpEnvCase()
     {
       if (caseRef.Count > 0)
-
       {
-
         await HooksInitializer._context.Page.GotoAsync($"{deleteCaseUrlTest}");
         await HooksInitializer._context.Page.Locator("button:has-text(\"more\")").WaitForAsync();
         await HooksInitializer._context.Page.Locator("button:has-text(\"more\")").ClickAsync();
@@ -138,6 +124,7 @@ namespace pre.test.Hooks
         await HooksInitializer._context.Page.Locator("text=").First.ClickAsync();
         await HooksInitializer._context.Page.Locator("button:has-text(\"Save\")").WaitForAsync();
         await HooksInitializer._context.Page.Locator("button:has-text(\"Save\")").ClickAsync();
+
         await HooksInitializer._context.Page.Locator("div[role=\"button\"]:has-text(\"Created On\")").ClickAsync();
         await HooksInitializer._context.Page.Locator("div[role=\"button\"]:has-text(\"Created On\")").ClickAsync();
         await HooksInitializer._context.Page.Locator("[aria-label=\"Newer to older\"]").ClickAsync();
@@ -151,7 +138,6 @@ namespace pre.test.Hooks
             await HooksInitializer._context.Page.Locator($"text={caseRef[j]}").First.ClickAsync();
           }
           await HooksInitializer._context.Page.Locator("button[role=\"menuitem\"]:has-text(\"Delete\")").ClickAsync();
-
         }
 
       }
@@ -161,34 +147,22 @@ namespace pre.test.Hooks
     public async Task cleanUpEnvRecordings()
     {
       if (recordings.Count > 0)
-
       {
-
         await HooksInitializer._context.Page.GotoAsync($"{deleteRecordingUrlTest}");
-
         await HooksInitializer._context.Page.Locator("button:has-text(\"more\")").WaitForAsync();
         await HooksInitializer._context.Page.Locator("button:has-text(\"more\")").ClickAsync();
-
         await HooksInitializer._context.Page.Locator("[placeholder=\"Search\"]").ClickAsync();
-
         await HooksInitializer._context.Page.Locator("[placeholder=\"Search\"]").FillAsync("case ref");
-
         await HooksInitializer._context.Page.Locator("text=").First.ClickAsync();
         await HooksInitializer._context.Page.Locator("button:has-text(\"Save\")").WaitForAsync();
         await HooksInitializer._context.Page.Locator("button:has-text(\"Save\")").ClickAsync();
 
-
         await HooksInitializer._context.Page.Locator("div[role=\"button\"]:has-text(\"Created On\")").ClickAsync();
-
         await HooksInitializer._context.Page.Locator("div[role=\"button\"]:has-text(\"Created On\")").ClickAsync();
-
         await HooksInitializer._context.Page.Locator("[aria-label=\"Newer to older\"]").ClickAsync();
 
-
         for (int j = 0; j < recordings.Count; j++)
-
         {
-
           await HooksInitializer._context.Page.Locator($"text={recordings[j]}").First.ClickAsync();
           if (HooksInitializer._context.Page.Locator("button[role=\"menuitem\"]:has-text(\"Delete\")").IsVisibleAsync().Result == false)
           {
@@ -197,7 +171,6 @@ namespace pre.test.Hooks
           }
           await HooksInitializer._context.Page.Locator("button[role=\"menuitem\"]:has-text(\"Delete\")").ClickAsync();
         }
-
       }
     }
 
@@ -205,51 +178,31 @@ namespace pre.test.Hooks
     public async Task cleanUpEnvContacts()
     {
       if (contacts.Count > 0)
-
       {
-
         await HooksInitializer._context.Page.GotoAsync($"{deleteContactsUrlTest}");
         await HooksInitializer._context.Page.Locator("button:has-text(\"more\")").WaitForAsync();
         await HooksInitializer._context.Page.Locator("button:has-text(\"more\")").ClickAsync();
-
         await HooksInitializer._context.Page.Locator(".ms-Checkbox-checkbox").First.ClickAsync();
-
         await HooksInitializer._context.Page.Locator("text=Full Name (Primary) >> i").First.ClickAsync();
-
         await HooksInitializer._context.Page.Locator("[placeholder=\"Search\"]").ClickAsync();
-
         await HooksInitializer._context.Page.Locator("[placeholder=\"Search\"]").FillAsync("owner");
-
         await HooksInitializer._context.Page.Locator("text=").ClickAsync();
-
         await HooksInitializer._context.Page.Locator("[placeholder=\"Search\"]").ClickAsync();
-
         await HooksInitializer._context.Page.Locator("[placeholder=\"Search\"]").FillAsync("created on");
-
         await HooksInitializer._context.Page.Locator("text=").First.ClickAsync();
         await HooksInitializer._context.Page.Locator("button:has-text(\"Save\")").WaitForAsync();
         await HooksInitializer._context.Page.Locator("button:has-text(\"Save\")").ClickAsync();
 
-
         await HooksInitializer._context.Page.Locator("div[role=\"button\"]:has-text(\"Created On\")").ClickAsync();
-
         await HooksInitializer._context.Page.Locator("div[role=\"button\"]:has-text(\"Created On\")").ClickAsync();
-
         await HooksInitializer._context.Page.Locator("[aria-label=\"Newer to older\"]").ClickAsync();
-
-
         await HooksInitializer._context.Page.Locator("div[role=\"button\"]:has-text(\"Owner\")").ClickAsync();
-
         await HooksInitializer._context.Page.Locator("[aria-label=\"Filter by\"]").ClickAsync();
-
         await HooksInitializer._context.Page.Locator("[aria-label=\"Filter by value\"]").FillAsync($"{deleteOwner}");
-
         await HooksInitializer._context.Page.Locator("button:has-text(\"Apply\")").ClickAsync();
 
         for (int i = 0; i < contacts.Count; i++)
-
         {
-
           await HooksInitializer._context.Page.Locator($"text={contacts[i]}").First.ClickAsync();
           if (HooksInitializer._context.Page.Locator("button[role=\"menuitem\"]:has-text(\"Delete\")").IsVisibleAsync().Result == false)
           {
@@ -258,7 +211,6 @@ namespace pre.test.Hooks
           }
           await HooksInitializer._context.Page.Locator("button[role=\"menuitem\"]:has-text(\"Delete\")").ClickAsync();
         }
-
       }
     }
 
