@@ -181,6 +181,7 @@ namespace pre.test
     public async Task GivenIupdateallfields()
     {
       ManageUser.use = "super";
+      await _manageuser.gotoSuperUser();
       await _manageuser.UpdateAll();
     }
 
@@ -279,6 +280,7 @@ namespace pre.test
     public async Task WhenIchangethefirstnametobealphanumericwithadash()
     {
       firstName = $"FAutomated-{date}";
+      Hooks.HooksInitializer.contacts.Add($"{firstName}");
       await _manageuser.checkValidation();
     }
 
@@ -286,6 +288,7 @@ namespace pre.test
     public async Task WhenIchangethelastnametobealphanumericwithadash()
     {
       lastName = $"LAutomated-{date}";
+      Hooks.HooksInitializer.contacts.Add($"{lastName}");
       await _manageuser.checkValidation();
     }
 
@@ -293,6 +296,7 @@ namespace pre.test
     public async Task WhenIchangetheemailtomeetallvalidationcriteria()
     {
       email = $"EAutomated-{date}-{specialChars}~@pretest.com";
+      Hooks.HooksInitializer.contacts.Add($"{ManageUsers.firstName} {ManageUsers.lastName}");
       await _manageuser.checkValidation();
     }
 
@@ -300,6 +304,7 @@ namespace pre.test
     public async Task WhenIchangethephonenumbertobenumericwithaplussign()
     {
       phoneNumber = "+447000000001";
+       Hooks.HooksInitializer.contacts.Add($"{ManageUsers.firstName} {ManageUsers.lastName}");
       await _manageuser.checkValidation();
     }
 
@@ -307,6 +312,7 @@ namespace pre.test
     public async Task WhenIchangetheorganisationtobealphanumeric()
     {
       organisation = $"OAutomated-{date}";
+      Hooks.HooksInitializer.contacts.Add($"{ManageUsers.firstName} {ManageUsers.lastName}");
       await _manageuser.checkValidation();
     }
 

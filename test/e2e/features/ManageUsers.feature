@@ -51,9 +51,12 @@ So that new users can be added the PRE
 
   @SuperUserManageUsers @SuperUserCreateAUser @SuperscreencheckUser
   Scenario: Super User screen-Update every user field in super user screen
+    Then the user will not be visible in Admin
+    #Super user screen
     Given I update all fields
     Then the PRE user record will be updated
-    Then the user will not be visible in Admin
+    
+    
 
   @ManageUsers
   Scenario: Searching for a user with no results returns a message
