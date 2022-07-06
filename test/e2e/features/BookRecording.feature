@@ -6,46 +6,37 @@ Feature: Book Recording
 Scenario: Create Case
   Given all fields entered and click save
   Then case will be created
-  
-@ScheduleCreate 
-Scenario: Create schedule
- Given i fill required data for creating recording
- Then the recordings box is filled
- Then schedules will be created
+  Given i click the reset button
+  Then the fields are empty/reset
 
-@ScheduleCreate 
- Scenario: Scheduling recording in the past error message
- Given I select a date in the past
- Then an error message is displayed
- Then the save button disabled
+# #quota test- comment in when needed 
+# # @ScheduleCreate 
+# # Scenario: Create schedules
+# #  Given i fill required data for creating recording
+# #  Then the recordings box is filled
+# #  Then schedules will be created
+# #  Then i can start recordings for the ten schedules
 
- @ScheduleCreate 
- Scenario: Scheduling without a witness
- Given I do not select a witness 
- Then the save button disabled
+@ScheduleCreate
+Scenario:Create schedule
+  Given i fill required data for creating recording
+  Then the recordings box is filled
+  Given I click the open case button
+  Given all fields entered and click save
+  Then case will be created
 
- @ScheduleCreate 
- Scenario: Scheduling without a defendant
- Given I do not select a defendant 
- Then the save button disabled
+@ScheduleCreate
+Scenario:Create schedule as child witness
+  Given i fill required data for creating schedule as a child
+  Then the recordings box is filled
+  Then schedules will be created
 
- @ScheduleCreate 
- Scenario: Scheduling without a date
- Given I do not select a date 
- Then the save button disabled
+@ScheduleCreate
+Scenario: Create a schedule with more than one witness
+  Given all fields entered and click save
+  When I try to add more than one witness to the schedule
+  Then only one witness is selected
 
-# # # Bug - will be fixed for MVP
-# @ScheduleCreate  
-# Scenario: Check Courts
-#   Given I select a court name
-#   Then I am presented only with MVP court names
-
-# quota test, use when required
-# @ScheduleCreate @cleanUpRecordings 
-# Scenario: Test microsoft quota more than 5 recordings
-#  Given i fill required data for creating ten recordings
-#  Then schedules will be created
-#  Then i can start recordings for the ten schedules
 
 @ScheduleCreate 
 Scenario: Create case with all blank values
@@ -72,7 +63,7 @@ Scenario: Create case with defendant blank values
   Given I create a case with blank values in defendants
   Then an error message is displayed about the blank values 
 
-# # # # #validation message will be implemented post MVP
+# #validation message will be implemented post MVP
 @ScheduleCreate 
 Scenario: Cannot Create case with more than 13 characters
   Given I try to create a case ref more than thirteen characters
@@ -85,19 +76,37 @@ Scenario: Update case with blank values
   When I delete all witnesses and defendants the save button is disabled
 
 @ScheduleCreate 
+Scenario: Update case with blank values in list
+  Given all fields entered and click save
+  Then case will be created
+  When I update a case with blank values they cannot be saved
+
+@ScheduleCreate 
 Scenario: Create case with blank values in list
   Given I create a case with blank values in a list
 Then the case is created but the blank values are ignored 
 
-# Need to figure out assertion
+# Bug in S28-269
 # @ScheduleCreate 
-# Scenario: Update case with blank values in list
-#   Given all fields entered and click save
-#   Then case will be created
-#   When I update a case with blank values they cannot be saved
+# Scenario: Delete schedule
+#   Given I create a schedule
+#   Then I can search for the schedule
+#   Then I can delete the schedule
+#   # Then I see a confirmation message
+#   Then I can no longer search for the schedule
 
-@ScheduleCreate 
-Scenario: Create case with Duplicate case ref
-Given I create a case with a duplicate case ref
-Then an error message is displayed stating the case exists
+  Scenario: Delete schedule with recording
+    Given there's a schedule with a recording
+    Then I cannot delete the schedule
 
+  @ScheduleCreate
+  Scenario: Create case with Duplicate case ref
+    Given I create a case with a duplicate case ref
+    Then an error message is displayed stating the case exists
+
+#S28-646
+# Scenario: Display Terms and conditions
+#   Given I click the Terms and Conditions and link
+#   Then the terms and conditions are displayed
+#   When I click back
+#   Then it goes back to the correct page

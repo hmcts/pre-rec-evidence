@@ -398,6 +398,8 @@ namespace pre.test.pages
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Save\")").First.ClickAsync();
 
       HooksInitializer.scheduleCount++;
+      HooksInitializer.recordings.Add(stringCase);
+
       var savedDate = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text=Recording Start: {dateNum}/{monthNum}/{year}");
       var savedWitness = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text=Witness Name: {wit1}").First;
       var savedDefendant = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text=Defendants: {def1}").First;
@@ -678,14 +680,14 @@ namespace pre.test.pages
         await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=Full Name: Role: RoleOpen popup to select items. >> [placeholder=\"Full Name\"]").FillAsync($"{newDef}");
         await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Select Court\"]").ClickAsync();
         await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("span:has-text(\"Defendant\")").Nth(2).ClickAsync();
-        HooksInitializer.contactCount = HooksInitializer.contactCount++;
+        Hooks.HooksInitializer.contacts.Add(newDef);
       }
       else if (UpdateBookedRecordings.use == "W")
       {
         await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=Full Name: Role: RoleOpen popup to select items. >> [placeholder=\"Full Name\"]").FillAsync($"{newWit}");
         await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Select Court\"]").ClickAsync();
         await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("span:has-text(\"Witness\")").Nth(2).ClickAsync();
-        HooksInitializer.contactCount++;
+        Hooks.HooksInitializer.contacts.Add(newWit);
       }
       else
       {
@@ -698,7 +700,8 @@ namespace pre.test.pages
         await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=Full Name: Role: RoleOpen popup to select items. >> [placeholder=\"Full Name\"]").FillAsync($"{newWit}");
         await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Select Court\"]").ClickAsync();
         await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("span:has-text(\"Witness\")").Nth(2).ClickAsync();
-        HooksInitializer.contactCount = HooksInitializer.contactCount + 2;
+        Hooks.HooksInitializer.contacts.Add(newDef);
+        Hooks.HooksInitializer.contacts.Add(newWit);
       }
 
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div:nth-child(3) .appmagic-borderfill-container .appmagic-border-inner .react-knockout-control .powerapps-icon").First.ClickAsync();

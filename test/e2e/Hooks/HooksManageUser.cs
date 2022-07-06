@@ -3,6 +3,7 @@ using TechTalk.SpecFlow;
 using pre.test.pages;
 using NUnit.Framework;
 using System;
+using Microsoft.Playwright;
 
 namespace pre.test.Hooks
 {
@@ -51,7 +52,8 @@ namespace pre.test.Hooks
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=Super User functions").ClickAsync();
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Add New User\")").ClickAsync();
       await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
-      HooksInitializer.contactCount++;
+      HooksInitializer.contacts.Add($"{ManageUser.createUserFirstName} {ManageUser.createUserLastName}");
+      
     }
 
     [BeforeScenario("CreateAUser", Order = 2)]
@@ -95,7 +97,10 @@ namespace pre.test.Hooks
       {
         await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Add New User\")").ClickAsync();
         await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
-        HooksInitializer.contactCount++;
+        if( ManageUser.use != "duplicateEmail")
+        {
+        HooksInitializer.contacts.Add($"{ManageUser.createUserFirstName} {ManageUser.createUserLastName}");
+        }
       }
     }
 
@@ -107,6 +112,7 @@ namespace pre.test.Hooks
 
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Search - Name \\/ Email\"]").FillAsync($"{ManageUser.createUserLastName}");
       await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+      
 
       var UserBox = HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text={ManageUser.createUserFirstName} {ManageUser.createUserLastName}");
       await Task.Run(() => Assert.IsTrue(UserBox.IsVisibleAsync().Result));

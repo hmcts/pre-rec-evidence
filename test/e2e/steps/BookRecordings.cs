@@ -40,6 +40,17 @@ namespace pre.test
       await _bookrecording.ScheduleRecording();
     }
 
+
+    [Given(@"i fill required data for creating schedule as a child")]
+    public async Task Givenifillrequireddataforcreatingscheduleasachild()
+    {
+      use = "Child";
+      await _bookrecording.EnterCaseDetails();
+      await _bookrecording.ScheduleRecording();
+    }
+
+
+    [Then(@"I can search for the schedule")]
     [Then(@"schedules will be created")]
     public async Task Thenscheduleswillbecreated()
     {
@@ -97,6 +108,8 @@ namespace pre.test
         _bookrecording.year = (DateTime.UtcNow.AddDays(+i)).ToString("yyyy");
 
         HooksInitializer.scheduleCount++;
+        HooksInitializer.recordings.Add(BookRecording.caseName);
+
         await _bookrecording.ScheduleRecording();
       }
     }
@@ -116,7 +129,7 @@ namespace pre.test
     [Then(@"an error message is displayed about the blank values")]
     public async Task Thenanerrormessageisdisplayedblank()
     {
-    	await _bookrecording.blankErrorMessage();
+      await _bookrecording.blankErrorMessage();
     }
 
     [Given(@"I create a case with blank values in court")]
@@ -176,7 +189,8 @@ namespace pre.test
     public async Task GivenIcreateacasewithaduplicatecaseref()
     {
       await _bookrecording.EnterCaseDetails();
-      use= "D";
+      
+      use = "D";
       await _bookrecording.EnterCaseDetails();
     }
 
@@ -190,7 +204,7 @@ namespace pre.test
     [Given(@"I do not select a witness")]
     public async Task GivenIdonotselectawitness()
     {
-      use= "witness";
+      use = "witness";
       await _bookrecording.EnterCaseDetails();
       await _bookrecording.emptyField();
     }
@@ -198,7 +212,7 @@ namespace pre.test
     [Given(@"I do not select a defendant")]
     public async Task GivenIdonotselectadefendant()
     {
-      use= "defendant";
+      use = "defendant";
       await _bookrecording.EnterCaseDetails();
       await _bookrecording.emptyField();
     }
@@ -207,7 +221,7 @@ namespace pre.test
     [Given(@"I do not select a date")]
     public async Task GivenIdonotselectadate()
     {
-      use="date";
+      use = "date";
       await _bookrecording.EnterCaseDetails();
       await _bookrecording.emptyField();
     }
@@ -229,5 +243,105 @@ namespace pre.test
     {
       await _bookrecording.cannotentermorethanthirteencharacters();
     }
+
+    [Given(@"I create a schedule")]
+    public async Task GivenIcreateaschedule()
+    {
+      await _bookrecording.EnterCaseDetails();
+      await _bookrecording.ScheduleRecording();
+    }
+
+    [Then(@"I can delete the schedule")]
+    public async Task ThenIcandeletetheschedule()
+    {
+      await _bookrecording.CheckCaseCreated();
+      await _bookrecording.deleteSchedule();
+    }
+
+    [Then(@"I can no longer search for the schedule")]
+    public async Task ThenIcannolongersearchfortheschedule()
+    {
+      await _bookrecording.checkDeletedSchedule();
+    }
+
+    [Given(@"there's a schedule with a recording")]
+    public async Task Giventheresaschedulewitharecording()
+    {
+      await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.testUrl}");
+      await _bookrecording.findScheduleWithRecording();
+    }
+
+    [Then(@"I cannot delete the schedule")]
+    public async Task ThenIcannotdeletetheschedule()
+    {
+      await _bookrecording.checkCannotDeleteScheduleWithRecording();
+    }
+
+    [Given(@"I click the Terms and Conditions and link")]
+    public async Task GivenIclicktheTermsandConditionsandlink()
+    {
+      await _pagesetters.Page.GotoAsync($"{HooksInitializer.testUrl}");
+      await _bookrecording.clickTermsandConditions();
+    }
+
+
+    [Then(@"the terms and conditions are displayed")]
+    public async Task Thenthetermsandconditionsaredisplayed()
+    {
+      await _bookrecording.checkTermsandConditions();
+    }
+
+
+    [When(@"I click back")]
+    public async Task WhenIclickback()
+    {
+      await _bookrecording.clickBack();
+    }
+
+    [Then(@"it goes back to the correct page")]
+    public async Task Thenitgoesbacktothecorrectpage()
+    {
+      await _bookrecording.checkPage();
+    }
+
+
+    [Given(@"I click the open case button")]
+    public async Task GivenIclicktheopencasebutton()
+    {
+      await _bookrecording.clickOpenPage();
+    }
+
+
+    [Given(@"i click the reset button")]
+    public async Task Giveniclicktheresetbutton()
+    {
+      await _bookrecording.clickReset();
+    }
+
+
+    [Then(@"the fields are empty/reset")]
+    public async Task Thenthefieldsaremptyreset()
+    {
+      await _bookrecording.checkReset();
+    }
+
+
+    [When(@"I try to add more than one witness to the schedule")]
+    public async Task WhenItrytoaddmorethanonewitnesstotheschedule()
+    {
+      await _bookrecording.Schedule2wit();
+    }
+
+
+    [Then(@"only one witness is selected")]
+    public async Task Thenonlyonewitnessisselected()
+    {
+      await _bookrecording.checkWit();
+    }
+
+
+
+
+
   }
 }

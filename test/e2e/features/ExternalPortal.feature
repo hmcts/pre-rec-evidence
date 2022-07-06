@@ -21,19 +21,19 @@ Scenario: No recordings shared
   Then I can view the recording uid
 
 # Bug s28-179
-@unlockAccount
+@unlockAccount @createAccount
 Scenario: Invalid password
   Given I enter the wrong log-in details
   Then I see an error message
   When I do this five times
   Then my account is locked
- # Then I can see a link to reset my password
+#  Then I can see a link to reset my password
 
 # Bug s28-179
 # @unlockAccount - add back in when uncommenting locking lines
 Scenario: Invalid 2FA Code
   Given I enter the wrong 2FA code
   Then I see an error message
-  # When I do this five times
-  # Then my account is locked
- # Then I can see a link to reset my password
+#   When I do this five times
+#   Then my account is locked
+# #  Then I can see a link to reset my password

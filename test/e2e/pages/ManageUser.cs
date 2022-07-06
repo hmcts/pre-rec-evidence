@@ -20,6 +20,7 @@ namespace pre.test.pages
     public static string use = "";
     public static string newUserEmail = "";
     public static bool first = true;
+    public static bool last = false;
 
     public ManageUser(IPage page) : base(page) { }
 
@@ -33,8 +34,8 @@ namespace pre.test.pages
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Search User\"]").ClickAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Search - Name \\/ Email\"]").ClickAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Search - Name \\/ Email\"]").FillAsync($"{existingEmailFirstName} {existingEmailLastName}");
-      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
-
+      
+      await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
       var UserBox = ManageUsers._pagesetters.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text={existingEmailFirstName} {existingEmailLastName}");
       await Task.Run(() => Assert.IsFalse(UserBox.IsVisibleAsync().Result));
     }
@@ -52,7 +53,7 @@ namespace pre.test.pages
       await Task.Run(() => Assert.IsFalse(saveButton.IsDisabledAsync().Result));
 
       await saveButton.ClickAsync();
-      HooksInitializer.contactCount++;
+       
       await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
     }
 
@@ -62,10 +63,14 @@ namespace pre.test.pages
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"User\\ First\\ Name\"]").First.FillAsync($"{createUserFirstName}Update");
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Save User\")").ClickAsync();
       await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+      HooksInitializer.contacts.RemoveAt(HooksInitializer.contacts.Count -1);
+      HooksInitializer.contacts.Add($"{ManageUser.createUserFirstName}Update {ManageUser.createUserLastName}");
     }
     public async Task UpdateFirstNameCheck()
     {
+      await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
       var firstName = ManageUsers._pagesetters.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"User First Name\"]").First;
+      await firstName.WaitForAsync();
       await Task.Run(() => Assert.That(firstName.InputValueAsync().Result, Does.Contain($"{createUserFirstName}Update")));
     }
 
@@ -75,11 +80,16 @@ namespace pre.test.pages
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"User\\ Last\\ Name\"]").First.FillAsync($"{createUserLastName}Update");
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Save User\")").ClickAsync();
       await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
-
+      HooksInitializer.contacts.RemoveAt(HooksInitializer.contacts.Count -1);
+      HooksInitializer.contacts.Add($"{ManageUser.createUserFirstName} {ManageUser.createUserLastName}Update");
     }
+
+    
     public async Task UpdateLastNameCheck()
     {
+      await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
       var lastName = ManageUsers._pagesetters.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"User Last Name\"]").First;
+      await lastName.WaitForAsync();
       await Task.Run(() => Assert.That(lastName.InputValueAsync().Result, Does.Contain($"{createUserLastName}Update")));
     }
     public async Task UpdateEmail()
@@ -94,7 +104,9 @@ namespace pre.test.pages
 
     public async Task UpdateEmailCheck()
     {
+      await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
       var email = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"User\\ Email\"]");
+      await email.WaitForAsync();
       await Task.Run(() => Assert.That(email.InputValueAsync().Result, Does.Contain($"{newUserEmail}Update")));
     }
 
@@ -108,7 +120,9 @@ namespace pre.test.pages
 
     public async Task UpdatePhoneNoCheck()
     {
+      await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
       var phoneNumber = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"User Phone Number\"]").First;
+      await phoneNumber.WaitForAsync();
       await Task.Run(() => Assert.That(phoneNumber.InputValueAsync().Result, Does.Contain("n/aUpdate")));
     }
 
@@ -137,6 +151,7 @@ namespace pre.test.pages
 
     public async Task UpdateRoleCheck()
     {
+      await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
       var role = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("#react-combobox-view-4");
       await Task.Run(() => Assert.IsTrue(role.IsVisibleAsync().Result));
       await role.ClickAsync();
@@ -176,13 +191,15 @@ namespace pre.test.pages
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=Clerks, Court Associates, Ushers, Legal Advisors, JIT").ClickAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Save User\")").ClickAsync();
       await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+      HooksInitializer.contacts.RemoveAt(HooksInitializer.contacts.Count -1);
+      HooksInitializer.contacts.Add($"{ManageUser.createUserFirstName}Update {ManageUser.createUserLastName}Update");
 
     }
 
     public async Task UpdateAllCheck()
     {
       await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
-
+  
       var firstName = ManageUsers._pagesetters.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"User First Name\"]").First;
       await Task.Run(() => Assert.That(firstName.InputValueAsync().Result, Does.Contain($"{createUserFirstName}Update")));
 
@@ -240,19 +257,23 @@ namespace pre.test.pages
     public async Task searchNoRecordsMessage()
     {
       var noRecordMessage = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=There are no records matching your search criteria. Consider changing your searc");
+     await noRecordMessage.WaitForAsync();
       await Task.Run(() => Assert.That(noRecordMessage.TextContentAsync().Result, Does.Contain("no records matching")));
     }
     public async Task adminCheck()
-    {
+    { 
+      await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=HMCTS Logo").ClickAsync();
-      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+      //await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Admin\")").WaitForAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Admin\")").ClickAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Manage\\ Users\"]").ClickAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Search User\"]").ClickAsync();
-      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+      await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Search - Name \\/ Email\"]").WaitForAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Search - Name \\/ Email\"]").ClickAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Search - Name \\/ Email\"]").FillAsync($"{createUserLastName}");
-      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+      await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
     }
 
     public async Task checkValidation()
@@ -266,6 +287,7 @@ namespace pre.test.pages
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"User Phone Number\"]").Nth(1).FillAsync($"{ManageUsers.phoneNumber}");
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"User Organisation\"]").Nth(1).ClickAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"User Organisation\"]").Nth(1).FillAsync($"{ManageUsers.organisation}");
+
       if (first)
       {
         await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div.combobox-view-chevron.arrowContainer_1kmq8gc-o_O-container_r2h174-o_O-containerColors_1lj5p80").Nth(1).ClickAsync();
@@ -324,8 +346,9 @@ namespace pre.test.pages
 
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Search - Name \\/ Email\"]").FillAsync($"{ManageUsers.firstName}");
       await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
-
+       
       var UserBox = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text={ManageUsers.firstName} {ManageUsers.lastName}");
+      await UserBox.WaitForAsync();
       await Task.Run(() => Assert.IsTrue(UserBox.IsVisibleAsync().Result));
       await Task.Run(() => UserBox.ClickAsync());
 
@@ -339,13 +362,28 @@ namespace pre.test.pages
       await Task.Run(() => Assert.That(email.InputValueAsync().Result, Does.Contain($"{ManageUsers.email}")));
 
       var phoneNumber = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"User Phone Number\"]").First;
-      await Task.Run(() => Assert.That(phoneNumber.InputValueAsync().Result, Does.Contain($"{ManageUsers.phoneNumber}")));
+     await Task.Run(() => Assert.That(phoneNumber.InputValueAsync().Result, Does.Contain($"{ManageUsers.phoneNumber}")));
 
       var organisation = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"User Organisation\"]").First;
       await Task.Run(() => Assert.That(organisation.InputValueAsync().Result, Does.Contain($"{ManageUsers.organisation}")));
 
       var role = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"User Roles\\. Selected\\: Level 3\"]").First;
-      await Task.Run(() => Assert.IsTrue(role.IsVisibleAsync().Result));
+       await Task.Run(() => Assert.IsTrue(role.IsVisibleAsync().Result));
+    }
+    public async Task gotoSuperUser()
+    {
+      await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=HMCTS Logo").ClickAsync();
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Super User\")").First.ClickAsync();
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Manage Users\"]").First.ClickAsync();
+      await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Search Users\"]").ClickAsync();
+      await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Search - Name \\/ Email\"]").ClickAsync();
+
+      await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Search - Name \\/ Email\"]").FillAsync($"{ManageUser.createUserLastName}");
+      await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+      var UserBox = HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text={ManageUser.createUserFirstName} {ManageUser.createUserLastName}");
+      await Task.Run(() => Assert.IsTrue(UserBox.IsVisibleAsync().Result));
+      await Task.Run(() => UserBox.ClickAsync());
     }
   }
 }
