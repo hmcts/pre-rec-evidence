@@ -117,5 +117,23 @@ namespace pre.test
     {
       await _manageRecording.recordingStartedCheck();
     }
+
+    [Then(@"the schedule is not in Manage Recordings")]
+    public async Task ThenthescheduleisnotinManageRecordings()
+    {
+      await _manageRecording.manageRecordingCheck();
+    }
+
+    [Then(@"the schedule is not in the schedule page")]
+    public async Task Thenthescheduleisnotintheschedulepage()
+    {
+      await _manageRecording.schedulePageCheck();
+    }
+
+    [Then(@"the schedule is deleted in Admin Manage Cases")]
+    public async Task ThenthescheduleisdeletedinAdminManageCases()
+    {
+      await _manageRecording.adminCheck();
+    }
   }
 }

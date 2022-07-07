@@ -112,6 +112,7 @@ namespace pre.test.pages
     {
       var ConfirmationMessage = Page.Frame("fullscreen-app-host").Locator("text= Scheduled Recording Deleted");
       await Task.Run(() => Assert.That(ConfirmationMessage.TextContentAsync().Result, Does.Contain("Scheduled Recording Deleted")));
+      await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
     }
 
     public async Task noRecordingCheck()
@@ -178,5 +179,58 @@ namespace pre.test.pages
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Yes\")").ClickAsync();
       await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
     }
+    public async Task manageRecordingCheck()
+    {
+      await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
+      var message= Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=There are no recordings matching your search criteria. Consider changing or remo");
+      await message.WaitForAsync();
+      await Task.Run(() => Assert.IsTrue(message.IsVisibleAsync().Result));
+      
+    }
+    public async Task schedulePageCheck()
+    {
+      await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Home\")").ClickAsync();
+      await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Book a Recording\")").ClickAsync();
+      await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div.combobox-view-chevron.arrowContainer_1kmq8gc-o_O-container_r2h174-o_O-containerColors_rv6t10").First.ClickAsync();
+
+      await Page.Frame("fullscreen-app-host").ClickAsync($"[aria-label=\"Select\\ Court\\ items\"] div:has-text(\"Leeds\")");
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Case Number \\\\ URN\"]").First.FillAsync($"{ManageRecording.caseRef}");
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+
+      var exists = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator(".container_1f0sgyp div:nth-child(2) .react-knockout-control .appmagic-svg").First;
+      await exists.ClickAsync();
+
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Modify\")").ClickAsync();
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Save\")").Nth(2).ClickAsync();
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+
+      var box = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Booked Recordings\"] div").Nth(1);
+      await Task.Run(() => Assert.That(box.InnerTextAsync().Result, Does.Not.Contain("wit1")));
+    }
+     public async Task adminCheck()
+    {
+      
+    var month = DateTime.UtcNow.ToString("MM");
+    
+    var year = DateTime.UtcNow.ToString("yyyy");
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=HMCTS Logo").ClickAsync();
+
+        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Admin\")").ClickAsync();
+        
+        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Manage Cases\"]").First.ClickAsync();
+        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Case\\ Ref\\ \\\\\\ URN\\ \\\\\\ ID\\ \\\\\\ Court\"]").ClickAsync();
+        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Case\\ Ref\\ \\\\\\ URN\\ \\\\\\ ID\\ \\\\\\ Court\"]").FillAsync($"{ManageRecording.caseRef}");
+        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=Court: Leeds").First.ClickAsync();
+        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text=Schedule Date: {date}/{month}/{year}").ClickAsync();
+        
+        var deleted= Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=Recording Status: Deleted");
+        await deleted.WaitForAsync();
+        await Task.Run(() => Assert.IsTrue(deleted.IsVisibleAsync().Result));
+      }
+    }
   }
-}

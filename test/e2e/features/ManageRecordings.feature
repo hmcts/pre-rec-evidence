@@ -30,6 +30,9 @@ Scenario: Check recording version number
 Scenario: Success message after clicking delete should say scheduled recording deleted
   Given I delete a recording
   Then the success message says scheduled recording deleted
+   Then the schedule is not in Manage Recordings
+   Then the schedule is not in the schedule page
+   Then the schedule is deleted in Admin Manage Cases
 
 @CaseAndScheduleCreate
 Scenario: Right buttons should be visible when there's no recording and when recording has started
