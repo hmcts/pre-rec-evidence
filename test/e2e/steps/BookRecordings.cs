@@ -188,6 +188,7 @@ namespace pre.test
     [Given(@"I create a case with a duplicate case ref")]
     public async Task GivenIcreateacasewithaduplicatecaseref()
     {
+      use = "DD";
       await _bookrecording.EnterCaseDetails();
       
       use = "D";

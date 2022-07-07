@@ -41,8 +41,7 @@ namespace pre.test.pages
       {
         await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
         await Page.ReloadAsync();
-      await Page.Frame("fullscreen-app-host").Locator("button:has-text(\"Book a Recording\")").ClickAsync();   
-        
+        await Page.Frame("fullscreen-app-host").Locator("button:has-text(\"Book a Recording\")").ClickAsync();
       }
       else
       {
@@ -61,20 +60,25 @@ namespace pre.test.pages
       await Page.Frame("fullscreen-app-host").FillAsync("[aria-label=\"Enter\\ your\\ Defendants\\,\\ comma\\ seperated\"]", $"{defendantName},\n{defendantName2}");
       await Page.Frame("fullscreen-app-host").ClickAsync("[aria-label=\"Enter\\ your\\ Witnesses\\,\\ comma\\ seperated\"]");
       await Page.Frame("fullscreen-app-host").FillAsync("[aria-label=\"Enter\\ your\\ Witnesses\\,\\ comma\\ seperated\"]", $"{witnessName},\n{witnessName2}");
-      if (BookRecordings.use == "D")
+      if (BookRecordings.use == "DD" || BookRecordings.use == "D")
       {
         await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
       }
-      await Page.Frame("fullscreen-app-host").ClickAsync(":nth-match(button:has-text(\"Save\"), 2)");
 
+      await Page.Frame("fullscreen-app-host").ClickAsync(":nth-match(button:has-text(\"Save\"), 2)");
+      if (BookRecordings.use == "DD")
+      {
+        await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+      }
       await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+
       if (BookRecordings.use != "D")
       {
         HooksInitializer.caseRef.Add(caseName);
         HooksInitializer.contacts.Add(defendantName);
         HooksInitializer.contacts.Add(witnessName);
-        HooksInitializer.contacts.Add($"{defendantName2}");
-        HooksInitializer.contacts.Add($"{witnessName2}");
+        HooksInitializer.contacts.Add(defendantName2);
+        HooksInitializer.contacts.Add(witnessName2);
       }
     }
     public async Task gotoBook()
@@ -90,15 +94,15 @@ namespace pre.test.pages
       var Datepicker = Page.Frame("fullscreen-app-host").Locator("[aria-label=\"Select\\ Scheduled\\ Start\\ DateOpen\\ calendar\\ to\\ select\\ a\\ date\"]");
       await Datepicker.WaitForAsync();
       await Datepicker.ClickAsync();
-  
+
       for (int i = 0; i < changeMonthCount; i++)
       {
         await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Next Month\"]").ClickAsync();
       }
       await Page.Frame("fullscreen-app-host").ClickAsync($"[aria-label=\"{day}\\ {month}\\ {dateNum}\\ {year}\"]");
       await Page.Frame("fullscreen-app-host").ClickAsync("button[role='button']:has-text(\"Ok\")");
-     
-      var witdropdwn= Page.Frame("fullscreen-app-host").Locator("[aria-label=\"Select\\ your\\ Witness\"]");
+
+      var witdropdwn = Page.Frame("fullscreen-app-host").Locator("[aria-label=\"Select\\ your\\ Witness\"]");
       await witdropdwn.WaitForAsync();
       await witdropdwn.ClickAsync();
 
@@ -147,17 +151,17 @@ namespace pre.test.pages
     {
       await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
 
-     await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
-     await Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Home\")");
-     await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
-      
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+      await Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Home\")");
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+
       await Page.ReloadAsync();
       var bookbutton = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Book a Recording\")");
-       await bookbutton.ClickAsync();
-      
+      await bookbutton.ClickAsync();
+
       await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
-     await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
-  
+      await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
+
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div.combobox-view-chevron.arrowContainer_1kmq8gc-o_O-container_r2h174-o_O-containerColors_rv6t10").First.ClickAsync();
 
       await Page.Frame("fullscreen-app-host").ClickAsync($"[aria-label=\"Select\\ Court\\ items\"] div:has-text(\"{court}\")");
@@ -172,7 +176,7 @@ namespace pre.test.pages
 
       var caseNameLocator = Page.Frame("fullscreen-app-host").Locator("#publishedCanvas div.canvasContentDiv.container_1vt1y2p div div:nth-child(1) div div div div div");
       await Task.Run(() => Assert.That(caseNameLocator.AllTextContentsAsync().Result, Does.Contain($"{caseName}")));
-      
+
     }
     public async Task SelectCourt()
     {
@@ -219,12 +223,12 @@ namespace pre.test.pages
     }
     public async Task checkRecordingBox()
     {
-      
+
       var defendantLocator = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text=Defendants: {defendantName}");
       var dateLocator = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text=Recording Start: {dateNum}/{monthNum}/{year}");
       await defendantLocator.WaitForAsync();
       await dateLocator.WaitForAsync();
-      
+
       await Task.Run(() => Assert.IsTrue(dateLocator.IsVisibleAsync().Result));
       var witnessLocator = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text=Witness Name: {witnessName}");
       await witnessLocator.WaitForAsync();
@@ -232,8 +236,8 @@ namespace pre.test.pages
       await Task.Run(() => Assert.IsTrue(defendantLocator.IsVisibleAsync().Result));
       var deleteLocator = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Delete Recording\"]");
       await deleteLocator.WaitForAsync();
-      
-      await Task.Run(() => Assert.IsTrue(deleteLocator.IsVisibleAsync().Result)); 
+
+      await Task.Run(() => Assert.IsTrue(deleteLocator.IsVisibleAsync().Result));
       var refreshLocator = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Refresh Recordings\"]");
       await refreshLocator.WaitForAsync();
       await Task.Run(() => Assert.IsTrue(refreshLocator.IsVisibleAsync().Result));
@@ -281,6 +285,7 @@ namespace pre.test.pages
     {
 
       var saveButton = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Save\")").Nth(1);
+      await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
 
       if (BookRecordings.use == "blankCourt")
       {
@@ -453,6 +458,7 @@ namespace pre.test.pages
     }
     public async Task blankErrorMessage()
     {
+      await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
       if (BookRecordings.use == "blankCaseRef")
       {
         DuplicateError = Page.Locator("text=Please enter a case reference longer than 9 characters.");
@@ -469,8 +475,8 @@ namespace pre.test.pages
       {
         DuplicateError = Page.Locator("text=Please select a Court from the dropdown.");
       }
-      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
-      await DuplicateError.WaitForAsync(); 
+      await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
+      await DuplicateError.WaitForAsync();
       await Task.Run(() => Assert.IsTrue(DuplicateError.IsVisibleAsync().Result));
     }
     public async Task entermorethanthirteencharacters()
@@ -518,8 +524,8 @@ namespace pre.test.pages
       await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
 
       await Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Book a Recording\")");
-       await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
-    
+      await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div.combobox-view-chevron.arrowContainer_1kmq8gc-o_O-container_r2h174-o_O-containerColors_rv6t10").First.ClickAsync();
 
       await Page.Frame("fullscreen-app-host").ClickAsync($"[aria-label=\"Select\\ Court\\ items\"] div:has-text(\"Leeds\")");
@@ -584,21 +590,21 @@ namespace pre.test.pages
     }
     public async Task clickReset()
     {
-    await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div:nth-child(14)").ClickAsync();
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div:nth-child(14)").ClickAsync();
     }
     public async Task checkReset()
     {
-    var courtdropdwn = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div.combobox-view-chevron.arrowContainer_1kmq8gc-o_O-container_r2h174-o_O-containerColors_rv6t10").First;
-    await Task.Run(() => Assert.AreEqual(courtdropdwn.InnerTextAsync().Result, ""));
+      var courtdropdwn = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div.combobox-view-chevron.arrowContainer_1kmq8gc-o_O-container_r2h174-o_O-containerColors_rv6t10").First;
+      await Task.Run(() => Assert.AreEqual(courtdropdwn.InnerTextAsync().Result, ""));
 
-    var caseRefField = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Case\\ Number\\ \\\\\\ URN\"]").First;
-    await Task.Run(() => Assert.AreEqual(caseRefField.InnerTextAsync().Result, ""));
+      var caseRefField = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Case\\ Number\\ \\\\\\ URN\"]").First;
+      await Task.Run(() => Assert.AreEqual(caseRefField.InnerTextAsync().Result, ""));
 
-    var deffield = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Enter\\ your\\ Defendants\\,\\ comma\\ seperated\"]");
-    await Task.Run(() => Assert.AreEqual(deffield.InnerTextAsync().Result, ""));
+      var deffield = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Enter\\ your\\ Defendants\\,\\ comma\\ seperated\"]");
+      await Task.Run(() => Assert.AreEqual(deffield.InnerTextAsync().Result, ""));
 
-    var witfield = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Enter\\ your\\ Witnesses\\,\\ comma\\ seperated\"]");
-    await Task.Run(() => Assert.AreEqual(witfield.InnerTextAsync().Result, ""));
+      var witfield = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Enter\\ your\\ Witnesses\\,\\ comma\\ seperated\"]");
+      await Task.Run(() => Assert.AreEqual(witfield.InnerTextAsync().Result, ""));
     }
 
     public async Task Schedule2wit()
@@ -614,8 +620,8 @@ namespace pre.test.pages
 
     public async Task checkWit()
     {
-       var witdropdwn = Page.Frame("fullscreen-app-host").Locator($"[aria-label=\"Select\\ your\\ Witness\\.\\ Selected\\:\\ {witnessName2}\"]");
-       await Task.Run(() => Assert.AreEqual(witdropdwn.InnerTextAsync().Result,($"{witnessName2}")));
+      var witdropdwn = Page.Frame("fullscreen-app-host").Locator($"[aria-label=\"Select\\ your\\ Witness\\.\\ Selected\\:\\ {witnessName2}\"]");
+      await Task.Run(() => Assert.AreEqual(witdropdwn.InnerTextAsync().Result, ($"{witnessName2}")));
     }
   }
 }
