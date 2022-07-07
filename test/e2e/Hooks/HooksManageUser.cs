@@ -53,7 +53,7 @@ namespace pre.test.Hooks
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Add New User\")").ClickAsync();
       await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
       HooksInitializer.contacts.Add($"{ManageUser.createUserFirstName} {ManageUser.createUserLastName}");
-      
+    
     }
 
     [BeforeScenario("CreateAUser", Order = 2)]
@@ -118,6 +118,7 @@ namespace pre.test.Hooks
       await Task.Run(() => Assert.IsTrue(UserBox.IsVisibleAsync().Result));
       await Task.Run(() => UserBox.ClickAsync());
 
+      await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
       var firstName = HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"User First Name\"]").First;
       await Task.Run(() => Assert.That(firstName.InputValueAsync().Result, Does.Contain($"{ManageUser.createUserFirstName}")));
 

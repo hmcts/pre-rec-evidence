@@ -93,6 +93,7 @@ namespace pre.test.Hooks
         await HooksInitializer._context.Page.Locator("text=").First.ClickAsync();
         await HooksInitializer._context.Page.Locator("button:has-text(\"Save\")").WaitForAsync();
         await HooksInitializer._context.Page.Locator("button:has-text(\"Save\")").ClickAsync();
+        await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
 
         await HooksInitializer._context.Page.Locator("div[role=\"button\"]:has-text(\"Created On\")").ClickAsync();
         await HooksInitializer._context.Page.Locator("div[role=\"button\"]:has-text(\"Created On\")").ClickAsync();
@@ -125,6 +126,7 @@ namespace pre.test.Hooks
         await HooksInitializer._context.Page.Locator("text=").First.ClickAsync();
         await HooksInitializer._context.Page.Locator("button:has-text(\"Save\")").WaitForAsync();
         await HooksInitializer._context.Page.Locator("button:has-text(\"Save\")").ClickAsync();
+        await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
 
         await HooksInitializer._context.Page.Locator("div[role=\"button\"]:has-text(\"Created On\")").ClickAsync();
         await HooksInitializer._context.Page.Locator("div[role=\"button\"]:has-text(\"Created On\")").ClickAsync();
@@ -157,6 +159,7 @@ namespace pre.test.Hooks
         await HooksInitializer._context.Page.Locator("text=").First.ClickAsync();
         await HooksInitializer._context.Page.Locator("button:has-text(\"Save\")").WaitForAsync();
         await HooksInitializer._context.Page.Locator("button:has-text(\"Save\")").ClickAsync();
+        await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
 
         await HooksInitializer._context.Page.Locator("div[role=\"button\"]:has-text(\"Created On\")").ClickAsync();
         await HooksInitializer._context.Page.Locator("div[role=\"button\"]:has-text(\"Created On\")").ClickAsync();
@@ -193,11 +196,13 @@ namespace pre.test.Hooks
         await HooksInitializer._context.Page.Locator("text=").First.ClickAsync();
         await HooksInitializer._context.Page.Locator("button:has-text(\"Save\")").WaitForAsync();
         await HooksInitializer._context.Page.Locator("button:has-text(\"Save\")").ClickAsync();
+        await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
 
         await HooksInitializer._context.Page.Locator("div[role=\"button\"]:has-text(\"Created On\")").ClickAsync();
         await HooksInitializer._context.Page.Locator("div[role=\"button\"]:has-text(\"Created On\")").ClickAsync();
         await HooksInitializer._context.Page.Locator("[aria-label=\"Newer to older\"]").ClickAsync();
         await HooksInitializer._context.Page.Locator("div[role=\"button\"]:has-text(\"Owner\")").ClickAsync();
+        await HooksInitializer._context.Page.Locator("[aria-label=\"Filter by\"]").WaitForAsync();
         await HooksInitializer._context.Page.Locator("[aria-label=\"Filter by\"]").ClickAsync();
         await HooksInitializer._context.Page.Locator("[aria-label=\"Filter by value\"]").FillAsync($"{deleteOwner}");
         await HooksInitializer._context.Page.Locator("button:has-text(\"Apply\")").ClickAsync();

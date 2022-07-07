@@ -54,7 +54,8 @@ namespace pre.test.pages
 
     public async Task RemoveCourt()
     {
-      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Amend\")").ClickAsync();
+      await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Amend\")").First.ClickAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Courts\\. Selected\\: Leeds\"]").ClickAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Remove Leeds from selection\"]").ClickAsync();
       await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
@@ -152,7 +153,7 @@ namespace pre.test.pages
       var time = (DateTime.UtcNow);
       var futureTime = (DateTime.UtcNow).AddMinutes(7);
 
-      while (rtmps.IsVisibleAsync().Result == false) { if (time > futureTime){break;}}
+      while (rtmps.IsVisibleAsync().Result == false) { if (time > futureTime) { break; } }
 
       await rtmps.WaitForAsync();
       await viewButton.WaitForAsync();
