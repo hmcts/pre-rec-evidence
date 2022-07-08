@@ -8,6 +8,7 @@ namespace pre.test.pages
   public class ManageRecording : BasePage
   {
     public static string caseRef = "";
+    public static string courtName = "Leeds";
     public static string day = DateTime.UtcNow.ToString("ddd");
     public static string month = DateTime.UtcNow.ToString("MMM");
     public static string date = DateTime.UtcNow.ToString("dd");
@@ -183,10 +184,10 @@ namespace pre.test.pages
     public async Task manageRecordingCheck()
     {
       await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
-      var message= Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=There are no recordings matching your search criteria. Consider changing or remo");
+      var message = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=There are no recordings matching your search criteria. Consider changing or remo");
       await message.WaitForAsync();
       await Task.Run(() => Assert.IsTrue(message.IsVisibleAsync().Result));
-      
+
     }
     public async Task schedulePageCheck()
     {
@@ -213,25 +214,67 @@ namespace pre.test.pages
       var box = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Booked Recordings\"] div").Nth(1);
       await Task.Run(() => Assert.That(box.InnerTextAsync().Result, Does.Not.Contain("wit1")));
     }
-     public async Task adminCheck()
+    public async Task adminCheck()
     {
-      
-    var month = DateTime.UtcNow.ToString("MM");
-    
-    var year = DateTime.UtcNow.ToString("yyyy");
+
+      var month = DateTime.UtcNow.ToString("MM");
+
+      var year = DateTime.UtcNow.ToString("yyyy");
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=HMCTS Logo").ClickAsync();
 
-        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Admin\")").ClickAsync();
-        
-        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Manage Cases\"]").First.ClickAsync();
-        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Case\\ Ref\\ \\\\\\ URN\\ \\\\\\ ID\\ \\\\\\ Court\"]").ClickAsync();
-        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Case\\ Ref\\ \\\\\\ URN\\ \\\\\\ ID\\ \\\\\\ Court\"]").FillAsync($"{ManageRecording.caseRef}");
-        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=Court: Leeds").First.ClickAsync();
-        await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text=Schedule Date: {date}/{month}/{year}").ClickAsync();
-        
-        var deleted= Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=Recording Status: Deleted");
-        await deleted.WaitForAsync();
-        await Task.Run(() => Assert.IsTrue(deleted.IsVisibleAsync().Result));
-      }
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Admin\")").ClickAsync();
+
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Manage Cases\"]").First.ClickAsync();
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Case\\ Ref\\ \\\\\\ URN\\ \\\\\\ ID\\ \\\\\\ Court\"]").ClickAsync();
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Case\\ Ref\\ \\\\\\ URN\\ \\\\\\ ID\\ \\\\\\ Court\"]").FillAsync($"{ManageRecording.caseRef}");
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=Court: Leeds").First.ClickAsync();
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text=Schedule Date: {date}/{month}/{year}").ClickAsync();
+
+      var deleted = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=Recording Status: Deleted");
+      await deleted.WaitForAsync();
+      await Task.Run(() => Assert.IsTrue(deleted.IsVisibleAsync().Result));
+    }
+
+
+    public async Task findACaseUsingDate()
+    {
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Select Scheduled Date\\, default TodayOpen calendar to select a date\"]").First.WaitForAsync();
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Select Scheduled Date\\, default TodayOpen calendar to select a date\"]").First.ClickAsync();
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"[aria-label=\"{day} {month} {date} {year}\"]").ClickAsync();
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button[role=\"button\"]:has-text(\"Ok\")").ClickAsync();
+    }
+
+    public async Task findACaseUsingCourtName()
+    {
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div[role=\"button\"]:has-text(\"Court Name\")").WaitForAsync();
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div[role=\"button\"]:has-text(\"Court Name\")").ClickAsync();
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"li[role=\"option\"] >> text={courtName}").ClickAsync();
+    }
+
+    public async Task findACaseUsingPartCaseRef()
+    {
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Search Case Ref\"]").WaitForAsync();
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Search Case Ref\"]").FillAsync($"{caseRef.Substring(0, 8)}");
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Select Scheduled Date\\, default TodayOpen calendar to select a date\"]").First.ClickAsync();
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button[role=\"button\"]:has-text(\"Ok\")").ClickAsync();
+    }
+
+    public async Task findACaseUsingAllFields()
+    {
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Search Case Ref\"]").WaitForAsync();
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Search Case Ref\"]").FillAsync($"{caseRef}");
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div[role=\"button\"]:has-text(\"Court Name\")").ClickAsync();
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("li[role=\"option\"] >> text=Leeds").ClickAsync();
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Select Scheduled Date\\, default TodayOpen calendar to select a date\"]").First.ClickAsync();
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"[aria-label=\"{day} {month} {date} {year}\"]").ClickAsync();
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button[role=\"button\"]:has-text(\"Ok\")").ClickAsync();
+    }
+
+    public async Task recordingFound()
+    {
+      await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
+      var results = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div[aria-posinset=\"1\"]").First;
+      await Task.Run(() => Assert.IsTrue(results.IsVisibleAsync().Result));
     }
   }
+}

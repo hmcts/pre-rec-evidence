@@ -135,5 +135,35 @@ namespace pre.test
     {
       await _manageRecording.adminCheck();
     }
+    
+    [Given(@"I've selected today's date to find a case and left other fields empty")]
+    public async Task givenISelectedTodaysDateToFindACase()
+    {
+      await _manageRecording.findACaseUsingDate();
+    }
+
+    [Given(@"I've selected the court name and left other fields empty")]
+    public async Task givenIEnteredCourtNameToFindACase()
+    {
+      await _manageRecording.findACaseUsingCourtName();
+    }
+
+    [Given(@"I've selected part of the case reference and left other fields empty")]
+    public async Task givenIEnteredPartCaseReferenceToFindACase()
+    {
+      await _manageRecording.findACaseUsingPartCaseRef();
+    }
+
+    [Given(@"I've selected date, case reference and court name")]
+    public async Task givenIEnteredAllFieldsToFindACase()
+    {
+      await _manageRecording.findACaseUsingAllFields();
+    }
+
+    [Then(@"I should be able to find the recording")]
+    public async Task iShouldBeAbleToFindTheRecording()
+    {
+      await _manageRecording.recordingFound();
+    }
   }
 }
