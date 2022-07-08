@@ -136,19 +136,19 @@ namespace pre.test
       await _manageRecording.adminCheck();
     }
     
-    [Given(@"I've selected today's date to find a case")]
+    [Given(@"I've selected today's date to find a case and left other fields empty")]
     public async Task givenISelectedTodaysDateToFindACase()
     {
       await _manageRecording.findACaseUsingDate();
     }
 
-    [Given(@"I've selected the court name")]
+    [Given(@"I've selected the court name and left other fields empty")]
     public async Task givenIEnteredCourtNameToFindACase()
     {
       await _manageRecording.findACaseUsingCourtName();
     }
 
-    [Given(@"I've selected part of the case reference")]
+    [Given(@"I've selected part of the case reference and left other fields empty")]
     public async Task givenIEnteredPartCaseReferenceToFindACase()
     {
       await _manageRecording.findACaseUsingPartCaseRef();
@@ -160,22 +160,10 @@ namespace pre.test
       await _manageRecording.findACaseUsingAllFields();
     }
 
-    [When(@"I left all other fields empty")]
-    public async Task iLeftAllOtherFieldsEmpty()
-    {
-   // This method left blank on purpose
-    }
-
     [Then(@"I should be able to find the recording")]
     public async Task iShouldBeAbleToFindTheRecording()
     {
       await _manageRecording.recordingFound();
-    }
-
-    [Then(@"I should see file size, date and time")]
-    public void ThenIShouldSeeFileSizeDateAndTime()
-    {
-
     }
   }
 }

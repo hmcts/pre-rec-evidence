@@ -50,6 +50,11 @@ namespace pre.test.Hooks
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=HMCTS Logo").ClickAsync();
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Manage Recordings\")").Nth(1).WaitForAsync();
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Manage Recordings\")").Nth(1).ClickAsync();
+    }
+
+    [BeforeScenario("findCase", Order = 2)]
+    public async Task findCase()
+    {
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Search Case Ref\"]").WaitForAsync();
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Search Case Ref\"]").ClickAsync();
 
@@ -65,8 +70,10 @@ namespace pre.test.Hooks
       var time = (DateTime.UtcNow);
       var futureTime = (DateTime.UtcNow).AddMinutes(7);
 
-      while (results.InputValueAsync().Result != ManageRecording.caseRef) { if (time > futureTime){break;}}
+      while (results.InputValueAsync().Result != ManageRecording.caseRef) { if (time > futureTime) { break; } }
       await Task.Run(() => Assert.That(results.InputValueAsync().Result, Does.Contain($"{ManageRecording.caseRef}")));
     }
+
+
   }
 }
