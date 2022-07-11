@@ -1,0 +1,32 @@
+---
+name: Darren PRE Solution Deployment
+trigger: none
+pr: none
+parameters:
+  - name: serviceConnection
+    displayName: Deploy to Service Connection
+    type: string
+    default: 'PowerPlatform'
+    values:
+      - 'PowerPlatform'
+      - 'POWERAPPS-PRE-SBOX'
+      - 'POWERAPPS-PRE-SDS-SBOX'
+      - 'POWERAPPS-PRE-SDS-DEV'
+      - 'POWERAPPS-PRE-SDS-STG'
+#      - 'POWERAPPS-PRE-SDS-PROD'
+  - name: deployFromBranch
+    displayName: Deploy From Branch
+    type: string
+    default: 'ADO-Powerplatform'
+
+variables:
+  solutionName: dts_pre_recorded_evidence
+
+pool:
+  vmImage: 'windows-latest'
+
+steps:
+
+- checkout: self
+  persistCredentials: true
+  clean: true
