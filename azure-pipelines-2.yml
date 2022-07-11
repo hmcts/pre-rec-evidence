@@ -30,3 +30,8 @@ steps:
 - checkout: self
   persistCredentials: true
   clean: true
+
+- task: PowerPlatformToolInstaller@0
+  inputs:
+    DefaultVersion: true
+
