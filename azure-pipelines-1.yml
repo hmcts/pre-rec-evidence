@@ -70,3 +70,10 @@ steps:
         git add --all
         git commit -m "Automatic solution commit"
         git -c http.extraheader="AUTHORIZATION: bearer $(system.githubPat)" push origin ${{ parameters.exportToBranch }}
+  - task: PowerPlatformImportSolution@0
+    inputs:
+      authenticationType: 'PowerPlatformSPN'
+      PowerPlatformSPN: 'PowerPlatform'
+      SolutionInputFile: 'dts_pre_recorded_evidence.zip'
+      AsyncOperation: true
+      MaxAsyncWaitTime: '60'
