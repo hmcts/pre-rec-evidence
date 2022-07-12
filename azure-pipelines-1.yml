@@ -95,12 +95,6 @@ steps:
       enableRecursion: false
       useLegacyPattern: false
       enableTelemetry: true
-  - task: UseDotNet@2
-    displayName: 'Use .NET Core sdk'
-    inputs:
-      packageType: sdk
-      version: 6.x
-      installationPath: $(Agent.ToolsDirectory)/dotnet
   - task: DotNetCoreCLI@2
     displayName: Build
     inputs:
@@ -108,10 +102,9 @@ steps:
       workingDirectory: 'test\e2e'
 
   - task: Npm@1
-    displayName: Install NPM Packages
     inputs:
       command: 'install'
-      workingDirectory: 'test\e2e'
+      workingDir: 'test\e2e'
 
   - script: npx playwright install --with-deps
     displayName: Install Playwright
