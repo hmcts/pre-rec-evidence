@@ -1,0 +1,14 @@
+<environmentvariabledefinition schemaname="pre__test">
+  <defaultvalue>test</defaultvalue>
+  <description default="test">
+    <label description="test" languagecode="1033" />
+  </description>
+  <displayname default="test">
+    <label description="test" languagecode="1033" />
+  </displayname>
+  <introducedversion>0.0.22</introducedversion>
+  <iscustomizable>1</iscustomizable>
+  <isrequired>0</isrequired>
+  <secretstore>0</secretstore>
+  <type>100000000</type>
+</environmentvariabledefinition>

@@ -1,0 +1,11 @@
+<environmentvariabledefinition schemaname="pre__AppSubscriptionID">
+  <defaultvalue>a8140a9e-f1b0-481f-a4de-09e2ee23f7ab</defaultvalue>
+  <displayname default="AppSubscriptionID">
+    <label description="AppSubscriptionID" languagecode="1033" />
+  </displayname>
+  <introducedversion>0.0.7</introducedversion>
+  <iscustomizable>1</iscustomizable>
+  <isrequired>0</isrequired>
+  <secretstore>0</secretstore>
+  <type>100000000</type>
+</environmentvariabledefinition>

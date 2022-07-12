@@ -1,0 +1,11 @@
+<environmentvariabledefinition schemaname="pre__AppResourceGroup">
+  <defaultvalue>pre-sbox</defaultvalue>
+  <displayname default="AppResourceGroup">
+    <label description="AppResourceGroup" languagecode="1033" />
+  </displayname>
+  <introducedversion>0.0.7</introducedversion>
+  <iscustomizable>1</iscustomizable>
+  <isrequired>0</isrequired>
+  <secretstore>0</secretstore>
+  <type>100000000</type>
+</environmentvariabledefinition>

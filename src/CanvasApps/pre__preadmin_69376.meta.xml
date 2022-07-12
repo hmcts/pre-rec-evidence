@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CanvasApp xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Name>pre__preadmin_69376</Name>
+  <AppVersion>2022-07-11T14:53:05Z</AppVersion>
+  <Status>Ready</Status>
+  <CreatedByClientVersion>3.22064.10.0</CreatedByClientVersion>
+  <MinClientVersion>3.22064.10.0</MinClientVersion>
+  <Tags>{"primaryDeviceWidth":"1366","primaryDeviceHeight":"768","sienaVersion":"20220702T161731Z-3.22063.13.0","deviceCapabilities":"location","supportsPortrait":"true","supportsLandscape":"true","primaryFormFactor":"Tablet","publisherVersion":"3.22064.10","minimumRequiredApiVersion":"2.2.0","hasComponent":"false","hasUnlockedComponent":"false","isUnifiedRootApp":"false"}</Tags>
+  <IsCdsUpgraded>0</IsCdsUpgraded>
+  <GalleryItemId xsi:nil="true"></GalleryItemId>
+  <BackgroundColor>RGBA(0,176,240,1)</BackgroundColor>
+  <DisplayName>PRE Admin</DisplayName>
+  <Description></Description>
+  <CommitMessage></CommitMessage>
+  <Publisher></Publisher>
+  <AuthorizationReferences>[]</AuthorizationReferences>
+  <ConnectionReferences>{}</ConnectionReferences>
+  <DatabaseReferences>{"default.cds":{"databaseDetails":{"referenceType":"Environmental","environmentName":"default.cds","overrideValues":{"status":"NotSpecified"}},"dataSources":{"Courts":{"entitySetName":"pre__courtses","logicalName":"pre__courts"},"Bulk Delete Failures":{"entitySetName":"bulkdeletefailures","logicalName":"bulkdeletefailure"},"Video Permissions":{"entitySetName":"pre__videopermissionses","logicalName":"pre__videopermissions"},"Users":{"entitySetName":"systemusers","logicalName":"systemuser"},"Mailboxes":{"entitySetName":"mailboxes","logicalName":"mailbox"},"Audits":{"entitySetName":"pre__audits","logicalName":"pre__audit"},"Recordings":{"entitySetName":"pre__recordingses","logicalName":"pre__recordings"},"Cases":{"entitySetName":"pre__cases","logicalName":"pre__case"},"Schedules":{"entitySetName":"pre__schedules","logicalName":"pre__schedule"},"Contacts":{"entitySetName":"contacts","logicalName":"contact"},"Assets":{"entitySetName":"pre__assetses","logicalName":"pre__assets"},"Invitations":{"entitySetName":"adx_invitations","logicalName":"adx_invitation"},"RoomAllocations":{"entitySetName":"pre__roomallocationses","logicalName":"pre__roomallocations"},"Accounts":{"entitySetName":"accounts","logicalName":"account"},"Duplicate Records":{"entitySetName":"duplicaterecords","logicalName":"duplicaterecord"},"Clippings":{"entitySetName":"pre__clippings","logicalName":"pre__clipping"}}}}</DatabaseReferences>
+  <CanConsumeAppPass>1</CanConsumeAppPass>
+  <CanvasAppType>0</CanvasAppType>
+  <BypassConsent>0</BypassConsent>
+  <EmbeddedApp xsi:nil="true"></EmbeddedApp>
+  <IntroducedVersion>1.0</IntroducedVersion>
+  <CdsDependencies>{"cdsdependencies":[{"componenttype":1,"logicalname":"pre__courts"},{"componenttype":1,"logicalname":"bulkdeletefailure"},{"componenttype":1,"logicalname":"pre__videopermissions"},{"componenttype":1,"logicalname":"systemuser"},{"componenttype":1,"logicalname":"mailbox"},{"componenttype":1,"logicalname":"pre__audit"},{"componenttype":1,"logicalname":"pre__recordings"},{"componenttype":1,"logicalname":"pre__case"},{"componenttype":1,"logicalname":"pre__schedule"},{"componenttype":1,"logicalname":"contact"},{"componenttype":1,"logicalname":"pre__assets"},{"componenttype":1,"logicalname":"adx_invitation"},{"componenttype":1,"logicalname":"pre__roomallocations"},{"componenttype":1,"logicalname":"account"},{"componenttype":1,"logicalname":"duplicaterecord"},{"componenttype":1,"logicalname":"pre__clipping"}]}</CdsDependencies>
+  <IsCustomizable>1</IsCustomizable>
+  <BackgroundImageUri>/CanvasApps/pre__preadmin_69376_BackgroundImageUri</BackgroundImageUri>
+  <DocumentUri>/CanvasApps/pre__preadmin_69376_DocumentUri.msapp</DocumentUri>
+</CanvasApp>

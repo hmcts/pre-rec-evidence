@@ -1,0 +1,332 @@
+{
+  "properties": {
+    "connectionReferences": {},
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        },
+        "AppID (pre__AppID)": {
+          "defaultValue": "07587e3c-603e-401f-98d1-ff26206e93f8",
+          "type": "String",
+          "metadata": {
+            "schemaName": "pre__AppID"
+          }
+        },
+        "AppSecret (pre__AppSecret)": {
+          "defaultValue": "bWg8Q~E2j2iMGWPYJ8LTkvQZAkXKxYev8f7VCaVi",
+          "type": "String",
+          "metadata": {
+            "schemaName": "pre__AppSecret"
+          }
+        },
+        "AppSubscriptionID (pre__AppSubscriptionID)": {
+          "defaultValue": "a8140a9e-f1b0-481f-a4de-09e2ee23f7ab",
+          "type": "String",
+          "metadata": {
+            "schemaName": "pre__AppSubscriptionID"
+          }
+        },
+        "AppResourceGroup (pre__AppResourceGroup)": {
+          "defaultValue": "pre-sbox",
+          "type": "String",
+          "metadata": {
+            "schemaName": "pre__AppResourceGroup"
+          }
+        },
+        "AppTenantID (pre__AppTenantID)": {
+          "defaultValue": "531ff96d-0ae9-462a-8d2d-bec7c0b42082",
+          "type": "String",
+          "metadata": {
+            "schemaName": "pre__AppTenantID"
+          }
+        },
+        "AppMediaService (pre__AppMediaService)": {
+          "defaultValue": "preamssbox",
+          "type": "String",
+          "metadata": {
+            "schemaName": "pre__AppMediaService"
+          }
+        }
+      },
+      "triggers": {
+        "manual": {
+          "metadata": {
+            "operationMetadataId": "c2c3ecdf-2bf8-4db4-a52b-6665845e16b0"
+          },
+          "type": "Request",
+          "kind": "Button",
+          "inputs": {
+            "schema": {
+              "type": "object",
+              "properties": {},
+              "required": []
+            }
+          }
+        }
+      },
+      "actions": {
+        "EventArray": {
+          "runAfter": {
+            "EventName": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "745636b9-c884-4987-bec6-d741074e5042"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "EventArray",
+                "type": "integer",
+                "value": 0
+              }
+            ]
+          }
+        },
+        "Initialize_Access_Token_Guid": {
+          "runAfter": {
+            "EventArray": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "cdccae1b-bae9-4562-a3eb-1a8ee42b0699"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "InitializeAccessTokenGuid",
+                "type": "string",
+                "value": "@{guid()}"
+              }
+            ]
+          }
+        },
+        "Do_until": {
+          "actions": {
+            "Set_variable": {
+              "runAfter": {
+                "Compose": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "94b5737a-b0d3-4931-8e92-07142902b7d8"
+              },
+              "type": "SetVariable",
+              "inputs": {
+                "name": "EventArray",
+                "value": "@outputs('Compose')"
+              }
+            },
+            "Compose": {
+              "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "ccb725a1-57ca-4e70-aa47-4a2c77e32972"
+              },
+              "type": "Compose",
+              "inputs": "@add(variables('EventArray'), 1)"
+            },
+            "Close_and_remove_Stream": {
+              "actions": {
+                "Stop_Stream": {
+                  "runAfter": {},
+                  "metadata": {
+                    "operationMetadataId": "c570d84a-55c6-47fa-ad64-f8ef015eefbb"
+                  },
+                  "type": "Http",
+                  "inputs": {
+                    "method": "POST",
+                    "uri": "https://management.azure.com/subscriptions/@{parameters('AppSubscriptionID (pre__AppSubscriptionID)')}/resourceGroups/@{parameters('AppResourceGroup (pre__AppResourceGroup)')}/providers/Microsoft.Media/mediaservices/@{parameters('AppMediaService (pre__AppMediaService)')}/liveEvents/@{variables('EventName')}@{outputs('Compose')}/stop?api-version=2020-05-01",
+                    "body": {
+                      "removeOutputsOnStop": true
+                    },
+                    "authentication": {
+                      "type": "ActiveDirectoryOAuth",
+                      "tenant": "@parameters('AppTenantID (pre__AppTenantID)')",
+                      "audience": "https://management.core.windows.net",
+                      "clientId": "@parameters('AppID (pre__AppID)')",
+                      "secret": "@parameters('AppSecret (pre__AppSecret)')"
+                    }
+                  }
+                },
+                "Delete_Streaming_Locator": {
+                  "runAfter": {
+                    "Delete_Streaming_Endpoint": [
+                      "Succeeded",
+                      "Failed",
+                      "Skipped",
+                      "TimedOut"
+                    ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "4d676526-5741-4fc2-a922-a9959f83b0fc"
+                  },
+                  "type": "Http",
+                  "inputs": {
+                    "method": "DELETE",
+                    "uri": "https://management.azure.com/subscriptions/@{parameters('AppSubscriptionID (pre__AppSubscriptionID)')}/resourceGroups/@{parameters('AppResourceGroup (pre__AppResourceGroup)')}/providers/Microsoft.Media/mediaServices/@{parameters('AppMediaService (pre__AppMediaService)')}/streamingLocators/@{variables('EventName')}@{outputs('Compose')}?api-version=2021-06-01",
+                    "authentication": {
+                      "type": "ActiveDirectoryOAuth",
+                      "tenant": "@parameters('AppTenantID (pre__AppTenantID)')",
+                      "audience": "https://management.core.windows.net",
+                      "clientId": "@parameters('AppID (pre__AppID)')",
+                      "secret": "@parameters('AppSecret (pre__AppSecret)')"
+                    }
+                  }
+                },
+                "Stop_Streaming_Endpoint": {
+                  "runAfter": {
+                    "Delete_Live_Event": [
+                      "Succeeded",
+                      "Failed",
+                      "Skipped",
+                      "TimedOut"
+                    ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "5ef5e48f-fef5-481c-9f46-0b1e204519dc"
+                  },
+                  "type": "Http",
+                  "inputs": {
+                    "method": "POST",
+                    "uri": "https://management.azure.com/subscriptions/@{parameters('AppSubscriptionID (pre__AppSubscriptionID)')}/resourceGroups/@{parameters('AppResourceGroup (pre__AppResourceGroup)')}/providers/Microsoft.Media/mediaservices/@{parameters('AppMediaService (pre__AppMediaService)')}/streamingEndpoints/@{variables('EventName')}@{outputs('Compose')}/stop?api-version=2021-06-01\n",
+                    "authentication": {
+                      "type": "ActiveDirectoryOAuth",
+                      "tenant": "@parameters('AppTenantID (pre__AppTenantID)')",
+                      "audience": "https://management.core.windows.net",
+                      "clientId": "@parameters('AppID (pre__AppID)')",
+                      "secret": "@parameters('AppSecret (pre__AppSecret)')"
+                    }
+                  }
+                },
+                "Delete_Live_Event": {
+                  "runAfter": {
+                    "Stop_Stream": [
+                      "TimedOut",
+                      "Skipped",
+                      "Failed",
+                      "Succeeded"
+                    ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "17cbec1e-4b81-4d6b-876a-f6da40cadb78"
+                  },
+                  "type": "Http",
+                  "inputs": {
+                    "method": "DELETE",
+                    "uri": "https://management.azure.com/subscriptions/@{parameters('AppSubscriptionID (pre__AppSubscriptionID)')}/resourceGroups/@{parameters('AppResourceGroup (pre__AppResourceGroup)')}/providers/Microsoft.Media/mediaservices/@{parameters('AppMediaService (pre__AppMediaService)')}/liveEvents/@{variables('EventName')}@{outputs('Compose')}?api-version=2020-05-01",
+                    "authentication": {
+                      "type": "ActiveDirectoryOAuth",
+                      "tenant": "@parameters('AppTenantID (pre__AppTenantID)')",
+                      "audience": "https://management.core.windows.net",
+                      "clientId": "@parameters('AppID (pre__AppID)')",
+                      "secret": "@parameters('AppSecret (pre__AppSecret)')"
+                    }
+                  }
+                },
+                "Delete_Streaming_Endpoint": {
+                  "runAfter": {
+                    "Stop_Streaming_Endpoint": [
+                      "Failed",
+                      "Skipped",
+                      "TimedOut",
+                      "Succeeded"
+                    ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "d50fa006-d5b9-4ded-aecb-ee2c36eab5a6"
+                  },
+                  "type": "Http",
+                  "inputs": {
+                    "method": "DELETE",
+                    "uri": "https://management.azure.com/subscriptions/@{parameters('AppSubscriptionID (pre__AppSubscriptionID)')}/resourceGroups/@{parameters('AppResourceGroup (pre__AppResourceGroup)')}/providers/Microsoft.Media/mediaservices/@{parameters('AppMediaService (pre__AppMediaService)')}/streamingEndpoints/@{variables('EventName')}@{outputs('Compose')}?api-version=2021-06-01",
+                    "authentication": {
+                      "type": "ActiveDirectoryOAuth",
+                      "tenant": "@parameters('AppTenantID (pre__AppTenantID)')",
+                      "audience": "https://management.core.windows.net",
+                      "clientId": "@parameters('AppID (pre__AppID)')",
+                      "secret": "@parameters('AppSecret (pre__AppSecret)')"
+                    }
+                  }
+                },
+                "Delete_Live_Output": {
+                  "runAfter": {
+                    "Delete_Streaming_Locator": [
+                      "Failed",
+                      "Skipped",
+                      "TimedOut",
+                      "Succeeded"
+                    ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "b2a7366d-c9de-435c-b05a-9d3237bc0daa"
+                  },
+                  "type": "Http",
+                  "inputs": {
+                    "method": "DELETE",
+                    "uri": "https://management.azure.com/subscriptions/@{parameters('AppSubscriptionID (pre__AppSubscriptionID)')}/resourceGroups/@{parameters('AppResourceGroup (pre__AppResourceGroup)')}/providers/Microsoft.Media/mediaservices/@{parameters('AppMediaService (pre__AppMediaService)')}/liveEvents/@{variables('EventName')}@{outputs('Compose')}/liveOutputs/@{variables('EventName')}@{outputs('Compose')}?api-version=2021-06-01\n",
+                    "authentication": {
+                      "type": "ActiveDirectoryOAuth",
+                      "tenant": "@parameters('AppTenantID (pre__AppTenantID)')",
+                      "audience": "https://management.core.windows.net",
+                      "clientId": "@parameters('AppID (pre__AppID)')",
+                      "secret": "@parameters('AppSecret (pre__AppSecret)')"
+                    }
+                  }
+                }
+              },
+              "runAfter": {
+                "Set_variable": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "9e3fa7d3-a81c-4180-aff9-d0811236c23f"
+              },
+              "type": "Scope"
+            }
+          },
+          "runAfter": {
+            "Initialize_Access_Token_Guid": [
+              "Succeeded"
+            ]
+          },
+          "expression": "@equals(variables('EventArray'), 100)",
+          "limit": {
+            "count": 100,
+            "timeout": "PT1H"
+          },
+          "metadata": {
+            "operationMetadataId": "5cdc16f0-32c1-4057-9a67-c6ac31573de7"
+          },
+          "type": "Until"
+        },
+        "EventName": {
+          "runAfter": {},
+          "metadata": {
+            "operationMetadataId": "eeb635e1-ac53-4771-a513-fc54f33c03ce"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "EventName",
+                "type": "string",
+                "value": "AMSEvent"
+              }
+            ]
+          }
+        }
+      }
+    }
+  },
+  "schemaVersion": "1.0.0.0"
+}

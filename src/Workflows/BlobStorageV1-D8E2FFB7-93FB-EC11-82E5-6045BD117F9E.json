@@ -1,0 +1,142 @@
+{
+  "properties": {
+    "connectionReferences": {},
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        },
+        "AppID (pre__AppID)": {
+          "defaultValue": "07587e3c-603e-401f-98d1-ff26206e93f8",
+          "type": "String",
+          "metadata": {
+            "schemaName": "pre__AppID"
+          }
+        },
+        "AppSecret (pre__AppSecret)": {
+          "defaultValue": "bWg8Q~E2j2iMGWPYJ8LTkvQZAkXKxYev8f7VCaVi",
+          "type": "String",
+          "metadata": {
+            "schemaName": "pre__AppSecret"
+          }
+        },
+        "AppTenantID (pre__AppTenantID)": {
+          "defaultValue": "531ff96d-0ae9-462a-8d2d-bec7c0b42082",
+          "type": "String",
+          "metadata": {
+            "schemaName": "pre__AppTenantID"
+          }
+        },
+        "AppSubscriptionID (pre__AppSubscriptionID)": {
+          "defaultValue": "a8140a9e-f1b0-481f-a4de-09e2ee23f7ab",
+          "type": "String",
+          "metadata": {
+            "schemaName": "pre__AppSubscriptionID"
+          }
+        },
+        "AppResourceGroup (pre__AppResourceGroup)": {
+          "defaultValue": "pre-sbox",
+          "type": "String",
+          "metadata": {
+            "schemaName": "pre__AppResourceGroup"
+          }
+        },
+        "AppMediaService (pre__AppMediaService)": {
+          "defaultValue": "preamssbox",
+          "type": "String",
+          "metadata": {
+            "schemaName": "pre__AppMediaService"
+          }
+        }
+      },
+      "triggers": {
+        "manual": {
+          "metadata": {
+            "operationMetadataId": "9b8925df-0eff-4312-9927-0320ab95f18e"
+          },
+          "type": "Request",
+          "kind": "PowerAppV2",
+          "inputs": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "text": {
+                  "title": "Container",
+                  "type": "string",
+                  "x-ms-dynamically-added": true,
+                  "description": "Container",
+                  "x-ms-content-hint": "TEXT"
+                }
+              },
+              "required": [
+                "text"
+              ]
+            }
+          }
+        }
+      },
+      "actions": {
+        "HTTP": {
+          "runAfter": {},
+          "metadata": {
+            "operationMetadataId": "301d9983-d6a1-49f0-8c91-faa182dd01dd"
+          },
+          "type": "Http",
+          "inputs": {
+            "method": "GET",
+            "uri": "https://management.azure.com/subscriptions/@{parameters('AppSubscriptionID (pre__AppSubscriptionID)')}/resourceGroups/@{parameters('AppResourceGroup (pre__AppResourceGroup)')}/providers/Microsoft.Media/mediaServices/@{parameters('AppMediaService (pre__AppMediaService)')}/assets/{assetName}/listContainerSas?api-version=2021-11-01",
+            "authentication": {
+              "type": "ActiveDirectoryOAuth",
+              "tenant": "@parameters('AppTenantID (pre__AppTenantID)')",
+              "audience": "https://management.core.windows.net",
+              "clientId": "@parameters('AppID (pre__AppID)')",
+              "secret": "@parameters('AppSecret (pre__AppSecret)')"
+            }
+          }
+        },
+        "Terminate": {
+          "runAfter": {
+            "HTTP": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "2944a766-94eb-43ef-976f-a1cdb40aeccd"
+          },
+          "type": "Terminate",
+          "inputs": {
+            "runStatus": "Succeeded"
+          }
+        },
+        "HTTP_2": {
+          "runAfter": {
+            "Terminate": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "301d9983-d6a1-49f0-8c91-faa182dd01dd"
+          },
+          "type": "Http",
+          "inputs": {
+            "method": "GET",
+            "uri": "https://prefinalsasbox.blob.core.windows.net/mycontainer/",
+            "body": "POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/assets/{assetName}/listContainerSas?api-version=2021-11-01\n",
+            "authentication": {
+              "type": "ActiveDirectoryOAuth",
+              "tenant": "@parameters('AppTenantID (pre__AppTenantID)')",
+              "audience": "https://management.core.windows.net",
+              "clientId": "@parameters('AppID (pre__AppID)')",
+              "secret": "@parameters('AppSecret (pre__AppSecret)')"
+            }
+          }
+        }
+      },
+      "outputs": {}
+    }
+  },
+  "schemaVersion": "1.0.0.0"
+}
