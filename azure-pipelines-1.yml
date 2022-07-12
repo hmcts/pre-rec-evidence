@@ -118,3 +118,4 @@ steps:
         dotnet add package Microsoft.Playwright
         dotnet tool update --global PowerShell
         dotnet tool install --global SpecFlow.Plus.LivingDoc.CLI
+      workingDirectory: 'test\e2e'
