@@ -77,3 +77,21 @@ steps:
       SolutionInputFile: 'dts_pre_recorded_evidence.zip'
       AsyncOperation: true
       MaxAsyncWaitTime: '60'
+  - task: NodeTool@0
+    inputs:
+      versionSpec: 18
+  - task: replacetokens@5
+    inputs:
+      rootDirectory: 'test/e2e'
+      targetFiles: 'secrets.json'
+      encoding: 'auto'
+      tokenPattern: 'default'
+      writeBOM: true
+      verbosity: 'detailed'
+      actionOnMissing: 'warn'
+      keepToken: false
+      actionOnNoFiles: 'continue'
+      enableTransforms: false
+      enableRecursion: false
+      useLegacyPattern: false
+      enableTelemetry: true
