@@ -26,7 +26,6 @@ namespace pre.test.Hooks
     public static int scheduleCount = 0;
     protected static Microsoft.Extensions.Configuration.IConfigurationRoot config = new ConfigurationBuilder()
     .AddJsonFile("secrets.json")
-    .AddUserSecrets<Program>(true)
     .Build();
     protected string authPath = config["authPath"];
     public static string testUrl = config["testUrl"];
