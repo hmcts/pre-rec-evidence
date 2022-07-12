@@ -133,6 +133,9 @@ steps:
       OverWrite: true
   - task: CmdLine@2
     inputs:
+      script: 'pwsh bin\Debug\netX\playwright.ps1 install'
+  - task: CmdLine@2
+    inputs:
       script: |
         #dotnet build
         dotnet test
