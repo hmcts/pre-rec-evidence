@@ -125,3 +125,12 @@ steps:
         npm i -D @playwright/test
         npx playwright codegen --save-storage=auth.json
       workingDirectory: 'test\e2e'
+  - task: CmdLine@2
+    inputs:
+      script: |
+        dotnet build
+        dotnet test
+      workingDirectory: 'test\e2e'
+  - task: CmdLine@2
+    inputs:
+      script: 'livingdoc test-assembly bin/Debug/net6.0/pre.dll -t bin/Debug/net6.0/TestExecution.json'
