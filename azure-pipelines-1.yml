@@ -95,3 +95,33 @@ steps:
       enableRecursion: false
       useLegacyPattern: false
       enableTelemetry: true
+  - task: UseDotNet@2
+    displayName: 'Use .NET Core sdk'
+    inputs:
+      packageType: sdk
+      version: 6.x
+      installationPath: $(Agent.ToolsDirectory)/dotnet
+  - task: DotNetCoreCLI@2
+    displayName: Build
+    inputs:
+      command: 'build'
+      workingDirectory: 'test\e2e'
+
+  - task: Npm@1
+    displayName: Install NPM Packages
+    inputs:
+      command: 'install'
+      workingDirectory: 'test\e2e'
+
+  - script: npx playwright install --with-deps
+    displayName: Install Playwright
+    workingDirectory: 'test\e2e'
+
+  - task: CmdLine@2
+    inputs:
+      script: |
+        dotnet add package Microsoft.Extensions.Configuration --version 6.0.0
+        dotnet add package Microsoft.Extensions.Configuration.Json --version 6.0.0
+        dotnet add package Microsoft.Playwright
+        dotnet tool update --global PowerShell
+        dotnet tool install --global SpecFlow.Plus.LivingDoc.CLI
