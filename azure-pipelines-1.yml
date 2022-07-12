@@ -127,6 +127,8 @@ steps:
       workingDirectory: 'test\e2e'
   - task: CmdLine@2
     inputs:
+      authenticationType: 'PowerPlatformSPN'
+      PowerPlatformSPN: ${{ parameters.serviceConnection }}
       script: |
         #dotnet build
         dotnet test
