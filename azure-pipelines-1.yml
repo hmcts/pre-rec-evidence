@@ -125,6 +125,12 @@ steps:
   #      npm i -D @playwright/test
   #      npx playwright codegen --save-storage=auth.json
   #    workingDirectory: 'test\e2e'
+  - task: CopyFiles@2
+    inputs:
+      SourceFolder: 'test\e2e'
+      Contents: 'secrets.json'
+      TargetFolder: 'D:\a\1\s\test\e2e\bin\Debug\net6.0'
+      OverWrite: true
   - task: CmdLine@2
     inputs:
       script: |
