@@ -1,0 +1,108 @@
+{
+  "properties": {
+    "connectionReferences": {
+      "shared_commondataserviceforapps": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "cr599_sharedcommondataserviceforapps_d0505"
+        },
+        "api": {
+          "name": "shared_commondataserviceforapps"
+        }
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        },
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        }
+      },
+      "triggers": {
+        "When_a_row_is_added,_modified_or_deleted": {
+          "metadata": {
+            "operationMetadataId": "83007706-4291-42ab-a546-bc818d4a4564"
+          },
+          "type": "OpenApiConnectionWebhook",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_commondataserviceforapps",
+              "operationId": "SubscribeWebhookTrigger",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+            },
+            "parameters": {
+              "subscriptionRequest/message": 4,
+              "subscriptionRequest/entityname": "contact",
+              "subscriptionRequest/scope": 2
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        }
+      },
+      "actions": {
+        "Initialize_variable": {
+          "runAfter": {},
+          "metadata": {
+            "operationMetadataId": "d9aa69e5-66c6-4d2a-aa91-6cee357ac738"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "test",
+                "type": "string"
+              }
+            ]
+          }
+        },
+        "Condition": {
+          "actions": {
+            "Add_a_new_row": {
+              "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "d13a719b-31a8-48d5-ae1d-93e59016959c"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_commondataserviceforapps",
+                  "operationId": "CreateRecord",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                },
+                "parameters": {
+                  "entityName": "pre__audits",
+                  "item/pre__activity": "New User",
+                  "item/pre__email": "@triggerOutputs()?['body/_createdby_value']",
+                  "item/pre__log": "New User - @{triggerOutputs()?['body/fullname']} - @{triggerOutputs()?['body/emailaddress1']} - @{triggerOutputs()?['body/pre__role']}"
+                },
+                "authentication": "@parameters('$authentication')"
+              }
+            }
+          },
+          "runAfter": {
+            "Initialize_variable": [
+              "Succeeded"
+            ]
+          },
+          "expression": {
+            "equals": [
+              "@formatDateTime(triggerOutputs()?['body/createdon'],'dd/MM/yyyy')",
+              "@formatDateTime(utcNow(),'dd/MM/yyyy')"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "820ac5d2-a697-417f-a44c-5693a4549d95"
+          },
+          "type": "If"
+        }
+      }
+    }
+  },
+  "schemaVersion": "1.0.0.0"
+}

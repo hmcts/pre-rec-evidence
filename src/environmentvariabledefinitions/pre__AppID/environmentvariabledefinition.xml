@@ -1,0 +1,11 @@
+<environmentvariabledefinition schemaname="pre__AppID">
+  <defaultvalue>07587e3c-603e-401f-98d1-ff26206e93f8</defaultvalue>
+  <displayname default="AppID">
+    <label description="AppID" languagecode="1033" />
+  </displayname>
+  <introducedversion>0.0.7</introducedversion>
+  <iscustomizable>1</iscustomizable>
+  <isrequired>0</isrequired>
+  <secretstore>0</secretstore>
+  <type>100000000</type>
+</environmentvariabledefinition>

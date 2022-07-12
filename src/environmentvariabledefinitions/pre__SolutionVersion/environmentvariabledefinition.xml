@@ -1,0 +1,11 @@
+<environmentvariabledefinition schemaname="pre__SolutionVersion">
+  <defaultvalue>1.0.0</defaultvalue>
+  <displayname default="Solution Version">
+    <label description="Solution Version" languagecode="1033" />
+  </displayname>
+  <introducedversion>0.0.28</introducedversion>
+  <iscustomizable>1</iscustomizable>
+  <isrequired>0</isrequired>
+  <secretstore>0</secretstore>
+  <type>100000000</type>
+</environmentvariabledefinition>

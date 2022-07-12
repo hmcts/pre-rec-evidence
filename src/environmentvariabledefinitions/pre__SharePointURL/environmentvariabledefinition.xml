@@ -1,0 +1,10 @@
+<environmentvariabledefinition schemaname="pre__SharePointURL">
+  <displayname default="SharePointURL">
+    <label description="SharePointURL" languagecode="1033" />
+  </displayname>
+  <introducedversion>0.0.25</introducedversion>
+  <iscustomizable>1</iscustomizable>
+  <isrequired>0</isrequired>
+  <secretstore>0</secretstore>
+  <type>100000000</type>
+</environmentvariabledefinition>
