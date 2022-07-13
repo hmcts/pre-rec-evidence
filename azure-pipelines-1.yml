@@ -137,9 +137,12 @@ steps:
       Contents: 'secrets.json'
       TargetFolder: 'D:\a\1\s\test\e2e\bin\Debug\net6.0'
       OverWrite: true
-  #- task: CmdLine@2
-  #  inputs:
-  #    script: 'pwsh bin\Debug\net6.0\playwright.ps1 install'
+  - task: CmdLine@2
+    inputs:
+      script: 'dotnet --version'
+  - task: CmdLine@2
+    inputs:
+      script: 'pwsh D:\a\1\s\test\e2e\bin\Debug\net6.0\playwright.ps1 install'
   - task: CmdLine@2
     inputs:
       script: |
