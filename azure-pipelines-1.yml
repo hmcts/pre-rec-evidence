@@ -131,6 +131,9 @@ steps:
         npm i -D @playwright/test
         npx playwright codegen --save-storage=auth.json
       workingDirectory: 'D:\a\1\s\test\e2e'
+  - task: CmdLine@2
+    inputs:
+      script: 'dir D:\a\1\s\test\e2e'
   - task: CopyFiles@2
     inputs:
       SourceFolder: 'test\e2e'
