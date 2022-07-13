@@ -70,13 +70,14 @@ steps:
         git add --all
         git commit -m "Automatic solution commit"
         git -c http.extraheader="AUTHORIZATION: bearer $(system.githubPat)" push origin ${{ parameters.exportToBranch }}
-  - task: PowerPlatformImportSolution@0
-    inputs:
-      authenticationType: 'PowerPlatformSPN'
-      PowerPlatformSPN: 'PowerPlatform'
-      SolutionInputFile: 'dts_pre_recorded_evidence.zip'
-      AsyncOperation: true
-      MaxAsyncWaitTime: '60'
+  #removed to speedup testing
+  #- task: PowerPlatformImportSolution@0
+  #  inputs:
+  #    authenticationType: 'PowerPlatformSPN'
+  #    PowerPlatformSPN: 'PowerPlatform'
+  #    SolutionInputFile: 'dts_pre_recorded_evidence.zip'
+  #    AsyncOperation: true
+  #    MaxAsyncWaitTime: '60'
   - task: NodeTool@0
     inputs:
       versionSpec: 18
@@ -119,10 +120,11 @@ steps:
         dotnet tool update --global PowerShell
         dotnet tool install --global SpecFlow.Plus.LivingDoc.CLI
       workingDirectory: 'test\e2e'
-  - task: CmdLine@2
-    inputs:
-      script: 'npm i && npx playwright install'
-      workingDirectory: 'test\e2e'
+  #- task: CmdLine@2
+  #  inputs:
+  #    script: 'npm i && npx playwright install'
+  #    workingDirectory: 'test\e2e'
+  
  # - task: CmdLine@2
  #   inputs:
  #     script: |
