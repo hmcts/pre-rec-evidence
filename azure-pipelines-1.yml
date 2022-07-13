@@ -133,7 +133,7 @@ steps:
       OverWrite: true
   - task: CmdLine@2
     inputs:
-      script: 'pwsh bin\Debug\netX\playwright.ps1 install'
+      script: 'pwsh bin\Debug\net6.0\playwright.ps1 install'
   - task: CmdLine@2
     inputs:
       script: |
