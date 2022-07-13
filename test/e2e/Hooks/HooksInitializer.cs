@@ -5,8 +5,6 @@ using TechTalk.SpecFlow;
 using TechTalk.SpecFlow.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
-using System;
-
 
 namespace pre.test.Hooks
 {
@@ -19,6 +17,7 @@ namespace pre.test.Hooks
     public static List<string> recordings = new List<string>();
     public static List<string> contacts = new List<string>();
     public IPlaywright playwright;
+    public static string browserType = "";
     private readonly IObjectContainer _objectContainer;
     private readonly ScenarioContext _scenarioContext;
     private readonly ISpecFlowOutputHelper _specFlowOutputHelper;
@@ -51,13 +50,55 @@ namespace pre.test.Hooks
       _specFlowOutputHelper = outputHelper;
     }
 
-    [BeforeScenario(Order = 0)]
-    public async Task createBrowser()
+
+    public async Task createBrowserChrome()
     {
       scheduleCount = 0;
       contacts.Clear();
       caseRef.Clear();
       recordings.Clear();
+      browserType = "Chrome";
+
+      playwright = await Playwright.CreateAsync();
+      //BrowserTypeLaunchOptions typeLaunchOptions = new BrowserTypeLaunchOptions{ Headless = false };
+      BrowserTypeLaunchOptions typeLaunchOptions = new BrowserTypeLaunchOptions { Headless = headless, SlowMo = 50, Channel = /*"msedge"*/"chrome" };
+      browser = await playwright.Chromium.LaunchAsync(typeLaunchOptions);
+      //context = await browser.NewContextAsync();
+      context = await browser.NewContextAsync(new BrowserNewContextOptions { StorageStatePath = $"{authPath}", });
+      _context.Page = await context.NewPageAsync();
+      _objectContainer.RegisterInstanceAs(_context.Page);
+      //Generating living docs
+      _specFlowOutputHelper.WriteLine("Browser Launched");
+    }
+
+    public async Task createBrowserEdge()
+    {
+      scheduleCount = 0;
+      contacts.Clear();
+      caseRef.Clear();
+      recordings.Clear();
+      browserType = "Edge";
+
+      playwright = await Playwright.CreateAsync();
+      //BrowserTypeLaunchOptions typeLaunchOptions = new BrowserTypeLaunchOptions{ Headless = false };
+      BrowserTypeLaunchOptions typeLaunchOptions = new BrowserTypeLaunchOptions { Headless = headless, SlowMo = 50, Channel = "msedge" };
+      browser = await playwright.Chromium.LaunchAsync(typeLaunchOptions);
+      //context = await browser.NewContextAsync();
+      context = await browser.NewContextAsync(new BrowserNewContextOptions { StorageStatePath = $"{authPath}", });
+      _context.Page = await context.NewPageAsync();
+      _objectContainer.RegisterInstanceAs(_context.Page);
+      //Generating living docs
+      _specFlowOutputHelper.WriteLine("Browser Launched");
+    }
+
+    [BeforeScenario(Order = 0)]
+    public async Task createBrowserChromium()
+    {
+      scheduleCount = 0;
+      contacts.Clear();
+      caseRef.Clear();
+      recordings.Clear();
+      browserType = "Chromium";
 
       playwright = await Playwright.CreateAsync();
       //BrowserTypeLaunchOptions typeLaunchOptions = new BrowserTypeLaunchOptions{ Headless = false };
@@ -69,6 +110,50 @@ namespace pre.test.Hooks
       _objectContainer.RegisterInstanceAs(_context.Page);
       //Generating living docs
       _specFlowOutputHelper.WriteLine("Browser Launched");
+    }
+    public async Task createBrowserFirefox()
+    {
+      scheduleCount = 0;
+      contacts.Clear();
+      caseRef.Clear();
+      recordings.Clear();
+      browserType = "Firefox";
+
+      var firefoxUserPrefs = new Dictionary<string, object>
+      {
+        ["security.insecure_field_warning.contextual.enabled"] = false,
+        ["security.certerrors.permanentOverride"] = false,
+        ["network.stricttransportsecurity.preloadlist"] = false,
+        ["security.enterprise_roots.enabled"] = true
+      };
+
+      playwright = await Playwright.CreateAsync();
+      BrowserTypeLaunchOptions typeLaunchOptions = new BrowserTypeLaunchOptions { Headless = headless, SlowMo = 50, FirefoxUserPrefs = firefoxUserPrefs, Channel = "firefox" };
+      browser = await playwright.Firefox.LaunchAsync(typeLaunchOptions);
+      context = await browser.NewContextAsync(new BrowserNewContextOptions { StorageStatePath = $"{authPath}", });
+      _context.Page = await context.NewPageAsync();
+      _objectContainer.RegisterInstanceAs(_context.Page);
+      // await HooksInitializer._context.Page.PauseAsync();
+      HooksInitializer._context = _context;
+      HooksInitializer._context.Page = _context.Page;
+    }
+    public async Task createBrowserWebit()
+    {
+      scheduleCount = 0;
+      contacts.Clear();
+      caseRef.Clear();
+      recordings.Clear();
+      browserType = "Webkit";
+
+      playwright = await Playwright.CreateAsync();
+      BrowserTypeLaunchOptions typeLaunchOptions = new BrowserTypeLaunchOptions { Headless = headless, SlowMo = 50, };
+      browser = await playwright.Webkit.LaunchAsync(typeLaunchOptions);
+      context = await browser.NewContextAsync(new BrowserNewContextOptions { StorageStatePath = $"{authPath}", });
+      _context.Page = await context.NewPageAsync();
+      _objectContainer.RegisterInstanceAs(_context.Page);
+      // await HooksInitializer._context.Page.PauseAsync();
+      HooksInitializer._context = _context;
+      HooksInitializer._context.Page = _context.Page;
     }
 
     [AfterScenario(Order = 3)]
@@ -232,9 +317,12 @@ namespace pre.test.Hooks
     [AfterScenario(Order = 9)]
     public async Task closeBrowser()
     {
-      await browser.DisposeAsync();
-      //Generating living docs
-      _specFlowOutputHelper.WriteLine("Browser Closed");
+      if (browserType == "Chromium")
+      {
+        await browser.DisposeAsync();
+        // Generating living docs
+        _specFlowOutputHelper.WriteLine("Browser Closed");
+      }
     }
   }
 }
