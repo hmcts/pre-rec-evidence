@@ -120,10 +120,10 @@ steps:
         dotnet tool update --global PowerShell
         dotnet tool install --global SpecFlow.Plus.LivingDoc.CLI
       workingDirectory: 'test\e2e'
-  #- task: CmdLine@2
-  #  inputs:
-  #    script: 'npm i && npx playwright install'
-  #    workingDirectory: 'test\e2e'
+  - task: CmdLine@2
+    inputs:
+      script: 'npm i && npx playwright install'
+      workingDirectory: 'test\e2e'
   
  # - task: CmdLine@2
  #   inputs:
