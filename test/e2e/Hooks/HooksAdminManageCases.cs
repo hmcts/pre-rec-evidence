@@ -3,7 +3,6 @@ using TechTalk.SpecFlow;
 using pre.test.pages;
 using NUnit.Framework;
 using System;
-using Microsoft.Playwright;
 
 namespace pre.test.Hooks
 {
@@ -27,6 +26,7 @@ namespace pre.test.Hooks
       var date = DateTime.UtcNow.ToString("MMddmmss");
 
       caseName = $"AutoT{date}";
+      await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Book a Recording\")").WaitForAsync();
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Book a Recording\")").ClickAsync();
 
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div[role=\"button\"]:has-text(\"Court Name\")").First.WaitForAsync();
@@ -51,6 +51,7 @@ namespace pre.test.Hooks
       await HooksInitializer._context.Page.Frame("fullscreen-app-host").ClickAsync("[aria-label=\"Select\\ Scheduled\\ Start\\ DateOpen\\ calendar\\ to\\ select\\ a\\ date\"]");
       await HooksInitializer._context.Page.Frame("fullscreen-app-host").ClickAsync($"[aria-label=\"{day}\\ {month}\\ {dateNum}\\ {year}\"]");
       await HooksInitializer._context.Page.Frame("fullscreen-app-host").ClickAsync("button[role='button']:has-text(\"Ok\")");
+      await HooksInitializer._context.Page.Frame("fullscreen-app-host").WaitForSelectorAsync("[aria-label=\"Select\\ your\\ Witness\"]");
       await HooksInitializer._context.Page.Frame("fullscreen-app-host").ClickAsync("[aria-label=\"Select\\ your\\ Witness\"]");
       await HooksInitializer._context.Page.Frame("fullscreen-app-host").ClickAsync($"[aria-label=\"Select\\ your\\ Witness\\ items\"] div:has-text(\"{witnesses}\")");
       await HooksInitializer._context.Page.Frame("fullscreen-app-host").ClickAsync("[aria-label=\"Select\\ your\\ Defendants\"]");
