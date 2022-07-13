@@ -121,7 +121,7 @@ steps:
       workingDirectory: 'test\e2e'
   - task: CmdLine@2
     inputs:
-      script: 'npm i && playwright install'
+      script: 'npm i && npx playwright install'
       workingDirectory: 'test\e2e'
  # - task: CmdLine@2
  #   inputs:
