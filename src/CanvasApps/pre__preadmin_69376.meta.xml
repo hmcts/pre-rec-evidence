@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <CanvasApp xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Name>pre__preadmin_69376</Name>
-  <AppVersion>2022-07-13T08:41:54Z</AppVersion>
+  <AppVersion>2022-07-13T09:36:29Z</AppVersion>
   <Status>Ready</Status>
   <CreatedByClientVersion>3.22064.10.0</CreatedByClientVersion>
   <MinClientVersion>3.22064.10.0</MinClientVersion>
@@ -16,7 +16,7 @@
   <AuthorizationReferences>[]</AuthorizationReferences>
   <ConnectionReferences>{}</ConnectionReferences>
   <DatabaseReferences>{"default.cds":{"databaseDetails":{"referenceType":"Environmental","environmentName":"default.cds","overrideValues":{"status":"NotSpecified"}},"dataSources":{"Courts":{"entitySetName":"pre__courtses","logicalName":"pre__courts"},"Bulk Delete Failures":{"entitySetName":"bulkdeletefailures","logicalName":"bulkdeletefailure"},"Video Permissions":{"entitySetName":"pre__videopermissionses","logicalName":"pre__videopermissions"},"Users":{"entitySetName":"systemusers","logicalName":"systemuser"},"Mailboxes":{"entitySetName":"mailboxes","logicalName":"mailbox"},"Audits":{"entitySetName":"pre__audits","logicalName":"pre__audit"},"Recordings":{"entitySetName":"pre__recordingses","logicalName":"pre__recordings"},"Cases":{"entitySetName":"pre__cases","logicalName":"pre__case"},"Schedules":{"entitySetName":"pre__schedules","logicalName":"pre__schedule"},"Contacts":{"entitySetName":"contacts","logicalName":"contact"},"Assets":{"entitySetName":"pre__assetses","logicalName":"pre__assets"},"Invitations":{"entitySetName":"adx_invitations","logicalName":"adx_invitation"},"RoomAllocations":{"entitySetName":"pre__roomallocationses","logicalName":"pre__roomallocations"},"Accounts":{"entitySetName":"accounts","logicalName":"account"},"Duplicate Records":{"entitySetName":"duplicaterecords","logicalName":"duplicaterecord"},"Clippings":{"entitySetName":"pre__clippings","logicalName":"pre__clipping"}}}}</DatabaseReferences>
-  <CanConsumeAppPass>1</CanConsumeAppPass>
+  <CanConsumeAppPass>0</CanConsumeAppPass>
   <CanvasAppType>0</CanvasAppType>
   <BypassConsent>0</BypassConsent>
   <EmbeddedApp xsi:nil="true"></EmbeddedApp>
