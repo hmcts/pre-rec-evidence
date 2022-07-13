@@ -122,7 +122,7 @@ steps:
   - task: CmdLine@2
     inputs:
       script: 'npm i && playwright install'
-      workingDirectory: 'tect\e2e'
+      workingDirectory: 'test\e2e'
  # - task: CmdLine@2
  #   inputs:
  #     script: |
