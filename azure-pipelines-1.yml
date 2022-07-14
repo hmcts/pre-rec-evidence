@@ -115,6 +115,12 @@ steps:
         dotnet tool update --global PowerShell
         dotnet tool install --global SpecFlow.Plus.LivingDoc.CLI
       workingDirectory: 'test\e2e'
+    
+  - task: DotNetCoreCLI@2
+    displayName: Build
+    inputs:
+      command: 'build'
+      workingDirectory: 'test\e2e'
   - task: CmdLine@2
     inputs:
       script: 'npm i && npx playwright install'
@@ -157,16 +163,13 @@ steps:
       Contents: 'auth-ci.json'
       TargetFolder: 'D:\a\1\s\test\e2e\bin\Debug\net6.0'
       OverWrite: true
+  
   - task: DotNetCoreCLI@2
-    displayName: Build
-    inputs:
-      command: 'build'
-      workingDirectory: 'test\e2e'
-  - task: DotNetCoreCLI@2
-    displayName: Build
+    displayName: Test
     inputs:
       command: 'test'
       workingDirectory: 'test\e2e'
+  
 
   #- task: CmdLine@2
   #  inputs:
