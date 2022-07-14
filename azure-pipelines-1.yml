@@ -96,11 +96,6 @@ steps:
       enableRecursion: false
       useLegacyPattern: false
       enableTelemetry: true
-  - task: DotNetCoreCLI@2
-    displayName: Build
-    inputs:
-      command: 'build'
-      workingDirectory: 'test\e2e'
 
   - task: Npm@1
     inputs:
@@ -162,15 +157,25 @@ steps:
       Contents: 'auth-ci.json'
       TargetFolder: 'D:\a\1\s\test\e2e\bin\Debug\net6.0'
       OverWrite: true
-
-  - task: CmdLine@2
+  - task: DotNetCoreCLI@2
+    displayName: Build
     inputs:
-      authenticationType: 'PowerPlatformSPN'
-      PowerPlatformSPN: ${{ parameters.serviceConnection }}
-      script: |
-        #dotnet build
-        dotnet test
+      command: 'build'
       workingDirectory: 'test\e2e'
+  - task: DotNetCoreCLI@2
+    displayName: Build
+    inputs:
+      command: 'test'
+      workingDirectory: 'test\e2e'
+
+  #- task: CmdLine@2
+  #  inputs:
+  #    authenticationType: 'PowerPlatformSPN'
+  #    PowerPlatformSPN: ${{ parameters.serviceConnection }}
+  #    script: |
+  #      #dotnet build
+  #      dotnet test
+  #    workingDirectory: 'test\e2e'
   - task: CmdLine@2
     inputs:
       script: 'livingdoc test-assembly bin/Debug/net6.0/pre.dll -t bin/Debug/net6.0/TestExecution.json'
