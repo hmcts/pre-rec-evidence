@@ -148,10 +148,10 @@ steps:
     inputs:
       script: 'pwsh D:\a\1\s\test\e2e\bin\Debug\net6.0\playwright.ps1 install'
   
-  - task: PowerShell@2
-    inputs:
-      targetType: 'inline'
-      script: 'rename-item -path "C:\Users\VssAdministrator\AppData\Local\ms-playwright\chromium-965416\" -NewName "chromium-1012"'
+  #- task: PowerShell@2
+  #  inputs:
+  #    targetType: 'inline'
+  #    script: 'rename-item -path "C:\Users\VssAdministrator\AppData\Local\ms-playwright\chromium-965416\" -NewName "chromium-1012"'
 
   - task: CmdLine@2
     inputs:
