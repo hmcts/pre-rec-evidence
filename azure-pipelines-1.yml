@@ -155,6 +155,13 @@ steps:
   - task: CmdLine@2
     inputs:
       script: 'dir C:\Users\VssAdministrator\AppData\Local\ms-playwright'
+  
+  - task: CopyFiles@2
+    inputs:
+      SourceFolder: 'test\e2e'
+      Contents: 'auth-ci.json'
+      TargetFolder: 'D:\a\1\s\test\e2e\bin\Debug\net6.0'
+      OverWrite: true
 
   - task: CmdLine@2
     inputs:
