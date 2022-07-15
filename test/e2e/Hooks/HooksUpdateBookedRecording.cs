@@ -19,7 +19,7 @@ namespace pre.test.Hooks
     [BeforeScenario("createCase", Order = 1)]
     public async Task goToUpdateBookedRecording()
     {
-      await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.testUrl}");
+      await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.sboxUrl}");
       await HooksInitializer._context.Page.Frame("fullscreen-app-host").Locator("button:has-text(\"Book a Recording\")").WaitForAsync();
       await HooksInitializer._context.Page.Frame("fullscreen-app-host").Locator("button:has-text(\"Book a Recording\")").ClickAsync();
 

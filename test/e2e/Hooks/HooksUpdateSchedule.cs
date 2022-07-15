@@ -12,7 +12,7 @@ namespace pre.test.Hooks
     [BeforeScenario("UpdatingSchedule", Order = 1)]
     public async Task goToUpdateSchedule()
     {
-      await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.testUrl}");
+      await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.sboxUrl}");
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Book a Recording\")").WaitForAsync();
       await HooksInitializer._context.Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"Book a Recording\")");
 

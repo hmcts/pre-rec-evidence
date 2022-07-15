@@ -21,7 +21,7 @@ namespace pre.test.Hooks
     [BeforeScenario("CreateAndManageCase", Order = 1)]
     public async Task CreateAndManageCase()
     {
-      await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.testUrl}");
+      await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.sboxUrl}");
 
       var date = DateTime.UtcNow.ToString("MMddmmss");
 

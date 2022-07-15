@@ -11,7 +11,7 @@ namespace pre.test.Hooks
     [BeforeScenario("ScheduleCreate", Order = 1)]
     public async Task ScheduleCreate()
     {
-      await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.testUrl}");
+      await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.sboxUrl}");
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Book a Recording\")").WaitForAsync();
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Book a Recording\")").ClickAsync();
     }

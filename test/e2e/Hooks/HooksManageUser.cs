@@ -15,7 +15,7 @@ namespace pre.test.Hooks
     [BeforeScenario("ManageUsers", Order = 1)]
     public async Task goToManageUsers()
     {
-      await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.testUrl}");
+      await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.sboxUrl}");
       ManageUser.createUserLastName = DateTime.UtcNow.ToString("yyyyMMddHHmmss");
       ManageUser.newUserEmail = $"autotest{ManageUser.createUserLastName}";
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Admin\")").ClickAsync();
@@ -26,7 +26,7 @@ namespace pre.test.Hooks
     [BeforeScenario("SuperUserManageUsers", Order = 1)]
     public async Task goToManageUsersSuperUser()
     {
-      await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.testUrl}");
+      await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.sboxUrl}");
 
       ManageUser.createUserLastName = DateTime.UtcNow.ToString("yyyyMMddHHmmss");
       ManageUser.newUserEmail = $"autotest{ManageUser.createUserLastName}";

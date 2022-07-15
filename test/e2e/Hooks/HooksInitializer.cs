@@ -29,16 +29,16 @@ namespace pre.test.Hooks
     protected string authPath = config["authPath"];
     public static string testUrl = config["testUrl"];
     public static string demoUrl = config["demoUrl"];
-    public static string sboxUrl = config["sboxUrl"];
+    public static string sboxUrl = config["sbox-chrisUrl"];
     public static string testPortalUrl = config["testPortalUrl"];
     public static string deleteCaseUrlTest = config["deleteCaseUrlTest"];
     public static string deleteScheduleUrlTest = config["deleteScheduleUrlTest"];
     public static string deleteRecordingUrlTest = config["deleteRecordingUrlTest"];
-    public static string deleteCaseUrlSbox = config["deleteCaseUrlSbox"];
-    public static string deleteScheduleUrlSbox = config["deleteScheduleUrlSbox"];
-    public static string deleteRecordingUrlSbox = config["deleteRecordingUrlSbox"];
+    public static string deleteCaseUrlSbox = config["deleteCaseUrlSbox-chris"];
+    public static string deleteScheduleUrlSbox = config["deleteScheduleUrlSbox-chris"];
+    public static string deleteRecordingUrlSbox = config["deleteRecordingUrlSbox-chris"];
     public static string deleteContactsUrlTest = config["deleteContactsUrlTest"];
-    public static string deleteContactsUrlSbox = config["deleteContactsUrlSbox"];
+    public static string deleteContactsUrlSbox = config["deleteContactsUrlSbox-chris"];
     public static string deleteOwner = config["deleteOwner"];
     public static bool headless = bool.Parse(config["headless"]);
     public HooksInitializer(IObjectContainer objectContainer, ScenarioContext scenarioContext, PageSetters context,
@@ -170,7 +170,7 @@ namespace pre.test.Hooks
     {
       if (scheduleCount > 0)
       {
-        await HooksInitializer._context.Page.GotoAsync($"{deleteScheduleUrlTest}");
+        await HooksInitializer._context.Page.GotoAsync($"{deleteScheduleUrlSbox}");
         await HooksInitializer._context.Page.Locator("button:has-text(\"more\")").WaitForAsync();
         await HooksInitializer._context.Page.Locator("button:has-text(\"more\")").ClickAsync();
         await HooksInitializer._context.Page.Locator("[placeholder=\"Search\"]").ClickAsync();
@@ -203,7 +203,7 @@ namespace pre.test.Hooks
     {
       if (caseRef.Count > 0)
       {
-        await HooksInitializer._context.Page.GotoAsync($"{deleteCaseUrlTest}");
+        await HooksInitializer._context.Page.GotoAsync($"{deleteCaseUrlSbox}");
         await HooksInitializer._context.Page.Locator("button:has-text(\"more\")").WaitForAsync();
         await HooksInitializer._context.Page.Locator("button:has-text(\"more\")").ClickAsync();
         await HooksInitializer._context.Page.Locator("[placeholder=\"Search\"]").ClickAsync();
@@ -236,7 +236,7 @@ namespace pre.test.Hooks
     {
       if (recordings.Count > 0)
       {
-        await HooksInitializer._context.Page.GotoAsync($"{deleteRecordingUrlTest}");
+        await HooksInitializer._context.Page.GotoAsync($"{deleteRecordingUrlSbox}");
         await HooksInitializer._context.Page.Locator("button:has-text(\"more\")").WaitForAsync();
         await HooksInitializer._context.Page.Locator("button:has-text(\"more\")").ClickAsync();
         await HooksInitializer._context.Page.Locator("[placeholder=\"Search\"]").ClickAsync();
@@ -268,7 +268,7 @@ namespace pre.test.Hooks
     {
       if (contacts.Count > 0)
       {
-        await HooksInitializer._context.Page.GotoAsync($"{deleteContactsUrlTest}");
+        await HooksInitializer._context.Page.GotoAsync($"{deleteContactsUrlSbox}");
         await HooksInitializer._context.Page.Locator("button:has-text(\"more\")").WaitForAsync();
         await HooksInitializer._context.Page.Locator("button:has-text(\"more\")").ClickAsync();
         await HooksInitializer._context.Page.Locator(".ms-Checkbox-checkbox").First.ClickAsync();

@@ -12,7 +12,7 @@ namespace pre.test.Hooks
     [BeforeScenario("AddingAndRemovingParticipant", Order = 1)]
     public async Task AddingAndRemovingParticipant()
     {
-      await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.testUrl}");
+      await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.sboxUrl}");
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Book a Recording\")").ClickAsync();
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div[role=\"button\"]:has-text(\"Court Name\")").ClickAsync();
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("ul[role=\"listbox\"] div:has-text(\"Leeds\")").ClickAsync();
@@ -82,7 +82,7 @@ namespace pre.test.Hooks
     [BeforeScenario("SharedRecordingAtPortal", Order = 1)]
     public async Task SharedRecordingAtPortal()
     {
-      await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.testUrl}");
+      await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.sboxUrl}");
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"View Recordings\")").ClickAsync();
       await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0")); ;
 
@@ -129,7 +129,7 @@ namespace pre.test.Hooks
     [BeforeScenario("createAccount", Order = 1)]
     public async Task createAccount()
     {
-      await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.testUrl}");
+      await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.sboxUrl}");
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Admin\")").ClickAsync();
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Manage Users\"]").ClickAsync();
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Add Users\"]").ClickAsync();
@@ -218,7 +218,7 @@ namespace pre.test.Hooks
     [AfterScenario("unSharedRecordingAtPortal", Order = 0)]
     public async Task UnsharedRecordingAtPortal()
     {
-      await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.testUrl}");
+      await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.sboxUrl}");
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"View Recordings\")").ClickAsync();
       await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
       await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
@@ -257,7 +257,7 @@ namespace pre.test.Hooks
     [AfterScenario("unlockAccount", Order = 1)]
     public async Task unlockAccount()
     {
-      await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.deleteContactsUrlTest}");
+      await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.deleteContactsUrlSbox}");
       await HooksInitializer._context.Page.Locator("[aria-label=\"select or deselect the row\"]").First.ClickAsync();
       await HooksInitializer._context.Page.Locator("button[role=\"menuitem\"]:has-text(\"Delete 1 record(s)\")").ClickAsync();
       await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.NetworkIdle);

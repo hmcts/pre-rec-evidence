@@ -160,7 +160,7 @@ namespace pre.test
     [Given(@"I have a case with a recording")]
     public async Task GivenIhaveacasewitharecoring()
     {
-      await _pagesetters.Page.GotoAsync($"{HooksInitializer.testUrl}");
+      await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.sboxUrl}");
       await _pagesetters.Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
       await _manageCase.goToAdmin();
     }
