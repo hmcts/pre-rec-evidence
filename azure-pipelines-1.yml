@@ -141,6 +141,14 @@ steps:
       Contents: 'secrets.json'
       TargetFolder: 'D:\a\1\s\test\e2e\bin\Debug\net6.0'
       OverWrite: true
+  - task: DownloadSecureFile@1
+    name: authfile
+    displayname: 'Download auth.json'
+    inputs:
+      secureFile: 'auth.json'
+  - task: CmdLine@2
+    inputs:
+      script: 'copy $(authfile.secureFilePath) D:\a\1\s\test\e2e\bin\Debug\net6.0'
   - task: CmdLine@2
     inputs:
       script: 'dotnet --version'
