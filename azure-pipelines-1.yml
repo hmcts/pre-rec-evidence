@@ -143,7 +143,7 @@ steps:
       OverWrite: true
   - task: DownloadSecureFile@1
     name: authfile
-    displayname: 'Download auth.json'
+    displayName: 'Download auth.json'
     inputs:
       secureFile: 'auth.json'
   - task: CmdLine@2
