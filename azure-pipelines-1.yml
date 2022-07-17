@@ -130,7 +130,7 @@ steps:
     inputs:
       script: |
         npm i -D @playwright/test
-        npx playwright codegen --save-storage=auth.json
+        #npx playwright codegen --save-storage=auth.json
       workingDirectory: 'D:\a\1\s\test\e2e'
   - task: CmdLine@2
     inputs:
@@ -159,8 +159,8 @@ steps:
   
   - task: CopyFiles@2
     inputs:
-      SourceFolder: 'test\e2e'
-      Contents: 'auth-ci.json'
+      SourceFolder: 'C:\PRE\pre-rec-evidence\test\e2e'
+      Contents: 'auth.json'
       TargetFolder: 'D:\a\1\s\test\e2e\bin\Debug\net6.0'
       OverWrite: true
   
