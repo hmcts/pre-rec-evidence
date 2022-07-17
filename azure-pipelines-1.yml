@@ -157,12 +157,16 @@ steps:
     inputs:
       script: 'dir C:\Users\VssAdministrator\AppData\Local\ms-playwright'
   
-  - task: CopyFiles@2
-    inputs:
-      SourceFolder: 'C:\PRE\pre-rec-evidence\test\e2e'
-      Contents: 'auth.json'
-      TargetFolder: 'D:\a\1\s\test\e2e\bin\Debug\net6.0'
-      OverWrite: true
+  #- task: CopyFiles@2
+  #  inputs:
+  #    SourceFolder: 'C:\PRE\pre-rec-evidence\test\e2e'
+  #    Contents: 'auth.json'
+  #    TargetFolder: 'D:\a\1\s\test\e2e\bin\Debug\net6.0'
+  #    OverWrite: true
+  #- task: WindowsMachineFileCopy@2
+  #  inputs:
+  #    SourcePath: 'C:\PRE\pre-rec-evidence\test\e2e\auth.json'
+  #    TargetPath: 'D:\a\1\s\test\e2e\bin\Debug\net6.0'
   
   - task: DotNetCoreCLI@2
     displayName: Test
