@@ -6,7 +6,7 @@
     "standard": "WCAG2AA",
     "viewport": {
       "width": 2500,
-      "height": 3500
+      "height": 1784
     },
     "concurrency": 1,
     "reporters": [
@@ -16,68 +16,26 @@
   },
   "urls": [
     {
-      "url": "https://pre-testing.powerappsportals.com//SignIn?ReturnUrl=%2F?Before-log-in",
+      "url": "https://dts-pre-sbox.powerappsportals.com/?Before-log-in",
       "actions": [
         "screen capture Screenshots/Portal-Home-Page.png"
       ]
     },
     {
-      "url": "https://pre-testing.powerappsportals.com/?After-log-in",
+      "url": "https://dts-pre-sbox.powerappsportals.com/?After-log-in",
       "actions": [
-        "set field #Email to <email>",
-        "set field #PasswordValue to <password>",
+        "set field #Email to testportal1one@gmail.com",
+        "set field #PasswordValue to {addPasswordHere}",
         "click element #submit-signin-local",
         "wait for element #video to be visible",
         "screen capture Screenshots/Portal-LoggedIn-Home-Page.png"
       ]
     },
     {
-      "url": "https://pre-testing.powerappsportals.com//Register?returnUrl=%2F?Redeem-invitation",
+      "url": "https://dts-pre-sbox.powerappsportals.com/new-page/?new-page",
       "actions": [
-        
-        "wait for element div:nth-child(5) to be visible",
-        "screen capture Screenshots/Portal-Redeem-invitation-Link.png"
-      ]
-    },
-    {
-      "url": "https://pre-testing.powerappsportals.com//SignIn?ReturnUrl=%2F?Codeverification",
-      "actions": [
-        "set field #Email to <email>",
-        "set field #PasswordValue to <password>",
-        "click element #submit-signin-local",
-        "wait for element #Code to be visible",
-        "screen capture Screenshots/Portal-Code-Verification-Link.png"
-      ]
-    },
-    {
-      "url": "https://pre-testing.powerappsportals.com//Account/Login/ForgotPassword?Forgot-Password",
-      "actions": [
-        "wait for element #Email to be visible",
-        "screen capture Screenshots/Forgot-Password-Link.png"
-      ]
-    },
-    {
-      "url": "https://pre-testing.powerappsportals.com//Account/Login/ForgotPassword?Forgot-Password-email-sent",
-      "actions": [
-        "set field #Email to <email>",
-        "click element #submit-forgot-password",
-        "wait for element  div.form-horizontal > div > div  to be visible",
-        "screen capture Screenshots/Forgot-Password-Email-Link.png"
-      ]
-    },
-    {
-      "url": "https://portal-test.pre-recorded-evidence.justice.gov.uk/TermsAndConditions?Terms&Condiitons",
-      "actions": [
-        "screen capture Screenshots/Terms&Condiitons.png"
-      ]
-    },
-    {
-      "url": "https://portal-test.pre-recorded-evidence.justice.gov.uk/Accessibility/",
-      "actions": [
-        "set field #Email to <email>",
-        "set field #PasswordValue to <password>",
-        "click element #submit-signin-local",
-        "screen capture Screenshots/Accessibility.png"
+        "wait for element body table thead to be visible",
+        "screen capture Screenshots/Portal-New-Page-Link.png"
       ]
     }
   ]
