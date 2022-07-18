@@ -120,8 +120,9 @@ steps:
     displayName: 'Use .NET Core sdk'
     inputs:
       packageType: sdk
-      version: 6.x
+      version: '6.0.x'
       installationPath: $(Agent.ToolsDirectory)/dotnet
+      performMultiLevelLookup: true
   
   - task: DotNetCoreCLI@2
     displayName: Build
