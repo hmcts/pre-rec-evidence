@@ -115,7 +115,7 @@ steps:
     - task: CmdLine@2
       displayName: dir C:\Program Files\dotnet
       inputs:
-        script: 'dir C:\Program Files\dotnet'
+        script: 'dir "C:\Program Files\dotnet"'
 
     
     - task: DotNetCoreCLI@2
