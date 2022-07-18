@@ -296,6 +296,7 @@ namespace pre.test.pages
       await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
       await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
       await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+      await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
 
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div.canvasContentDiv.container_1vt1y2p  div  div:nth-child(3)").WaitForAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div:nth-child(11) > .appmagic-borderfill-container > .appmagic-border-inner > .react-knockout-control > .powerapps-icon").ClickAsync();
