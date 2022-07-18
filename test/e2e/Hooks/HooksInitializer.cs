@@ -50,7 +50,7 @@ namespace pre.test.Hooks
       _specFlowOutputHelper = outputHelper;
     }
 
-
+    [BeforeScenario("Chrome", Order = 1)]
     public async Task createBrowserChrome()
     {
       scheduleCount = 0;

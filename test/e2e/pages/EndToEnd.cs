@@ -129,6 +129,7 @@ namespace pre.test.pages
       await Page.Locator("a[role=\"button\"]:has-text(\"Record\")").WaitForAsync();
       await Page.Locator("a[role=\"button\"]:has-text(\"Record\")").ClickAsync();
       await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
+      await Page.Locator("[placeholder=\"Service ID\"]").WaitForAsync();
 
       await Page.Locator("[placeholder=\"Service ID\"]").FillAsync($"{cvpService}");
       await Page.Locator("[placeholder=\"Location code\"]").FillAsync($"{cvpLocation}");
@@ -239,6 +240,8 @@ namespace pre.test.pages
     }
     public async Task viewRecording()
     {
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+      await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
       await Task.Run(() => Assert.That(Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div.canvasContentDiv.container_1vt1y2p  div  div:nth-child(3)").InnerTextAsync().Result, Does.Contain(stringCase)));
 
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"div.canvasContentDiv.container_1vt1y2p  div:nth-child(2)").ClickAsync();

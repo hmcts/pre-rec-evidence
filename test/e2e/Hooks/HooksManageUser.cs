@@ -12,7 +12,7 @@ namespace pre.test.Hooks
   public class HooksManageUsers
   {
 
-    [BeforeScenario("ManageUsers", Order = 1)]
+    [BeforeScenario("ManageUsers", Order = 2)]
     public async Task goToManageUsers()
     {
       await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.testUrl}");
@@ -23,7 +23,7 @@ namespace pre.test.Hooks
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Add Users\"]").ClickAsync();
     }
 
-    [BeforeScenario("SuperUserManageUsers", Order = 1)]
+    [BeforeScenario("SuperUserManageUsers", Order = 2)]
     public async Task goToManageUsersSuperUser()
     {
       await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.testUrl}");
@@ -34,7 +34,7 @@ namespace pre.test.Hooks
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Manage Users\"]").First.ClickAsync();
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Add User\"]").ClickAsync();
     }
-    [BeforeScenario("SuperUserCreateAUser", Order = 2)]
+    [BeforeScenario("SuperUserCreateAUser", Order = 3)]
     public async Task superUserCreateAUser()
     {
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Add\\ User\\ First\\ Name\"]").ClickAsync();
@@ -56,7 +56,7 @@ namespace pre.test.Hooks
     
     }
 
-    [BeforeScenario("CreateAUser", Order = 2)]
+    [BeforeScenario("CreateAUser", Order = 3)]
     public async Task CreateAUser()
     {
       if (ManageUser.use == "duplicateEmail")
@@ -104,7 +104,7 @@ namespace pre.test.Hooks
       }
     }
 
-    [BeforeScenario("SuperscreencheckUser", Order = 3)]
+    [BeforeScenario("SuperscreencheckUser", Order = 4)]
     public async Task superscreenCheckRecordIsCreated()
     {
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Search Users\"]").ClickAsync();
@@ -145,7 +145,7 @@ namespace pre.test.Hooks
       await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
     }
 
-    [BeforeScenario("checkUser", Order = 3)]
+    [BeforeScenario("checkUser", Order = 4)]
 
     public async Task CheckRecordIsCreated()
     {

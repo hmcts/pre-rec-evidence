@@ -1,6 +1,6 @@
 Feature: End to end with CVP
 
-@Firefox
+@Chrome
 Scenario: End to end test
   Given I have created a case and schedule
   Then I can get a rtmps link from manage recordings

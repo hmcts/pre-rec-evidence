@@ -11,7 +11,7 @@ namespace pre.test.Hooks
   [Binding]
   public class HooksManageRecording
   {
-    [BeforeScenario("CaseAndScheduleCreate", Order = 1)]
+    [BeforeScenario("CaseAndScheduleCreate", Order = 2)]
     public async Task createAndScheduleCase()
     {
       var date = DateTime.UtcNow.ToString("MMddmmss");
@@ -52,7 +52,7 @@ namespace pre.test.Hooks
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Manage Recordings\")").Nth(1).ClickAsync();
     }
 
-    [BeforeScenario("findCase", Order = 2)]
+    [BeforeScenario("findCase", Order = 3)]
     public async Task findCase()
     {
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Search Case Ref\"]").WaitForAsync();
