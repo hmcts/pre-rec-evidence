@@ -188,8 +188,7 @@ steps:
   - task: DotNetCoreCLI@2
     inputs:
       command: 'test'
-      projects: 'D:\a\1\s\test\e2e'
-      arguments: 'test --filter AdminManageRecordings'
+      arguments: '--filter AdminManageRecordings'
       testRunTitle: 'Pipeline Tests'
       workingDirectory: 'D:\a\1\s\test\e2e'
 
