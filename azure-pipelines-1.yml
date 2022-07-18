@@ -176,21 +176,20 @@ steps:
   #    SourcePath: 'C:\PRE\pre-rec-evidence\test\e2e\auth.json'
   #    TargetPath: 'D:\a\1\s\test\e2e\bin\Debug\net6.0'
   
-  - task: DotNetCoreCLI@2
-    displayName: Test
-    inputs:
-      command: 'test'
-      workingDirectory: 'test\e2e'
+  #- task: DotNetCoreCLI@2
+  #  displayName: Test
+  #  inputs:
+  #    command: 'test --filter AdminManageRecordings'
+  #    workingDirectory: 'test\e2e'
   
 
-  #- task: CmdLine@2
-  #  inputs:
-  #    authenticationType: 'PowerPlatformSPN'
-  #    PowerPlatformSPN: ${{ parameters.serviceConnection }}
-  #    script: |
-  #      #dotnet build
-  #      dotnet test
-  #    workingDirectory: 'test\e2e'
+  - task: CmdLine@2
+    inputs:
+      script: |
+        #dotnet build
+        dotnet test --filter AdminManageRecordings
+      workingDirectory: 'test\e2e'
+
   - task: CmdLine@2
     inputs:
       script: 'livingdoc test-assembly bin/Debug/net6.0/pre.dll -t bin/Debug/net6.0/TestExecution.json'
