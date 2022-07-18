@@ -70,9 +70,17 @@ steps:
         workingDirectory: 'D:\a\1\s\test\e2e'
     
     - task: CmdLine@2
+      displayName: dot net version
       inputs:
         script: 'dotnet --version'
+    
     - task: CmdLine@2
+      displayName: dot net sdks
+      inputs:
+        script: 'dotnet --list-sdks'
+  
+    - task: CmdLine@2
+      displayName: dir D:\a\1\s\test\e2e
       inputs:
         script: 'dir D:\a\1\s\test\e2e'
     - task: CmdLine@2
@@ -80,6 +88,7 @@ steps:
         script: 'dir D:\a\1\s\test\e2e\bin\Debug\net6.0'
       
     - task: CmdLine@2
+      displayName: run platwright.ps1
       inputs:
         script: 'pwsh D:\a\1\s\test\e2e\bin\Debug\net6.0\playwright.ps1 install'
   
