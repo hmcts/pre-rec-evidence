@@ -205,6 +205,9 @@ steps:
   #      #dotnet build
   #      dotnet test --filter AdminManageRecordings
   #    workingDirectory: 'D:\a\1\s\test\e2e'
+  - task: CmdLine@2
+    inputs:
+      script: 'more D:\a\_temp\*.trx'
 
   - task: CmdLine@2
     inputs:
