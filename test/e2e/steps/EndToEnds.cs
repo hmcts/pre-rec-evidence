@@ -2,7 +2,6 @@ using System.Threading.Tasks;
 using TechTalk.SpecFlow;
 using pre.test.pages;
 using pre.test.Hooks;
-using System;
 
 namespace pre.test
 {
@@ -12,7 +11,7 @@ namespace pre.test
     public static EndToEnd _endToEnd;
     public static string use = "";
     public static PageSetters _pagesetters;
-
+  
     public EndToEnds(PageSetters pageSetters)
     {
       _pagesetters = pageSetters;
@@ -31,19 +30,19 @@ namespace pre.test
       await _endToEnd.getRtmps();
     }
 
-    [Given(@"I copy this into cvp and start a recording")]
+    [When(@"I copy this into cvp and start a recording")]
     public async Task GivenIcopythisintocvpandstartarecording()
     {
       await _endToEnd.startRecording();
     }
-
+   
     [Then(@"I can livestream the recording")]
     public async Task ThenIcanlivestreamtherecording()
     {
       await _endToEnd.livestreamCheck();
     }
 
-    [Given(@"i end the recording in cvp and finish in pre")]
+    [When(@"i end the recording in cvp and finish in pre")]
     public async Task Giveniendtherecordingincvpandfinishinpre()
     {
       await _endToEnd.finishRecording();
@@ -61,7 +60,7 @@ namespace pre.test
       await _endToEnd.viewRecording();
     }
 
-    [Given(@"I share this recording with an external user")]
+    [When(@"I share this recording with an external user")]
     public async Task GivenIsharethisrecordingwithanexternaluser()
     {
       await _endToEnd.shareRecording();
@@ -73,7 +72,7 @@ namespace pre.test
       await _endToEnd.viewInPortal();
     }
 
-    [Given(@"I un-share this recording with the external user")]
+    [When(@"I un-share this recording with the external user")]
     public async Task GivenIunsharethisrecordingwiththeexternaluser()
     {
       await _endToEnd.unshareRecording();
