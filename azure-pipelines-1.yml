@@ -24,13 +24,13 @@ pool:
   vmImage: windows-latest
 
 steps:
-    - task: UseDotNet@2
-      displayName: 'Use .NET Core sdk'
-      inputs:
-        packageType: sdk
-        version: '6.0.x'
-        installationPath: $(Agent.ToolsDirectory)/dotnet
-        performMultiLevelLookup: true
+    #- task: UseDotNet@2
+    #  displayName: 'Use .NET Core sdk'
+    #  inputs:
+    #    packageType: sdk
+    #    version: '6.0.x'
+    #    installationPath: $(Agent.ToolsDirectory)/dotnet
+    #    performMultiLevelLookup: true
     
     - task: NodeTool@0
       inputs:
