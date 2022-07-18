@@ -71,7 +71,6 @@ namespace pre.test.pages
       HooksInitializer.recordings.Add(stringCase);
 
       await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
-      // await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
     }
     public async Task getRtmps()
     {
