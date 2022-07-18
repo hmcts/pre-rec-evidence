@@ -191,7 +191,7 @@ steps:
       script: |
         #dotnet build
         dotnet test --filter AdminManageRecordings
-      workingDirectory: 'test\e2e'
+      workingDirectory: 'D:\a\1\s\test\e2e'
 
   - task: CmdLine@2
     inputs:
