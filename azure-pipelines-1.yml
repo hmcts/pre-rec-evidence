@@ -190,7 +190,7 @@ steps:
       command: 'test'
       arguments: '--filter AdminManageRecordings'
       testRunTitle: 'Pipeline Tests'
-      workingDirectory: 'D:\a\1\s\test\e2e'
+      projects: 'D:\a\1\s\test\e2e\pre.csproj'
 
   #- task: CmdLine@2
   #  inputs:
