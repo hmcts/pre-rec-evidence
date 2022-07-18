@@ -112,6 +112,11 @@ steps:
       displayName: Copy auth.json to e2e dir
       inputs:
         script: 'copy $(authfile.secureFilePath) D:\a\1\s\test\e2e'
+    - task: CmdLine@2
+      displayName: dir C:\Program Files\dotnet
+      inputs:
+        script: 'dir C:\Program Files\dotnet'
+
     
     - task: DotNetCoreCLI@2
       inputs:
