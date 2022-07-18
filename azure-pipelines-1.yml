@@ -66,6 +66,11 @@ steps:
           dotnet tool update --global PowerShell
           dotnet tool install --global SpecFlow.Plus.LivingDoc.CLI
         workingDirectory: 'test\e2e'
+    - task: DotNetCoreCLI@2
+      displayName: Build
+      inputs:
+        command: 'build'
+        workingDirectory: 'test\e2e'
       
     - task: CmdLine@2
       inputs:
@@ -84,14 +89,15 @@ steps:
         script: 'dotnet --version'
     - task: CmdLine@2
       inputs:
-        script: 'pwsh D:\a\1\s\test\e2e\bin\Debug\net6.0\playwright.ps1 install'
-
-    - task: DotNetCoreCLI@2
-      displayName: Build
+        script: 'dir D:\a\1\s\test\e2e'
+    - task: CmdLine@2
       inputs:
-        command: 'build'
-        workingDirectory: 'test\e2e'
-    
+        script: 'dir D:\a\1\s\test\e2e\bin\Debug\net6.0'
+      
+    - task: CmdLine@2
+      inputs:
+        script: 'pwsh D:\a\1\s\test\e2e\bin\Debug\net6.0\playwright.ps1 install'
+  
     - task: CopyFiles@2
       displayName: Copy secrets.json
       inputs:
