@@ -116,6 +116,13 @@ steps:
         dotnet tool install --global SpecFlow.Plus.LivingDoc.CLI
       workingDirectory: 'test\e2e'
     
+  - task: UseDotNet@2
+    displayName: 'Use .NET Core sdk'
+    inputs:
+      packageType: sdk
+      version: 6.x
+      installationPath: $(Agent.ToolsDirectory)/dotnet
+  
   - task: DotNetCoreCLI@2
     displayName: Build
     inputs:
