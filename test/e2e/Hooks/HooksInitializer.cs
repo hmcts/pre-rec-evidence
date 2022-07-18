@@ -176,6 +176,8 @@ namespace pre.test.Hooks
         await HooksInitializer._context.Page.Locator("[placeholder=\"Search\"]").ClickAsync();
         await HooksInitializer._context.Page.Locator("[placeholder=\"Search\"]").FillAsync("owner");
         await HooksInitializer._context.Page.Locator("text=").First.ClickAsync();
+
+        await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
         await HooksInitializer._context.Page.Locator("button:has-text(\"Save\")").WaitForAsync();
         await HooksInitializer._context.Page.Locator("button:has-text(\"Save\")").ClickAsync();
         await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
@@ -209,6 +211,8 @@ namespace pre.test.Hooks
         await HooksInitializer._context.Page.Locator("[placeholder=\"Search\"]").ClickAsync();
         await HooksInitializer._context.Page.Locator("[placeholder=\"Search\"]").FillAsync("caseref");
         await HooksInitializer._context.Page.Locator("text=").First.ClickAsync();
+
+        await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
         await HooksInitializer._context.Page.Locator("button:has-text(\"Save\")").WaitForAsync();
         await HooksInitializer._context.Page.Locator("button:has-text(\"Save\")").ClickAsync();
         await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
@@ -242,6 +246,8 @@ namespace pre.test.Hooks
         await HooksInitializer._context.Page.Locator("[placeholder=\"Search\"]").ClickAsync();
         await HooksInitializer._context.Page.Locator("[placeholder=\"Search\"]").FillAsync("case ref");
         await HooksInitializer._context.Page.Locator("text=").First.ClickAsync();
+
+        await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
         await HooksInitializer._context.Page.Locator("button:has-text(\"Save\")").WaitForAsync();
         await HooksInitializer._context.Page.Locator("button:has-text(\"Save\")").ClickAsync();
         await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
@@ -279,6 +285,8 @@ namespace pre.test.Hooks
         await HooksInitializer._context.Page.Locator("[placeholder=\"Search\"]").ClickAsync();
         await HooksInitializer._context.Page.Locator("[placeholder=\"Search\"]").FillAsync("created on");
         await HooksInitializer._context.Page.Locator("text=").First.ClickAsync();
+
+        await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
         await HooksInitializer._context.Page.Locator("button:has-text(\"Save\")").WaitForAsync();
         await HooksInitializer._context.Page.Locator("button:has-text(\"Save\")").ClickAsync();
         await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
