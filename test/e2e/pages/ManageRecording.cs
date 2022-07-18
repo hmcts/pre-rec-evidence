@@ -75,7 +75,6 @@ namespace pre.test.pages
       await Task.Run(() => Assert.IsTrue(message.IsVisibleAsync().Result));
     }
 
-
     public async Task UpdateRecording()
     {
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Amend\")").ClickAsync();

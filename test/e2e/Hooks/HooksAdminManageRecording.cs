@@ -9,7 +9,7 @@ namespace pre.test.Hooks
   public class HooksAdminManageRecordings
   {
 
-    [BeforeScenario("EditingRecordingDate", Order = 1)]
+    [BeforeScenario("EditingRecordingDate", Order = 2)]
     public async Task goToManageRecordings()
     {
       await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.testUrl}");

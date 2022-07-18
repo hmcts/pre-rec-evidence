@@ -9,7 +9,7 @@ namespace pre.test.Hooks
   [Binding]
   public class HooksExternalPortal
   {
-    [BeforeScenario("AddingAndRemovingParticipant", Order = 1)]
+    [BeforeScenario("AddingAndRemovingParticipant", Order = 2)]
     public async Task AddingAndRemovingParticipant()
     {
       await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.testUrl}");
@@ -79,7 +79,7 @@ namespace pre.test.Hooks
       await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
     }
 
-    [BeforeScenario("SharedRecordingAtPortal", Order = 1)]
+    [BeforeScenario("SharedRecordingAtPortal", Order = 2)]
     public async Task SharedRecordingAtPortal()
     {
       await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.testUrl}");
@@ -126,7 +126,7 @@ namespace pre.test.Hooks
       await Task.Run(() => Assert.That(mobileWarning.TextContentAsync().Result, Does.Contain("Playback is preferred on non-mobile devices")));
     }
 
-    [BeforeScenario("createAccount", Order = 1)]
+    [BeforeScenario("createAccount", Order = 2)]
     public async Task createAccount()
     {
       await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.testUrl}");
@@ -254,7 +254,7 @@ namespace pre.test.Hooks
       await Task.Run(() => Assert.IsFalse(tableCaseRef.IsVisibleAsync().Result));
     }
 
-    [AfterScenario("unlockAccount", Order = 1)]
+    [AfterScenario("unlockAccount", Order = 2)]
     public async Task unlockAccount()
     {
       await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.deleteContactsUrlTest}");
