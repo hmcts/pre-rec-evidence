@@ -185,13 +185,20 @@ steps:
   #    command: 'test --filter AdminManageRecordings'
   #    workingDirectory: 'test\e2e'
   
-
-  - task: CmdLine@2
+  - task: DotNetCoreCLI@2
     inputs:
-      script: |
-        #dotnet build
-        dotnet test --filter AdminManageRecordings
+      command: 'test'
+      projects: 'D:\a\1\s\test\e2e'
+      arguments: 'test --filter AdminManageRecordings'
+      testRunTitle: 'Pipeline Tests'
       workingDirectory: 'D:\a\1\s\test\e2e'
+
+  #- task: CmdLine@2
+  #  inputs:
+  #    script: |
+  #      #dotnet build
+  #      dotnet test --filter AdminManageRecordings
+  #    workingDirectory: 'D:\a\1\s\test\e2e'
 
   - task: CmdLine@2
     inputs:
