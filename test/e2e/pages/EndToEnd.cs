@@ -32,6 +32,8 @@ namespace pre.test.pages
     public static string cvpJoinLink = config["cvpJoinLink"];
     public static string cvpRoom = config["cvpRoom"];
     public static string cvpHostPin = config["cvpHostPin"];
+    public static string emailToShare = config["portalEmail"];
+
     public async Task createCaseSched()
     {
       await Page.GotoAsync($"{HooksInitializer.testUrl}");
@@ -61,7 +63,6 @@ namespace pre.test.pages
       await Page.Frame("fullscreen-app-host").ClickAsync($"[aria-label=\"{day}\\ {month}\\ {datee}\\ {year}\"]");
       await Page.Frame("fullscreen-app-host").ClickAsync("button[role='button']:has-text(\"Ok\")");
 
-      // await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
       await Page.Frame("fullscreen-app-host").ClickAsync("[aria-label=\"Select\\ your\\ Witness\"]");
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text={wit1}").ClickAsync();
       await Page.Frame("fullscreen-app-host").ClickAsync("[aria-label=\"Select\\ your\\ Defendants\"]");
@@ -71,7 +72,6 @@ namespace pre.test.pages
       HooksInitializer.recordings.Add(stringCase);
 
       await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
-      // await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
     }
     public async Task getRtmps()
     {
@@ -154,9 +154,13 @@ namespace pre.test.pages
     public async Task livestreamCheck()
     {
       await Page.GotoAsync($"{HooksInitializer.testUrl}");
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Manage Recordings\")").Nth(1).WaitForAsync();
 
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Manage Recordings\")").Nth(1).ClickAsync();
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Search Case Ref\"]").ClickAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Search Case Ref\"]").FillAsync($"{stringCase}");
       await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
@@ -183,8 +187,6 @@ namespace pre.test.pages
       await Page.Locator("[placeholder=\"Password\"]").FillAsync($"{cvpLogInPassword}");
       await Page.Locator("text=Sign in").ClickAsync();
 
-      // await Page.Locator("#modal_cloudroom >> text=×").WaitForAsync();
-      // await Page.Locator("#modal_cloudroom >> text=×").ClickAsync();
       await Page.Locator("a[role=\"button\"]:has-text(\"Pre Recorded Evidence Team's room\")").ClickAsync();
       await Page.Locator("text=PRE009").ClickAsync();
       await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
@@ -207,7 +209,6 @@ namespace pre.test.pages
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Yes\")").ClickAsync();
       await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
       await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
-      // await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=HMCTS Logo").ClickAsync();
       await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
     }
@@ -257,8 +258,8 @@ namespace pre.test.pages
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div:nth-child(11) > .appmagic-borderfill-container > .appmagic-border-inner > .react-knockout-control > .powerapps-icon").ClickAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Share\")").ClickAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Find Users to Share Recording\"]").ClickAsync();
-      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Find items\"]").FillAsync("sharepretest@");
-      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("text=share pre test").ClickAsync();
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[placeholder=\"Find items\"]").FillAsync($"{emailToShare}");
+      await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text={emailToShare}").ClickAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Grant Access\")").ClickAsync();
       await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
     }
