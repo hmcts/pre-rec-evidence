@@ -57,6 +57,7 @@ steps:
         workingDir: 'test\e2e'
 
     - task: CmdLine@2
+      displayName: Add dotnet packages
       inputs:
         script: |
           dotnet add package Microsoft.Extensions.Configuration --version 6.0.0
@@ -67,6 +68,7 @@ steps:
         workingDirectory: 'test\e2e'
     
     - task: CmdLine@2
+      displayName: npm playwright
       inputs:
         script: |
           npm i -D @playwright/test
@@ -79,6 +81,7 @@ steps:
         workingDirectory: 'test\e2e'
     
     - task: CopyFiles@2
+      displayName: Copy secrets.json
       inputs:
         SourceFolder: 'test\e2e'
         Contents: 'secrets.json'
@@ -90,9 +93,11 @@ steps:
       inputs:
         secureFile: 'auth.json'
     - task: CmdLine@2
+      displayName: Copy auth.json to net6.0 dir
       inputs:
         script: 'copy $(authfile.secureFilePath) D:\a\1\s\test\e2e\bin\Debug\net6.0'
     - task: CmdLine@2
+      displayName: Copy auth.json to e2e dir
       inputs:
         script: 'copy $(authfile.secureFilePath) D:\a\1\s\test\e2e'
     
@@ -100,7 +105,7 @@ steps:
       inputs:
         command: 'test'
         arguments: '--filter AdminManageRecordings'
-        testRunTitle: 'Pipeline Tests'
+        testRunTitle: 'Run Tests'
         projects: 'D:\a\1\s\test\e2e\pre.csproj'
 
     - task: CmdLine@2
@@ -108,5 +113,6 @@ steps:
         script: 'more D:\a\_temp\*.trx'
 
     - task: CmdLine@2
+      displayName: Create livingdoc
       inputs:
         script: 'livingdoc test-assembly bin/Debug/net6.0/pre.dll -t bin/Debug/net6.0/TestExecution.json'
