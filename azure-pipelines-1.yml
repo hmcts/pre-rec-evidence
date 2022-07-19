@@ -31,13 +31,17 @@ steps:
     #    version: '6.0.x'
     #    installationPath: $(Agent.ToolsDirectory)/dotnet
     #    performMultiLevelLookup: true
-    - task: CmdLine@2
-      inputs:
-        script: 'pwsh Get-ChildItem -filter global.json -Recurse -ErrorAction SilentlyContinue'
     
     - task: NodeTool@0
       inputs:
         versionSpec: 18
+    
+    - task: PowerShell@2
+      displayName: Find global.json
+      inputs:
+        targetType: 'inline'
+        script: 'Get-ChildItem -filter global.json -Recurse'
+        errorActionPreference: 'silentlyContinue'
 
     - task: Npm@1
       inputs:
