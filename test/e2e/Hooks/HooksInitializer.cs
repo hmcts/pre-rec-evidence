@@ -310,15 +310,15 @@ namespace pre.test.Hooks
       }
     }
 
-    [AfterScenario(Order = 9)]
-    public async Task closeBrowser()
-    {
-      if (browserType == "Chromium")
-      {
-        await browser.DisposeAsync();
-        // Generating living docs
-        _specFlowOutputHelper.WriteLine("Browser Closed");
-      }
-    }
+    // [AfterScenario(Order = 9)]
+    // public async Task closeBrowser()
+    // {
+    //   if (browserType == "Chromium")
+    //   {
+    //     await browser.DisposeAsync();
+    //     // Generating living docs
+    //     _specFlowOutputHelper.WriteLine("Browser Closed");
+    //   }
+    // }
   }
 }
