@@ -44,7 +44,6 @@ namespace pre.test.pages
           pastDate = (DateTime.UtcNow.AddDays(-2)).ToString("dd/MM/yyyy");
         }
         await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Recording Start\"]").Nth(n).FillAsync($"{pastDate}");
-        await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
 
         await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Save\"]").Nth(n).ClickAsync();
         await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
@@ -79,5 +78,4 @@ namespace pre.test.pages
     }
   }
 }
-
 

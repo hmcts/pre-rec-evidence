@@ -24,188 +24,112 @@ pool:
   vmImage: windows-latest
 
 steps:
-
-  - checkout: self
-    persistCredentials: true
-    clean: true
-  - task: PowerPlatformToolInstaller@0
-    inputs:
-      DefaultVersion: true
-  - task: PowerPlatformExportSolution@0
-    inputs:
-      authenticationType: 'PowerPlatformSPN'
-      PowerPlatformSPN: ${{ parameters.serviceConnection }}
-      SolutionName: $(solutionName)
-      SolutionOutputFile: 'dts_pre_recorded_evidence.zip'
-      AsyncOperation: false
-      Managed: false
-      MaxAsyncWaitTime: 120
-      ExportAutoNumberingSettings: true
-      ExportCalendarSettings: true
-      ExportCustomizationSettings: true
-      ExportEmailTrackingSettings: true
-      ExportGeneralSettings: true
-      ExportIsvConfig: true
-      ExportMarketingSettings: true
-      ExportOutlookSynchronizationSettings: true
-      ExportRelationshipRoles: true
-  
-  - task: PublishPipelineArtifact@1
-    inputs:
-      targetPath: 'dts_pre_recorded_evidence.zip'
-      artifact: 'Solution Archive'
-      publishLocation: 'pipeline'
-  - task: PowerPlatformUnpackSolution@0
-    inputs:
-      SolutionInputFile: 'dts_pre_recorded_evidence.zip'
-      SolutionTargetFolder: 'src'
-  - task: CmdLine@2
-    inputs:
-      script: |
-        echo Commit Power Platform Solution
-        git config user.email "prebuildpipeline@hmcts.net"
-        git config user.name "PRE Build Pipeline"
-        git pull origin master
-        git checkout -b ${{ parameters.exportToBranch }}
-        git add --all
-        git commit -m "Automatic solution commit"
-        git -c http.extraheader="AUTHORIZATION: bearer $(system.githubPat)" push origin ${{ parameters.exportToBranch }}
-  #removed to speedup testing
-  #- task: PowerPlatformImportSolution@0
-  #  inputs:
-  #    authenticationType: 'PowerPlatformSPN'
-  #    PowerPlatformSPN: 'PowerPlatform'
-  #    SolutionInputFile: 'dts_pre_recorded_evidence.zip'
-  #    AsyncOperation: true
-  #    MaxAsyncWaitTime: '60'
-  - task: NodeTool@0
-    inputs:
-      versionSpec: 18
-  - task: replacetokens@5
-    inputs:
-      rootDirectory: 'test/e2e'
-      targetFiles: 'secrets.json'
-      encoding: 'auto'
-      tokenPattern: 'default'
-      writeBOM: true
-      verbosity: 'detailed'
-      actionOnMissing: 'warn'
-      keepToken: false
-      actionOnNoFiles: 'continue'
-      enableTransforms: false
-      enableRecursion: false
-      useLegacyPattern: false
-      enableTelemetry: true
-
-  - task: Npm@1
-    inputs:
-      command: 'install'
-      workingDir: 'test\e2e'
-
-  #- script: npx playwright install --with-deps
-  #  displayName: Install Playwright
-  #  workingDirectory: 'test\e2e'
-
-  - task: CmdLine@2
-    inputs:
-      script: |
-        dotnet add package Microsoft.Extensions.Configuration --version 6.0.0
-        dotnet add package Microsoft.Extensions.Configuration.Json --version 6.0.0
-        dotnet add package Microsoft.Playwright
-        dotnet tool update --global PowerShell
-        dotnet tool install --global SpecFlow.Plus.LivingDoc.CLI
-      workingDirectory: 'test\e2e'
+    #- task: UseDotNet@2
+    #  displayName: 'Use .NET Core sdk'
+    #  inputs:
+    #    packageType: sdk
+    #    version: '6.0.x'
+    #    installationPath: $(Agent.ToolsDirectory)/dotnet
+    #    performMultiLevelLookup: true
     
-  - task: UseDotNet@2
-    displayName: 'Use .NET Core sdk'
-    inputs:
-      packageType: sdk
-      version: 6.x
-      installationPath: $(Agent.ToolsDirectory)/dotnet
-  
-  - task: DotNetCoreCLI@2
-    displayName: Build
-    inputs:
-      command: 'build'
-      workingDirectory: 'test\e2e'
-  - task: CmdLine@2
-    inputs:
-      script: 'npm i && npx playwright install'
-      workingDirectory: 'test\e2e'
-  
-  - task: CmdLine@2
-    inputs:
-      script: |
-        npm i -D @playwright/test
-        #npx playwright codegen --save-storage=auth.json
-      workingDirectory: 'D:\a\1\s\test\e2e'
-  - task: CmdLine@2
-    inputs:
-      script: 'dir D:\a\1\s\test\e2e'
-  - task: CopyFiles@2
-    inputs:
-      SourceFolder: 'test\e2e'
-      Contents: 'secrets.json'
-      TargetFolder: 'D:\a\1\s\test\e2e\bin\Debug\net6.0'
-      OverWrite: true
-  - task: DownloadSecureFile@1
-    name: authfile
-    displayName: 'Download auth.json'
-    inputs:
-      secureFile: 'auth.json'
-  - task: CmdLine@2
-    inputs:
-      script: 'copy $(authfile.secureFilePath) D:\a\1\s\test\e2e\bin\Debug\net6.0'
-  - task: CmdLine@2
-    inputs:
-      script: 'copy $(authfile.secureFilePath) D:\a\1\s\test\e2e'
-  - task: CmdLine@2
-    inputs:
-      script: 'dotnet --version'
-  - task: CmdLine@2
-    inputs:
-      script: 'pwsh D:\a\1\s\test\e2e\bin\Debug\net6.0\playwright.ps1 install'
-  
-  #- task: PowerShell@2
-  #  inputs:
-  #    targetType: 'inline'
-  #    script: 'rename-item -path "C:\Users\VssAdministrator\AppData\Local\ms-playwright\chromium-965416\" -NewName "chromium-1012"'
+    - task: NodeTool@0
+      inputs:
+        versionSpec: 18
 
-  - task: CmdLine@2
-    inputs:
-      script: 'dir C:\Users\VssAdministrator\AppData\Local\ms-playwright'
-  
-  #- task: CopyFiles@2
-  #  inputs:
-  #    SourceFolder: 'C:\PRE\pre-rec-evidence\test\e2e'
-  #    Contents: 'auth.json'
-  #    TargetFolder: 'D:\a\1\s\test\e2e\bin\Debug\net6.0'
-  #    OverWrite: true
-  #- task: WindowsMachineFileCopy@2
-  #  inputs:
-  #    SourcePath: 'C:\PRE\pre-rec-evidence\test\e2e\auth.json'
-  #    TargetPath: 'D:\a\1\s\test\e2e\bin\Debug\net6.0'
-  
-  #- task: DotNetCoreCLI@2
-  #  displayName: Test
-  #  inputs:
-  #    command: 'test --filter AdminManageRecordings'
-  #    workingDirectory: 'test\e2e'
-  
-  - task: DotNetCoreCLI@2
-    inputs:
-      command: 'test'
-      arguments: '--filter AdminManageRecordings'
-      testRunTitle: 'Pipeline Tests'
-      projects: 'D:\a\1\s\test\e2e\pre.csproj'
+    - task: Npm@1
+      inputs:
+        command: 'install'
+        workingDir: 'test\e2e'
 
-  #- task: CmdLine@2
-  #  inputs:
-  #    script: |
-  #      #dotnet build
-  #      dotnet test --filter AdminManageRecordings
-  #    workingDirectory: 'D:\a\1\s\test\e2e'
+    - task: CmdLine@2
+      displayName: Add dotnet packages
+      inputs:
+        script: |
+          dotnet add package Microsoft.Extensions.Configuration --version 6.0.0
+          dotnet add package Microsoft.Extensions.Configuration.Json --version 6.0.0
+          dotnet add package Microsoft.Playwright
+          dotnet tool update --global PowerShell
+          dotnet tool install --global SpecFlow.Plus.LivingDoc.CLI
+        workingDirectory: 'test\e2e'
+    - task: DotNetCoreCLI@2
+      displayName: Build
+      inputs:
+        command: 'build'
+        workingDirectory: 'test\e2e'
+      
+    - task: CmdLine@2
+      inputs:
+        script: 'npm i && npx playwright install'
+        workingDirectory: 'test\e2e'
+    
+    - task: CmdLine@2
+      displayName: npm playwright
+      inputs:
+        script: |
+          npm i -D @playwright/test
+        workingDirectory: 'D:\a\1\s\test\e2e'
+    
+    - task: CmdLine@2
+      displayName: dot net version
+      inputs:
+        script: 'dotnet --version'
+    
+    - task: CmdLine@2
+      displayName: dot net sdks
+      inputs:
+        script: 'dotnet --list-sdks'
+  
+    - task: CmdLine@2
+      displayName: dir D:\a\1\s\test\e2e
+      inputs:
+        script: 'dir D:\a\1\s\test\e2e'
+    - task: CmdLine@2
+      inputs:
+        script: 'dir D:\a\1\s\test\e2e\bin\Debug\net6.0'
+      
+    - task: CmdLine@2
+      displayName: run platwright.ps1
+      inputs:
+        script: 'pwsh D:\a\1\s\test\e2e\bin\Debug\net6.0\playwright.ps1 install'
+  
+    - task: CopyFiles@2
+      displayName: Copy secrets.json
+      inputs:
+        SourceFolder: 'test\e2e'
+        Contents: 'secrets.json'
+        TargetFolder: 'D:\a\1\s\test\e2e\bin\Debug\net6.0'
+        OverWrite: true
+    - task: DownloadSecureFile@1
+      name: authfile
+      displayName: 'Download auth.json'
+      inputs:
+        secureFile: 'auth.json'
+    - task: CmdLine@2
+      displayName: Copy auth.json to net6.0 dir
+      inputs:
+        script: 'copy $(authfile.secureFilePath) D:\a\1\s\test\e2e\bin\Debug\net6.0'
+    - task: CmdLine@2
+      displayName: Copy auth.json to e2e dir
+      inputs:
+        script: 'copy $(authfile.secureFilePath) D:\a\1\s\test\e2e'
+    - task: CmdLine@2
+      displayName: dir C:\Program Files\dotnet
+      inputs:
+        script: 'dir "C:\Program Files\dotnet"'
 
-  - task: CmdLine@2
-    inputs:
-      script: 'livingdoc test-assembly bin/Debug/net6.0/pre.dll -t bin/Debug/net6.0/TestExecution.json'
+    
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: 'test'
+        arguments: '--filter AdminManageRecordings'
+        testRunTitle: 'Run Tests'
+        projects: 'D:\a\1\s\test\e2e\pre.csproj'
+
+    - task: CmdLine@2
+      inputs:
+        script: 'more D:\a\_temp\*.trx'
+
+    - task: CmdLine@2
+      displayName: Create livingdoc
+      inputs:
+        script: 'livingdoc test-assembly bin/Debug/net6.0/pre.dll -t bin/Debug/net6.0/TestExecution.json'
