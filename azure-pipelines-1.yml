@@ -123,7 +123,7 @@ steps:
         command: 'test'
         arguments: '--filter AdminManageRecordings'
         testRunTitle: 'Run Tests'
-        projects: 'D:\a\1\s\test\e2e\pre.csproj'
+        #projects: 'D:\a\1\s\test\e2e\pre.csproj'
 
     - task: CmdLine@2
       inputs:
