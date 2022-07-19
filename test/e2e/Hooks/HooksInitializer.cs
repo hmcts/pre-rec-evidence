@@ -101,7 +101,7 @@ namespace pre.test.Hooks
       browserType = "Chromium";
 
       playwright = await Playwright.CreateAsync();
-      BrowserTypeLaunchOptions typeLaunchOptions = new BrowserTypeLaunchOptions { Headless = headless, SlowMo = 50, Channel = "chrome" };
+      BrowserTypeLaunchOptions typeLaunchOptions = new BrowserTypeLaunchOptions { Headless = headless, SlowMo = 50};
       browser = await playwright.Chromium.LaunchAsync(typeLaunchOptions);
       context = await browser.NewContextAsync(new BrowserNewContextOptions { StorageStatePath = $"{authPath}", });
       _context.Page = await context.NewPageAsync();
@@ -310,15 +310,15 @@ namespace pre.test.Hooks
       }
     }
 
-    // [AfterScenario(Order = 9)]
-    // public async Task closeBrowser()
-    // {
-    //   if (browserType == "Chromium")
-    //   {
-    //     await browser.DisposeAsync();
-    //     // Generating living docs
-    //     _specFlowOutputHelper.WriteLine("Browser Closed");
-    //   }
-    // }
+    [AfterScenario(Order = 9)]
+    public async Task closeBrowser()
+    {
+      if (browserType == "Chromium")
+      {
+        await browser.DisposeAsync();
+        // Generating living docs
+        _specFlowOutputHelper.WriteLine("Browser Closed");
+      }
+    }
   }
 }
