@@ -1,0 +1,2219 @@
+{
+  "properties": {
+    "connectionReferences": {
+      "shared_commondataserviceforapps_2": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "cr599_sharedcommondataserviceforapps_d0505"
+        },
+        "api": {
+          "name": "shared_commondataserviceforapps"
+        }
+      },
+      "shared_commondataserviceforapps": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "cr599_sharedcommondataserviceforapps_d0505"
+        },
+        "api": {
+          "name": "shared_commondataserviceforapps"
+        }
+      },
+      "shared_azureblob_1": {
+        "runtimeSource": "invoker",
+        "connection": {
+          "connectionReferenceLogicalName": "pre__preamssasboxAzureBlobConn"
+        },
+        "api": {
+          "name": "shared_azureblob"
+        }
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        },
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        },
+        "AppFinalAccountName (pre__AppFinalAccountName)": {
+          "defaultValue": "prefinalsasbox",
+          "type": "String",
+          "metadata": {
+            "schemaName": "pre__AppFinalAccountName"
+          }
+        },
+        "AppSecret (pre__AppSecret)": {
+          "defaultValue": "bWg8Q~E2j2iMGWPYJ8LTkvQZAkXKxYev8f7VCaVi",
+          "type": "String",
+          "metadata": {
+            "schemaName": "pre__AppSecret"
+          }
+        },
+        "AppSubscriptionID (pre__AppSubscriptionID)": {
+          "defaultValue": "a8140a9e-f1b0-481f-a4de-09e2ee23f7ab",
+          "type": "String",
+          "metadata": {
+            "schemaName": "pre__AppSubscriptionID"
+          }
+        },
+        "AppMediaService (pre__AppMediaService)": {
+          "defaultValue": "preamssbox",
+          "type": "String",
+          "metadata": {
+            "schemaName": "pre__AppMediaService"
+          }
+        },
+        "AppID (pre__AppID)": {
+          "defaultValue": "07587e3c-603e-401f-98d1-ff26206e93f8",
+          "type": "String",
+          "metadata": {
+            "schemaName": "pre__AppID"
+          }
+        },
+        "AppTenantID (pre__AppTenantID)": {
+          "defaultValue": "531ff96d-0ae9-462a-8d2d-bec7c0b42082",
+          "type": "String",
+          "metadata": {
+            "schemaName": "pre__AppTenantID"
+          }
+        },
+        "AppResourceGroup (pre__AppResourceGroup)": {
+          "defaultValue": "pre-sbox",
+          "type": "String",
+          "metadata": {
+            "schemaName": "pre__AppResourceGroup"
+          }
+        }
+      },
+      "triggers": {
+        "manual": {
+          "metadata": {
+            "operationMetadataId": "720e4afd-ac85-49d9-9f2a-389b61420766"
+          },
+          "type": "Request",
+          "kind": "PowerAppV2",
+          "inputs": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "text": {
+                  "title": "RecordingUID",
+                  "type": "string",
+                  "x-ms-dynamically-added": true,
+                  "description": "RecordingUID",
+                  "x-ms-content-hint": "TEXT"
+                },
+                "text_1": {
+                  "title": "CaseRef",
+                  "type": "string",
+                  "x-ms-dynamically-added": true,
+                  "description": "CaseRef",
+                  "x-ms-content-hint": "TEXT"
+                },
+                "text_2": {
+                  "title": "Court",
+                  "type": "string",
+                  "x-ms-dynamically-added": true,
+                  "description": "Court",
+                  "x-ms-content-hint": "TEXT"
+                },
+                "text_3": {
+                  "title": "ScheduleID",
+                  "type": "string",
+                  "x-ms-dynamically-added": true,
+                  "description": "ScheduleID",
+                  "x-ms-content-hint": "TEXT"
+                },
+                "text_4": {
+                  "title": "Recordings",
+                  "type": "string",
+                  "x-ms-dynamically-added": true,
+                  "description": "Recordings",
+                  "x-ms-content-hint": "TEXT"
+                }
+              },
+              "required": [
+                "text",
+                "text_1",
+                "text_2",
+                "text_3",
+                "text_4"
+              ]
+            }
+          }
+        }
+      },
+      "actions": {
+        "RecordingUID": {
+          "runAfter": {
+            "OutputSuccessOrFailed2": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "4f19f856-5940-4504-9571-23d94f6b77dd"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "RecordingUID",
+                "type": "string",
+                "value": "@triggerBody()['text']"
+              }
+            ]
+          }
+        },
+        "Session_Closed_User": {
+          "runAfter": {
+            "ScheduleID": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "5c5cb356-087f-42c4-8fe8-eb0082fa6258"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "Session Closed User",
+                "type": "string"
+              }
+            ]
+          }
+        },
+        "ProcessingStatus": {
+          "runAfter": {
+            "Session_Closed_User": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "33877dbb-ceae-450c-a51b-3b3a580b42b5"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "ProcessingStatus",
+                "type": "string",
+                "value": "Queued"
+              }
+            ]
+          }
+        },
+        "AnalysisStatus": {
+          "runAfter": {
+            "ProcessingStatus": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "f4cda936-402e-402e-890b-94cd12d0b785"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "AnalysisStatus",
+                "type": "string",
+                "value": "Queued"
+              }
+            ]
+          }
+        },
+        "Final_Storage_Account_Name": {
+          "runAfter": {
+            "AnalysisStatus": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "b67d904f-a848-41e1-a839-1ba9ec578de7"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "finalStorageAccountName",
+                "type": "string"
+              }
+            ]
+          }
+        },
+        "Respond_to_a_PowerApp_or_flow": {
+          "runAfter": {
+            "Update_a_row_2": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "676f5b29-7d2a-4405-bf42-5bbca20f5f39"
+          },
+          "type": "Response",
+          "kind": "PowerApp",
+          "inputs": {
+            "statusCode": 200,
+            "body": {
+              "outputasset": "in Progress"
+            },
+            "schema": {
+              "type": "object",
+              "properties": {
+                "outputasset": {
+                  "title": "OutputAsset",
+                  "x-ms-dynamically-added": true,
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "Commence_Video_Processing": {
+          "actions": {
+            "Do_until_-_Add_Output_Asset": {
+              "actions": {
+                "Add_Output_Asset": {
+                  "runAfter": {},
+                  "metadata": {
+                    "operationMetadataId": "8f8a0d86-fc24-4430-a93c-f4fe29253b02"
+                  },
+                  "type": "Http",
+                  "inputs": {
+                    "method": "PUT",
+                    "uri": "https://management.azure.com/subscriptions/@{variables('AppSubscription')}/resourceGroups/@{variables('AppResourceGroup')}/providers/Microsoft.Media/mediaServices/@{variables('AppMediaService')}/assets/@{outputs('Compose_-_RecordingUID_No_Hyphen')}_output?api-version=2020-05-01",
+                    "body": {
+                      "properties": {
+                        "description": "@{outputs('Compose_-_RecordingUID_No_Hyphen')}",
+                        "storageAccountName": "@{variables('AppFinalAccountName')}",
+                        "container": "@{variables('RecordingUID')}"
+                      }
+                    },
+                    "authentication": {
+                      "type": "ActiveDirectoryOAuth",
+                      "tenant": "@variables('AppTenantID')",
+                      "audience": "https://management.core.windows.net",
+                      "clientId": "@variables('AppID')",
+                      "secret": "@variables('AppSecret')"
+                    }
+                  }
+                },
+                "OutputSuccessOrFailed_-_Success": {
+                  "runAfter": {
+                    "Add_Output_Asset": [
+                      "Succeeded"
+                    ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "0f4457f2-2153-4d61-a709-bd1644737e5d"
+                  },
+                  "type": "SetVariable",
+                  "inputs": {
+                    "name": "OutputSuccessOrFailed",
+                    "value": "Success"
+                  }
+                },
+                "OutputSuccessOrFailed_-_Failed": {
+                  "runAfter": {
+                    "Add_Output_Asset": [
+                      "Failed",
+                      "Skipped",
+                      "TimedOut"
+                    ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "364cb704-ec4e-413c-af55-428f4fedad5d"
+                  },
+                  "type": "SetVariable",
+                  "inputs": {
+                    "name": "OutputSuccessOrFailed",
+                    "value": "Failed"
+                  }
+                },
+                "Parse_Output_Asset_JSON": {
+                  "runAfter": {
+                    "OutputSuccessOrFailed_-_Success": [
+                      "Succeeded"
+                    ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "8e56a11a-6ee6-4666-9dcd-e89372f3851e"
+                  },
+                  "type": "ParseJson",
+                  "inputs": {
+                    "content": "@body('Add_Output_Asset')",
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string"
+                        },
+                        "id": {
+                          "type": "string"
+                        },
+                        "type": {
+                          "type": "string"
+                        },
+                        "properties": {
+                          "type": "object",
+                          "properties": {
+                            "assetId": {
+                              "type": "string"
+                            },
+                            "created": {
+                              "type": "string"
+                            },
+                            "lastModified": {
+                              "type": "string"
+                            },
+                            "description": {
+                              "type": "string"
+                            },
+                            "container": {
+                              "type": "string"
+                            },
+                            "storageAccountName": {
+                              "type": "string"
+                            },
+                            "storageEncryptionFormat": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "ErrorLog1": {
+                  "runAfter": {
+                    "OutputSuccessOrFailed_-_Failed": [
+                      "Succeeded"
+                    ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "ff1339a0-2596-419a-8303-1755eb7d343e"
+                  },
+                  "type": "SetVariable",
+                  "inputs": {
+                    "name": "ErrorLog",
+                    "value": "The Flow failed to add the Output Asset, this will unfortunately prevent the video from decoding to MP4."
+                  }
+                },
+                "Do_until_-_Encode_MP4": {
+                  "actions": {
+                    "Encode_MP4": {
+                      "runAfter": {},
+                      "metadata": {
+                        "operationMetadataId": "cc03f066-72ff-425a-ba14-e1a8d28a7116"
+                      },
+                      "type": "Http",
+                      "inputs": {
+                        "method": "PUT",
+                        "uri": "https://management.azure.com/subscriptions/@{variables('AppSubscription')}/resourceGroups/@{variables('AppResourceGroup')}/providers/Microsoft.Media/mediaServices/@{variables('AppMediaService')}/transforms/EncodeToMP4/jobs/@{outputs('Compose_-_RecordingUID_No_Hyphen')}?api-version=2020-05-01",
+                        "body": {
+                          "properties": {
+                            "input": {
+                              "@@odata.type": "#Microsoft.Media.JobInputAsset",
+                              "assetName": "@{outputs('Compose_-_RecordingUID_No_Hyphen')}"
+                            },
+                            "outputs": [
+                              {
+                                "@@odata.type": "#Microsoft.Media.JobOutputAsset",
+                                "assetName": "@{outputs('Compose_-_RecordingUID_No_Hyphen')}_output"
+                              }
+                            ],
+                            "correlationData": {
+                              "Key1": "value1",
+                              "Key2": "Value2"
+                            }
+                          }
+                        },
+                        "authentication": {
+                          "type": "ActiveDirectoryOAuth",
+                          "tenant": "@variables('AppTenantID')",
+                          "audience": "https://management.core.windows.net",
+                          "clientId": "@variables('AppID')",
+                          "secret": "@variables('AppSecret')"
+                        }
+                      }
+                    },
+                    "Parse_Encode_JSON": {
+                      "runAfter": {
+                        "OutputSuccessOrFailed2_-_Success": [
+                          "Succeeded"
+                        ]
+                      },
+                      "metadata": {
+                        "operationMetadataId": "a07feffe-dfb4-40ef-827c-16fca4ee36e2"
+                      },
+                      "type": "ParseJson",
+                      "inputs": {
+                        "content": "@body('Encode_MP4')",
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "name": {
+                              "type": "string"
+                            },
+                            "id": {
+                              "type": "string"
+                            },
+                            "type": {
+                              "type": "string"
+                            },
+                            "properties": {
+                              "type": "object",
+                              "properties": {
+                                "created": {
+                                  "type": "string"
+                                },
+                                "state": {
+                                  "type": "string"
+                                },
+                                "input": {
+                                  "type": "object",
+                                  "properties": {
+                                    "@@odata.type": {
+                                      "type": "string"
+                                    },
+                                    "files": {
+                                      "type": "array"
+                                    },
+                                    "inputDefinitions": {
+                                      "type": "array"
+                                    },
+                                    "assetName": {
+                                      "type": "string"
+                                    }
+                                  }
+                                },
+                                "lastModified": {
+                                  "type": "string"
+                                },
+                                "outputs": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "object",
+                                    "properties": {
+                                      "@@odata.type": {
+                                        "type": "string"
+                                      },
+                                      "state": {
+                                        "type": "string"
+                                      },
+                                      "progress": {
+                                        "type": "integer"
+                                      },
+                                      "label": {
+                                        "type": "string"
+                                      },
+                                      "assetName": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    "required": [
+                                      "@@odata.type",
+                                      "state",
+                                      "progress",
+                                      "label",
+                                      "assetName"
+                                    ]
+                                  }
+                                },
+                                "priority": {
+                                  "type": "string"
+                                },
+                                "correlationData": {
+                                  "type": "object",
+                                  "properties": {
+                                    "key1": {
+                                      "type": "string"
+                                    },
+                                    "Key 2": {
+                                      "type": "string"
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            "systemData": {
+                              "type": "object",
+                              "properties": {
+                                "createdBy": {
+                                  "type": "string"
+                                },
+                                "createdByType": {
+                                  "type": "string"
+                                },
+                                "createdAt": {
+                                  "type": "string"
+                                },
+                                "lastModifiedBy": {
+                                  "type": "string"
+                                },
+                                "lastModifiedByType": {
+                                  "type": "string"
+                                },
+                                "lastModifiedAt": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "ErrorLog2": {
+                      "runAfter": {
+                        "OutputSuccessOrFailed2_-_Failed": [
+                          "Succeeded"
+                        ]
+                      },
+                      "metadata": {
+                        "operationMetadataId": "6da57e95-cf17-4b1b-8c42-5535641f6d2e"
+                      },
+                      "type": "SetVariable",
+                      "inputs": {
+                        "name": "ErrorLog",
+                        "value": "The Flow failed to encode to MP4, therefore no MP4 video is available to view."
+                      }
+                    },
+                    "OutputSuccessOrFailed2_-_Success": {
+                      "runAfter": {
+                        "Encode_MP4": [
+                          "Succeeded"
+                        ]
+                      },
+                      "metadata": {
+                        "operationMetadataId": "349679f6-1498-4948-85a5-612c2cf310a2"
+                      },
+                      "type": "SetVariable",
+                      "inputs": {
+                        "name": "OutputSuccessOrFailed2",
+                        "value": "Success"
+                      }
+                    },
+                    "OutputSuccessOrFailed2_-_Failed": {
+                      "runAfter": {
+                        "Encode_MP4": [
+                          "Failed",
+                          "Skipped",
+                          "TimedOut"
+                        ]
+                      },
+                      "metadata": {
+                        "operationMetadataId": "cbad9b15-4248-4d63-8201-d800beb95d91"
+                      },
+                      "type": "SetVariable",
+                      "inputs": {
+                        "name": "OutputSuccessOrFailed2",
+                        "value": "Failed"
+                      }
+                    }
+                  },
+                  "runAfter": {
+                    "Parse_Output_Asset_JSON": [
+                      "Succeeded"
+                    ]
+                  },
+                  "expression": "@equals(variables('OutputSuccessOrFailed2'), 'Success')",
+                  "limit": {
+                    "count": 5,
+                    "timeout": "PT12H"
+                  },
+                  "metadata": {
+                    "operationMetadataId": "3dde3c3b-766a-4c3a-a09e-09936c72e142"
+                  },
+                  "type": "Until"
+                }
+              },
+              "runAfter": {},
+              "expression": "@equals(variables('OutputSuccessOrFailed'), 'Success')",
+              "limit": {
+                "count": 5,
+                "timeout": "PT20M"
+              },
+              "metadata": {
+                "operationMetadataId": "36f76460-8b34-458d-81d1-cacf853ae17a"
+              },
+              "type": "Until"
+            },
+            "Close_and_remove_Stream_2": {
+              "actions": {
+                "Stop_Stream_2": {
+                  "runAfter": {},
+                  "metadata": {
+                    "operationMetadataId": "c570d84a-55c6-47fa-ad64-f8ef015eefbb"
+                  },
+                  "type": "Http",
+                  "inputs": {
+                    "method": "POST",
+                    "uri": "https://management.azure.com/subscriptions/@{variables('AppSubscription')}/resourceGroups/@{variables('AppResourceGroup')}/providers/Microsoft.Media/mediaservices/@{variables('AppMediaService')}/liveEvents/@{outputs('Compose_-_RecordingUID_No_Hyphen')}/stop?api-version=2020-05-01",
+                    "body": {
+                      "removeOutputsOnStop": true
+                    },
+                    "authentication": {
+                      "type": "ActiveDirectoryOAuth",
+                      "tenant": "@variables('AppTenantID')",
+                      "audience": "https://management.core.windows.net",
+                      "clientId": "@variables('AppID')",
+                      "secret": "@variables('AppSecret')"
+                    }
+                  }
+                },
+                "Delete_Streaming_Locator_2": {
+                  "runAfter": {
+                    "Delete_Streaming_Endpoint_2": [
+                      "Succeeded",
+                      "Failed",
+                      "Skipped",
+                      "TimedOut"
+                    ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "4d676526-5741-4fc2-a922-a9959f83b0fc"
+                  },
+                  "type": "Http",
+                  "inputs": {
+                    "method": "DELETE",
+                    "uri": "https://management.azure.com/subscriptions/@{variables('AppSubscription')}/resourceGroups/@{variables('AppResourceGroup')}/providers/Microsoft.Media/mediaServices/@{variables('AppMediaService')}/streamingLocators/@{variables('24 String RecordingID Streaming Endpoint Name')}?api-version=2021-06-01",
+                    "authentication": {
+                      "type": "ActiveDirectoryOAuth",
+                      "tenant": "@variables('AppTenantID')",
+                      "audience": "https://management.core.windows.net",
+                      "clientId": "@variables('AppID')",
+                      "secret": "@variables('AppSecret')"
+                    }
+                  }
+                },
+                "Stop_Streaming_Endpoint_2": {
+                  "runAfter": {
+                    "Delete_Live_Event_2": [
+                      "Succeeded",
+                      "Failed",
+                      "Skipped",
+                      "TimedOut"
+                    ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "5ef5e48f-fef5-481c-9f46-0b1e204519dc"
+                  },
+                  "type": "Http",
+                  "inputs": {
+                    "method": "POST",
+                    "uri": "https://management.azure.com/subscriptions/@{variables('AppSubscription')}/resourceGroups/@{variables('AppResourceGroup')}/providers/Microsoft.Media/mediaservices/@{variables('AppMediaService')}/streamingEndpoints/@{variables('24 String RecordingID Streaming Endpoint Name')}/stop?api-version=2021-06-01\n",
+                    "authentication": {
+                      "type": "ActiveDirectoryOAuth",
+                      "tenant": "@variables('AppTenantID')",
+                      "audience": "https://management.core.windows.net",
+                      "clientId": "@variables('AppID')",
+                      "secret": "@variables('AppSecret')"
+                    }
+                  }
+                },
+                "Delete_Live_Event_2": {
+                  "runAfter": {
+                    "Stop_Stream_2": [
+                      "TimedOut",
+                      "Skipped",
+                      "Failed",
+                      "Succeeded"
+                    ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "17cbec1e-4b81-4d6b-876a-f6da40cadb78"
+                  },
+                  "type": "Http",
+                  "inputs": {
+                    "method": "DELETE",
+                    "uri": "https://management.azure.com/subscriptions/@{variables('AppSubscription')}/resourceGroups/@{variables('AppResourceGroup')}/providers/Microsoft.Media/mediaservices/@{variables('AppMediaService')}/liveEvents/@{outputs('Compose_-_RecordingUID_No_Hyphen')}?api-version=2020-05-01",
+                    "authentication": {
+                      "type": "ActiveDirectoryOAuth",
+                      "tenant": "@variables('AppTenantID')",
+                      "audience": "https://management.core.windows.net",
+                      "clientId": "@variables('AppID')",
+                      "secret": "@variables('AppSecret')"
+                    }
+                  }
+                },
+                "Delete_Streaming_Endpoint_2": {
+                  "runAfter": {
+                    "Stop_Streaming_Endpoint_2": [
+                      "Failed",
+                      "Skipped",
+                      "TimedOut",
+                      "Succeeded"
+                    ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "d50fa006-d5b9-4ded-aecb-ee2c36eab5a6"
+                  },
+                  "type": "Http",
+                  "inputs": {
+                    "method": "DELETE",
+                    "uri": "https://management.azure.com/subscriptions/@{variables('AppSubscription')}/resourceGroups/@{variables('AppResourceGroup')}/providers/Microsoft.Media/mediaservices/@{variables('AppMediaService')}/streamingEndpoints/@{variables('24 String RecordingID Streaming Endpoint Name')}?api-version=2021-06-01",
+                    "authentication": {
+                      "type": "ActiveDirectoryOAuth",
+                      "tenant": "@variables('AppTenantID')",
+                      "audience": "https://management.core.windows.net",
+                      "clientId": "@variables('AppID')",
+                      "secret": "@variables('AppSecret')"
+                    }
+                  }
+                },
+                "Delete_Live_Output_2": {
+                  "runAfter": {
+                    "Delete_Streaming_Locator_2": [
+                      "Failed",
+                      "Skipped",
+                      "TimedOut",
+                      "Succeeded"
+                    ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "b2a7366d-c9de-435c-b05a-9d3237bc0daa"
+                  },
+                  "type": "Http",
+                  "inputs": {
+                    "method": "DELETE",
+                    "uri": "https://management.azure.com/subscriptions/@{variables('AppSubscription')}/resourceGroups/@{variables('AppResourceGroup')}/providers/Microsoft.Media/mediaservices/@{variables('AppMediaService')}/liveEvents/@{outputs('Compose_-_RecordingUID_No_Hyphen')}/liveOutputs/@{outputs('Compose_-_RecordingUID_No_Hyphen')}?api-version=2021-06-01\n",
+                    "authentication": {
+                      "type": "ActiveDirectoryOAuth",
+                      "tenant": "@variables('AppTenantID')",
+                      "audience": "https://management.core.windows.net",
+                      "clientId": "@variables('AppID')",
+                      "secret": "@variables('AppSecret')"
+                    }
+                  }
+                }
+              },
+              "runAfter": {
+                "Do_until_-_Add_Output_Asset": [
+                  "Failed",
+                  "Skipped",
+                  "TimedOut"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "9e3fa7d3-a81c-4180-aff9-d0811236c23f"
+              },
+              "type": "Scope"
+            }
+          },
+          "runAfter": {
+            "AppFinalAccountName": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "92d1845a-8359-4658-9c37-e7121be29915"
+          },
+          "type": "Scope"
+        },
+        "Delay": {
+          "runAfter": {
+            "OutputSuccessOrFailed2_-_Reset": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "9253c737-b7b4-408a-8c23-e50d3ca5ac0b"
+          },
+          "type": "Wait",
+          "inputs": {
+            "interval": {
+              "count": 10,
+              "unit": "Second"
+            }
+          }
+        },
+        "Do_until_video_processed": {
+          "actions": {
+            "Get_Job_Status": {
+              "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "4bbfe04b-6ae2-432f-bcfa-31dc51f5419c"
+              },
+              "type": "Http",
+              "inputs": {
+                "method": "GET",
+                "uri": "https://management.azure.com/subscriptions/@{variables('AppSubscription')}/resourceGroups/@{variables('AppResourceGroup')}/providers/Microsoft.Media/mediaservices/@{variables('AppMediaService')}/transforms/EncodeToMP4/jobs/@{body('Parse_Encode_JSON')?['name']}?api-version=2020-05-01",
+                "authentication": {
+                  "type": "ActiveDirectoryOAuth",
+                  "tenant": "@variables('AppTenantID')",
+                  "audience": "https://management.core.windows.net",
+                  "clientId": "@variables('AppID')",
+                  "secret": "@variables('AppSecret')"
+                }
+              }
+            },
+            "Parse_Job_JSON": {
+              "runAfter": {
+                "Get_Job_Status": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "5182602d-6445-4b29-90ae-0d8e3037ade2"
+              },
+              "type": "ParseJson",
+              "inputs": {
+                "content": "@body('Get_Job_Status')",
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "properties": {
+                      "type": "object",
+                      "properties": {
+                        "created": {
+                          "type": "string"
+                        },
+                        "state": {
+                          "type": "string"
+                        },
+                        "input": {
+                          "type": "object",
+                          "properties": {
+                            "@@odata.type": {
+                              "type": "string"
+                            },
+                            "files": {
+                              "type": "array"
+                            },
+                            "inputDefinitions": {
+                              "type": "array"
+                            },
+                            "assetName": {
+                              "type": "string"
+                            }
+                          }
+                        },
+                        "lastModified": {
+                          "type": "string"
+                        },
+                        "outputs": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "@@odata.type": {
+                                "type": "string"
+                              },
+                              "state": {
+                                "type": "string"
+                              },
+                              "progress": {
+                                "type": "integer"
+                              },
+                              "label": {
+                                "type": "string"
+                              },
+                              "assetName": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "@@odata.type",
+                              "state",
+                              "progress",
+                              "label",
+                              "assetName"
+                            ]
+                          }
+                        },
+                        "priority": {
+                          "type": "string"
+                        },
+                        "correlationData": {
+                          "type": "object",
+                          "properties": {
+                            "key1": {
+                              "type": "string"
+                            },
+                            "Key 2": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "systemData": {
+                      "type": "object",
+                      "properties": {
+                        "createdAt": {
+                          "type": "string"
+                        },
+                        "lastModifiedAt": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "Apply_to_each": {
+              "foreach": "@body('Parse_Job_JSON')?['properties']?['outputs']",
+              "actions": {
+                "Update_a_row": {
+                  "runAfter": {
+                    "Condition": [
+                      "Succeeded"
+                    ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "cf1c6dd6-0330-49ee-977d-74055708a884"
+                  },
+                  "type": "OpenApiConnection",
+                  "inputs": {
+                    "host": {
+                      "connectionName": "shared_commondataserviceforapps_2",
+                      "operationId": "UpdateRecord",
+                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                    },
+                    "parameters": {
+                      "entityName": "pre__recordingses",
+                      "recordId": "@variables('Recordings')",
+                      "item/pre__inputasset": "@body('Parse_Output_Asset_JSON')?['properties']?['assetId']",
+                      "item/pre__recordingstatus": "@variables('ProcessingStatus')"
+                    },
+                    "authentication": "@parameters('$authentication')"
+                  }
+                },
+                "Condition": {
+                  "actions": {
+                    "Set_variable_2": {
+                      "runAfter": {},
+                      "metadata": {
+                        "operationMetadataId": "bbeb9172-6161-4db0-b3ec-a05aaa79752f"
+                      },
+                      "type": "SetVariable",
+                      "inputs": {
+                        "name": "ProcessingStatus",
+                        "value": "Generating Secure Link"
+                      }
+                    }
+                  },
+                  "runAfter": {},
+                  "else": {
+                    "actions": {
+                      "Set_variable": {
+                        "runAfter": {},
+                        "metadata": {
+                          "operationMetadataId": "9d8ba6af-7277-4ccc-a6e5-1e267be65fc3"
+                        },
+                        "type": "SetVariable",
+                        "inputs": {
+                          "name": "ProcessingStatus",
+                          "value": "@items('Apply_to_each')?['state']"
+                        }
+                      }
+                    }
+                  },
+                  "expression": {
+                    "equals": [
+                      "@body('Parse_Job_JSON')?['properties']?['state']",
+                      "Finished"
+                    ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "bb4b1852-4475-4d32-91d6-1b30735d1fa3"
+                  },
+                  "type": "If"
+                },
+                "ErrorLog3": {
+                  "runAfter": {
+                    "Update_a_row": [
+                      "Failed",
+                      "TimedOut"
+                    ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "d716c3d7-87eb-41c1-a89a-5a257788ca5c"
+                  },
+                  "type": "SetVariable",
+                  "inputs": {
+                    "name": "ErrorLog",
+                    "value": "The Flow failed to update the recording status in Dataverse."
+                  }
+                }
+              },
+              "runAfter": {
+                "Parse_Job_JSON": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "3db7c4ff-c616-4c15-b8bd-62f18295955a"
+              },
+              "type": "Foreach"
+            },
+            "Delay_3": {
+              "runAfter": {
+                "Apply_to_each": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "9c47ac78-aeb1-491c-9125-2bd484dba016"
+              },
+              "type": "Wait",
+              "inputs": {
+                "interval": {
+                  "count": 1,
+                  "unit": "Second"
+                }
+              }
+            }
+          },
+          "runAfter": {
+            "Delay": [
+              "Succeeded"
+            ]
+          },
+          "expression": "@and(not(equals(variables('ProcessingStatus'), 'Scheduled')), and(not(equals(variables('ProcessingStatus'), 'Queued')), not(equals(variables('ProcessingStatus'), 'Processing'))))",
+          "limit": {
+            "count": 3600,
+            "timeout": "PT12H"
+          },
+          "metadata": {
+            "operationMetadataId": "79e060d8-8eac-49ce-ae0e-a6ad958c9e43"
+          },
+          "type": "Until"
+        },
+        "Delay_2": {
+          "runAfter": {
+            "Do_until_video_processed": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "9253c737-b7b4-408a-8c23-e50d3ca5ac0b"
+          },
+          "type": "Wait",
+          "inputs": {
+            "interval": {
+              "count": 10,
+              "unit": "Second"
+            }
+          }
+        },
+        "Compose_-_RecordingUID_No_Hyphen": {
+          "runAfter": {
+            "Respond_to_a_PowerApp_or_flow": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "5f78ae49-f2cc-4892-935f-5971ebda507f"
+          },
+          "type": "Compose",
+          "inputs": "@replace(variables('RecordingUID'),'-','')"
+        },
+        "recAssetName": {
+          "runAfter": {
+            "Compose_-_RecordingUID_No_Hyphen": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "2f31031f-d983-4967-b167-f80a3b4a5f2d"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "recAssetName",
+                "type": "string",
+                "value": "@{string(trim(outputs('Compose_-_RecordingUID_No_Hyphen')))}"
+              }
+            ]
+          }
+        },
+        "ScheduleID": {
+          "runAfter": {
+            "Recordings": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "c008cc5a-88a1-4096-9952-26044cf20dea"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "ScheduleID",
+                "type": "string",
+                "value": "@triggerBody()['text_3']"
+              }
+            ]
+          }
+        },
+        "Close_and_remove_Stream": {
+          "actions": {
+            "Stop_Stream": {
+              "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "c570d84a-55c6-47fa-ad64-f8ef015eefbb"
+              },
+              "type": "Http",
+              "inputs": {
+                "method": "POST",
+                "uri": "https://management.azure.com/subscriptions/@{variables('AppSubscription')}/resourceGroups/@{variables('AppResourceGroup')}/providers/Microsoft.Media/mediaservices/@{variables('AppMediaService')}/liveEvents/@{outputs('Compose_-_RecordingUID_No_Hyphen')}/stop?api-version=2020-05-01",
+                "body": {
+                  "removeOutputsOnStop": true
+                },
+                "authentication": {
+                  "type": "ActiveDirectoryOAuth",
+                  "tenant": "@variables('AppTenantID')",
+                  "audience": "https://management.core.windows.net",
+                  "clientId": "@variables('AppID')",
+                  "secret": "@variables('AppSecret')"
+                }
+              }
+            },
+            "Delete_Streaming_Locator": {
+              "runAfter": {
+                "Delete_Streaming_Endpoint": [
+                  "Succeeded",
+                  "Failed",
+                  "Skipped",
+                  "TimedOut"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "4d676526-5741-4fc2-a922-a9959f83b0fc"
+              },
+              "type": "Http",
+              "inputs": {
+                "method": "DELETE",
+                "uri": "https://management.azure.com/subscriptions/@{variables('AppSubscription')}/resourceGroups/@{variables('AppResourceGroup')}/providers/Microsoft.Media/mediaServices/@{variables('AppMediaService')}/streamingLocators/@{variables('24 String RecordingID Streaming Endpoint Name')}?api-version=2021-06-01",
+                "authentication": {
+                  "type": "ActiveDirectoryOAuth",
+                  "tenant": "@variables('AppTenantID')",
+                  "audience": "https://management.core.windows.net",
+                  "clientId": "@variables('AppID')",
+                  "secret": "@variables('AppSecret')"
+                }
+              }
+            },
+            "Stop_Streaming_Endpoint": {
+              "runAfter": {
+                "Delete_Live_Event": [
+                  "Succeeded",
+                  "Failed",
+                  "Skipped",
+                  "TimedOut"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "5ef5e48f-fef5-481c-9f46-0b1e204519dc"
+              },
+              "type": "Http",
+              "inputs": {
+                "method": "POST",
+                "uri": "https://management.azure.com/subscriptions/@{variables('AppSubscription')}/resourceGroups/@{variables('AppResourceGroup')}/providers/Microsoft.Media/mediaservices/@{variables('AppMediaService')}/streamingEndpoints/@{variables('24 String RecordingID Streaming Endpoint Name')}/stop?api-version=2021-06-01\n",
+                "authentication": {
+                  "type": "ActiveDirectoryOAuth",
+                  "tenant": "@variables('AppTenantID')",
+                  "audience": "https://management.core.windows.net",
+                  "clientId": "@variables('AppID')",
+                  "secret": "@variables('AppSecret')"
+                }
+              }
+            },
+            "Delete_Live_Event": {
+              "runAfter": {
+                "Stop_Stream": [
+                  "TimedOut",
+                  "Skipped",
+                  "Failed",
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "17cbec1e-4b81-4d6b-876a-f6da40cadb78"
+              },
+              "type": "Http",
+              "inputs": {
+                "method": "DELETE",
+                "uri": "https://management.azure.com/subscriptions/@{variables('AppSubscription')}/resourceGroups/@{variables('AppResourceGroup')}/providers/Microsoft.Media/mediaservices/@{variables('AppMediaService')}/liveEvents/@{outputs('Compose_-_RecordingUID_No_Hyphen')}?api-version=2020-05-01",
+                "authentication": {
+                  "type": "ActiveDirectoryOAuth",
+                  "tenant": "@variables('AppTenantID')",
+                  "audience": "https://management.core.windows.net",
+                  "clientId": "@variables('AppID')",
+                  "secret": "@variables('AppSecret')"
+                }
+              }
+            },
+            "Delete_Streaming_Endpoint": {
+              "runAfter": {
+                "Stop_Streaming_Endpoint": [
+                  "Failed",
+                  "Skipped",
+                  "TimedOut",
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "d50fa006-d5b9-4ded-aecb-ee2c36eab5a6"
+              },
+              "type": "Http",
+              "inputs": {
+                "method": "DELETE",
+                "uri": "https://management.azure.com/subscriptions/@{variables('AppSubscription')}/resourceGroups/@{variables('AppResourceGroup')}/providers/Microsoft.Media/mediaservices/@{variables('AppMediaService')}/streamingEndpoints/@{variables('24 String RecordingID Streaming Endpoint Name')}?api-version=2021-06-01",
+                "authentication": {
+                  "type": "ActiveDirectoryOAuth",
+                  "tenant": "@variables('AppTenantID')",
+                  "audience": "https://management.core.windows.net",
+                  "clientId": "@variables('AppID')",
+                  "secret": "@variables('AppSecret')"
+                }
+              }
+            },
+            "Delete_Live_Output": {
+              "runAfter": {
+                "Delete_Streaming_Locator": [
+                  "Failed",
+                  "Skipped",
+                  "TimedOut",
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "b2a7366d-c9de-435c-b05a-9d3237bc0daa"
+              },
+              "type": "Http",
+              "inputs": {
+                "method": "DELETE",
+                "uri": "https://management.azure.com/subscriptions/@{variables('AppSubscription')}/resourceGroups/@{variables('AppResourceGroup')}/providers/Microsoft.Media/mediaservices/@{variables('AppMediaService')}/liveEvents/@{outputs('Compose_-_RecordingUID_No_Hyphen')}/liveOutputs/@{outputs('Compose_-_RecordingUID_No_Hyphen')}?api-version=2021-06-01\n",
+                "authentication": {
+                  "type": "ActiveDirectoryOAuth",
+                  "tenant": "@variables('AppTenantID')",
+                  "audience": "https://management.core.windows.net",
+                  "clientId": "@variables('AppID')",
+                  "secret": "@variables('AppSecret')"
+                }
+              }
+            }
+          },
+          "runAfter": {
+            "24_String_RecordingID_Streaming_Endpoint_Name": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "9e3fa7d3-a81c-4180-aff9-d0811236c23f"
+          },
+          "type": "Scope"
+        },
+        "Recordings": {
+          "runAfter": {
+            "RecordingUID": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "c8a11a0f-35ee-4b3e-a134-1ffb23853431"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "Recordings",
+                "type": "string",
+                "value": "@triggerBody()['text_4']"
+              }
+            ]
+          }
+        },
+        "24_String_RecordingID_Streaming_Endpoint_Name": {
+          "runAfter": {
+            "Apply_to_each_Video_Permissions_Table": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "b31d779c-a5a5-44c1-9540-39bc8cacb42b"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "24 String RecordingID Streaming Endpoint Name",
+                "type": "string",
+                "value": "@{substring(outputs('Compose_-_RecordingUID_No_Hyphen'),0,24)}"
+              }
+            ]
+          }
+        },
+        "Apply_to_each_Video_Permissions_Table": {
+          "foreach": "@outputs('List_rows_-_Video_Permissions_Table')?['body/value']",
+          "actions": {
+            "Update_a_row_-_Video_Permissions_Item": {
+              "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "e1d35a26-3775-4b21-b106-7686e367c429"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_commondataserviceforapps",
+                  "operationId": "UpdateRecord",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                },
+                "parameters": {
+                  "entityName": "pre__videopermissionses",
+                  "recordId": "@items('Apply_to_each_Video_Permissions_Table')?['pre__videopermissionsid']",
+                  "item/pre__autorecordingsaslink": "@outputs('Create_SAS_URI_by_path_(V2)')?['body/WebUrl']"
+                },
+                "authentication": "@parameters('$authentication')"
+              }
+            }
+          },
+          "runAfter": {
+            "Do_until_-_Update_Row_in_Recordings_Table_-_Video_Permissions_Get_Item": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "483ae588-26af-44b6-89e2-dda0e5a35e33"
+          },
+          "type": "Foreach"
+        },
+        "Update_a_row_-_MP4_ready_for_viewing": {
+          "runAfter": {
+            "Close_and_remove_Stream": [
+              "Succeeded",
+              "Failed"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "1481ba0e-c315-4fdc-8fb4-ca7f72557d07"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_commondataserviceforapps",
+              "operationId": "UpdateRecord",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+            },
+            "parameters": {
+              "entityName": "pre__recordingses",
+              "recordId": "@variables('Recordings')",
+              "item/pre__recordingstatus": "MP4 ready for viewing",
+              "item/pre__recordingavailable": "true"
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        },
+        "Terminate": {
+          "runAfter": {
+            "Apply_to_each_-_VideoPermissionsRecordingAvailable": [
+              "Succeeded",
+              "Skipped"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "2b056959-6b3f-4cda-84f3-4f60921ebef1"
+          },
+          "type": "Terminate",
+          "inputs": {
+            "runStatus": "Succeeded"
+          }
+        },
+        "ErrorLogCreateSASURIbypath": {
+          "runAfter": {
+            "ErrorLogGetVideoPermissionsTable": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "8557d253-2402-4e02-a099-7c710211e978"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "ErrorLogCreateSASURIbypath",
+                "type": "string"
+              }
+            ]
+          }
+        },
+        "ErrorLogUpdateRowRecordingsTableVideoSASLink": {
+          "runAfter": {
+            "ErrorLogCreateSASURIbypath": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "2dada359-7dc5-4226-a542-7bb4ff389979"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "ErrorLogUpdateRowRecordingsTableVideoSASLink",
+                "type": "string",
+                "value": "The Flow failed to update a Row in the recordings table. The field 'Video SaS Link' could not be populated."
+              }
+            ]
+          }
+        },
+        "ErrorLogUpdateRowRecordingsTableAutoRecordingSaSLink": {
+          "runAfter": {
+            "ErrorLogUpdateRowRecordingsTableVideoSASLink": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "2730a0f1-ba58-4a68-894e-fe8a7525195f"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "ErrorLogUpdateRowRecordingsTableAutoRecordingSaSLink",
+                "type": "string",
+                "value": "The Flow failed to update a Row in the recordings table. The field 'AutoRecordingSaSLink' could not be populated"
+              }
+            ]
+          }
+        },
+        "ErrorLogVideoProcessingEncodeMP4": {
+          "runAfter": {
+            "ErrorLogVideProcessingAddOutputAsset": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "345c1057-c5b1-4253-95bf-4a79e8affde6"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "ErrorLogVideoProcessingEncodeMP4",
+                "type": "string"
+              }
+            ]
+          }
+        },
+        "ErrorLogVideProcessingAddOutputAsset": {
+          "runAfter": {
+            "ErrorLog": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "e8ed0d13-e513-47d2-bdb6-e703591e4518"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "ErrorLogVideProcessingAddOutputAsset",
+                "type": "string"
+              }
+            ]
+          }
+        },
+        "ErrorLogGetVideoPermissionsTable": {
+          "runAfter": {
+            "ErrorLogVideoProcessingEncodeMP4": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "f74c3bc4-c78c-45c3-bad5-09dd3cee3d3e"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "ErrorLogGetVideoPermissionsTable",
+                "type": "string",
+                "value": "The Flow failed to get the Status of the Video Processing."
+              }
+            ]
+          }
+        },
+        "ErrorLogStopStream": {
+          "runAfter": {
+            "ErrorLogUpdateRowRecordingsTableAutoRecordingSaSLink": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "83a7de5c-6eaf-496d-9170-9765890349b9"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "ErrorLogStopStream",
+                "type": "string"
+              }
+            ]
+          }
+        },
+        "ErrorLogMP4ReadyForViewing": {
+          "runAfter": {
+            "ErrorLogDeleteStreamingLocator": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "a32e7dbf-264a-486b-ac6a-845d667ab9eb"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "ErrorLogMP4ReadyForViewing",
+                "type": "string"
+              }
+            ]
+          }
+        },
+        "ErrorLogStopStreamingEndpoint": {
+          "runAfter": {
+            "ErrorLogStopStream": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "5d59729c-a219-434e-a9ff-8a77d582f0d1"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "ErrorLogStopStreamingEndpoint",
+                "type": "string"
+              }
+            ]
+          }
+        },
+        "ErrorLogDeleteStreamingLocator": {
+          "runAfter": {
+            "ErrorLogStopStreamingEndpoint": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "ddd8b228-bf0b-4cd7-ae63-f377f76adaf3"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "ErrorLogDeleteStreamingLocator",
+                "type": "string"
+              }
+            ]
+          }
+        },
+        "OutputSuccessOrFailed": {
+          "runAfter": {
+            "ErrorLogMP4ReadyForViewing": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "e1192105-42e1-4a21-b792-e7c9528ec151"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "OutputSuccessOrFailed",
+                "type": "string"
+              }
+            ]
+          }
+        },
+        "OutputSuccessOrFailed2": {
+          "runAfter": {
+            "OutputSuccessOrFailed": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "e1192105-42e1-4a21-b792-e7c9528ec151"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "OutputSuccessOrFailed2",
+                "type": "string"
+              }
+            ]
+          }
+        },
+        "OutputSuccessOrFailed_-_Reset": {
+          "runAfter": {
+            "Commence_Video_Processing": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "6798dc56-8236-420d-a709-a33c0d081428"
+          },
+          "type": "SetVariable",
+          "inputs": {
+            "name": "OutputSuccessOrFailed",
+            "value": "TBC"
+          }
+        },
+        "OutputSuccessOrFailed2_-_Reset": {
+          "runAfter": {
+            "OutputSuccessOrFailed_-_Reset": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "f4fb9789-6536-4be4-ad78-999f939719c2"
+          },
+          "type": "SetVariable",
+          "inputs": {
+            "name": "OutputSuccessOrFailed2",
+            "value": "TBC"
+          }
+        },
+        "OutputSuccessOrFailed_-_Reset_2": {
+          "runAfter": {
+            "Do_until_-_Create_SAS_URI_by_path_(V2)": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "69b1a603-9a0a-469c-ab3b-669048777032"
+          },
+          "type": "SetVariable",
+          "inputs": {
+            "name": "OutputSuccessOrFailed",
+            "value": "TBC"
+          }
+        },
+        "Do_until_-_Create_SAS_URI_by_path_(V2)": {
+          "actions": {
+            "Create_SAS_URI_by_path_(V2)": {
+              "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "a2740ddb-8b79-480d-95e6-44f38f5cae4e"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_azureblob_1",
+                  "operationId": "CreateShareLinkByPath_V2",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_azureblob"
+                },
+                "parameters": {
+                  "storageAccountName": "@variables('AppFinalAccountName')",
+                  "path": "/@{variables('RecordingUID')}/video_2000000_1920x1080_6750.mp4",
+                  "policy/Permissions": "Read",
+                  "policy/ExpiryTime": "@addDays(utcNow(),30)"
+                },
+                "authentication": "@parameters('$authentication')"
+              }
+            },
+            "OutputSuccessOrFailed_-_Success_2": {
+              "runAfter": {
+                "Create_SAS_URI_by_path_(V2)": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "c2f01c68-bcd0-4c80-b8d7-e7ed248cba36"
+              },
+              "type": "SetVariable",
+              "inputs": {
+                "name": "OutputSuccessOrFailed",
+                "value": "Success"
+              }
+            },
+            "OutputSuccessOrFailed_-_Failed_2": {
+              "runAfter": {
+                "Create_SAS_URI_by_path_(V2)": [
+                  "Failed",
+                  "Skipped",
+                  "TimedOut"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "a96cd455-ed2a-495a-8322-2d354c7aaee9"
+              },
+              "type": "SetVariable",
+              "inputs": {
+                "name": "OutputSuccessOrFailed",
+                "value": "Failed"
+              }
+            },
+            "ErrorLog4": {
+              "runAfter": {
+                "OutputSuccessOrFailed_-_Failed_2": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "809e8fd2-7751-4477-b28d-fb4b04dd05cb"
+              },
+              "type": "SetVariable",
+              "inputs": {
+                "name": "ErrorLog",
+                "value": "The Flow failed to create the SAS URI. The usual cause is the MP4 does not exist."
+              }
+            }
+          },
+          "runAfter": {
+            "Delay_2": [
+              "Succeeded"
+            ]
+          },
+          "expression": "@equals(variables('OutputSuccessOrFailed'), 'Success')",
+          "limit": {
+            "count": 5,
+            "timeout": "PT20M"
+          },
+          "metadata": {
+            "operationMetadataId": "dcf33e19-6cf2-4db8-ad1e-ad4ae3a45128"
+          },
+          "type": "Until"
+        },
+        "Do_until_-_Update_Row_in_Recordings_Table_-_Video_Permissions_Get_Item": {
+          "actions": {
+            "Update_a_row_-_Recordings_Table": {
+              "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "04f36754-8afe-4d99-84b5-cfcfa183bf29"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_commondataserviceforapps_2",
+                  "operationId": "UpdateRecord",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                },
+                "parameters": {
+                  "entityName": "pre__recordingses",
+                  "recordId": "@variables('Recordings')",
+                  "item/pre__caseref": "@triggerBody()['text_1']",
+                  "item/pre__videosaslink": "@outputs('Create_SAS_URI_by_path_(V2)')?['body/WebUrl']"
+                },
+                "authentication": "@parameters('$authentication')"
+              }
+            },
+            "List_rows_-_Video_Permissions_Table": {
+              "runAfter": {
+                "Set_OutputSuccessOrFailed_-_Success_2": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "3648687a-1500-466d-b3e4-0a37bbd67193"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_commondataserviceforapps",
+                  "operationId": "ListRecords",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                },
+                "parameters": {
+                  "entityName": "pre__videopermissionses",
+                  "$filter": "pre__recidtxt eq '@{variables('RecordingUID')}'"
+                },
+                "authentication": "@parameters('$authentication')"
+              }
+            },
+            "Set_OutputSuccessOrFailed_-_Success_2": {
+              "runAfter": {
+                "Update_a_row_-_Recordings_Table": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "50cc7bb1-46ed-442b-bde7-9c49549fd02b"
+              },
+              "type": "SetVariable",
+              "inputs": {
+                "name": "OutputSuccessOrFailed",
+                "value": "Success"
+              }
+            },
+            "Set_OutputSuccessOrFailed_-_Failed_2": {
+              "runAfter": {
+                "Update_a_row_-_Recordings_Table": [
+                  "Failed",
+                  "Skipped",
+                  "TimedOut"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "9bfe75a8-56e2-4a22-8113-33701c7cd39b"
+              },
+              "type": "SetVariable",
+              "inputs": {
+                "name": "OutputSuccessOrFailed",
+                "value": "Failed"
+              }
+            },
+            "ErrorLog5": {
+              "runAfter": {
+                "Set_OutputSuccessOrFailed_-_Failed_2": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "0b79e036-c04c-4604-9d8f-fcf228b5fd8a"
+              },
+              "type": "SetVariable",
+              "inputs": {
+                "name": "ErrorLog",
+                "value": "The Flow failed to update a Row in the recordings table. The field 'Video SaS Link' could not be populated."
+              }
+            },
+            "Set_OutputSuccessOrFailed_-_Success_3": {
+              "runAfter": {
+                "List_rows_-_Video_Permissions_Table": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "cb6830ba-7a4b-435f-9964-fb9a08786583"
+              },
+              "type": "SetVariable",
+              "inputs": {
+                "name": "OutputSuccessOrFailed",
+                "value": "Success"
+              }
+            },
+            "Set_OutputSuccessOrFailed_-_Failed_3": {
+              "runAfter": {
+                "List_rows_-_Video_Permissions_Table": [
+                  "Failed",
+                  "Skipped",
+                  "TimedOut"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "2d460d62-a0b3-41e7-af1d-c6f4109459a2"
+              },
+              "type": "SetVariable",
+              "inputs": {
+                "name": "OutputSuccessOrFailed",
+                "value": "Failed"
+              }
+            },
+            "ErrorLog6": {
+              "runAfter": {
+                "Set_OutputSuccessOrFailed_-_Failed_3": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "399dd2ed-8cec-461b-bf15-8235222f48ad"
+              },
+              "type": "SetVariable",
+              "inputs": {
+                "name": "ErrorLog",
+                "value": "The Flow failed to get the item in the 'Video Permissions' table."
+              }
+            }
+          },
+          "runAfter": {
+            "OutputSuccessOrFailed_-_Reset_2": [
+              "Succeeded"
+            ]
+          },
+          "expression": "@equals(variables('OutputSuccessOrFailed'), 'Success')",
+          "limit": {
+            "count": 5,
+            "timeout": "PT20M"
+          },
+          "metadata": {
+            "operationMetadataId": "139301e8-bc90-43f7-9e5d-0391d589d09a"
+          },
+          "type": "Until"
+        },
+        "Set_ErrorLogMP4ReadyForViewing": {
+          "runAfter": {
+            "Update_a_row_-_MP4_ready_for_viewing": [
+              "Failed",
+              "Skipped",
+              "TimedOut"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "c534264a-6e04-4ce7-80e5-d30974f60a41"
+          },
+          "type": "SetVariable",
+          "inputs": {
+            "name": "ErrorLogMP4ReadyForViewing",
+            "value": "The Flow failed to update a Row in the recordings table. The field 'Recording Status' could not be populated."
+          }
+        },
+        "List_rows_-_VideoPermissions": {
+          "runAfter": {
+            "Set_ErrorLogMP4ReadyForViewing": [
+              "Succeeded",
+              "Skipped"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "a4104f94-daa5-49fa-851f-1913d33a7bca"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_commondataserviceforapps",
+              "operationId": "ListRecords",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+            },
+            "parameters": {
+              "entityName": "pre__videopermissionses",
+              "$filter": "pre__recidtxt eq '@{variables('RecordingUID')}'"
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        },
+        "Apply_to_each_-_VideoPermissionsRecordingAvailable": {
+          "foreach": "@outputs('List_rows_-_VideoPermissions')?['body/value']",
+          "actions": {
+            "Update_a_row_-_VideoPermissionsRecordingAvailable": {
+              "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "0863f604-f0a4-49ba-a06c-27e5573f560e"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_commondataserviceforapps",
+                  "operationId": "UpdateRecord",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                },
+                "parameters": {
+                  "entityName": "pre__videopermissionses",
+                  "recordId": "@items('Apply_to_each_-_VideoPermissionsRecordingAvailable')?['pre__videopermissionsid']",
+                  "item/pre__recordingavailable": "true"
+                },
+                "authentication": "@parameters('$authentication')"
+              }
+            }
+          },
+          "runAfter": {
+            "List_rows_-_VideoPermissions": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "3a341359-66e7-4e83-89b2-7c4d09e691df"
+          },
+          "type": "Foreach"
+        },
+        "AppSubscription": {
+          "runAfter": {
+            "recAssetName": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "5c0648e6-e26a-4114-ae9a-7527fd2df30c"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "AppSubscription",
+                "type": "string",
+                "value": "@parameters('AppSubscriptionID (pre__AppSubscriptionID)')"
+              }
+            ]
+          }
+        },
+        "AppResourceGroup": {
+          "runAfter": {
+            "AppSubscription": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "31c78a10-2f19-4643-aca1-f9ea48c197cc"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "AppResourceGroup",
+                "type": "string",
+                "value": "@parameters('AppResourceGroup (pre__AppResourceGroup)')"
+              }
+            ]
+          }
+        },
+        "AppMediaService": {
+          "runAfter": {
+            "AppResourceGroup": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "d2145829-4ae9-4a45-859b-61d169aee114"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "AppMediaService",
+                "type": "string",
+                "value": "@parameters('AppMediaService (pre__AppMediaService)')"
+              }
+            ]
+          }
+        },
+        "AppTenantID": {
+          "runAfter": {
+            "AppMediaService": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "4904b335-fb4f-422a-8c05-d1bcb750ef9e"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "AppTenantID",
+                "type": "string",
+                "value": "@parameters('AppTenantID (pre__AppTenantID)')"
+              }
+            ]
+          }
+        },
+        "AppID": {
+          "runAfter": {
+            "AppTenantID": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "ccf76151-58c3-4961-80d5-98ddfa783047"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "AppID",
+                "type": "string",
+                "value": "@parameters('AppID (pre__AppID)')"
+              }
+            ]
+          }
+        },
+        "AppSecret": {
+          "runAfter": {
+            "AppID": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "01b9561a-b8d4-4d64-964c-d50154dcf5a4"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "AppSecret",
+                "type": "string",
+                "value": "@parameters('AppSecret (pre__AppSecret)')"
+              }
+            ]
+          }
+        },
+        "AppFinalAccountName": {
+          "runAfter": {
+            "AppSecret": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "ba24fd2b-f523-4306-bb08-1e8000288f9d"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "AppFinalAccountName",
+                "type": "string",
+                "value": "@parameters('AppFinalAccountName (pre__AppFinalAccountName)')"
+              }
+            ]
+          }
+        },
+        "ErrorLog": {
+          "runAfter": {},
+          "metadata": {
+            "operationMetadataId": "f095651c-9a4c-4d0c-bd01-480c00c1d7de"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "ErrorLog",
+                "type": "string"
+              }
+            ]
+          }
+        },
+        "Update_a_row_2": {
+          "runAfter": {
+            "Final_Storage_Account_Name": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "61d74737-f64a-4e45-bd27-9c546b061a33"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_commondataserviceforapps_2",
+              "operationId": "UpdateRecord",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+            },
+            "parameters": {
+              "entityName": "pre__recordingses",
+              "recordId": "@variables('Recordings')",
+              "item/pre__recordingstatus": "in Progress"
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        }
+      }
+    }
+  },
+  "schemaVersion": "1.0.0.0"
+}

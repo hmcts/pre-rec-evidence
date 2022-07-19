@@ -1,0 +1,1208 @@
+{
+  "properties": {
+    "connectionReferences": {
+      "shared_commondataserviceforapps": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "pre__sharedcommondataserviceforapps_4ea17"
+        },
+        "api": {
+          "name": "shared_commondataserviceforapps"
+        }
+      },
+      "shared_sharepointonline": {
+        "runtimeSource": "invoker",
+        "connection": {
+          "connectionReferenceLogicalName": "pre__sharedsharepointonline_0bf5f"
+        },
+        "api": {
+          "name": "shared_sharepointonline"
+        }
+      },
+      "shared_commondataserviceforapps_1": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "cr599_sharedcommondataserviceforapps_d0505"
+        },
+        "api": {
+          "name": "shared_commondataserviceforapps"
+        }
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        },
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        },
+        "SharePointURL (pre__SharePointURL)": {
+          "defaultValue": "https://cjscommonplatform.sharepoint.com/sites/HMCTSPre-RecordedEvidenceNLE-PRE-Sandbox/",
+          "type": "String",
+          "metadata": {
+            "schemaName": "pre__SharePointURL"
+          }
+        }
+      },
+      "triggers": {
+        "manual": {
+          "metadata": {
+            "operationMetadataId": "96c39ae2-17de-472b-8e8d-7e08ac0eddaf"
+          },
+          "type": "Request",
+          "kind": "PowerAppV2",
+          "inputs": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "text": {
+                  "title": "RecordingsReport",
+                  "type": "string",
+                  "x-ms-dynamically-added": true,
+                  "description": "RecordingsReport",
+                  "x-ms-content-hint": "TEXT"
+                },
+                "text_1": {
+                  "title": "OnDemandPlaybackReport",
+                  "type": "string",
+                  "x-ms-dynamically-added": true,
+                  "description": "OnDemandPlaybackReport",
+                  "x-ms-content-hint": "TEXT"
+                },
+                "text_2": {
+                  "title": "CourtPlaybackReport",
+                  "type": "string",
+                  "x-ms-dynamically-added": true,
+                  "description": "CourtPlaybackReport",
+                  "x-ms-content-hint": "TEXT"
+                },
+                "text_3": {
+                  "title": "RecordingUserAccessReport",
+                  "type": "string",
+                  "x-ms-dynamically-added": true,
+                  "description": "RecordingUserAccessReport",
+                  "x-ms-content-hint": "TEXT"
+                },
+                "text_4": {
+                  "title": "RecordingEditsReport",
+                  "type": "string",
+                  "x-ms-dynamically-added": true,
+                  "description": "RecordingEditsReport",
+                  "x-ms-content-hint": "TEXT"
+                }
+              },
+              "required": [
+                "text",
+                "text_1",
+                "text_2",
+                "text_3",
+                "text_4"
+              ]
+            }
+          }
+        }
+      },
+      "actions": {
+        "List_rows_-_Audit_Table": {
+          "runAfter": {
+            "Condition_-_Set_Month_Quarter_Sep_-_Dec": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "50fe2b76-a229-4915-8253-d27f5a41d538"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_commondataserviceforapps",
+              "operationId": "ListRecords",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+            },
+            "parameters": {
+              "entityName": "pre__audits"
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        },
+        "CurrentMonth": {
+          "runAfter": {
+            "Current_time": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "5554aa25-5399-4b5c-b15b-aeab29efaaf2"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "CurrentMonth",
+                "type": "string",
+                "value": "@{formatDateTime(utcNow(), 'MMMM')}"
+              }
+            ]
+          }
+        },
+        "Current_time": {
+          "runAfter": {},
+          "metadata": {
+            "operationMetadataId": "ffab7fc9-574e-4578-b21c-4c7e78df1b38"
+          },
+          "type": "Expression",
+          "kind": "CurrentTime",
+          "inputs": {}
+        },
+        "CurrentYear": {
+          "runAfter": {
+            "CurrentMonth": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "00f48132-aa23-47ef-82f2-8b118f97985e"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "CurrentYear",
+                "type": "string",
+                "value": "@{int(formatDateTime(utcNow(), 'yyyy'))}"
+              }
+            ]
+          }
+        },
+        "Condition_-_RecordingsReport": {
+          "actions": {
+            "Create_CSV_table_-_RecordingsReport": {
+              "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "cff40856-8dcd-41f9-bc2a-4a73aba90af5"
+              },
+              "type": "Table",
+              "inputs": {
+                "from": "@outputs('List_rows_-_Audit_Table')?['body/value']",
+                "format": "CSV",
+                "columns": [
+                  {
+                    "header": "Date",
+                    "value": "@item()?['pre__recordingdatetime']"
+                  },
+                  {
+                    "header": "CaseRef",
+                    "value": "@item()?['pre__caseref']"
+                  },
+                  {
+                    "header": "CourtName",
+                    "value": "@item()?['pre__court']"
+                  },
+                  {
+                    "header": "RecordingUID",
+                    "value": "@item()?['pre__recordinguid']"
+                  },
+                  {
+                    "header": "CaseUID",
+                    "value": "@item()?['pre__caseuid']"
+                  }
+                ]
+              }
+            },
+            "Create_file_-_RecordingsReport": {
+              "runAfter": {
+                "Create_CSV_table_-_RecordingsReport": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "b70f10ec-3c6c-488b-9a50-fed2a1f1f219"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_sharepointonline",
+                  "operationId": "CreateFile",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                },
+                "parameters": {
+                  "dataset": "@parameters('SharePointURL (pre__SharePointURL)')",
+                  "folderPath": "/Reports",
+                  "name": "RecordingsReport-@{variables('DateTime')}.csv",
+                  "body": "@body('Create_CSV_table_-_RecordingsReport')"
+                },
+                "authentication": "@parameters('$authentication')"
+              },
+              "runtimeConfiguration": {
+                "contentTransfer": {
+                  "transferMode": "Chunked"
+                }
+              }
+            },
+            "Update_file_properties_-_RecordingsReport": {
+              "runAfter": {
+                "Create_file_-_RecordingsReport": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "7057f154-1e7e-40b1-b80a-441d35d99069"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_sharepointonline",
+                  "operationId": "PatchFileItem",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                },
+                "parameters": {
+                  "dataset": "@parameters('SharePointURL (pre__SharePointURL)')",
+                  "table": "Reports",
+                  "id": "@outputs('Create_file_-_RecordingsReport')?['body/ItemId']",
+                  "item/Month/Value": "@variables('CurrentMonth')",
+                  "item/Year/Value": "@variables('CurrentYear')"
+                },
+                "authentication": "@parameters('$authentication')"
+              }
+            }
+          },
+          "runAfter": {
+            "List_rows": [
+              "Succeeded"
+            ]
+          },
+          "expression": {
+            "equals": [
+              "@triggerBody()['text']",
+              "True"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "ccd9994a-32ef-44ee-9820-97ed5fe9fe4c"
+          },
+          "type": "If"
+        },
+        "Condition_-_OnDemandPlaybackReport": {
+          "actions": {
+            "List_rows_-_AuditTable_Filter_Recording_Playback_started": {
+              "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "60eefbf0-1a8a-4f5a-87a9-6c53da0f1242"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_commondataserviceforapps_1",
+                  "operationId": "ListRecords",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                },
+                "parameters": {
+                  "entityName": "pre__audits",
+                  "$filter": "pre__activity eq 'Recording Playback started'"
+                },
+                "authentication": "@parameters('$authentication')"
+              }
+            },
+            "Update_file_properties_-_OnDemandPlaybackReport": {
+              "runAfter": {
+                "Create_file_-_OnDemandPlaybackReport": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "3e1d2191-64da-40e9-bb6e-4531f340ede7"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_sharepointonline",
+                  "operationId": "PatchFileItem",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                },
+                "parameters": {
+                  "dataset": "@parameters('SharePointURL (pre__SharePointURL)')",
+                  "table": "Reports",
+                  "id": "@outputs('Create_file_-_OnDemandPlaybackReport')?['body/ItemId']",
+                  "item/Month/Value": "@variables('CurrentMonth')",
+                  "item/Year/Value": "@variables('CurrentYear')"
+                },
+                "authentication": "@parameters('$authentication')"
+              }
+            },
+            "Create_file_-_OnDemandPlaybackReport": {
+              "runAfter": {
+                "Create_CSV_table_-_OnDemandPlaybackReport": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "b70f10ec-3c6c-488b-9a50-fed2a1f1f219"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_sharepointonline",
+                  "operationId": "CreateFile",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                },
+                "parameters": {
+                  "dataset": "@parameters('SharePointURL (pre__SharePointURL)')",
+                  "folderPath": "/Reports",
+                  "name": "OnDemandPlaybackReport-@{variables('DateTime')}.csv",
+                  "body": "@body('Create_CSV_table_-_OnDemandPlaybackReport')"
+                },
+                "authentication": "@parameters('$authentication')"
+              },
+              "runtimeConfiguration": {
+                "contentTransfer": {
+                  "transferMode": "Chunked"
+                }
+              }
+            },
+            "Create_CSV_table_-_OnDemandPlaybackReport": {
+              "runAfter": {
+                "List_rows_-_AuditTable_Filter_Recording_Playback_started": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "047d6e67-deea-430f-ac74-5b710e4a884e"
+              },
+              "type": "Table",
+              "inputs": {
+                "from": "@outputs('List_rows_-_AuditTable_Filter_Recording_Playback_started')?['body/value']",
+                "format": "CSV",
+                "columns": [
+                  {
+                    "header": "Date",
+                    "value": "@item()?['overriddencreatedon']"
+                  },
+                  {
+                    "header": "User",
+                    "value": "@item()?['pre__email']"
+                  },
+                  {
+                    "header": "CaseRef",
+                    "value": "@item()?['pre__caseref']"
+                  },
+                  {
+                    "header": "RecordingRef",
+                    "value": "@item()?['pre__recordinguid']"
+                  }
+                ]
+              }
+            }
+          },
+          "runAfter": {
+            "List_rows": [
+              "Succeeded"
+            ]
+          },
+          "expression": {
+            "equals": [
+              "@triggerBody()['text_1']",
+              "True"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "5fb856fe-7904-4c6d-9e94-c5a4d531a8df"
+          },
+          "type": "If"
+        },
+        "Condition_-_CourtPlaybackReport": {
+          "actions": {
+            "List_rows_-_AuditTable_Filter_Recording_Playback_started_2": {
+              "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "60eefbf0-1a8a-4f5a-87a9-6c53da0f1242"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_commondataserviceforapps_1",
+                  "operationId": "ListRecords",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                },
+                "parameters": {
+                  "entityName": "pre__audits",
+                  "$filter": "pre__activity eq 'Recording Playback started'"
+                },
+                "authentication": "@parameters('$authentication')"
+              }
+            },
+            "Update_file_properties_-_CourtPlaybackReport": {
+              "runAfter": {
+                "Create_file_-_CourtPlaybackReport": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "66c5808a-bb8d-4ceb-a6d0-0cdcad436f53"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_sharepointonline",
+                  "operationId": "PatchFileItem",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                },
+                "parameters": {
+                  "dataset": "@parameters('SharePointURL (pre__SharePointURL)')",
+                  "table": "Reports",
+                  "id": "@outputs('Create_file_-_CourtPlaybackReport')?['body/ItemId']",
+                  "item/Month/Value": "@variables('CurrentMonth')",
+                  "item/Year/Value": "@variables('CurrentYear')"
+                },
+                "authentication": "@parameters('$authentication')"
+              }
+            },
+            "Create_CSV_table_-_CourtPlaybackReport": {
+              "runAfter": {
+                "List_rows_-_AuditTable_Filter_Recording_Playback_started_2": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "cff40856-8dcd-41f9-bc2a-4a73aba90af5"
+              },
+              "type": "Table",
+              "inputs": {
+                "from": "@outputs('List_rows_-_AuditTable_Filter_Recording_Playback_started_2')?['body/value']",
+                "format": "CSV",
+                "columns": [
+                  {
+                    "header": "Date",
+                    "value": "@item()?['overriddencreatedon']"
+                  },
+                  {
+                    "header": "CaseRef",
+                    "value": "@item()?['pre__caseref']"
+                  },
+                  {
+                    "header": "RecordingRef",
+                    "value": "@item()?['pre__recordinguid']"
+                  },
+                  {
+                    "header": "CourtName",
+                    "value": "@item()?['pre__court']"
+                  }
+                ]
+              }
+            },
+            "Create_file_-_CourtPlaybackReport": {
+              "runAfter": {
+                "Create_CSV_table_-_CourtPlaybackReport": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "b70f10ec-3c6c-488b-9a50-fed2a1f1f219"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_sharepointonline",
+                  "operationId": "CreateFile",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                },
+                "parameters": {
+                  "dataset": "@parameters('SharePointURL (pre__SharePointURL)')",
+                  "folderPath": "/Reports",
+                  "name": "CourtPlaybackReport-@{variables('DateTime')}.csv",
+                  "body": "@body('Create_CSV_table_-_CourtPlaybackReport')"
+                },
+                "authentication": "@parameters('$authentication')"
+              },
+              "runtimeConfiguration": {
+                "contentTransfer": {
+                  "transferMode": "Chunked"
+                }
+              }
+            }
+          },
+          "runAfter": {
+            "List_rows": [
+              "Succeeded"
+            ]
+          },
+          "expression": {
+            "equals": [
+              "@triggerBody()['text_2']",
+              "True"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "33f400f5-b75a-4147-a182-b097cc40d67b"
+          },
+          "type": "If"
+        },
+        "Condition_-_RecordingUserAccessReport": {
+          "actions": {
+            "Create_CSV_table_-_RecordingUserAccessReport": {
+              "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "cff40856-8dcd-41f9-bc2a-4a73aba90af5"
+              },
+              "type": "Table",
+              "inputs": {
+                "from": "@outputs('List_rows_-_VideoPermissions_Table')?['body/value']",
+                "format": "CSV",
+                "columns": [
+                  {
+                    "header": "User",
+                    "value": "@item()?['pre__email']"
+                  },
+                  {
+                    "header": "CaseRef",
+                    "value": "@item()?['pre__caseref']"
+                  },
+                  {
+                    "header": "RecordingRef",
+                    "value": "@item()?['_pre__recordinguid_value']"
+                  },
+                  {
+                    "header": "CourtName",
+                    "value": "@item()?['pre__court']"
+                  },
+                  {
+                    "header": "ActiveAccess",
+                    "value": "@item()?['pre__activeaccess']"
+                  }
+                ]
+              }
+            },
+            "Create_file_-_RecordingUserAccessReport": {
+              "runAfter": {
+                "Create_CSV_table_-_RecordingUserAccessReport": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "b70f10ec-3c6c-488b-9a50-fed2a1f1f219"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_sharepointonline",
+                  "operationId": "CreateFile",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                },
+                "parameters": {
+                  "dataset": "@parameters('SharePointURL (pre__SharePointURL)')",
+                  "folderPath": "/Reports",
+                  "name": "RecordingUserAccessReport-@{variables('DateTime')}.csv",
+                  "body": "@body('Create_CSV_table_-_RecordingUserAccessReport')"
+                },
+                "authentication": "@parameters('$authentication')"
+              },
+              "runtimeConfiguration": {
+                "contentTransfer": {
+                  "transferMode": "Chunked"
+                }
+              }
+            },
+            "Update_file_properties_-_RecordingUserAccessReport": {
+              "runAfter": {
+                "Create_file_-_RecordingUserAccessReport": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "88778358-918c-4204-b55e-8f049f0c89be"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_sharepointonline",
+                  "operationId": "PatchFileItem",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                },
+                "parameters": {
+                  "dataset": "@parameters('SharePointURL (pre__SharePointURL)')",
+                  "table": "Reports",
+                  "id": "@outputs('Create_file_-_RecordingUserAccessReport')?['body/ItemId']",
+                  "item/Month/Value": "@variables('CurrentMonth')",
+                  "item/Year/Value": "@variables('CurrentYear')"
+                },
+                "authentication": "@parameters('$authentication')"
+              }
+            }
+          },
+          "runAfter": {
+            "List_rows": [
+              "Succeeded"
+            ]
+          },
+          "expression": {
+            "equals": [
+              "@triggerBody()['text_3']",
+              "True"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "db6248cf-64b6-4c02-98ec-a190f6bc4e5a"
+          },
+          "type": "If"
+        },
+        "Condition_-_RecordingEditsReport": {
+          "actions": {
+            "Create_CSV_table_-_RecordingEditsReport": {
+              "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "cff40856-8dcd-41f9-bc2a-4a73aba90af5"
+              },
+              "type": "Table",
+              "inputs": {
+                "from": "@outputs('List_rows_-_Audit_Table')?['body/value']",
+                "format": "CSV",
+                "columns": [
+                  {
+                    "header": "Date",
+                    "value": "@item()?['pre__recordingdatetime']"
+                  },
+                  {
+                    "header": "Version",
+                    "value": "@item()?['pre__recordingversion']"
+                  },
+                  {
+                    "header": "CaseRef",
+                    "value": "@item()?['pre__caseref']"
+                  },
+                  {
+                    "header": "RecordingRef",
+                    "value": "@item()?['pre__recordinguid']"
+                  },
+                  {
+                    "header": "CourtName",
+                    "value": "@item()?['pre__court']"
+                  }
+                ]
+              }
+            },
+            "Create_file_-_RecordingEditsReport": {
+              "runAfter": {
+                "Create_CSV_table_-_RecordingEditsReport": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "b70f10ec-3c6c-488b-9a50-fed2a1f1f219"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_sharepointonline",
+                  "operationId": "CreateFile",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                },
+                "parameters": {
+                  "dataset": "@parameters('SharePointURL (pre__SharePointURL)')",
+                  "folderPath": "/Reports",
+                  "name": "RecordingEditAuditReport-@{variables('DateTime')}.csv",
+                  "body": "@body('Create_CSV_table_-_RecordingEditsReport')"
+                },
+                "authentication": "@parameters('$authentication')"
+              },
+              "runtimeConfiguration": {
+                "contentTransfer": {
+                  "transferMode": "Chunked"
+                }
+              }
+            },
+            "Update_file_properties_-_RecordingEditsReport": {
+              "runAfter": {
+                "Create_file_-_RecordingEditsReport": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "bd4dfeb6-ac2f-4f27-9e4f-387d3c4fce15"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_sharepointonline",
+                  "operationId": "PatchFileItem",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                },
+                "parameters": {
+                  "dataset": "@parameters('SharePointURL (pre__SharePointURL)')",
+                  "table": "Reports",
+                  "id": "@outputs('Create_file_-_RecordingEditsReport')?['body/ItemId']",
+                  "item/Month/Value": "@variables('CurrentMonth')",
+                  "item/Year/Value": "@variables('CurrentYear')"
+                },
+                "authentication": "@parameters('$authentication')"
+              }
+            }
+          },
+          "runAfter": {
+            "List_rows": [
+              "Succeeded"
+            ]
+          },
+          "expression": {
+            "equals": [
+              "@triggerBody()['text_4']",
+              "True"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "43efadaa-bc8d-4e37-90ca-68525bdf2100"
+          },
+          "type": "If"
+        },
+        "SiteURL": {
+          "runAfter": {
+            "DateTime": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "511e3e6a-a0b6-4170-a487-cb9fac435670"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "SiteURL",
+                "type": "string",
+                "value": "@parameters('SharePointURL (pre__SharePointURL)')"
+              }
+            ]
+          }
+        },
+        "List_rows": {
+          "runAfter": {
+            "List_rows_-_VideoPermissions_Table": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "5ff519cc-a91e-41c7-ab2c-cc1048736261"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_commondataserviceforapps_1",
+              "operationId": "ListRecords",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+            },
+            "parameters": {
+              "entityName": "pre__recordingses"
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        },
+        "Condition_-_Set_Month_Quarter_Jan_-_Apr": {
+          "actions": {
+            "currentMonth_January": {
+              "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "632a5e72-b078-4a6b-9bd3-2dee059f2472"
+              },
+              "type": "SetVariable",
+              "inputs": {
+                "name": "CurrentMonth",
+                "value": "1 - January"
+              }
+            }
+          },
+          "runAfter": {
+            "SiteURL": [
+              "Succeeded"
+            ]
+          },
+          "else": {
+            "actions": {
+              "Condition_-_Set_Month_Quarter_February": {
+                "actions": {
+                  "currentMonth_February": {
+                    "runAfter": {},
+                    "metadata": {
+                      "operationMetadataId": "28f23480-967f-4018-8e04-cbd6bdabe0d8"
+                    },
+                    "type": "SetVariable",
+                    "inputs": {
+                      "name": "CurrentMonth",
+                      "value": "2 - February"
+                    }
+                  }
+                },
+                "runAfter": {},
+                "else": {
+                  "actions": {
+                    "Condition_-_Set_Month_Quarter_March": {
+                      "actions": {
+                        "currentMonth_March": {
+                          "runAfter": {},
+                          "metadata": {
+                            "operationMetadataId": "eacda34c-3798-4e3e-95fa-e5583f2bcea3"
+                          },
+                          "type": "SetVariable",
+                          "inputs": {
+                            "name": "CurrentMonth",
+                            "value": "3 - March"
+                          }
+                        }
+                      },
+                      "runAfter": {},
+                      "else": {
+                        "actions": {
+                          "Condition_-_Set_Month_Quarter_April": {
+                            "actions": {
+                              "currentMonth_April": {
+                                "runAfter": {},
+                                "metadata": {
+                                  "operationMetadataId": "8032eac0-1f0e-4ce0-bafb-4cfd3a6f426c"
+                                },
+                                "type": "SetVariable",
+                                "inputs": {
+                                  "name": "CurrentMonth",
+                                  "value": "4 - April"
+                                }
+                              }
+                            },
+                            "runAfter": {},
+                            "expression": {
+                              "equals": [
+                                "@variables('CurrentMonth')",
+                                "April"
+                              ]
+                            },
+                            "metadata": {
+                              "operationMetadataId": "00d3fcf8-64a0-4c09-993e-e522daf76c98"
+                            },
+                            "type": "If"
+                          }
+                        }
+                      },
+                      "expression": {
+                        "equals": [
+                          "@variables('CurrentMonth')",
+                          "March"
+                        ]
+                      },
+                      "metadata": {
+                        "operationMetadataId": "aa09e8de-937a-46ea-9449-1693ea38f8a2"
+                      },
+                      "type": "If"
+                    }
+                  }
+                },
+                "expression": {
+                  "equals": [
+                    "@variables('CurrentMonth')",
+                    "February"
+                  ]
+                },
+                "metadata": {
+                  "operationMetadataId": "1471fc92-3387-4568-8a19-ed1066a26fbd"
+                },
+                "type": "If"
+              }
+            }
+          },
+          "expression": {
+            "equals": [
+              "@variables('CurrentMonth')",
+              "January"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "7c2afeff-2f91-4845-945c-8b85fe25b121"
+          },
+          "type": "If"
+        },
+        "Condition_-_Set_Month_Quarter_May_-_Aug": {
+          "actions": {
+            "currentMonth_May": {
+              "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "68ea5bd9-3689-450c-9177-138dccc01be8"
+              },
+              "type": "SetVariable",
+              "inputs": {
+                "name": "CurrentMonth",
+                "value": "5 - May"
+              }
+            }
+          },
+          "runAfter": {
+            "Condition_-_Set_Month_Quarter_Jan_-_Apr": [
+              "Succeeded"
+            ]
+          },
+          "else": {
+            "actions": {
+              "Condition_-_Set_Month_Quarter_June": {
+                "actions": {
+                  "currentMonth_June": {
+                    "runAfter": {},
+                    "metadata": {
+                      "operationMetadataId": "20bc8322-0c52-4b04-b9ee-787ec788c33c"
+                    },
+                    "type": "SetVariable",
+                    "inputs": {
+                      "name": "CurrentMonth",
+                      "value": "6 - June"
+                    }
+                  }
+                },
+                "runAfter": {},
+                "else": {
+                  "actions": {
+                    "Condition_-_Set_Month_Quarter_July": {
+                      "actions": {
+                        "currentMonth_July": {
+                          "runAfter": {},
+                          "metadata": {
+                            "operationMetadataId": "4e9155ca-d2da-4e62-b590-173a246575bc"
+                          },
+                          "type": "SetVariable",
+                          "inputs": {
+                            "name": "CurrentMonth",
+                            "value": "7 - July"
+                          }
+                        }
+                      },
+                      "runAfter": {},
+                      "else": {
+                        "actions": {
+                          "Condition_-_Set_Month_Quarter_August": {
+                            "actions": {
+                              "currentMonth_August": {
+                                "runAfter": {},
+                                "metadata": {
+                                  "operationMetadataId": "6be828ed-335b-4854-8515-c3c3e7af065e"
+                                },
+                                "type": "SetVariable",
+                                "inputs": {
+                                  "name": "CurrentMonth",
+                                  "value": "8 - August"
+                                }
+                              }
+                            },
+                            "runAfter": {},
+                            "expression": {
+                              "equals": [
+                                "@variables('CurrentMonth')",
+                                "August"
+                              ]
+                            },
+                            "metadata": {
+                              "operationMetadataId": "1bcbcaf5-f25d-4cf7-9161-4e58518d9b30"
+                            },
+                            "type": "If"
+                          }
+                        }
+                      },
+                      "expression": {
+                        "equals": [
+                          "@variables('CurrentMonth')",
+                          "July"
+                        ]
+                      },
+                      "metadata": {
+                        "operationMetadataId": "89cb96c7-c639-48ea-b4b4-a345f0eb60d0"
+                      },
+                      "type": "If"
+                    }
+                  }
+                },
+                "expression": {
+                  "equals": [
+                    "@variables('CurrentMonth')",
+                    "June"
+                  ]
+                },
+                "metadata": {
+                  "operationMetadataId": "93d84660-71ee-4f1a-b5d2-096f7ee59540"
+                },
+                "type": "If"
+              }
+            }
+          },
+          "expression": {
+            "equals": [
+              "@variables('CurrentMonth')",
+              "May"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "19922817-954a-453a-abda-620b1f748f7e"
+          },
+          "type": "If"
+        },
+        "Condition_-_Set_Month_Quarter_Sep_-_Dec": {
+          "actions": {
+            "currentMonth_September": {
+              "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "ee14f2fc-710a-42b5-b251-bf18e65d15e7"
+              },
+              "type": "SetVariable",
+              "inputs": {
+                "name": "CurrentMonth",
+                "value": "9 - September"
+              }
+            }
+          },
+          "runAfter": {
+            "Condition_-_Set_Month_Quarter_May_-_Aug": [
+              "Succeeded"
+            ]
+          },
+          "else": {
+            "actions": {
+              "Condition_-_Set_Month_Quarter_October": {
+                "actions": {
+                  "currentMonth_October": {
+                    "runAfter": {},
+                    "metadata": {
+                      "operationMetadataId": "dd5876c3-93bb-4e6f-9bab-cd1ee9eba99e"
+                    },
+                    "type": "SetVariable",
+                    "inputs": {
+                      "name": "CurrentMonth",
+                      "value": "10 - October"
+                    }
+                  }
+                },
+                "runAfter": {},
+                "else": {
+                  "actions": {
+                    "Condition_-_Set_Month_Quarter_November": {
+                      "actions": {
+                        "currentMonth_November": {
+                          "runAfter": {},
+                          "metadata": {
+                            "operationMetadataId": "8392f1ad-10bd-42c0-972f-540dab854b4a"
+                          },
+                          "type": "SetVariable",
+                          "inputs": {
+                            "name": "CurrentMonth",
+                            "value": "11 - November"
+                          }
+                        }
+                      },
+                      "runAfter": {},
+                      "else": {
+                        "actions": {
+                          "Condition_-_Set_Month_Quarter_December": {
+                            "actions": {
+                              "currentMonth_December": {
+                                "runAfter": {},
+                                "metadata": {
+                                  "operationMetadataId": "696f0ad7-0796-4a60-9a45-d2e67961ea3d"
+                                },
+                                "type": "SetVariable",
+                                "inputs": {
+                                  "name": "CurrentMonth",
+                                  "value": "12 - December"
+                                }
+                              }
+                            },
+                            "runAfter": {},
+                            "expression": {
+                              "equals": [
+                                "@variables('CurrentMonth')",
+                                "December"
+                              ]
+                            },
+                            "metadata": {
+                              "operationMetadataId": "0a0f0cbc-5423-43bf-a4a7-98bc8994aa25"
+                            },
+                            "type": "If"
+                          }
+                        }
+                      },
+                      "expression": {
+                        "equals": [
+                          "@variables('CurrentMonth')",
+                          "November"
+                        ]
+                      },
+                      "metadata": {
+                        "operationMetadataId": "64701cdd-b5e2-4676-bbee-35cab95d559e"
+                      },
+                      "type": "If"
+                    }
+                  }
+                },
+                "expression": {
+                  "equals": [
+                    "@variables('CurrentMonth')",
+                    "October"
+                  ]
+                },
+                "metadata": {
+                  "operationMetadataId": "94b41847-79b6-49e5-8fb0-daf5fe283536"
+                },
+                "type": "If"
+              }
+            }
+          },
+          "expression": {
+            "equals": [
+              "@variables('CurrentMonth')",
+              "September"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "fb5932b6-5ff9-4dcf-b94f-4f33279f0d71"
+          },
+          "type": "If"
+        },
+        "DateTime": {
+          "runAfter": {
+            "CurrentYear": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "fbc77028-6375-4cdb-bd4a-c8fa156c0f5a"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "DateTime",
+                "type": "string",
+                "value": "@{FormatDateTime(UTCNow(),'HH:mm:ss')}"
+              }
+            ]
+          }
+        },
+        "List_rows_-_VideoPermissions_Table": {
+          "runAfter": {
+            "List_rows_-_Audit_Table": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "50fe2b76-a229-4915-8253-d27f5a41d538"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_commondataserviceforapps",
+              "operationId": "ListRecords",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+            },
+            "parameters": {
+              "entityName": "pre__videopermissionses"
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        }
+      }
+    }
+  },
+  "schemaVersion": "1.0.0.0"
+}

@@ -61,6 +61,7 @@
             "parameters": {
               "entityName": "contacts",
               "recordId": "@triggerOutputs()?['body/contactid']",
+              "item/ownerid@odata.bind": "/systemusers(927b6a4c-36c3-ec11-a7b5-6045bd0fa071)",
               "item/adx_identity_username": "@triggerOutputs()?['body/emailaddress1']"
             },
             "authentication": "@parameters('$authentication')"

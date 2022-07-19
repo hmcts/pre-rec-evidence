@@ -48,7 +48,6 @@
       <getstartedpanecontentenabled>True</getstartedpanecontentenabled>
       <ispresenceenabled>True</ispresenceenabled>
       <isautosaveenabled>True</isautosaveenabled>
-      <globalhelpurl></globalhelpurl>
       <globalhelpurlenabled>False</globalhelpurlenabled>
       <globalappendurlparametersenabled>False</globalappendurlparametersenabled>
       <istextwrapenabled>True</istextwrapenabled>
@@ -148,36 +147,37 @@
       <statecode>0</statecode>
       <statuscode>1</statuscode>
     </connectionreference>
-    <connectionreference connectionreferencelogicalname="pre__AzureBlobStorageFlowSbx">
-      <connectionreferencedisplayname>Azure Blob Storage Flow-Sbx</connectionreferencedisplayname>
+    <connectionreference connectionreferencelogicalname="pre__DTS_PRE_KeyVault">
+      <connectionreferencedisplayname>DTS_PRE_KeyVault</connectionreferencedisplayname>
+      <connectorid>/providers/Microsoft.PowerApps/apis/shared_keyvault</connectorid>
+      <iscustomizable>1</iscustomizable>
+      <statecode>0</statecode>
+      <statuscode>1</statuscode>
+    </connectionreference>
+    <connectionreference connectionreferencelogicalname="pre__pre_db">
+      <connectionreferencedisplayname>pre_db</connectionreferencedisplayname>
+      <connectorid>/providers/Microsoft.PowerApps/apis/shared_postgresql</connectorid>
+      <iscustomizable>1</iscustomizable>
+      <statecode>0</statecode>
+      <statuscode>1</statuscode>
+    </connectionreference>
+    <connectionreference connectionreferencelogicalname="pre__preamssasboxAzureBlobConn">
+      <connectionreferencedisplayname>preIngest</connectionreferencedisplayname>
       <connectorid>/providers/Microsoft.PowerApps/apis/shared_azureblob</connectorid>
       <iscustomizable>1</iscustomizable>
       <statecode>0</statecode>
       <statuscode>1</statuscode>
     </connectionreference>
-    <connectionreference connectionreferencelogicalname="pre__sharedazureblob_b2d2f">
-      <connectionreferencedisplayname>Azure Blob Storage dts_pre_recorded_evidence-b2d2f</connectionreferencedisplayname>
+    <connectionreference connectionreferencelogicalname="pre__prefinalsasboxAzureBlobConn">
+      <connectionreferencedisplayname>prefinal</connectionreferencedisplayname>
       <connectorid>/providers/Microsoft.PowerApps/apis/shared_azureblob</connectorid>
-      <iscustomizable>1</iscustomizable>
-      <statecode>0</statecode>
-      <statuscode>1</statuscode>
-    </connectionreference>
-    <connectionreference connectionreferencelogicalname="pre__sharedcommondataserviceforapps_42299">
-      <connectionreferencedisplayname>Microsoft Dataverse dts_pre_recorded_evidence-42299</connectionreferencedisplayname>
-      <connectorid>/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps</connectorid>
+      <description>prefinalsasboxAzureBlobConn</description>
       <iscustomizable>1</iscustomizable>
       <statecode>0</statecode>
       <statuscode>1</statuscode>
     </connectionreference>
     <connectionreference connectionreferencelogicalname="pre__sharedcommondataserviceforapps_4ea17">
       <connectionreferencedisplayname>Microsoft Dataverse dts_pre_recorded_evidence-4ea17</connectionreferencedisplayname>
-      <connectorid>/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps</connectorid>
-      <iscustomizable>1</iscustomizable>
-      <statecode>0</statecode>
-      <statuscode>1</statuscode>
-    </connectionreference>
-    <connectionreference connectionreferencelogicalname="pre__sharedcommondataserviceforapps_62e6b">
-      <connectionreferencedisplayname>Microsoft Dataverse dts_pre_recorded_evidence-62e6b</connectionreferencedisplayname>
       <connectorid>/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps</connectorid>
       <iscustomizable>1</iscustomizable>
       <statecode>0</statecode>
@@ -190,16 +190,23 @@
       <statecode>0</statecode>
       <statuscode>1</statuscode>
     </connectionreference>
-    <connectionreference connectionreferencelogicalname="pre__sharedflowmanagement_b1451">
-      <connectionreferencedisplayname>Power Automate Management dts_pre_recorded_evidence-b1451</connectionreferencedisplayname>
-      <connectorid>/providers/Microsoft.PowerApps/apis/shared_flowmanagement</connectorid>
+    <connectionreference connectionreferencelogicalname="pre__sharedoffice365_3a240">
+      <connectionreferencedisplayname>Office 365 Outlook dts_pre_recorded_evidence-3a240</connectionreferencedisplayname>
+      <connectorid>/providers/Microsoft.PowerApps/apis/shared_office365</connectorid>
       <iscustomizable>1</iscustomizable>
       <statecode>0</statecode>
       <statuscode>1</statuscode>
     </connectionreference>
-    <connectionreference connectionreferencelogicalname="pre__sharedkeyvault_3ed25">
-      <connectionreferencedisplayname>Azure Key Vault dts_pre_recorded_evidence-3ed25</connectionreferencedisplayname>
-      <connectorid>/providers/Microsoft.PowerApps/apis/shared_keyvault</connectorid>
+    <connectionreference connectionreferencelogicalname="pre__sharedsharepointonline_0bf5f">
+      <connectionreferencedisplayname>SharePoint dts_pre_recorded_evidence-0bf5f</connectionreferencedisplayname>
+      <connectorid>/providers/Microsoft.PowerApps/apis/shared_sharepointonline</connectorid>
+      <iscustomizable>1</iscustomizable>
+      <statecode>0</statecode>
+      <statuscode>1</statuscode>
+    </connectionreference>
+    <connectionreference connectionreferencelogicalname="pre__sharedteams_68f48">
+      <connectionreferencedisplayname>Microsoft Teams dts_pre_recorded_evidence-68f48</connectionreferencedisplayname>
+      <connectorid>/providers/Microsoft.PowerApps/apis/shared_teams</connectorid>
       <iscustomizable>1</iscustomizable>
       <statecode>0</statecode>
       <statuscode>1</statuscode>

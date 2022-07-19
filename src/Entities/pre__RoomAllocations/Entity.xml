@@ -533,7 +533,7 @@
           <Name>pre__name</Name>
           <LogicalName>pre__name</LogicalName>
           <RequiredLevel>recommended</RequiredLevel>
-          <DisplayMask>PrimaryName|ValidForForm|ValidForGrid|RequiredForForm</DisplayMask>
+          <DisplayMask>PrimaryName|ValidForAdvancedFind|ValidForForm|ValidForGrid|RequiredForForm</DisplayMask>
           <ImeMode>auto</ImeMode>
           <ValidForUpdateApi>1</ValidForUpdateApi>
           <ValidForReadApi>1</ValidForReadApi>

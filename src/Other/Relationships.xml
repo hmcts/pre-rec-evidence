@@ -18,6 +18,7 @@
   <EntityRelationship Name="business_unit_pre__case" />
   <EntityRelationship Name="business_unit_pre__clipping" />
   <EntityRelationship Name="business_unit_pre__courts" />
+  <EntityRelationship Name="business_unit_pre__errorlog" />
   <EntityRelationship Name="business_unit_pre__recordings" />
   <EntityRelationship Name="business_unit_pre__roomallocations" />
   <EntityRelationship Name="business_unit_pre__schedule" />
@@ -39,6 +40,8 @@
   <EntityRelationship Name="lk_pre__clipping_modifiedby" />
   <EntityRelationship Name="lk_pre__courts_createdby" />
   <EntityRelationship Name="lk_pre__courts_modifiedby" />
+  <EntityRelationship Name="lk_pre__errorlog_createdby" />
+  <EntityRelationship Name="lk_pre__errorlog_modifiedby" />
   <EntityRelationship Name="lk_pre__recordings_createdby" />
   <EntityRelationship Name="lk_pre__recordings_modifiedby" />
   <EntityRelationship Name="lk_pre__roomallocations_createdby" />
@@ -55,6 +58,7 @@
   <EntityRelationship Name="owner_pre__case" />
   <EntityRelationship Name="owner_pre__clipping" />
   <EntityRelationship Name="owner_pre__courts" />
+  <EntityRelationship Name="owner_pre__errorlog" />
   <EntityRelationship Name="owner_pre__recordings" />
   <EntityRelationship Name="owner_pre__roomallocations" />
   <EntityRelationship Name="owner_pre__schedule" />
@@ -69,6 +73,7 @@
   <EntityRelationship Name="team_pre__case" />
   <EntityRelationship Name="team_pre__clipping" />
   <EntityRelationship Name="team_pre__courts" />
+  <EntityRelationship Name="team_pre__errorlog" />
   <EntityRelationship Name="team_pre__recordings" />
   <EntityRelationship Name="team_pre__roomallocations" />
   <EntityRelationship Name="team_pre__schedule" />
@@ -80,6 +85,7 @@
   <EntityRelationship Name="user_pre__case" />
   <EntityRelationship Name="user_pre__clipping" />
   <EntityRelationship Name="user_pre__courts" />
+  <EntityRelationship Name="user_pre__errorlog" />
   <EntityRelationship Name="user_pre__recordings" />
   <EntityRelationship Name="user_pre__roomallocations" />
   <EntityRelationship Name="user_pre__schedule" />

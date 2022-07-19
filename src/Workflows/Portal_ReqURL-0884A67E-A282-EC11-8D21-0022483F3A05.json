@@ -9,6 +9,15 @@
         "api": {
           "name": "shared_commondataserviceforapps"
         }
+      },
+      "shared_azureblob": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "pre__prefinalsasboxAzureBlobConn"
+        },
+        "api": {
+          "name": "shared_azureblob"
+        }
       }
     },
     "definition": {
@@ -27,7 +36,7 @@
       "triggers": {
         "manual": {
           "metadata": {
-            "operationMetadataId": "6101d442-79c0-4f25-85b9-666ac2547f14"
+            "operationMetadataId": "cea8fb97-9551-4819-b51b-c4f0603784b4"
           },
           "type": "Request",
           "kind": "Http",
@@ -64,12 +73,19 @@
                           "type": "string"
                         }
                       }
+                    },
+                    "UserIP": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string"
+                        }
+                      }
                     }
                   }
                 }
               }
-            },
-            "method": "POST"
+            }
           }
         }
       },
@@ -108,62 +124,118 @@
             "schema": {
               "type": "object",
               "properties": {
-                "ScheduleID": {
+                "type": {
                   "type": "string"
                 },
-                "RecordingID": {
-                  "type": "string"
-                },
-                "AccountID": {
-                  "type": "string"
+                "properties": {
+                  "type": "object",
+                  "properties": {
+                    "ScheduleID": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "RecordingID": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "AccountID": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "UserIP": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
                 }
               }
             }
           }
         },
-        "Apply_to_each_2": {
+        "Generate_SAS_A2E": {
           "foreach": "@outputs('List_rows')?['body/value']",
           "actions": {
-            "Condition": {
-              "actions": {
-                "Update_a_row_2": {
-                  "runAfter": {},
-                  "metadata": {
-                    "operationMetadataId": "f01febda-5460-4a6f-b528-bc11b267537d"
-                  },
-                  "type": "OpenApiConnection",
-                  "inputs": {
-                    "host": {
-                      "connectionName": "shared_commondataserviceforapps",
-                      "operationId": "UpdateRecord",
-                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
-                    },
-                    "parameters": {
-                      "entityName": "pre__videopermissionses",
-                      "recordId": "@items('Apply_to_each_2')?['pre__videopermissionsid']",
-                      "item/pre__recordingsaslink": "@variables('RecordingLink')"
-                    },
-                    "authentication": "@parameters('$authentication')"
-                  }
-                }
-              },
-              "runAfter": {},
-              "expression": {
-                "not": {
-                  "equals": [
-                    "@items('Apply_to_each_2')?['pre__recordingsaslink']",
-                    ""
-                  ]
-                }
+            "Update_a_row_2": {
+              "runAfter": {
+                "Create_SAS_URI_by_path_(V2)": [
+                  "Succeeded"
+                ]
               },
               "metadata": {
-                "operationMetadataId": "04feddc1-477b-4a93-b034-3302d4a7c694"
+                "operationMetadataId": "f01febda-5460-4a6f-b528-bc11b267537d"
               },
-              "type": "If"
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_commondataserviceforapps",
+                  "operationId": "UpdateRecord",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                },
+                "parameters": {
+                  "entityName": "pre__videopermissionses",
+                  "recordId": "@items('Generate_SAS_A2E')?['pre__videopermissionsid']",
+                  "item/pre__recordingsaslink": "@outputs('Create_SAS_URI_by_path_(V2)')?['body/WebUrl']"
+                },
+                "authentication": "@parameters('$authentication')"
+              }
+            },
+            "Create_SAS_URI_by_path_(V2)": {
+              "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "5169879d-a0f1-464c-86ba-3d09bffb0f26"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_azureblob",
+                  "operationId": "CreateShareLinkByPath_V2",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_azureblob"
+                },
+                "parameters": {
+                  "storageAccountName": "AccountNameFromSettings",
+                  "path": "/@{items('Generate_SAS_A2E')?['pre__recidtxt']}/@{outputs('Get_a_row_by_ID')?['body/pre__recordingfilename']}",
+                  "policy/Permissions": "Read",
+                  "policy/ExpiryTime": "@addHours(utcNow(), 8)",
+                  "policy/AccessProtocol": "HttpsOnly",
+                  "policy/IpAddressOrRange": "@body('Parse_JSON')?['properties']?['UserIP']"
+                },
+                "authentication": "@parameters('$authentication')"
+              }
+            },
+            "Set_variable": {
+              "runAfter": {
+                "Update_a_row_2": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "e6746e24-2ede-46db-a0ff-527b3df0b0d7"
+              },
+              "type": "SetVariable",
+              "inputs": {
+                "name": "SasLink",
+                "value": "@outputs('Create_SAS_URI_by_path_(V2)')?['body/WebUrl']"
+              }
             }
           },
           "runAfter": {
-            "Initialize_variable": [
+            "Get_a_row_by_ID": [
               "Succeeded"
             ]
           },
@@ -187,7 +259,7 @@
               {
                 "name": "RecordingLink",
                 "type": "string",
-                "value": "https://prefinalsasbox.blob.core.windows.net/@{body('Parse_JSON')?['ScheduleID']}/@{body('Parse_JSON')?['RecordingID']}.mp4"
+                "value": "https://prefinalsasbox.blob.core.windows.net/@{body('Parse_JSON')?['RecordingID']}/video_2000000_1920x1080_6750.mp4"
               }
             ]
           }
@@ -212,9 +284,100 @@
             ]
           }
         },
+        "List_rows_2": {
+          "runAfter": {
+            "Initialize_variable_2": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "e265710b-e98f-40bd-9e2d-e936cca98893"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_commondataserviceforapps",
+              "operationId": "ListRecords",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+            },
+            "parameters": {
+              "entityName": "pre__recordingses",
+              "$filter": "pre__recordinguid eq '@{body('Parse_JSON')?['RecordingID']}'",
+              "$top": 1
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        },
+        "VAR_Rec_ID": {
+          "runAfter": {
+            "Initialize_variable": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "0a720c36-e95c-4b5a-bb24-ce574e17f5eb"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "varRecID",
+                "type": "string"
+              }
+            ]
+          }
+        },
+        "Get_Recording_Row_A2E": {
+          "foreach": "@outputs('List_rows_2')?['body/value']",
+          "actions": {
+            "Get_Recording_Row": {
+              "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "c080d0b7-f45f-44be-9b91-e18e8837b4c8"
+              },
+              "type": "SetVariable",
+              "inputs": {
+                "name": "varRecID",
+                "value": "@items('Get_Recording_Row_A2E')?['pre__recordingsid']"
+              }
+            }
+          },
+          "runAfter": {
+            "List_rows_2": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "9152c622-1126-4a18-839c-cb1d9959b8de"
+          },
+          "type": "Foreach"
+        },
+        "Get_a_row_by_ID": {
+          "runAfter": {
+            "Get_Recording_Row_A2E": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "edc6faf6-0b69-47b9-9119-e875e4d7c7da"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_commondataserviceforapps",
+              "operationId": "GetItem",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+            },
+            "parameters": {
+              "entityName": "pre__recordingses",
+              "recordId": "@variables('varRecID')"
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        },
         "Response": {
           "runAfter": {
-            "Apply_to_each_2": [
+            "Generate_SAS_A2E": [
               "Succeeded"
             ]
           },
@@ -224,8 +387,37 @@
           "type": "Response",
           "kind": "Http",
           "inputs": {
-            "statusCode": 2001,
-            "body": "My Debug@{body('Parse_JSON')?['ScheduleID']}"
+            "statusCode": 200,
+            "body": {
+              "link": "@variables('SasLink')"
+            },
+            "schema": {
+              "type": "object",
+              "properties": {
+                "link": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "Initialize_variable_2": {
+          "runAfter": {
+            "VAR_Rec_ID": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "182902db-5ec4-44db-bf6e-6a20112a7ef0"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "SasLink",
+                "type": "string"
+              }
+            ]
           }
         }
       }

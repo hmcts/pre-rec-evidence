@@ -3,6 +3,15 @@
   <Name LocalizedName="Invitation" OriginalName="Invitation">adx_invitation</Name>
   <EntityInfo>
     <entity Name="adx_invitation">
+      <LocalizedNames>
+        <LocalizedName description="Invitation" languagecode="1033" />
+      </LocalizedNames>
+      <LocalizedCollectionNames>
+        <LocalizedCollectionName description="Invitations" languagecode="1033" />
+      </LocalizedCollectionNames>
+      <Descriptions>
+        <Description description="Send invitations to existing contacts or email addresses and assign them to web roles upon redemption." languagecode="1033" />
+      </Descriptions>
       <attributes>
         <attribute PhysicalName="CreatedBy">
           <Type>lookup</Type>

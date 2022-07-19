@@ -1,0 +1,213 @@
+{
+  "properties": {
+    "connectionReferences": {
+      "shared_commondataserviceforapps": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "cr599_sharedcommondataserviceforapps_d0505"
+        },
+        "api": {
+          "name": "shared_commondataserviceforapps"
+        }
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        },
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        }
+      },
+      "triggers": {
+        "When_a_row_is_added,_modified_or_deleted": {
+          "metadata": {
+            "operationMetadataId": "e7d74ca3-2e16-465a-b00d-c9758b7289d3"
+          },
+          "type": "OpenApiConnectionWebhook",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_commondataserviceforapps",
+              "operationId": "SubscribeWebhookTrigger",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+            },
+            "parameters": {
+              "subscriptionRequest/message": 4,
+              "subscriptionRequest/entityname": "contact",
+              "subscriptionRequest/scope": 4
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        }
+      },
+      "actions": {
+        "Switch": {
+          "runAfter": {
+            "Condition": [
+              "Succeeded"
+            ]
+          },
+          "cases": {
+            "New_Contact_Case": {
+              "case": 1,
+              "actions": {}
+            },
+            "Edit_Contact_Case": {
+              "case": 2,
+              "actions": {}
+            },
+            "Deleted_Contact_Case": {
+              "case": 3,
+              "actions": {}
+            }
+          },
+          "default": {
+            "actions": {}
+          },
+          "expression": "@triggerOutputs()?['body/createdon']",
+          "metadata": {
+            "operationMetadataId": "2223abe1-b357-4c45-9657-b3a5d7b6d4bf"
+          },
+          "type": "Switch"
+        },
+        "Initialize_variable": {
+          "runAfter": {},
+          "metadata": {
+            "operationMetadataId": "c41de212-d8b7-4fba-b0d6-54ce251e98df"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "VARdateToday",
+                "type": "string",
+                "value": "@{formatDateTime(utcNow(),'en-gb')}"
+              }
+            ]
+          }
+        },
+        "Condition": {
+          "actions": {
+            "Set_variable": {
+              "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "ffd13f12-f59d-494c-9ce1-9973fb01f85d"
+              },
+              "type": "SetVariable",
+              "inputs": {
+                "name": "VARswitchConditionVal",
+                "value": "1"
+              }
+            }
+          },
+          "runAfter": {
+            "Initialize_variable_2": [
+              "Succeeded"
+            ]
+          },
+          "else": {
+            "actions": {
+              "Condition_2": {
+                "actions": {
+                  "Set_variable_2": {
+                    "runAfter": {},
+                    "metadata": {
+                      "operationMetadataId": "80e97071-4387-4eee-93b3-498e00440d1d"
+                    },
+                    "type": "SetVariable",
+                    "inputs": {
+                      "name": "VARswitchConditionVal",
+                      "value": "2"
+                    }
+                  }
+                },
+                "runAfter": {},
+                "else": {
+                  "actions": {
+                    "Set_variable_3": {
+                      "runAfter": {},
+                      "metadata": {
+                        "operationMetadataId": "3269cbb0-93de-4ee4-b63b-28ee21bc6ece"
+                      },
+                      "type": "SetVariable",
+                      "inputs": {
+                        "name": "VARswitchConditionVal",
+                        "value": "3"
+                      }
+                    }
+                  }
+                },
+                "expression": {
+                  "and": [
+                    {
+                      "less": [
+                        "@triggerOutputs()?['body/createdon']",
+                        "@variables('VARdateToday')"
+                      ]
+                    },
+                    {
+                      "equals": [
+                        "@triggerOutputs()?['body/pre__accactive']",
+                        "Yes"
+                      ]
+                    }
+                  ]
+                },
+                "metadata": {
+                  "operationMetadataId": "37fe426e-3e7f-448d-a23a-0bec4ffbd539"
+                },
+                "type": "If"
+              }
+            }
+          },
+          "expression": {
+            "and": [
+              {
+                "equals": [
+                  "@triggerOutputs()?['body/createdon']",
+                  "@variables('VARdateToday')"
+                ]
+              },
+              {
+                "equals": [
+                  "@triggerOutputs()?['body/pre__accactive']",
+                  "Yes"
+                ]
+              }
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "3612da06-9450-4db0-bc11-5dc353eafb03"
+          },
+          "type": "If"
+        },
+        "Initialize_variable_2": {
+          "runAfter": {
+            "Initialize_variable": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "811a2dda-286f-4d57-a180-b89e9b4a2a59"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "VARswitchConditionVal",
+                "type": "string",
+                "value": "0"
+              }
+            ]
+          }
+        }
+      }
+    }
+  },
+  "schemaVersion": "1.0.0.0"
+}

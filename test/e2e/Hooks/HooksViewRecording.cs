@@ -1,0 +1,16 @@
+using System.Threading.Tasks;
+using TechTalk.SpecFlow;
+namespace pre.test.Hooks
+{
+  [Binding]
+  public class HooksViewRecording
+  {
+
+    [BeforeScenario("View", Order = 1)]
+    public async Task goToViewRecordings()
+    {
+      await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.sboxUrl}");
+      await HooksInitializer._context.Page.Frame("fullscreen-app-host").ClickAsync("button:has-text(\"View Recordings\")");
+    }
+  }
+}

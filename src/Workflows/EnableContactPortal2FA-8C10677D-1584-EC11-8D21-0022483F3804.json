@@ -9,6 +9,15 @@
         "api": {
           "name": "shared_commondataserviceforapps"
         }
+      },
+      "shared_commondataserviceforapps_1": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "pre__sharedcommondataserviceforapps_4ea17"
+        },
+        "api": {
+          "name": "shared_commondataserviceforapps"
+        }
       }
     },
     "definition": {
@@ -72,25 +81,6 @@
                 "authentication": "@parameters('$authentication')"
               }
             },
-            "List_rows": {
-              "runAfter": {},
-              "metadata": {
-                "operationMetadataId": "1add6f4d-98af-4c44-973a-fd0806337da0"
-              },
-              "type": "OpenApiConnection",
-              "inputs": {
-                "host": {
-                  "connectionName": "shared_commondataserviceforapps",
-                  "operationId": "ListRecords",
-                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
-                },
-                "parameters": {
-                  "entityName": "contacts",
-                  "$filter": "emailaddress1 eq '@{triggerOutputs()?['body/emailaddress1']}'"
-                },
-                "authentication": "@parameters('$authentication')"
-              }
-            },
             "Apply_to_each": {
               "foreach": "@outputs('List_rows')?['body/value']",
               "actions": {
@@ -109,7 +99,33 @@
                     "parameters": {
                       "entityName": "contacts",
                       "recordId": "@items('Apply_to_each')?['contactid']",
+                      "item/adx_identity_emailaddress1confirmed": true,
                       "item/adx_identity_twofactorenabled": true
+                    },
+                    "authentication": "@parameters('$authentication')"
+                  }
+                },
+                "Relate_rows": {
+                  "runAfter": {
+                    "Update_a_row": [
+                      "Succeeded"
+                    ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "96c058ed-05b2-49ea-b7ba-039c9076f603"
+                  },
+                  "type": "OpenApiConnection",
+                  "inputs": {
+                    "host": {
+                      "connectionName": "shared_commondataserviceforapps_1",
+                      "operationId": "AssociateEntities",
+                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                    },
+                    "parameters": {
+                      "entityName": "contacts",
+                      "recordId": "@items('Apply_to_each')?['contactid']",
+                      "associationEntityRelationship": "adx_webrole_contact",
+                      "item/@odata.id": "@variables('RoleID')"
                     },
                     "authentication": "@parameters('$authentication')"
                   }
@@ -124,16 +140,61 @@
                 "operationMetadataId": "82663183-90e6-4dee-8c0d-e47513e2ae3b"
               },
               "type": "Foreach"
+            },
+            "List_rows_2": {
+              "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "dc5f240e-6ee6-4e7c-b08b-8ef95368c89e"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_commondataserviceforapps_1",
+                  "operationId": "ListRecords",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                },
+                "parameters": {
+                  "entityName": "adx_webroles"
+                },
+                "authentication": "@parameters('$authentication')"
+              }
+            },
+            "List_rows": {
+              "runAfter": {
+                "List_rows_2": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "1add6f4d-98af-4c44-973a-fd0806337da0"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_commondataserviceforapps",
+                  "operationId": "ListRecords",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                },
+                "parameters": {
+                  "entityName": "contacts",
+                  "$filter": "emailaddress1 eq '@{triggerOutputs()?['body/emailaddress1']}'"
+                },
+                "authentication": "@parameters('$authentication')"
+              }
             }
           },
-          "runAfter": {},
+          "runAfter": {
+            "Apply_to_each_2": [
+              "Succeeded"
+            ]
+          },
           "expression": {
             "and": [
               {
                 "not": {
                   "equals": [
                     "@triggerOutputs()?['body/msdyn_portaltermsagreementdate']",
-                    ""
+                    "@null"
                   ]
                 }
               },
@@ -142,6 +203,28 @@
                   "@triggerOutputs()?['body/adx_identity_twofactorenabled']",
                   false
                 ]
+              },
+              {
+                "equals": [
+                  "@triggerOutputs()?['body/pre__role']",
+                  "Level 3"
+                ]
+              },
+              {
+                "not": {
+                  "equals": [
+                    "@triggerOutputs()?['body/emailaddress1']",
+                    "sharepretest@gmail.com"
+                  ]
+                }
+              },
+              {
+                "not": {
+                  "equals": [
+                    "@triggerOutputs()?['body/emailaddress1']",
+                    "christopher.chin@HMCTS.NET"
+                  ]
+                }
               }
             ]
           },
@@ -149,6 +232,90 @@
             "operationMetadataId": "94acd4f8-da57-4f30-af24-b50dc081acb0"
           },
           "type": "If"
+        },
+        "RoleName": {
+          "runAfter": {},
+          "metadata": {
+            "operationMetadataId": "870d99e5-f092-4e88-a119-d6e3d7564617"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "RoleName",
+                "type": "string",
+                "value": "Authenticated users"
+              }
+            ]
+          }
+        },
+        "RoleID": {
+          "runAfter": {
+            "RoleName": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "c723d3ff-9a23-479b-8347-ba72808ea37e"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "RoleID",
+                "type": "string"
+              }
+            ]
+          }
+        },
+        "List_rows_3": {
+          "runAfter": {
+            "RoleID": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "e661c517-2c70-4949-8f08-5b35fa92e559"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_commondataserviceforapps_1",
+              "operationId": "ListRecords",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+            },
+            "parameters": {
+              "entityName": "adx_webroles",
+              "fetchXml": "<fetch version=\"1.0\" output-format=\"xml-platform\" mapping=\"logical\" distinct=\"false\">\n<entity name=\"adx_webrole\">\n<attribute name=\"adx_webroleid\"/>\n<attribute name=\"adx_name\"/>\n<attribute name=\"createdon\"/>\n<order attribute=\"adx_name\" descending=\"false\"/>\n<filter type=\"and\">\n<condition attribute=\"adx_name\" operator=\"eq\" value=\"@{variables('RoleName')}\"/>\n</filter>\n</entity>\n</fetch>",
+              "$top": 1
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        },
+        "Apply_to_each_2": {
+          "foreach": "@outputs('List_rows_3')?['body/value']",
+          "actions": {
+            "Set_variable": {
+              "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "15f8bd0d-6cd1-444c-b775-c406f95f89f0"
+              },
+              "type": "SetVariable",
+              "inputs": {
+                "name": "RoleID",
+                "value": "@items('Apply_to_each_2')?['@odata.id']"
+              }
+            }
+          },
+          "runAfter": {
+            "List_rows_3": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "1d73c9bf-a5c9-4354-a534-256455e00df7"
+          },
+          "type": "Foreach"
         }
       }
     }
