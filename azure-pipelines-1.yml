@@ -40,7 +40,7 @@ steps:
       displayName: Find global.json
       inputs:
         targetType: 'inline'
-        script: 'Get-ChildItem -filter global.json -Recurse'
+        script: 'Get-ChildItem -filter global.json -Recurse > D:\a\1\s\output.txt'
         errorActionPreference: 'silentlyContinue'
 
     - task: Npm@1
@@ -124,7 +124,10 @@ steps:
       inputs:
         script: 'dir "C:\Program Files\dotnet"'
 
-    
+    - task: CmdLine@2
+      displayName: show output.txt
+      inputs:
+        script: 'more D:\a\1\s\output.txt'
     - task: DotNetCoreCLI@2
       inputs:
         command: 'test'
