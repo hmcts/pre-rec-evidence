@@ -131,7 +131,8 @@ steps:
     - task: DotNetCoreCLI@2
       inputs:
         command: 'test'
-        arguments: '--filter AdminManageRecordings --logger "console;verbosity=detailed"'
+        #arguments: '--filter AdminManageRecordings --logger "console;verbosity=detailed"'
+        arguments: '--logger "console;verbosity=detailed"'
         testRunTitle: 'Run Tests'
         projects: 'D:\a\1\s\test\e2e\pre.csproj'
 
