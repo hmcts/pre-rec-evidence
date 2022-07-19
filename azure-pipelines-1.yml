@@ -21,7 +21,8 @@ variables:
   solutionName: dts_pre_recorded_evidence
 
 pool:
-  vmImage: windows-latest
+  vmImage: Windows-2019
+  #vmImage: windows-latest
 
 steps:
     #- task: UseDotNet@2
