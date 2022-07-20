@@ -130,6 +130,7 @@ steps:
       inputs:
         script: 'more D:\a\1\s\output.txt'
     - task: DotNetCoreCLI@2
+      continueOnError: true
       inputs:
         command: 'test'
         #arguments: '--filter AdminManageRecordings --logger "console;verbosity=detailed"'
@@ -138,8 +139,12 @@ steps:
         projects: 'D:\a\1\s\test\e2e\pre.csproj'
 
     - task: CmdLine@2
+      continueOnError: true
       inputs:
         script: 'more D:\a\_temp\*.trx'
+    - task: CmdLine@2
+      inputs:
+        script: 'dir D:\a\1\s\test\e2e\screenshots'
 
     - task: CmdLine@2
       displayName: Create livingdoc
