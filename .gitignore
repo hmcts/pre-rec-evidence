@@ -40,3 +40,4 @@ test/e2e/pre.csproj
 .vscode/launch.json
 .vscode/tasks.json
 .vscode/settings.json
+test/e2e/videos/*.webm
