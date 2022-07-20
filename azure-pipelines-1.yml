@@ -150,7 +150,20 @@ steps:
       continueOnError: true
       inputs:
         script: 'dir D:\a\1\s\test\e2e\videos'
-
+    - task: PublishPipelineArtifact@1
+      continueOnError: true
+      displayName: Publish screenshots as artifact
+      inputs:
+        targetPath: 'D:\a\1\s\test\e2e\screenshots'
+        artifact: 'screenshots'
+        publishLocation: 'pipeline'
+    - task: PublishPipelineArtifact@1
+      continueOnError: true
+      displayName: Publish videos as artifact
+      inputs:
+        targetPath: 'D:\a\1\s\test\e2e\videos'
+        artifact: 'videos'
+        publishLocation: 'pipeline'
     - task: CmdLine@2
       displayName: Create livingdoc
       inputs:
