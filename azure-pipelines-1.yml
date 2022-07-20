@@ -142,12 +142,22 @@ steps:
       continueOnError: true
       inputs:
         script: 'more D:\a\_temp\*.trx'
+    - task: PublishPipelineArtifact@1
+      continueOnError: true
+      timeoutInMinutes: 2
+      displayName: Publish run report
+      inputs:
+        targetPath: 'D:\a\_temp\*.trx'
+        artifact: 'runreport'
+        publishLocation: 'pipeline'
     - task: CmdLine@2
       continueOnError: true
+      timeoutInMinutes: 1
       inputs:
         script: 'dir D:\a\1\s\test\e2e\screenshots'
     - task: CmdLine@2
       continueOnError: true
+      timeoutInMinutes: 1
       inputs:
         script: 'dir D:\a\1\s\test\e2e\videos'
     - task: PublishPipelineArtifact@1
