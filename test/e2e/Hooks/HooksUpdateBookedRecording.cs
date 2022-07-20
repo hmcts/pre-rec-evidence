@@ -16,7 +16,7 @@ namespace pre.test.Hooks
     public static string datee = DateTime.UtcNow.ToString("dd");
     public static string year = DateTime.UtcNow.ToString("yyyy");
 
-    [BeforeScenario("createCase", Order = 1)]
+    [BeforeScenario("createCase", Order = 2)]
     public async Task goToUpdateBookedRecording()
     {
       await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.testUrl}");

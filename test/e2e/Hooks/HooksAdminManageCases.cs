@@ -18,7 +18,7 @@ namespace pre.test.Hooks
     public string dateNum = DateTime.UtcNow.ToString("dd");
     public string year = DateTime.UtcNow.ToString("yyyy");
 
-    [BeforeScenario("CreateAndManageCase", Order = 1)]
+    [BeforeScenario("CreateAndManageCase", Order = 2)]
     public async Task CreateAndManageCase()
     {
       await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.testUrl}");
@@ -44,7 +44,7 @@ namespace pre.test.Hooks
       HooksInitializer.contacts.Add(witnesses);
     }
 
-    [BeforeScenario("CreateAndManageCaseAndSchedule", Order = 2)]
+    [BeforeScenario("CreateAndManageCaseAndSchedule", Order = 3)]
     public async Task CreateAndManageCaseAndSchedule()
     {
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Select\\ Scheduled\\ Start\\ DateOpen\\ calendar\\ to\\ select\\ a\\ date\"]").WaitForAsync();
@@ -61,7 +61,7 @@ namespace pre.test.Hooks
       HooksInitializer.recordings.Add(caseName);
     }
 
-    [BeforeScenario("AdminManageCases", Order = 3)]
+    [BeforeScenario("AdminManageCases", Order = 4)]
     public async Task goToAdminAdminManageCase()
     {
       await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));

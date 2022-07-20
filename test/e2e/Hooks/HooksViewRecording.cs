@@ -6,7 +6,7 @@ namespace pre.test.Hooks
   public class HooksViewRecording
   {
 
-    [BeforeScenario("View", Order = 1)]
+    [BeforeScenario("View", Order = 2)]
     public async Task goToViewRecordings()
     {
       await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.testUrl}");

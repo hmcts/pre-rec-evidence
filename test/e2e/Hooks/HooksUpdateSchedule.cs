@@ -9,7 +9,7 @@ namespace pre.test.Hooks
   public class HooksUpdateSchedule
   {
 
-    [BeforeScenario("UpdatingSchedule", Order = 1)]
+    [BeforeScenario("UpdatingSchedule", Order = 2)]
     public async Task goToUpdateSchedule()
     {
       await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.testUrl}");

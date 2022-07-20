@@ -8,7 +8,7 @@ namespace pre.test.Hooks
   [Binding]
   public class HooksBookRecording
   {
-    [BeforeScenario("ScheduleCreate", Order = 1)]
+    [BeforeScenario("ScheduleCreate", Order = 2)]
     public async Task ScheduleCreate()
     {
       await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.testUrl}");

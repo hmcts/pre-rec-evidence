@@ -11,7 +11,7 @@ namespace pre.test.Hooks
   [Binding]
   public class HooksInitializer
   {
-    public IBrowser browser { get; private set; }
+    public static IBrowser browser { get; private set; }
     public IBrowserContext context;
     public static List<string> caseRef = new List<string>();
     public static List<string> recordings = new List<string>();
@@ -21,7 +21,7 @@ namespace pre.test.Hooks
     private readonly IObjectContainer _objectContainer;
     private readonly ScenarioContext _scenarioContext;
     private readonly ISpecFlowOutputHelper _specFlowOutputHelper;
-    public static PageSetters _context { get; private set; }
+    public static PageSetters _context { get; set; }
     public static int scheduleCount = 0;
     protected static Microsoft.Extensions.Configuration.IConfigurationRoot config = new ConfigurationBuilder()
     .AddJsonFile("secrets.json")
@@ -50,7 +50,7 @@ namespace pre.test.Hooks
       _specFlowOutputHelper = outputHelper;
     }
 
-
+    [BeforeScenario("Chrome", Order = 1)]
     public async Task createBrowserChrome()
     {
       scheduleCount = 0;
@@ -101,15 +101,11 @@ namespace pre.test.Hooks
       browserType = "Chromium";
 
       playwright = await Playwright.CreateAsync();
-      //BrowserTypeLaunchOptions typeLaunchOptions = new BrowserTypeLaunchOptions{ Headless = false };
-      BrowserTypeLaunchOptions typeLaunchOptions = new BrowserTypeLaunchOptions { Headless = headless, SlowMo = 50 };
+      BrowserTypeLaunchOptions typeLaunchOptions = new BrowserTypeLaunchOptions { Headless = headless, SlowMo = 50};
       browser = await playwright.Chromium.LaunchAsync(typeLaunchOptions);
-      //context = await browser.NewContextAsync();
       context = await browser.NewContextAsync(new BrowserNewContextOptions { StorageStatePath = $"{authPath}", });
       _context.Page = await context.NewPageAsync();
       _objectContainer.RegisterInstanceAs(_context.Page);
-      //Generating living docs
-      _specFlowOutputHelper.WriteLine("Browser Launched");
     }
     public async Task createBrowserFirefox()
     {
@@ -206,7 +202,7 @@ namespace pre.test.Hooks
         await HooksInitializer._context.Page.GotoAsync($"{deleteCaseUrlTest}");
         await HooksInitializer._context.Page.Locator("button:has-text(\"more\")").WaitForAsync();
         await HooksInitializer._context.Page.Locator("button:has-text(\"more\")").ClickAsync();
-        await HooksInitializer._context.Page.Locator("[placeholder=\"Search\"]").ClickAsync();
+        await HooksInitializer._context.Page.Locator("[placeholder=\"Search\"]").WaitForAsync();
         await HooksInitializer._context.Page.Locator("[placeholder=\"Search\"]").FillAsync("caseref");
         await HooksInitializer._context.Page.Locator("text=").First.ClickAsync();
         await HooksInitializer._context.Page.Locator("button:has-text(\"Save\")").WaitForAsync();
@@ -239,7 +235,7 @@ namespace pre.test.Hooks
         await HooksInitializer._context.Page.GotoAsync($"{deleteRecordingUrlTest}");
         await HooksInitializer._context.Page.Locator("button:has-text(\"more\")").WaitForAsync();
         await HooksInitializer._context.Page.Locator("button:has-text(\"more\")").ClickAsync();
-        await HooksInitializer._context.Page.Locator("[placeholder=\"Search\"]").ClickAsync();
+        await HooksInitializer._context.Page.Locator("[placeholder=\"Search\"]").WaitForAsync();
         await HooksInitializer._context.Page.Locator("[placeholder=\"Search\"]").FillAsync("case ref");
         await HooksInitializer._context.Page.Locator("text=").First.ClickAsync();
         await HooksInitializer._context.Page.Locator("button:has-text(\"Save\")").WaitForAsync();
@@ -276,7 +272,7 @@ namespace pre.test.Hooks
         await HooksInitializer._context.Page.Locator("[placeholder=\"Search\"]").ClickAsync();
         await HooksInitializer._context.Page.Locator("[placeholder=\"Search\"]").FillAsync("owner");
         await HooksInitializer._context.Page.Locator("text=").ClickAsync();
-        await HooksInitializer._context.Page.Locator("[placeholder=\"Search\"]").ClickAsync();
+        await HooksInitializer._context.Page.Locator("[placeholder=\"Search\"]").WaitForAsync();
         await HooksInitializer._context.Page.Locator("[placeholder=\"Search\"]").FillAsync("created on");
         await HooksInitializer._context.Page.Locator("text=").First.ClickAsync();
         await HooksInitializer._context.Page.Locator("button:has-text(\"Save\")").WaitForAsync();
