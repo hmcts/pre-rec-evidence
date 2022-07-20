@@ -147,7 +147,7 @@ steps:
       timeoutInMinutes: 2
       displayName: Publish run report
       inputs:
-        targetPath: 'D:\a\_temp\*.trx'
+        targetPath: 'D:\a\_temp'
         artifact: 'runreport'
         publishLocation: 'pipeline'
     - task: CmdLine@2
