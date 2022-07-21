@@ -1,0 +1,180 @@
+name: Darren PRE Exporter
+trigger: none
+pr: none
+parameters:
+  - name: serviceConnection
+    displayName: Import from Service Connection
+    type: string
+    default: 'PowerPlatform'
+    values:
+      - 'PowerPlatform'
+      - 'POWERAPPS-PRE-SDS-SBOX'
+      - 'POWERAPPS-PRE-SDS-DEV'
+      - 'POWERAPPS-PRE-SDS-STG'
+      - 'POWERAPPS-PRE-SDS-PROD'
+  - name: exportToBranch
+    displayName: Export To Branch
+    type: string
+    default: 'ADO-Powerplatform'
+
+variables:
+  solutionName: dts_pre_recorded_evidence
+
+pool:
+  #vmImage: Windows-2019
+  vmImage: windows-latest
+
+steps:
+    #- task: UseDotNet@2
+    #  displayName: 'Use .NET Core sdk'
+    #  inputs:
+    #    packageType: sdk
+    #    version: '6.0.x'
+    #    installationPath: $(Agent.ToolsDirectory)/dotnet
+    #    performMultiLevelLookup: true
+    
+    - task: NodeTool@0
+      inputs:
+        versionSpec: 18
+    
+    - task: PowerShell@2
+      displayName: Find global.json
+      inputs:
+        targetType: 'inline'
+        script: 'Get-ChildItem -filter global.json -Recurse > D:\a\1\s\output.txt'
+        errorActionPreference: 'silentlyContinue'
+
+    - task: Npm@1
+      inputs:
+        command: 'install'
+        workingDir: 'test\e2e'
+
+    - task: CmdLine@2
+      displayName: Add dotnet packages
+      inputs:
+        script: |
+          dotnet add package Microsoft.Extensions.Configuration --version 6.0.0
+          dotnet add package Microsoft.Extensions.Configuration.Json --version 6.0.0
+          dotnet add package Microsoft.Playwright
+          dotnet tool update --global PowerShell
+          dotnet tool install --global SpecFlow.Plus.LivingDoc.CLI
+        workingDirectory: 'test\e2e'
+    - task: DotNetCoreCLI@2
+      displayName: Build
+      inputs:
+        command: 'build'
+        workingDirectory: 'test\e2e'
+      
+    - task: CmdLine@2
+      inputs:
+        script: 'npm i && npx playwright install'
+        workingDirectory: 'test\e2e'
+    
+    - task: CmdLine@2
+      displayName: npm playwright
+      inputs:
+        script: |
+          npm i -D @playwright/test
+        workingDirectory: 'D:\a\1\s\test\e2e'
+    
+    - task: CmdLine@2
+      displayName: dot net version
+      inputs:
+        script: 'dotnet --version'
+    
+    - task: CmdLine@2
+      displayName: dot net sdks
+      inputs:
+        script: 'dotnet --list-sdks'
+  
+    - task: CmdLine@2
+      displayName: dir D:\a\1\s\test\e2e
+      inputs:
+        script: 'dir D:\a\1\s\test\e2e'
+    - task: CmdLine@2
+      inputs:
+        script: 'dir D:\a\1\s\test\e2e\bin\Debug\net6.0'
+      
+    - task: CmdLine@2
+      displayName: run platwright.ps1
+      inputs:
+        script: 'pwsh D:\a\1\s\test\e2e\bin\Debug\net6.0\playwright.ps1 install'
+  
+    - task: CopyFiles@2
+      displayName: Copy secrets.json
+      inputs:
+        SourceFolder: 'test\e2e'
+        Contents: 'secrets.json'
+        TargetFolder: 'D:\a\1\s\test\e2e\bin\Debug\net6.0'
+        OverWrite: true
+    - task: DownloadSecureFile@1
+      name: authfile
+      displayName: 'Download auth.json'
+      inputs:
+        secureFile: 'auth.json'
+    - task: CmdLine@2
+      displayName: Copy auth.json to net6.0 dir
+      inputs:
+        script: 'copy $(authfile.secureFilePath) D:\a\1\s\test\e2e\bin\Debug\net6.0'
+    - task: CmdLine@2
+      displayName: Copy auth.json to e2e dir
+      inputs:
+        script: 'copy $(authfile.secureFilePath) D:\a\1\s\test\e2e'
+    - task: CmdLine@2
+      displayName: dir C:\Program Files\dotnet
+      inputs:
+        script: 'dir "C:\Program Files\dotnet"'
+
+    - task: CmdLine@2
+      displayName: show output.txt
+      inputs:
+        script: 'more D:\a\1\s\output.txt'
+    - task: DotNetCoreCLI@2
+      continueOnError: true
+      inputs:
+        command: 'test'
+        arguments: '--filter AdminManageCase --logger "console;verbosity=detailed"'
+        #arguments: '--logger "console;verbosity=detailed"'
+        testRunTitle: 'Run Tests'
+        projects: 'D:\a\1\s\test\e2e\pre.csproj'
+
+    - task: CmdLine@2
+      continueOnError: true
+      inputs:
+        script: 'more D:\a\_temp\*.trx'
+    - task: PublishPipelineArtifact@1
+      continueOnError: true
+      timeoutInMinutes: 2
+      displayName: Publish run report
+      inputs:
+        targetPath: 'D:\a\_temp'
+        artifact: 'runreport'
+        publishLocation: 'pipeline'
+    - task: CmdLine@2
+      continueOnError: true
+      timeoutInMinutes: 1
+      inputs:
+        script: 'dir D:\a\1\s\test\e2e\screenshots'
+    - task: CmdLine@2
+      continueOnError: true
+      timeoutInMinutes: 1
+      inputs:
+        script: 'dir D:\a\1\s\test\e2e\videos'
+    - task: PublishPipelineArtifact@1
+      continueOnError: true
+      displayName: Publish screenshots as artifact
+      inputs:
+        targetPath: 'D:\a\1\s\test\e2e\screenshots'
+        artifact: 'screenshots'
+        publishLocation: 'pipeline'
+    - task: PublishPipelineArtifact@1
+      continueOnError: true
+      displayName: Publish videos as artifact
+      inputs:
+        targetPath: 'D:\a\1\s\test\e2e\videos'
+        artifact: 'videos'
+        publishLocation: 'pipeline'
+    - task: CmdLine@2
+      displayName: Create livingdoc
+      inputs:
+        script: 'livingdoc test-assembly bin/Debug/net6.0/pre.dll -t bin/Debug/net6.0/TestExecution.json'
