@@ -107,7 +107,7 @@ namespace pre.test.Hooks
       playwright = await Playwright.CreateAsync();
       BrowserTypeLaunchOptions typeLaunchOptions = new BrowserTypeLaunchOptions { Headless = headless, SlowMo = 550 };
       browser = await playwright.Chromium.LaunchAsync(typeLaunchOptions);
-      context = await browser.NewContextAsync(new BrowserNewContextOptions { StorageStatePath = $"{authPath}", RecordVideoDir = $"{videoPath}" });
+      context = await browser.NewContextAsync(new BrowserNewContextOptions { StorageStatePath = $"{authPath}", RecordVideoDir = $"{videoPath}/{ScenarioContext.Current.ScenarioInfo.Title}" });
       _context.Page = await context.NewPageAsync();
       _objectContainer.RegisterInstanceAs(_context.Page);
     }
@@ -326,17 +326,17 @@ namespace pre.test.Hooks
       }
       await context.CloseAsync();
 
-      var files = Directory.GetFiles($"{videoPath}");
-      var fileNames = files.Select(f => Path.GetFileName(f));
-      var fn = fileNames.ToArray();
+//       var files = Directory.GetFiles($"{videoPath}");
+//       var fileNames = files.Select(f => Path.GetFileName(f));
+//       var fn = fileNames.ToArray();
 
-      for (int i = 0; i < fn.Length; i++)
-      {
-        System.Console.WriteLine("ds" + fn[i] + "dsijn " + i);
-      }
-System.Console.WriteLine($"{ScenarioContext.Current.ScenarioInfo.Title}.webm");
-      File.Copy($"{videoPath}/{fn[2]}", $"{videoPath}/{ScenarioContext.Current.ScenarioInfo.Title}.webm");
-      File.Delete($"{videoPath}/{fn[2]}");
+//       for (int i = 0; i < fn.Length; i++)
+//       {
+//         System.Console.WriteLine("ds" + fn[i] + "dsijn " + i);
+//       }
+// System.Console.WriteLine($"{ScenarioContext.Current.ScenarioInfo.Title}.webm");
+//       File.Copy($"{videoPath}/{fn[2]}", $"{videoPath}/{ScenarioContext.Current.ScenarioInfo.Title}.webm");
+//       File.Delete($"{videoPath}/{fn[2]}");
     }
   }
 }
