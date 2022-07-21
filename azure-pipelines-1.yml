@@ -100,13 +100,19 @@ steps:
       inputs:
         script: 'pwsh D:\a\1\s\test\e2e\bin\Debug\net6.0\playwright.ps1 install'
   
-    - task: CopyFiles@2
-      displayName: Copy secrets.json
+    - task: DownloadSecureFile@1
+      name: secretsfile
+      displayName: 'Download secrets.json'
       inputs:
-        SourceFolder: 'test\e2e'
-        Contents: 'secrets.json'
-        TargetFolder: 'D:\a\1\s\test\e2e\bin\Debug\net6.0'
-        OverWrite: true
+        secureFile: 'secrets.json'
+    - task: CmdLine@2
+      displayName: Copy secrets.json to net6.0 dir
+      inputs:
+        script: 'copy $(secretsfile.secureFilePath) D:\a\1\s\test\e2e\bin\Debug\net6.0'
+    - task: CmdLine@2
+      displayName: Copy secrets.json to e2e dir
+      inputs:
+        script: 'copy $(secretsfile.secureFilePath) D:\a\1\s\test\e2e'
     - task: DownloadSecureFile@1
       name: authfile
       displayName: 'Download auth.json'
