@@ -15,7 +15,7 @@ parameters:
   - name: exportToBranch
     displayName: Export To Branch
     type: string
-    default: 'ADO-Powerplatform'
+    default: 'refactoring-tests'
 
 variables:
   solutionName: dts_pre_recorded_evidence
