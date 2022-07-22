@@ -105,7 +105,7 @@ namespace pre.test.Hooks
       browserType = "Chromium";
 
       playwright = await Playwright.CreateAsync();
-      BrowserTypeLaunchOptions typeLaunchOptions = new BrowserTypeLaunchOptions { Headless = headless, SlowMo = 250 };
+      BrowserTypeLaunchOptions typeLaunchOptions = new BrowserTypeLaunchOptions { Headless = headless, SlowMo = 375 };
       browser = await playwright.Chromium.LaunchAsync(typeLaunchOptions);
       context = await browser.NewContextAsync(new BrowserNewContextOptions { StorageStatePath = $"{authPath}", RecordVideoDir = $"{videoPath}/{_scenarioContext.ScenarioInfo.Title}"  });
       _context.Page = await context.NewPageAsync();
