@@ -27,6 +27,7 @@ namespace pre.test.Hooks
     .AddJsonFile("secrets.json")
     .Build();
     protected string authPath = config["authPath"];
+    protected string videoPath = config["videoPath"];
     public static string testUrl = config["testUrl"];
     public static string demoUrl = config["demoUrl"];
     public static string sboxUrl = config["sboxUrl"];
@@ -64,7 +65,7 @@ namespace pre.test.Hooks
       BrowserTypeLaunchOptions typeLaunchOptions = new BrowserTypeLaunchOptions { Headless = headless, SlowMo = 50, Channel = /*"msedge"*/"chrome" };
       browser = await playwright.Chromium.LaunchAsync(typeLaunchOptions);
       //context = await browser.NewContextAsync();
-      context = await browser.NewContextAsync(new BrowserNewContextOptions { StorageStatePath = $"{authPath}", });
+      context = await browser.NewContextAsync(new BrowserNewContextOptions { StorageStatePath = $"{authPath}", RecordVideoDir = $"{videoPath}/{_scenarioContext.ScenarioInfo.Title}" });
       _context.Page = await context.NewPageAsync();
       _objectContainer.RegisterInstanceAs(_context.Page);
       //Generating living docs
@@ -84,7 +85,7 @@ namespace pre.test.Hooks
       BrowserTypeLaunchOptions typeLaunchOptions = new BrowserTypeLaunchOptions { Headless = headless, SlowMo = 50, Channel = "msedge" };
       browser = await playwright.Chromium.LaunchAsync(typeLaunchOptions);
       //context = await browser.NewContextAsync();
-      context = await browser.NewContextAsync(new BrowserNewContextOptions { StorageStatePath = $"{authPath}", });
+      context = await browser.NewContextAsync(new BrowserNewContextOptions { StorageStatePath = $"{authPath}", RecordVideoDir = $"{videoPath}/{_scenarioContext.ScenarioInfo.Title}"  });
       _context.Page = await context.NewPageAsync();
       _objectContainer.RegisterInstanceAs(_context.Page);
       //Generating living docs
@@ -101,9 +102,9 @@ namespace pre.test.Hooks
       browserType = "Chromium";
 
       playwright = await Playwright.CreateAsync();
-      BrowserTypeLaunchOptions typeLaunchOptions = new BrowserTypeLaunchOptions { Headless = headless, SlowMo = 50};
+      BrowserTypeLaunchOptions typeLaunchOptions = new BrowserTypeLaunchOptions { Headless = headless, SlowMo = 500 };
       browser = await playwright.Chromium.LaunchAsync(typeLaunchOptions);
-      context = await browser.NewContextAsync(new BrowserNewContextOptions { StorageStatePath = $"{authPath}", });
+      context = await browser.NewContextAsync(new BrowserNewContextOptions { StorageStatePath = $"{authPath}", RecordVideoDir = $"{videoPath}/{_scenarioContext.ScenarioInfo.Title}" });
       _context.Page = await context.NewPageAsync();
       _objectContainer.RegisterInstanceAs(_context.Page);
     }
@@ -126,7 +127,7 @@ namespace pre.test.Hooks
       playwright = await Playwright.CreateAsync();
       BrowserTypeLaunchOptions typeLaunchOptions = new BrowserTypeLaunchOptions { Headless = headless, SlowMo = 50, FirefoxUserPrefs = firefoxUserPrefs, Channel = "firefox" };
       browser = await playwright.Firefox.LaunchAsync(typeLaunchOptions);
-      context = await browser.NewContextAsync(new BrowserNewContextOptions { StorageStatePath = $"{authPath}", });
+      context = await browser.NewContextAsync(new BrowserNewContextOptions { StorageStatePath = $"{authPath}", RecordVideoDir = $"{videoPath}/{_scenarioContext.ScenarioInfo.Title}"  });
       _context.Page = await context.NewPageAsync();
       _objectContainer.RegisterInstanceAs(_context.Page);
       // await HooksInitializer._context.Page.PauseAsync();
@@ -144,7 +145,7 @@ namespace pre.test.Hooks
       playwright = await Playwright.CreateAsync();
       BrowserTypeLaunchOptions typeLaunchOptions = new BrowserTypeLaunchOptions { Headless = headless, SlowMo = 50, };
       browser = await playwright.Webkit.LaunchAsync(typeLaunchOptions);
-      context = await browser.NewContextAsync(new BrowserNewContextOptions { StorageStatePath = $"{authPath}", });
+      context = await browser.NewContextAsync(new BrowserNewContextOptions { StorageStatePath = $"{authPath}", RecordVideoDir = $"{videoPath}/{_scenarioContext.ScenarioInfo.Title}"  });
       _context.Page = await context.NewPageAsync();
       _objectContainer.RegisterInstanceAs(_context.Page);
       // await HooksInitializer._context.Page.PauseAsync();
