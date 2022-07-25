@@ -139,7 +139,8 @@ CREATE TABLE users(
 );
 
 CREATE TABLE videopermissions(
-    recordinguid VARCHAR(50) PRIMARY KEY,
+    vpuid VARCHAR(70) PRIMARY KEY,
+    recordinguid VARCHAR(50),
     caseuid VARCHAR(50),
     caseref VARCHAR(15),
     contact VARCHAR(100),
@@ -152,7 +153,8 @@ CREATE TABLE videopermissions(
     recordingsaslink VARCHAR(150),
     recordingversion VARCHAR(10),
     recordingavailable VARCHAR(10),
-    recordingstartdate VARCHAR(50)
+    recordingstartdate VARCHAR(50),
+    activeaccess VARCHAR(70)
 );
 
 
