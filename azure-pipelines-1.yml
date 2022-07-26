@@ -38,7 +38,7 @@ steps:
       condition: ne(variables['System.PullRequest.PullRequestNumber'], '')
       inputs:
         runAsPreJob: false
-        ConnectedServiceName: 'DTS-SHAREDSERVICESTEST'
+        ConnectedServiceName: 'DTS-SHAREDSERVICES-TEST'
         keyVaultName: 'pre-test'
         secretsFilter: 'PowerAppAdminPassword'
     
