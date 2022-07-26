@@ -34,7 +34,7 @@ steps:
     #    performMultiLevelLookup: true
     
     - task: AzureKeyVault@1
-      displayName: 'Get GitHub API token from Keyvault'
+      displayName: 'Get secrets from pre-test key vault'
       condition: ne(variables['System.PullRequest.PullRequestNumber'], '')
       inputs:
         runAsPreJob: false
