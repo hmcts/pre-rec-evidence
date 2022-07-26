@@ -33,6 +33,15 @@ steps:
     #    installationPath: $(Agent.ToolsDirectory)/dotnet
     #    performMultiLevelLookup: true
     
+    - task: AzureKeyVault@1
+      displayName: 'Get GitHub API token from Keyvault'
+      condition: ne(variables['System.PullRequest.PullRequestNumber'], '')
+      inputs:
+        runAsPreJob: false
+        ConnectedServiceName: 'DTS-SHAREDSERVICESTEST'
+        keyVaultName: 'pre-test'
+        secretsFilter: 'PowerAppAdminPassword'
+    
     - task: NodeTool@0
       inputs:
         versionSpec: 18
