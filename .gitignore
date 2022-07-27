@@ -27,6 +27,7 @@ bin/main/application.yaml
 /test/e2e/screenshots/
 /test/e2e/LivingDoc.html
 /test/e2e/auth.json
+/test/e2e/secrets.json
 /test/e2e/node_modules
 /test/e2e/SpecFlow/userid
 test/e2e/.yarn/

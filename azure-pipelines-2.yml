@@ -1,0 +1,81 @@
+name: Darren PRE Exporter
+trigger: none
+pr: none
+parameters:
+  - name: serviceConnection
+    displayName: Import from Service Connection
+    type: string
+    default: 'PowerPlatform'
+    values:
+      - 'PowerPlatform'
+      - 'POWERAPPS-PRE-SDS-SBOX'
+      - 'POWERAPPS-PRE-SDS-DEV'
+      - 'POWERAPPS-PRE-SDS-STG'
+      - 'POWERAPPS-PRE-SDS-PROD'
+  - name: exportToBranch
+    displayName: Export To Branch
+    type: string
+    default: 'ADO-Powerplatform'
+
+variables:
+  solutionName: dts_pre_recorded_evidence
+
+pool:
+  vmImage: windows-latest
+
+steps:
+
+  - checkout: self
+    persistCredentials: true
+    clean: true
+  - task: PowerPlatformToolInstaller@0
+    inputs:
+      DefaultVersion: true
+  - task: PowerPlatformExportSolution@0
+    inputs:
+      authenticationType: 'PowerPlatformSPN'
+      PowerPlatformSPN: ${{ parameters.serviceConnection }}
+      SolutionName: $(solutionName)
+      SolutionOutputFile: 'dts_pre_recorded_evidence.zip'
+      AsyncOperation: false
+      Managed: false
+      MaxAsyncWaitTime: 120
+      ExportAutoNumberingSettings: true
+      ExportCalendarSettings: true
+      ExportCustomizationSettings: true
+      ExportEmailTrackingSettings: true
+      ExportGeneralSettings: true
+      ExportIsvConfig: true
+      ExportMarketingSettings: true
+      ExportOutlookSynchronizationSettings: true
+      ExportRelationshipRoles: true
+  
+  - task: PublishPipelineArtifact@1
+    inputs:
+      targetPath: 'dts_pre_recorded_evidence.zip'
+      artifact: 'Solution Archive'
+      publishLocation: 'pipeline'
+  - task: PowerPlatformUnpackSolution@0
+    inputs:
+      SolutionInputFile: 'dts_pre_recorded_evidence.zip'
+      SolutionTargetFolder: 'src'
+  - task: CmdLine@2
+    inputs:
+      script: |
+        echo Commit Power Platform Solution
+        git config user.email "prebuildpipeline@hmcts.net"
+        git config user.name "PRE Build Pipeline"
+        git pull origin master
+        git checkout -b ${{ parameters.exportToBranch }}
+        git add --all
+        git commit -m "Automatic solution commit"
+        git -c http.extraheader="AUTHORIZATION: bearer $(system.githubPat)" push origin ${{ parameters.exportToBranch }}
+  #removed to speedup testing
+  #- task: PowerPlatformImportSolution@0
+  #  inputs:
+  #    authenticationType: 'PowerPlatformSPN'
+  #    PowerPlatformSPN: 'PowerPlatform'
+  #    SolutionInputFile: 'dts_pre_recorded_evidence.zip'
+  #    AsyncOperation: true
+  #    MaxAsyncWaitTime: '60'
+  

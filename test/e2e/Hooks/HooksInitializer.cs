@@ -68,7 +68,11 @@ namespace pre.test.Hooks
       BrowserTypeLaunchOptions typeLaunchOptions = new BrowserTypeLaunchOptions { Headless = headless, SlowMo = 50, Channel = /*"msedge"*/"chrome" };
       browser = await playwright.Chromium.LaunchAsync(typeLaunchOptions);
       //context = await browser.NewContextAsync();
+<<<<<<< HEAD
       context = await browser.NewContextAsync(new BrowserNewContextOptions { StorageStatePath = $"{authPath}", RecordVideoDir = $"{videoPath}" });
+=======
+      context = await browser.NewContextAsync(new BrowserNewContextOptions { StorageStatePath = $"{authPath}", RecordVideoDir = $"{videoPath}/{_scenarioContext.ScenarioInfo.Title}"  });
+>>>>>>> 39a8af1f98792e6fbf15d2a75ca06711e774423d
       _context.Page = await context.NewPageAsync();
       _objectContainer.RegisterInstanceAs(_context.Page);
       //Generating living docs
@@ -88,7 +92,11 @@ namespace pre.test.Hooks
       BrowserTypeLaunchOptions typeLaunchOptions = new BrowserTypeLaunchOptions { Headless = headless, SlowMo = 50, Channel = "msedge" };
       browser = await playwright.Chromium.LaunchAsync(typeLaunchOptions);
       //context = await browser.NewContextAsync();
+<<<<<<< HEAD
       context = await browser.NewContextAsync(new BrowserNewContextOptions { StorageStatePath = $"{authPath}", RecordVideoDir = $"{videoPath}" });
+=======
+      context = await browser.NewContextAsync(new BrowserNewContextOptions { StorageStatePath = $"{authPath}", RecordVideoDir = $"{videoPath}/{_scenarioContext.ScenarioInfo.Title}"  });
+>>>>>>> 39a8af1f98792e6fbf15d2a75ca06711e774423d
       _context.Page = await context.NewPageAsync();
       _objectContainer.RegisterInstanceAs(_context.Page);
       //Generating living docs
@@ -105,9 +113,15 @@ namespace pre.test.Hooks
       browserType = "Chromium";
 
       playwright = await Playwright.CreateAsync();
+<<<<<<< HEAD
       BrowserTypeLaunchOptions typeLaunchOptions = new BrowserTypeLaunchOptions { Headless = headless, SlowMo = 500 };
       browser = await playwright.Chromium.LaunchAsync(typeLaunchOptions);
       context = await browser.NewContextAsync(new BrowserNewContextOptions { StorageStatePath = $"{authPath}", RecordVideoDir = $"{videoPath}/{_scenarioContext.ScenarioInfo.Title}" });
+=======
+      BrowserTypeLaunchOptions typeLaunchOptions = new BrowserTypeLaunchOptions { Headless = headless, SlowMo = 375 };
+      browser = await playwright.Chromium.LaunchAsync(typeLaunchOptions);
+      context = await browser.NewContextAsync(new BrowserNewContextOptions { StorageStatePath = $"{authPath}", RecordVideoDir = $"{videoPath}/{_scenarioContext.ScenarioInfo.Title}"  });
+>>>>>>> 39a8af1f98792e6fbf15d2a75ca06711e774423d
       _context.Page = await context.NewPageAsync();
       _objectContainer.RegisterInstanceAs(_context.Page);
     }
@@ -130,7 +144,11 @@ namespace pre.test.Hooks
       playwright = await Playwright.CreateAsync();
       BrowserTypeLaunchOptions typeLaunchOptions = new BrowserTypeLaunchOptions { Headless = headless, SlowMo = 50, FirefoxUserPrefs = firefoxUserPrefs, Channel = "firefox" };
       browser = await playwright.Firefox.LaunchAsync(typeLaunchOptions);
+<<<<<<< HEAD
       context = await browser.NewContextAsync(new BrowserNewContextOptions { StorageStatePath = $"{authPath}", RecordVideoDir = $"{videoPath}" });
+=======
+      context = await browser.NewContextAsync(new BrowserNewContextOptions { StorageStatePath = $"{authPath}", RecordVideoDir = $"{videoPath}/{_scenarioContext.ScenarioInfo.Title}"  });
+>>>>>>> 39a8af1f98792e6fbf15d2a75ca06711e774423d
       _context.Page = await context.NewPageAsync();
       _objectContainer.RegisterInstanceAs(_context.Page);
       // await HooksInitializer._context.Page.PauseAsync();
@@ -148,7 +166,11 @@ namespace pre.test.Hooks
       playwright = await Playwright.CreateAsync();
       BrowserTypeLaunchOptions typeLaunchOptions = new BrowserTypeLaunchOptions { Headless = headless, SlowMo = 50, };
       browser = await playwright.Webkit.LaunchAsync(typeLaunchOptions);
+<<<<<<< HEAD
       context = await browser.NewContextAsync(new BrowserNewContextOptions { StorageStatePath = $"{authPath}", RecordVideoDir = $"{videoPath}" });
+=======
+      context = await browser.NewContextAsync(new BrowserNewContextOptions { StorageStatePath = $"{authPath}", RecordVideoDir = $"{videoPath}/{_scenarioContext.ScenarioInfo.Title}"  });
+>>>>>>> 39a8af1f98792e6fbf15d2a75ca06711e774423d
       _context.Page = await context.NewPageAsync();
       _objectContainer.RegisterInstanceAs(_context.Page);
       // await HooksInitializer._context.Page.PauseAsync();
@@ -321,9 +343,9 @@ namespace pre.test.Hooks
       if (browserType == "Chromium")
       {
         await browser.DisposeAsync();
-        // Generating living docs
-        _specFlowOutputHelper.WriteLine("Browser Closed");
+      
       }
+<<<<<<< HEAD
       await context.CloseAsync();
 
 //       var files = Directory.GetFiles($"{videoPath}");
@@ -337,6 +359,9 @@ namespace pre.test.Hooks
 // System.Console.WriteLine($"{ScenarioContext.Current.ScenarioInfo.Title}.webm");
 //       File.Copy($"{videoPath}/{fn[2]}", $"{videoPath}/{ScenarioContext.Current.ScenarioInfo.Title}.webm");
 //       File.Delete($"{videoPath}/{fn[2]}");
+=======
+     await context.CloseAsync();
+>>>>>>> 39a8af1f98792e6fbf15d2a75ca06711e774423d
     }
   }
 }

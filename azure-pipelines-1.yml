@@ -15,7 +15,11 @@ parameters:
   - name: exportToBranch
     displayName: Export To Branch
     type: string
+<<<<<<< HEAD
     default: 'ADO-Powerplatform'
+=======
+    default: 'refactoring-tests'
+>>>>>>> 39a8af1f98792e6fbf15d2a75ca06711e774423d
 
 variables:
   solutionName: dts_pre_recorded_evidence
@@ -33,6 +37,18 @@ steps:
     #    installationPath: $(Agent.ToolsDirectory)/dotnet
     #    performMultiLevelLookup: true
     
+<<<<<<< HEAD
+=======
+    - task: AzureKeyVault@1
+      displayName: 'Get secrets from pre-test key vault'
+      condition: ne(variables['System.PullRequest.PullRequestNumber'], '')
+      inputs:
+        runAsPreJob: false
+        ConnectedServiceName: 'DTS-SHAREDSERVICES-TEST'
+        keyVaultName: 'pre-test'
+        secretsFilter: 'PowerAppAdminPassword'
+    
+>>>>>>> 39a8af1f98792e6fbf15d2a75ca06711e774423d
     - task: NodeTool@0
       inputs:
         versionSpec: 18
