@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using TechTalk.SpecFlow;
 using pre.test.pages;
 using Microsoft.Playwright;
+using NUnit.Framework;
 
 namespace pre.test.Hooks
 {
@@ -18,6 +19,15 @@ namespace pre.test.Hooks
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Manage Recordings\"]").ClickAsync();
     }
 
+    [BeforeScenario("goToAdmin", Order = 1)]
+    public async Task goToAdmin()
+    {
+      await HooksInitializer._context.Page.GotoAsync($"{HooksInitializer.testUrl}");
+      await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Admin\")").WaitForAsync();
+      await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Admin\")").ClickAsync();
+      await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Manage Cases\"]").First.ClickAsync();
+    }
+
     [AfterScenario("RevertDate", Order = 0)]
     public async Task revertDate()
     {
@@ -27,6 +37,25 @@ namespace pre.test.Hooks
       await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Save\"]").Nth(AdminManageRecording.n).ClickAsync();
       await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
       await HooksInitializer._context.Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
+    }
+    [AfterScenario("RestoreCase", Order = 0)]
+    public async Task restoreCase()
+    {
+      if(AdminManageRecording.isDeleted)
+      {
+        await HooksInitializer._context.Page.ReloadAsync();
+        //await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Home\")").ClickAsync();
+        await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("button:has-text(\"Admin\")").ClickAsync();
+    
+        await HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Manage\\ Cases\"]").First.ClickAsync();
+        await AdminManageRecordings._adminManageRecordings.findRecording();
+        var restoreButton = HooksInitializer._context.Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Restore\\ Recording\"]").First;
+        await restoreButton.WaitForAsync();
+        await Task.Run(() => Assert.IsTrue(restoreButton.IsVisibleAsync().Result));
+        await restoreButton.ClickAsync();
+        await HooksInitializer._context.Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
+        AdminManageRecording.isDeleted = false;
+      }
     }
   }
 }

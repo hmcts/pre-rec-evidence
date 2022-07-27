@@ -67,5 +67,57 @@ namespace pre.test
     {
       await _adminManageRecordings.checkDateChange();
     }
+
+
+    [Given(@"I have a recording")]
+    public async Task GivenIhavearecording()
+    {
+      await _adminManageRecordings.findRecording();
+    }
+
+
+    [Then(@"I can search for it in Manage Recording")]
+    public async Task ThenIcansearchforitinManageRecording()
+    {
+      await _adminManageRecordings.search();
+    }
+
+
+
+    [Given(@"I delete a recording in manage recordings")]
+    public async Task GivenIdeletearecordinginmanagerecordings()
+    {
+      await _adminManageRecordings.findRecording();
+      await _adminManageRecordings.search();
+      await _adminManageRecordings.delete();
+    }
+
+    [Then(@"I can see it in show deleted items")]
+    public async Task ThenIcanseeitinshowdeleteditems()
+    {
+      await _adminManageRecordings.checkDelete();
+    }
+
+   [Then(@"I cannot see it in View recordings")]
+    public async Task ThenIcannotseeitinViewrecordings()
+    {
+      await _adminManageRecordings.checkView();
+    }
+
+    [Then(@"I can search for it in Manage Recording using case ref")]
+    public async Task ThenIcansearchforitinManageRecordingusingcaseref()
+    {
+      use = "caseref";
+      await _adminManageRecordings.search();
+    }
+
+    [Given(@"I have a recording to search for using case ref")]
+    public async Task GivenIhavearecordingtosearchforusingcaseref()
+    {
+      use = "F";
+      await _adminManageRecordings.findRecording();
+    }
+
+
   }
 }
