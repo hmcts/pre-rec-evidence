@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 name: Darren PRE Exporter
 trigger: none
 pr: none
@@ -25,6 +26,8 @@ parameters:
     values:
       - 'PowerPlatformDev'
 =======
+=======
+>>>>>>> 61576e80ddaa29c4877d0c1c161644c7b4935f55
 ---
 name: Darren PRE Solution Deployment
 trigger: none
@@ -45,12 +48,16 @@ parameters:
     displayName: Deploy From Branch
     type: string
     default: 'ADO-Powerplatform'
+<<<<<<< HEAD
+>>>>>>> 61576e80ddaa29c4877d0c1c161644c7b4935f55
+=======
 >>>>>>> 61576e80ddaa29c4877d0c1c161644c7b4935f55
 
 variables:
   solutionName: dts_pre_recorded_evidence
 
 pool:
+<<<<<<< HEAD
 <<<<<<< HEAD
   vmImage: windows-latest
 
@@ -110,6 +117,8 @@ steps:
   #    AsyncOperation: true
   #    MaxAsyncWaitTime: '60'
 =======
+=======
+>>>>>>> 61576e80ddaa29c4877d0c1c161644c7b4935f55
   vmImage: 'windows-latest'
 
 steps:
@@ -122,4 +131,7 @@ steps:
   inputs:
     DefaultVersion: true
 
+<<<<<<< HEAD
+>>>>>>> 61576e80ddaa29c4877d0c1c161644c7b4935f55
+=======
 >>>>>>> 61576e80ddaa29c4877d0c1c161644c7b4935f55
