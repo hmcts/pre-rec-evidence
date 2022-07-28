@@ -16,7 +16,7 @@ parameters:
   - name: exportToBranch
     displayName: Export To Branch
     type: string
-    default: 'ADO-Powerplatform'
+    default: 'refactoring-tests'
   - name: serviceConnectionImport
     displayName: Import to Service Connection
     type: string
