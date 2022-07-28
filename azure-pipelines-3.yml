@@ -39,8 +39,12 @@ steps:
     inputs:
       targetType: 'inline'
       script: |
+        cd D:\a\1\s
         Invoke-WebRequest https://aka.ms/PowerAppsCLI -OutFile pac.msi
         msiexec /i pac.msi /quiet /norestart
+  - task: CmdLine@2
+    inputs:
+      script: 'dir D:\a\1\s'
   - task: PowerPlatformToolInstaller@0
     inputs:
       DefaultVersion: true
@@ -49,7 +53,7 @@ steps:
     inputs:
       authenticationType: 'PowerPlatformSPN'
       PowerPlatformSPN: 'PowerPlatformTest'
-      DownloadPath: 'D:\a\1\s\export'
+      DownloadPath: 'D:\a\1\s'
       WebsiteId: '682912fe-27db-452e-8aac-e938e6b99f57'
   - task: PowerPlatformExportSolution@0
     inputs:
