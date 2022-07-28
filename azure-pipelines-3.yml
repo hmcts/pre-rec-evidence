@@ -52,7 +52,7 @@ steps:
     displayName: Add PacPath to Env Path
     inputs:
       targetType: 'inline'
-      script: '$env:PATH = $env:PATH + ";" + "$(pacPath)"'
+      script: '$env:PATH = $env:PATH + ";" + $pacPath'
   - task: CmdLine@2
     inputs:
       script: |
