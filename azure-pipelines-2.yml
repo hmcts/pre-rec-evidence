@@ -1,14 +1,8 @@
-<<<<<<< HEAD
 name: Darren PRE Exporter
-=======
----
-name: Darren PRE Solution Deployment
->>>>>>> 61576e80ddaa29c4877d0c1c161644c7b4935f55
 trigger: none
 pr: none
 parameters:
-  - name: serviceConnection
-<<<<<<< HEAD
+  - name: serviceConnectionExport
     displayName: Export from Service Connection
     type: string
     default: 'PowerPlatformTest'
@@ -19,38 +13,21 @@ parameters:
       - 'POWERAPPS-PRE-SDS-DEV'
       - 'POWERAPPS-PRE-SDS-STG'
       - 'POWERAPPS-PRE-SDS-PROD'
-  displayName: Import to Service Connection
+  - name: exportToBranch
+    displayName: Export To Branch
+    type: string
+    default: 'ADO-Powerplatform'
+  - name: serviceConnectionImport
+    displayName: Import to Service Connection
     type: string
     default: 'PowerPlatformDev'
     values:
       - 'PowerPlatformDev'
 
-  - name: exportToBranch
-    displayName: Export To Branch
-    type: string
-    default: 'refactoring-tests'
-=======
-    displayName: Deploy to Service Connection
-    type: string
-    default: 'PowerPlatform'
-    values:
-      - 'PowerPlatform'
-      - 'POWERAPPS-PRE-SBOX'
-      - 'POWERAPPS-PRE-SDS-SBOX'
-      - 'POWERAPPS-PRE-SDS-DEV'
-      - 'POWERAPPS-PRE-SDS-STG'
-#      - 'POWERAPPS-PRE-SDS-PROD'
-  - name: deployFromBranch
-    displayName: Deploy From Branch
-    type: string
-    default: 'ADO-Powerplatform'
->>>>>>> 61576e80ddaa29c4877d0c1c161644c7b4935f55
-
 variables:
   solutionName: dts_pre_recorded_evidence
 
 pool:
-<<<<<<< HEAD
   vmImage: windows-latest
 
 steps:
@@ -64,7 +41,7 @@ steps:
   - task: PowerPlatformExportSolution@0
     inputs:
       authenticationType: 'PowerPlatformSPN'
-      PowerPlatformSPN: ${{ parameters.serviceConnection }}
+      PowerPlatformSPN: ${{ parameters.serviceConnectionExport }}
       SolutionName: $(solutionName)
       SolutionOutputFile: 'dts_pre_recorded_evidence.zip'
       AsyncOperation: false
@@ -104,22 +81,7 @@ steps:
   #- task: PowerPlatformImportSolution@0
   #  inputs:
   #    authenticationType: 'PowerPlatformSPN'
-  #    PowerPlatformSPN: 'PowerPlatform'
+  #    PowerPlatformSPN: ${{ parameters.serviceConnectionExport }}
   #    SolutionInputFile: 'dts_pre_recorded_evidence.zip'
   #    AsyncOperation: true
   #    MaxAsyncWaitTime: '60'
-  
-=======
-  vmImage: 'windows-latest'
-
-steps:
-
-- checkout: self
-  persistCredentials: true
-  clean: true
-
-- task: PowerPlatformToolInstaller@0
-  inputs:
-    DefaultVersion: true
-
->>>>>>> 61576e80ddaa29c4877d0c1c161644c7b4935f55
