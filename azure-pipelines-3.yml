@@ -52,6 +52,9 @@ steps:
     inputs:
       targetType: 'inline'
       script: '$env:PATH = $env:PATH + ";" + "$(pacPath)"'
+  - task: CmdLine@2
+    inputs:
+      script: 'set'
   - task: PowerPlatformToolInstaller@0
     inputs:
       DefaultVersion: true
