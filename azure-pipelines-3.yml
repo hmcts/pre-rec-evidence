@@ -54,7 +54,7 @@ steps:
       script: '$env:PATH = $env:PATH + ";" + "$(pacPath)"'
   - task: CmdLine@2
     inputs:
-      script: 'set'
+      script: 'dir D:\a\1\s\pac\Microsoft.PowerApps.CLI.1.16.6\tools'
   - task: PowerPlatformToolInstaller@0
     inputs:
       DefaultVersion: true
@@ -63,7 +63,7 @@ steps:
       authenticationType: 'PowerPlatformSPN'
       PowerPlatformSPN: 'PowerPlatformTest'
       Environment: 'https://orgd6d9527b.crm11.dynamics.com'
-      DownloadPath: 'D:\a\1\s'
+      DownloadPath: 'D:\a\1\s\pac\Microsoft.PowerApps.CLI.1.16.6\tools'
       WebsiteId: '682912fe-27db-452e-8aac-e938e6b99f57'
   
   - task: PowerPlatformExportSolution@0
