@@ -78,10 +78,10 @@ steps:
         git commit -m "Automatic solution commit"
         git -c http.extraheader="AUTHORIZATION: bearer $(system.githubPat)" push origin ${{ parameters.exportToBranch }}
   #removed to speedup testing
-  #- task: PowerPlatformImportSolution@0
-  #  inputs:
-  #    authenticationType: 'PowerPlatformSPN'
-  #    PowerPlatformSPN: ${{ parameters.serviceConnectionExport }}
-  #    SolutionInputFile: 'dts_pre_recorded_evidence.zip'
-  #    AsyncOperation: true
-  #    MaxAsyncWaitTime: '60'
+  - task: PowerPlatformImportSolution@0
+    inputs:
+      authenticationType: 'PowerPlatformSPN'
+      PowerPlatformSPN: ${{ parameters.serviceConnectionImport }}
+      SolutionInputFile: 'dts_pre_recorded_evidence.zip'
+      AsyncOperation: true
+      MaxAsyncWaitTime: '60'
