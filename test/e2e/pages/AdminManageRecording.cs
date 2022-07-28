@@ -83,6 +83,7 @@ namespace pre.test.pages
       for (int i = 2; i < 7; i++)
       {
         var Button = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Save\"]").Nth(n);
+        await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
         await Task.Run(() => Assert.IsFalse(Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Save\"]").Nth(n).IsVisibleAsync().Result));
       }
     }
@@ -94,6 +95,7 @@ namespace pre.test.pages
       await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator($"text=Case Ref: {ExternalPortal.caseName}").ClickAsync();
       await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
 
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div:nth-child(48) div.virtualized-gallery div.canvasContentDiv.container_1vt1y2p div:nth-child(2)").First.WaitForAsync();
       await Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("div:nth-child(48) div.virtualized-gallery div.canvasContentDiv.container_1vt1y2p div:nth-child(2)").First.ClickAsync();
