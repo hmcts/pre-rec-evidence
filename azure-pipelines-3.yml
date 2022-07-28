@@ -58,7 +58,7 @@ steps:
       script: 'dir D:\a\1\s\pac\Microsoft.PowerApps.CLI.1.16.6\tools'
   - task: CmdLine@2
     inputs:
-      script: 'pac'
+      script: 'D:\a\1\s\pac\Microsoft.PowerApps.CLI.1.16.6\tools\pac.exe'
   - task: PowerPlatformToolInstaller@0
     inputs:
       DefaultVersion: true
