@@ -5,8 +5,9 @@ parameters:
   - name: serviceConnection
     displayName: Import from Service Connection
     type: string
-    default: 'PowerPlatform'
+    default: 'PowerPlatformTest'
     values:
+      - 'PowerPlatformTest'
       - 'PowerPlatform'
       - 'POWERAPPS-PRE-SDS-SBOX'
       - 'POWERAPPS-PRE-SDS-DEV'
@@ -15,7 +16,7 @@ parameters:
   - name: exportToBranch
     displayName: Export To Branch
     type: string
-    default: 'ADO-Powerplatform'
+    default: 'refactoring-tests'
 
 variables:
   solutionName: dts_pre_recorded_evidence
