@@ -47,6 +47,11 @@ steps:
         $pacNugetFolder = Get-ChildItem "pac" | Where-Object {$_.Name -match "Microsoft.PowerApps.CLI."}
         $pacPath = $pacNugetFolder.FullName + "\tools"
         echo "##vso[task.setvariable variable=pacPath]$pacPath"
+  - task: PowerShell@2
+    displayName: Add PacPath to Env Path
+    inputs:
+      targetType: 'inline'
+      script: '$env:PATH = $env:PATH + ";" + "$(pacPath)"'
   - task: PowerPlatformToolInstaller@0
     inputs:
       DefaultVersion: true
