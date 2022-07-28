@@ -9,7 +9,7 @@ pr: none
 parameters:
   - name: serviceConnection
 <<<<<<< HEAD
-    displayName: Import from Service Connection
+    displayName: Export from Service Connection
     type: string
     default: 'PowerPlatformTest'
     values:
@@ -19,6 +19,12 @@ parameters:
       - 'POWERAPPS-PRE-SDS-DEV'
       - 'POWERAPPS-PRE-SDS-STG'
       - 'POWERAPPS-PRE-SDS-PROD'
+  displayName: Import to Service Connection
+    type: string
+    default: 'PowerPlatformDev'
+    values:
+      - 'PowerPlatformDev'
+
   - name: exportToBranch
     displayName: Export To Branch
     type: string
