@@ -4,23 +4,19 @@ using TechTalk.SpecFlow;
 using pre.test.pages;
 using pre.test.Hooks;
 
-
 namespace pre.test
 {
   [Binding]
-
   public class AdminManageRecordings
   {
     public static string use = "";
     public static AdminManageRecording _adminManageRecordings;
     public static PageSetters _pagesetters;
-
     public AdminManageRecordings(PageSetters pageSetters)
     {
       _pagesetters = pageSetters;
       _adminManageRecordings = new AdminManageRecording(_pagesetters.Page);
     }
-
 
     [Given(@"I change the date of a recording")]
     public async Task WhenIchangethedateofarecording()
@@ -28,7 +24,6 @@ namespace pre.test
       use = "normal";
       await _adminManageRecordings.changeDate();
     }
-
 
     [Then(@"the date is changed")]
     public async Task Thenthedateischanged()
@@ -48,7 +43,6 @@ namespace pre.test
     {
       await _adminManageRecordings.pastDateError();
     }
-
     
     [Given(@"I do not make a change")]
     public async Task GivenIdonotmakeachange()
@@ -68,21 +62,17 @@ namespace pre.test
       await _adminManageRecordings.checkDateChange();
     }
 
-
     [Given(@"I have a recording")]
     public async Task GivenIhavearecording()
     {
       await _adminManageRecordings.findRecording();
     }
 
-
     [Then(@"I can search for it in Manage Recording")]
     public async Task ThenIcansearchforitinManageRecording()
     {
       await _adminManageRecordings.search();
     }
-
-
 
     [Given(@"I delete a recording in manage recordings")]
     public async Task GivenIdeletearecordinginmanagerecordings()
@@ -117,7 +107,5 @@ namespace pre.test
       use = "F";
       await _adminManageRecordings.findRecording();
     }
-
-
   }
 }
