@@ -79,6 +79,7 @@ namespace pre.test.pages
     }
     public async Task CheckSaveButtonDisabled()
     {
+      await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
       for (int i = 2; i < 7; i++)
       {
         var Button = Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Save\"]").Nth(n);
@@ -115,7 +116,7 @@ namespace pre.test.pages
         finalCount = Int32.Parse(finalCountString);
 
         var times = Math.Ceiling((double)finalCount / 2);
-        for (int j = 0; j < times; j++)
+        for (int j = 0; j <= times; j++)
         {
           for (int i = finalCount; i >= 0; i--)
           {
@@ -159,7 +160,7 @@ namespace pre.test.pages
         await Page.WaitForResponseAsync(resp => resp.Url.Contains("https://browser.pipe.aria.microsoft.com/Collector/3.0"));
 
         var times = Math.Ceiling((double)finalResult / 17);
-        for (int j = 0; j < times; j++)
+        for (int j = 0; j <= times; j++)
         {
           for (int i = finalResult; i >= 0; i--)
           {
@@ -216,7 +217,7 @@ namespace pre.test.pages
 
       for (int i = 0; i < count; i++)
       {
-        DeletedIds.Add(Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Recording\\ ID\"]").Nth(i).InputValueAsync().Result); 
+        DeletedIds.Add(Page.FrameLocator("iframe[name=\"fullscreen-app-host\"]").Locator("[aria-label=\"Recording\\ ID\"]").Nth(i).InputValueAsync().Result);
       }
       await Task.Run(() => Assert.That(DeletedIds, Does.Contain(stringID.Trim())));
 
