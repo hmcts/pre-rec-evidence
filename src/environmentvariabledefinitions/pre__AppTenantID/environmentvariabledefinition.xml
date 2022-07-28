@@ -1,5 +1,5 @@
 <environmentvariabledefinition schemaname="pre__AppTenantID">
-  <defaultvalue>tenantID</defaultvalue>
+  <defaultvalue>531ff96d-0ae9-462a-8d2d-bec7c0b42082</defaultvalue>
   <displayname default="AppTenantID">
     <label description="AppTenantID" languagecode="1033" />
   </displayname>

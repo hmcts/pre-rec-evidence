@@ -1,0 +1,377 @@
+{
+  "properties": {
+    "connectionReferences": {
+      "shared_commondataserviceforapps": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "cr599_sharedcommondataserviceforapps_d0505"
+        },
+        "api": {
+          "name": "shared_commondataserviceforapps"
+        }
+      },
+      "shared_azureblob": {
+        "runtimeSource": "invoker",
+        "connection": {
+          "connectionReferenceLogicalName": "pre__preamssasboxAzureBlobConn"
+        },
+        "api": {
+          "name": "shared_azureblob"
+        }
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        },
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        }
+      },
+      "triggers": {
+        "manual": {
+          "metadata": {
+            "operationMetadataId": "40924e02-a749-49c9-89bb-ae0d85a952de"
+          },
+          "type": "Request",
+          "kind": "PowerAppV2",
+          "inputs": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "text": {
+                  "title": "CaseID",
+                  "type": "string",
+                  "x-ms-dynamically-added": true,
+                  "description": "CaseID",
+                  "x-ms-content-hint": "TEXT"
+                },
+                "text_1": {
+                  "title": "RecordingUID",
+                  "type": "string",
+                  "x-ms-dynamically-added": true,
+                  "description": "RecordingUID",
+                  "x-ms-content-hint": "TEXT"
+                },
+                "text_2": {
+                  "title": "RecordingStart",
+                  "type": "string",
+                  "x-ms-dynamically-added": true,
+                  "description": "RecordingStart",
+                  "x-ms-content-hint": "TEXT"
+                },
+                "text_3": {
+                  "title": "Court",
+                  "type": "string",
+                  "x-ms-dynamically-added": true,
+                  "description": "Court",
+                  "x-ms-content-hint": "TEXT"
+                }
+              },
+              "required": [
+                "text",
+                "text_1",
+                "text_2",
+                "text_3"
+              ]
+            }
+          }
+        }
+      },
+      "actions": {
+        "varStatus": {
+          "runAfter": {
+            "OutputVariable": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "24516b1b-1d87-479d-a421-8ca4ebfddb31"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "varStatus",
+                "type": "string"
+              }
+            ]
+          }
+        },
+        "List_rows": {
+          "runAfter": {
+            "varStatus": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "ea5d0786-d054-4a3f-8283-5a107b2975d4"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_commondataserviceforapps",
+              "operationId": "ListRecords",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+            },
+            "parameters": {
+              "entityName": "pre__recordingses",
+              "$filter": "pre__recordinguid eq '@{variables('RecordingUID')}'"
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        },
+        "Compose_-_RecordingUID_No_Hyphen": {
+          "runAfter": {
+            "RecordingID": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "79a4eedc-9dd5-4195-83ac-9ba7fe399ecf"
+          },
+          "type": "Compose",
+          "inputs": "@replace(variables('RecordingUID'),'-','')"
+        },
+        "RecordingUID": {
+          "runAfter": {},
+          "metadata": {
+            "operationMetadataId": "f67afbe7-be3f-452c-aa48-f89f27954fe3"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "RecordingUID",
+                "type": "string",
+                "value": "@triggerBody()['text_1']"
+              }
+            ]
+          }
+        },
+        "Apply_to_each": {
+          "foreach": "@outputs('List_rows')?['body/value']",
+          "actions": {
+            "Get_a_row_by_ID": {
+              "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "3feb66c2-c8a8-4200-8e07-4a8cf178d61e"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_commondataserviceforapps",
+                  "operationId": "GetItem",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                },
+                "parameters": {
+                  "entityName": "pre__recordingses",
+                  "recordId": "@items('Apply_to_each')?['pre__recordingsid']"
+                },
+                "authentication": "@parameters('$authentication')"
+              }
+            },
+            "Set_variable": {
+              "runAfter": {
+                "Get_a_row_by_ID": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "38285a7a-fafa-41ab-9236-0694bc6a9a05"
+              },
+              "type": "SetVariable",
+              "inputs": {
+                "name": "RecordingID",
+                "value": "@outputs('Get_a_row_by_ID')?['body/pre__recordingsid']"
+              }
+            }
+          },
+          "runAfter": {
+            "List_rows": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "0a38c4cf-bdc5-4c13-b403-fd6b642653f5"
+          },
+          "type": "Foreach"
+        },
+        "RecordingID": {
+          "runAfter": {
+            "RecordingUID": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "d12e46e2-eb6e-4297-a27e-8b9492103b25"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "RecordingID",
+                "type": "string"
+              }
+            ]
+          }
+        },
+        "Get_a_row_by_ID_2": {
+          "runAfter": {
+            "Apply_to_each": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "31187fd9-b09d-4f1c-8848-41d299a9bfd1"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_commondataserviceforapps",
+              "operationId": "GetItem",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+            },
+            "parameters": {
+              "entityName": "pre__recordingses",
+              "recordId": "@variables('RecordingID')"
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        },
+        "Set_varStatus": {
+          "runAfter": {
+            "Get_Blob_Metadata_using_path_(V2)": [
+              "Failed",
+              "Skipped"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "742ee6b2-f7e1-448b-b33c-4e95744fcd15"
+          },
+          "type": "SetVariable",
+          "inputs": {
+            "name": "varStatus",
+            "value": "No stream detected"
+          }
+        },
+        "Set_varStatus_if_Skipped": {
+          "runAfter": {
+            "Set_varStatus": [
+              "Skipped"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "5a83e8d4-cf43-4f0d-b9e5-7d843547701b"
+          },
+          "type": "SetVariable",
+          "inputs": {
+            "name": "varStatus",
+            "value": "Stream OK"
+          }
+        },
+        "Update_a_row": {
+          "runAfter": {
+            "Set_varStatus_if_Skipped": [
+              "Succeeded",
+              "Skipped"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "e19869c0-513f-4eaf-9072-081f86eb391e"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_commondataserviceforapps",
+              "operationId": "UpdateRecord",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+            },
+            "parameters": {
+              "entityName": "pre__recordingses",
+              "recordId": "@variables('RecordingID')",
+              "item/pre__recordingstatus": "@variables('varStatus')"
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        },
+        "Respond_to_a_PowerApp_or_flow": {
+          "runAfter": {
+            "Update_a_row": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "156e241e-3176-45bc-8a14-b73e3b7b1614"
+          },
+          "type": "Response",
+          "kind": "PowerApp",
+          "inputs": {
+            "statusCode": 200,
+            "body": {
+              "paramstatus": "@variables('varStatus')"
+            },
+            "schema": {
+              "type": "object",
+              "properties": {
+                "paramstatus": {
+                  "title": "ParamStatus",
+                  "x-ms-dynamically-added": true,
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "Get_Blob_Metadata_using_path_(V2)": {
+          "runAfter": {
+            "Get_a_row_by_ID_2": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "638904aa-abaa-4918-8b47-4fd505dbc46c"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_azureblob",
+              "operationId": "GetFileMetadataByPath_V2",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_azureblob"
+            },
+            "parameters": {
+              "dataset": "AccountNameFromSettings",
+              "path": "@{variables('RecordingUID')}/@{outputs('Compose_-_RecordingUID_No_Hyphen')}.ism"
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        },
+        "OutputVariable": {
+          "runAfter": {
+            "Compose_-_RecordingUID_No_Hyphen": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "64016fb6-4cdd-4306-b240-3e82de27d64d"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "OutputVariable",
+                "type": "string"
+              }
+            ]
+          }
+        }
+      }
+    }
+  },
+  "schemaVersion": "1.0.0.0"
+}

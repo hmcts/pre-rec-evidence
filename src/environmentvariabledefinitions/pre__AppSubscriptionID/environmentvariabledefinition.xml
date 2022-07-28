@@ -1,5 +1,5 @@
 <environmentvariabledefinition schemaname="pre__AppSubscriptionID">
-  <defaultvalue>subID</defaultvalue>
+  <defaultvalue>a8140a9e-f1b0-481f-a4de-09e2ee23f7ab</defaultvalue>
   <displayname default="AppSubscriptionID">
     <label description="AppSubscriptionID" languagecode="1033" />
   </displayname>

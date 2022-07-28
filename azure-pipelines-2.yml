@@ -1,8 +1,14 @@
+<<<<<<< HEAD
 name: Darren PRE Exporter
+=======
+---
+name: Darren PRE Solution Deployment
+>>>>>>> 61576e80ddaa29c4877d0c1c161644c7b4935f55
 trigger: none
 pr: none
 parameters:
   - name: serviceConnection
+<<<<<<< HEAD
     displayName: Import from Service Connection
     type: string
     default: 'PowerPlatformTest'
@@ -17,11 +23,28 @@ parameters:
     displayName: Export To Branch
     type: string
     default: 'refactoring-tests'
+=======
+    displayName: Deploy to Service Connection
+    type: string
+    default: 'PowerPlatform'
+    values:
+      - 'PowerPlatform'
+      - 'POWERAPPS-PRE-SBOX'
+      - 'POWERAPPS-PRE-SDS-SBOX'
+      - 'POWERAPPS-PRE-SDS-DEV'
+      - 'POWERAPPS-PRE-SDS-STG'
+#      - 'POWERAPPS-PRE-SDS-PROD'
+  - name: deployFromBranch
+    displayName: Deploy From Branch
+    type: string
+    default: 'ADO-Powerplatform'
+>>>>>>> 61576e80ddaa29c4877d0c1c161644c7b4935f55
 
 variables:
   solutionName: dts_pre_recorded_evidence
 
 pool:
+<<<<<<< HEAD
   vmImage: windows-latest
 
 steps:
@@ -80,3 +103,17 @@ steps:
   #    AsyncOperation: true
   #    MaxAsyncWaitTime: '60'
   
+=======
+  vmImage: 'windows-latest'
+
+steps:
+
+- checkout: self
+  persistCredentials: true
+  clean: true
+
+- task: PowerPlatformToolInstaller@0
+  inputs:
+    DefaultVersion: true
+
+>>>>>>> 61576e80ddaa29c4877d0c1c161644c7b4935f55

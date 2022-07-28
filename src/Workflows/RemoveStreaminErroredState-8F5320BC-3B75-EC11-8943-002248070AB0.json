@@ -22,6 +22,55 @@
         "$authentication": {
           "defaultValue": {},
           "type": "SecureObject"
+        },
+        "AppSecret (pre__AppSecret)": {
+          "defaultValue": "Jqg7Q~bs5jkRxxdPc6f1sHcYDRiHhjdDLsH7A",
+          "type": "String",
+          "metadata": {
+            "schemaName": "pre__AppSecret"
+          }
+        },
+        "AppSubscriptionID (pre__AppSubscriptionID)": {
+          "defaultValue": "a8140a9e-f1b0-481f-a4de-09e2ee23f7ab",
+          "type": "String",
+          "metadata": {
+            "schemaName": "pre__AppSubscriptionID"
+          }
+        },
+        "AppMediaService (pre__AppMediaService)": {
+          "defaultValue": "preamssbox",
+          "type": "String",
+          "metadata": {
+            "schemaName": "pre__AppMediaService"
+          }
+        },
+        "AppID (pre__AppID)": {
+          "defaultValue": "07587e3c-603e-401f-98d1-ff26206e93f8",
+          "type": "String",
+          "metadata": {
+            "schemaName": "pre__AppID"
+          }
+        },
+        "AppTenantID (pre__AppTenantID)": {
+          "defaultValue": "531ff96d-0ae9-462a-8d2d-bec7c0b42082",
+          "type": "String",
+          "metadata": {
+            "schemaName": "pre__AppTenantID"
+          }
+        },
+        "AppResourceGroup (pre__AppResourceGroup)": {
+          "defaultValue": "pre-sbox",
+          "type": "String",
+          "metadata": {
+            "schemaName": "pre__AppResourceGroup"
+          }
+        },
+        "AppFinalAccountName (pre__AppFinalAccountName)": {
+          "defaultValue": "prefinalsasbox",
+          "type": "String",
+          "metadata": {
+            "schemaName": "pre__AppFinalAccountName"
+          }
         }
       },
       "triggers": {
@@ -30,263 +79,43 @@
             "operationMetadataId": "5c229877-f1ef-4c9f-8d35-d4cbfc570bdf"
           },
           "type": "Request",
-          "kind": "PowerApp",
+          "kind": "PowerAppV2",
           "inputs": {
             "schema": {
               "type": "object",
               "properties": {
-                "BookingID_Value": {
+                "text": {
+                  "title": "RecordingID",
                   "type": "string",
-                  "description": "Enter initial value",
-                  "x-ms-powerflows-param-ispartial": false
+                  "x-ms-dynamically-added": true,
+                  "description": "RecordingID",
+                  "x-ms-content-hint": "TEXT"
                 },
-                "CaseRef_Value": {
+                "text_1": {
+                  "title": "CaseRef",
                   "type": "string",
-                  "description": "Enter initial value",
-                  "x-ms-powerflows-param-ispartial": false
+                  "x-ms-dynamically-added": true,
+                  "description": "CaseRef",
+                  "x-ms-content-hint": "TEXT"
                 },
-                "Court_Value": {
+                "text_2": {
+                  "title": "Court",
                   "type": "string",
-                  "description": "Enter initial value",
-                  "x-ms-powerflows-param-ispartial": false
-                },
-                "SubscriptionID_Value": {
-                  "type": "string",
-                  "description": "Enter initial value",
-                  "x-ms-powerflows-param-ispartial": false
-                },
-                "ResourceGroup_Value": {
-                  "type": "string",
-                  "description": "Enter initial value",
-                  "x-ms-powerflows-param-ispartial": false
-                },
-                "MediaService_Value": {
-                  "type": "string",
-                  "description": "Enter initial value",
-                  "x-ms-powerflows-param-ispartial": false
-                },
-                "TenantID_Value": {
-                  "type": "string",
-                  "description": "Enter initial value",
-                  "x-ms-powerflows-param-ispartial": false
-                },
-                "ClientAppID_Value": {
-                  "type": "string",
-                  "description": "Enter initial value",
-                  "x-ms-powerflows-param-ispartial": false
-                },
-                "ClientSecret_Value": {
-                  "type": "string",
-                  "description": "Enter initial value",
-                  "x-ms-powerflows-param-ispartial": false
+                  "x-ms-dynamically-added": true,
+                  "description": "Court",
+                  "x-ms-content-hint": "TEXT"
                 }
               },
               "required": [
-                "BookingID_Value",
-                "CaseRef_Value",
-                "Court_Value",
-                "SubscriptionID_Value",
-                "ResourceGroup_Value",
-                "MediaService_Value",
-                "TenantID_Value",
-                "ClientAppID_Value",
-                "ClientSecret_Value"
+                "text",
+                "text_1",
+                "text_2"
               ]
             }
           }
         }
       },
       "actions": {
-        "Terminate": {
-          "runAfter": {},
-          "metadata": {
-            "operationMetadataId": "822278c4-6481-4729-85c6-49ed642b72a7"
-          },
-          "type": "Terminate",
-          "inputs": {
-            "runStatus": "Succeeded"
-          }
-        },
-        "BookingID": {
-          "runAfter": {
-            "Terminate": [
-              "Succeeded"
-            ]
-          },
-          "metadata": {
-            "operationMetadataId": "fc82c281-ec76-499e-8b45-9c8d197953d9"
-          },
-          "type": "InitializeVariable",
-          "inputs": {
-            "variables": [
-              {
-                "name": "BookingID",
-                "type": "string",
-                "value": "@{triggerBody()['BookingID_Value']}"
-              }
-            ]
-          }
-        },
-        "CaseRef": {
-          "runAfter": {
-            "BookingID": [
-              "Succeeded"
-            ]
-          },
-          "metadata": {
-            "operationMetadataId": "ad2ad5b5-0c1b-4707-8733-f2d30acb5bc4"
-          },
-          "type": "InitializeVariable",
-          "inputs": {
-            "variables": [
-              {
-                "name": "CaseRef",
-                "type": "string",
-                "value": "@{triggerBody()['CaseRef_Value']}"
-              }
-            ]
-          }
-        },
-        "Court": {
-          "runAfter": {
-            "CaseRef": [
-              "Succeeded"
-            ]
-          },
-          "metadata": {
-            "operationMetadataId": "2e87426d-345e-4bf9-9ddc-05c0391b83ba"
-          },
-          "type": "InitializeVariable",
-          "inputs": {
-            "variables": [
-              {
-                "name": "Court",
-                "type": "string",
-                "value": "@{triggerBody()['Court_Value']}"
-              }
-            ]
-          }
-        },
-        "SubscriptionID": {
-          "runAfter": {
-            "Court": [
-              "Succeeded"
-            ]
-          },
-          "metadata": {
-            "operationMetadataId": "677b80ca-04e5-4606-942d-e0c75988660b"
-          },
-          "type": "InitializeVariable",
-          "inputs": {
-            "variables": [
-              {
-                "name": "SubscriptionID",
-                "type": "string",
-                "value": "@{triggerBody()['SubscriptionID_Value']}"
-              }
-            ]
-          }
-        },
-        "ResourceGroup": {
-          "runAfter": {
-            "SubscriptionID": [
-              "Succeeded"
-            ]
-          },
-          "metadata": {
-            "operationMetadataId": "220597bc-b371-4067-8129-6ba910dc994f"
-          },
-          "type": "InitializeVariable",
-          "inputs": {
-            "variables": [
-              {
-                "name": "ResourceGroup",
-                "type": "string",
-                "value": "@{triggerBody()['ResourceGroup_Value']}"
-              }
-            ]
-          }
-        },
-        "MediaService": {
-          "runAfter": {
-            "ResourceGroup": [
-              "Succeeded"
-            ]
-          },
-          "metadata": {
-            "operationMetadataId": "2ac6a4ab-5ac1-4082-8655-3dccda5d8e98"
-          },
-          "type": "InitializeVariable",
-          "inputs": {
-            "variables": [
-              {
-                "name": "MediaService",
-                "type": "string",
-                "value": "@{triggerBody()['MediaService_Value']}"
-              }
-            ]
-          }
-        },
-        "TenantID": {
-          "runAfter": {
-            "MediaService": [
-              "Succeeded"
-            ]
-          },
-          "metadata": {
-            "operationMetadataId": "ac29512d-1518-45b6-a86c-95f250d3b75d"
-          },
-          "type": "InitializeVariable",
-          "inputs": {
-            "variables": [
-              {
-                "name": "TenantID",
-                "type": "string",
-                "value": "@{triggerBody()['TenantID_Value']}"
-              }
-            ]
-          }
-        },
-        "ClientAppID": {
-          "runAfter": {
-            "TenantID": [
-              "Succeeded"
-            ]
-          },
-          "metadata": {
-            "operationMetadataId": "226640b4-2c8f-45cd-be1c-4b26e47f237c"
-          },
-          "type": "InitializeVariable",
-          "inputs": {
-            "variables": [
-              {
-                "name": "ClientAppID",
-                "type": "string",
-                "value": "@{triggerBody()['ClientAppID_Value']}"
-              }
-            ]
-          }
-        },
-        "ClientSecret": {
-          "runAfter": {
-            "ClientAppID": [
-              "Succeeded"
-            ]
-          },
-          "metadata": {
-            "operationMetadataId": "1b286aeb-f118-47c2-a95e-484fd914d419"
-          },
-          "type": "InitializeVariable",
-          "inputs": {
-            "variables": [
-              {
-                "name": "ClientSecret",
-                "type": "string",
-                "value": "@{triggerBody()['ClientSecret_Value']}"
-              }
-            ]
-          }
-        },
         "Close_and_remove_Stream": {
           "actions": {
             "Stop_Stream": {
@@ -297,9 +126,16 @@
               "type": "Http",
               "inputs": {
                 "method": "POST",
-                "uri": "https://management.azure.com/subscriptions/@{variables('SubscriptionID')}/resourceGroups/@{variables('ResourceGroup')}/providers/Microsoft.Media/mediaservices/@{variables('MediaService')}/liveEvents/@{variables('Court')}/stop?api-version=2020-05-01",
+                "uri": "https://management.azure.com/subscriptions/@{variables('AppSubscription')}/resourceGroups/@{variables('AppResourceGroup')}/providers/Microsoft.Media/mediaservices/@{variables('AppMediaService')}/liveEvents/@{outputs('Compose_-_RecordingUID_No_Hyphen')}/stop?api-version=2020-05-01",
                 "body": {
                   "removeOutputsOnStop": true
+                },
+                "authentication": {
+                  "type": "ActiveDirectoryOAuth",
+                  "tenant": "@parameters('AppTenantID (pre__AppTenantID)')",
+                  "audience": "https://management.core.windows.net",
+                  "clientId": "@parameters('AppID (pre__AppID)')",
+                  "secret": "@parameters('AppSecret (pre__AppSecret)')"
                 }
               }
             },
@@ -315,12 +151,53 @@
               "type": "Http",
               "inputs": {
                 "method": "DELETE",
-                "uri": "https://management.azure.com/subscriptions/@{variables('SubscriptionID')}/resourceGroups/@{variables('ResourceGroup')}/providers/Microsoft.Media/mediaservices/@{variables('MediaService')}/liveEvents/@{variables('Court')}?api-version=2020-05-01"
+                "uri": "https://management.azure.com/subscriptions/@{variables('AppSubscription')}/resourceGroups/@{variables('AppResourceGroup')}/providers/Microsoft.Media/mediaservices/@{variables('AppMediaService')}/liveEvents/@{outputs('Compose_-_RecordingUID_No_Hyphen')}?api-version=2020-05-01",
+                "authentication": {
+                  "type": "ActiveDirectoryOAuth",
+                  "tenant": "@parameters('AppTenantID (pre__AppTenantID)')",
+                  "audience": "https://management.core.windows.net",
+                  "clientId": "@parameters('AppID (pre__AppID)')",
+                  "secret": "@parameters('AppSecret (pre__AppSecret)')"
+                }
+              }
+            },
+            "Set_OutputVariable_1": {
+              "runAfter": {
+                "Stop_Stream": [
+                  "Skipped",
+                  "Failed",
+                  "TimedOut"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "269fb3bb-4acf-4479-8894-d0ca016a7da7"
+              },
+              "type": "SetVariable",
+              "inputs": {
+                "name": "OutputVariable",
+                "value": "Failed"
+              }
+            },
+            "Set_OutputVariable_2": {
+              "runAfter": {
+                "Remove_Stream": [
+                  "Failed",
+                  "Skipped",
+                  "TimedOut"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "c0130f1e-aa2f-4179-ad00-509117d8978f"
+              },
+              "type": "SetVariable",
+              "inputs": {
+                "name": "OutputVariable",
+                "value": "Failed"
               }
             }
           },
           "runAfter": {
-            "ClientSecret": [
+            "AppFinalAccountName": [
               "Succeeded"
             ]
           },
@@ -346,18 +223,17 @@
               "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
             },
             "parameters": {
-              "entityName": "pre__bookings",
-              "recordId": "@variables('BookingID')"
+              "entityName": "pre__recordingses",
+              "recordId": "@triggerBody()['text']",
+              "item/pre__caseref": "@triggerBody()['text_1']",
+              "item/pre__recordingstatus": "Error - Stream Closed"
             },
-            "authentication": {
-              "type": "Raw",
-              "value": "@json(decodeBase64(triggerOutputs().headers['X-MS-APIM-Tokens']))['$ConnectionKey']"
-            }
+            "authentication": "@parameters('$authentication')"
           }
         },
         "Respond_to_a_PowerApp_or_flow": {
           "runAfter": {
-            "Update_a_row": [
+            "Condition_-_Output_Failed_-_Update_DataVerse": [
               "Succeeded"
             ]
           },
@@ -373,6 +249,236 @@
               "type": "object",
               "properties": {}
             }
+          }
+        },
+        "Compose_-_RecordingUID_No_Hyphen": {
+          "runAfter": {
+            "OutputVariable": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "5f78ae49-f2cc-4892-935f-5971ebda507f"
+          },
+          "type": "Compose",
+          "inputs": "@replace(variables('RecordingID'),'-','')"
+        },
+        "RecordingID": {
+          "runAfter": {},
+          "metadata": {
+            "operationMetadataId": "f887140b-9fc3-47b2-85c0-60c83f3c7ea5"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "RecordingID",
+                "type": "string",
+                "value": "@triggerBody()['text']"
+              }
+            ]
+          }
+        },
+        "OutputVariable": {
+          "runAfter": {
+            "RecordingID": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "c3d87a8b-5d63-4bb6-a49c-dbe280c62ded"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "OutputVariable",
+                "type": "string"
+              }
+            ]
+          }
+        },
+        "Condition_-_Output_Failed_-_Update_DataVerse": {
+          "actions": {
+            "Update_a_row_-_Failed_Close_and_Remove_Stream": {
+              "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "4cd3732b-07ac-4cbd-b8ae-cc84fada90b8"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_commondataserviceforapps_3",
+                  "operationId": "UpdateRecord",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                },
+                "parameters": {
+                  "entityName": "pre__recordingses",
+                  "recordId": "@triggerBody()['text']",
+                  "item/pre__caseref": "@triggerBody()['text_1']",
+                  "item/pre__recordingstatus": "Error - Failed to Close and Remove errored stream, please Reset Stream again."
+                },
+                "authentication": "@parameters('$authentication')"
+              }
+            }
+          },
+          "runAfter": {
+            "Update_a_row": [
+              "Succeeded",
+              "Failed",
+              "Skipped",
+              "TimedOut"
+            ]
+          },
+          "expression": {
+            "equals": [
+              "@variables('OutputVariable')",
+              "Failed"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "c5347a17-563d-438f-b12c-c6dfe490256b"
+          },
+          "type": "If"
+        },
+        "AppSubscription": {
+          "runAfter": {
+            "Compose_-_RecordingUID_No_Hyphen": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "e8cc7e1e-29f7-45e0-a9b4-aed766393f91"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "AppSubscription",
+                "type": "string",
+                "value": "@parameters('AppSubscriptionID (pre__AppSubscriptionID)')"
+              }
+            ]
+          }
+        },
+        "AppResourceGroup": {
+          "runAfter": {
+            "AppSubscription": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "8777ff0b-6344-4dfa-af0d-ab4c5735b4b8"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "AppResourceGroup",
+                "type": "string",
+                "value": "@parameters('AppResourceGroup (pre__AppResourceGroup)')"
+              }
+            ]
+          }
+        },
+        "AppMediaService": {
+          "runAfter": {
+            "AppResourceGroup": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "25f09c75-5d32-4e6d-a5af-600dab6ca87f"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "AppMediaService",
+                "type": "string",
+                "value": "@parameters('AppMediaService (pre__AppMediaService)')"
+              }
+            ]
+          }
+        },
+        "AppTenantID": {
+          "runAfter": {
+            "AppMediaService": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "affd6486-281a-487b-8084-c4dc2a497a66"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "AppTenantID",
+                "type": "string",
+                "value": "@parameters('AppTenantID (pre__AppTenantID)')"
+              }
+            ]
+          }
+        },
+        "AppID": {
+          "runAfter": {
+            "AppTenantID": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "60200cbf-49a1-40c2-b8c8-a4195dbea61c"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "AppID",
+                "type": "string",
+                "value": "@parameters('AppID (pre__AppID)')"
+              }
+            ]
+          }
+        },
+        "AppSecret": {
+          "runAfter": {
+            "AppID": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "d8db9149-e18b-4087-9b39-9b91528d2858"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "AppSecret",
+                "type": "string",
+                "value": "@parameters('AppSecret (pre__AppSecret)')"
+              }
+            ]
+          }
+        },
+        "AppFinalAccountName": {
+          "runAfter": {
+            "AppSecret": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "4156ae11-2f60-4ee6-b74a-e8b72c79bb7d"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "AppFinalAccountName",
+                "type": "string",
+                "value": "@parameters('AppFinalAccountName (pre__AppFinalAccountName)')"
+              }
+            ]
           }
         }
       }

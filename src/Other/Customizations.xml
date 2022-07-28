@@ -99,41 +99,6 @@
   <EntityDataProviders />
   <CanvasApps />
   <connectionreferences>
-    <connectionreference connectionreferencelogicalname="cr599_Dataverse">
-      <connectionreferencedisplayname>Dataverse</connectionreferencedisplayname>
-      <connectorid>/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps</connectorid>
-      <iscustomizable>1</iscustomizable>
-      <statecode>0</statecode>
-      <statuscode>1</statuscode>
-    </connectionreference>
-    <connectionreference connectionreferencelogicalname="cr599_sharedazureblob_0e0b1">
-      <connectionreferencedisplayname>AMS Streaming Storage</connectionreferencedisplayname>
-      <connectorid>/providers/Microsoft.PowerApps/apis/shared_azureblob</connectorid>
-      <iscustomizable>1</iscustomizable>
-      <statecode>0</statecode>
-      <statuscode>1</statuscode>
-    </connectionreference>
-    <connectionreference connectionreferencelogicalname="cr599_sharedazureblob_23232">
-      <connectionreferencedisplayname>Azure Blob Storage</connectionreferencedisplayname>
-      <connectorid>/providers/Microsoft.PowerApps/apis/shared_azureblob</connectorid>
-      <iscustomizable>1</iscustomizable>
-      <statecode>0</statecode>
-      <statuscode>1</statuscode>
-    </connectionreference>
-    <connectionreference connectionreferencelogicalname="cr599_sharedazureblob_a4d8a">
-      <connectionreferencedisplayname>AMS Final</connectionreferencedisplayname>
-      <connectorid>/providers/Microsoft.PowerApps/apis/shared_azureblob</connectorid>
-      <iscustomizable>1</iscustomizable>
-      <statecode>0</statecode>
-      <statuscode>1</statuscode>
-    </connectionreference>
-    <connectionreference connectionreferencelogicalname="cr599_sharedcommondataserviceforapps_a29d5">
-      <connectionreferencedisplayname>Microsoft Dataverse</connectionreferencedisplayname>
-      <connectorid>/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps</connectorid>
-      <iscustomizable>1</iscustomizable>
-      <statecode>0</statecode>
-      <statuscode>1</statuscode>
-    </connectionreference>
     <connectionreference connectionreferencelogicalname="cr599_sharedcommondataserviceforapps_d0505">
       <connectionreferencedisplayname>Microsoft Dataverse</connectionreferencedisplayname>
       <connectorid>/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps</connectorid>
@@ -141,30 +106,31 @@
       <statecode>0</statecode>
       <statuscode>1</statuscode>
     </connectionreference>
-    <connectionreference connectionreferencelogicalname="new_sharedteams_c6b1e">
-      <connectionreferencedisplayname>Microsoft Teams</connectionreferencedisplayname>
-      <connectorid>/providers/Microsoft.PowerApps/apis/shared_teams</connectorid>
-      <iscustomizable>1</iscustomizable>
-      <statecode>0</statecode>
-      <statuscode>1</statuscode>
-    </connectionreference>
-    <connectionreference connectionreferencelogicalname="pre__AzureBlobStorageFlowSbx">
-      <connectionreferencedisplayname>Azure Blob Storage Flow-Sbx</connectionreferencedisplayname>
+    <connectionreference connectionreferencelogicalname="pre__preamssasboxAzureBlobConn">
+      <connectionreferencedisplayname>preIngest</connectionreferencedisplayname>
       <connectorid>/providers/Microsoft.PowerApps/apis/shared_azureblob</connectorid>
       <iscustomizable>1</iscustomizable>
       <statecode>0</statecode>
       <statuscode>1</statuscode>
     </connectionreference>
-    <connectionreference connectionreferencelogicalname="pre__sharedazureblob_b2d2f">
-      <connectionreferencedisplayname>Azure Blob Storage dts_pre_recorded_evidence-b2d2f</connectionreferencedisplayname>
+    <connectionreference connectionreferencelogicalname="pre__prefinalsasboxAzureBlobConn">
+      <connectionreferencedisplayname>prefinal1</connectionreferencedisplayname>
+      <connectorid>/providers/Microsoft.PowerApps/apis/shared_azureblob</connectorid>
+      <description>prefinalsasboxAzureBlobConn</description>
+      <iscustomizable>1</iscustomizable>
+      <statecode>0</statecode>
+      <statuscode>1</statuscode>
+    </connectionreference>
+    <connectionreference connectionreferencelogicalname="pre__sharedazureblob_44af3">
+      <connectionreferencedisplayname>Azure Blob Storage dts_pre_recorded_evidence-44af3</connectionreferencedisplayname>
       <connectorid>/providers/Microsoft.PowerApps/apis/shared_azureblob</connectorid>
       <iscustomizable>1</iscustomizable>
       <statecode>0</statecode>
       <statuscode>1</statuscode>
     </connectionreference>
-    <connectionreference connectionreferencelogicalname="pre__sharedcommondataserviceforapps_42299">
-      <connectionreferencedisplayname>Microsoft Dataverse dts_pre_recorded_evidence-42299</connectionreferencedisplayname>
-      <connectorid>/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps</connectorid>
+    <connectionreference connectionreferencelogicalname="pre__sharedazureblob_93036">
+      <connectionreferencedisplayname>Azure Blob Storage dts_pre_recorded_evidence-93036</connectionreferencedisplayname>
+      <connectorid>/providers/Microsoft.PowerApps/apis/shared_azureblob</connectorid>
       <iscustomizable>1</iscustomizable>
       <statecode>0</statecode>
       <statuscode>1</statuscode>
@@ -176,30 +142,23 @@
       <statecode>0</statecode>
       <statuscode>1</statuscode>
     </connectionreference>
-    <connectionreference connectionreferencelogicalname="pre__sharedcommondataserviceforapps_62e6b">
-      <connectionreferencedisplayname>Microsoft Dataverse dts_pre_recorded_evidence-62e6b</connectionreferencedisplayname>
-      <connectorid>/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps</connectorid>
+    <connectionreference connectionreferencelogicalname="pre__sharedoffice365_3a240">
+      <connectionreferencedisplayname>Office 365 Outlook dts_pre_recorded_evidence-3a240</connectionreferencedisplayname>
+      <connectorid>/providers/Microsoft.PowerApps/apis/shared_office365</connectorid>
       <iscustomizable>1</iscustomizable>
       <statecode>0</statecode>
       <statuscode>1</statuscode>
     </connectionreference>
-    <connectionreference connectionreferencelogicalname="pre__sharedexcelonlinebusiness_c5f42">
-      <connectionreferencedisplayname>Excel Online (Business) dts_pre_recorded_evidence-c5f42</connectionreferencedisplayname>
-      <connectorid>/providers/Microsoft.PowerApps/apis/shared_excelonlinebusiness</connectorid>
+    <connectionreference connectionreferencelogicalname="pre__sharedsharepointonline_0bf5f">
+      <connectionreferencedisplayname>SharePoint dts_pre_recorded_evidence-0bf5f</connectionreferencedisplayname>
+      <connectorid>/providers/Microsoft.PowerApps/apis/shared_sharepointonline</connectorid>
       <iscustomizable>1</iscustomizable>
       <statecode>0</statecode>
       <statuscode>1</statuscode>
     </connectionreference>
-    <connectionreference connectionreferencelogicalname="pre__sharedflowmanagement_b1451">
-      <connectionreferencedisplayname>Power Automate Management dts_pre_recorded_evidence-b1451</connectionreferencedisplayname>
-      <connectorid>/providers/Microsoft.PowerApps/apis/shared_flowmanagement</connectorid>
-      <iscustomizable>1</iscustomizable>
-      <statecode>0</statecode>
-      <statuscode>1</statuscode>
-    </connectionreference>
-    <connectionreference connectionreferencelogicalname="pre__sharedkeyvault_3ed25">
-      <connectionreferencedisplayname>Azure Key Vault dts_pre_recorded_evidence-3ed25</connectionreferencedisplayname>
-      <connectorid>/providers/Microsoft.PowerApps/apis/shared_keyvault</connectorid>
+    <connectionreference connectionreferencelogicalname="pre__sharedteams_68f48">
+      <connectionreferencedisplayname>Microsoft Teams dts_pre_recorded_evidence-68f48</connectionreferencedisplayname>
+      <connectorid>/providers/Microsoft.PowerApps/apis/shared_teams</connectorid>
       <iscustomizable>1</iscustomizable>
       <statecode>0</statecode>
       <statuscode>1</statuscode>

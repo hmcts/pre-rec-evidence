@@ -1,0 +1,336 @@
+{
+  "properties": {
+    "connectionReferences": {
+      "shared_commondataserviceforapps": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "pre__sharedcommondataserviceforapps_4ea17"
+        },
+        "api": {
+          "name": "shared_commondataserviceforapps"
+        }
+      },
+      "shared_office365": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "pre__sharedoffice365_3a240"
+        },
+        "api": {
+          "name": "shared_office365"
+        }
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        },
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        }
+      },
+      "triggers": {
+        "When_a_row_is_added,_modified_or_deleted": {
+          "metadata": {
+            "operationMetadataId": "3a484bb1-2ac0-42cb-abfd-039309db6676"
+          },
+          "type": "OpenApiConnectionWebhook",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_commondataserviceforapps",
+              "operationId": "SubscribeWebhookTrigger",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+            },
+            "parameters": {
+              "subscriptionRequest/message": 4,
+              "subscriptionRequest/entityname": "pre__videopermissions",
+              "subscriptionRequest/scope": 4
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        }
+      },
+      "actions": {
+        "Condition": {
+          "actions": {
+            "Get_Contacts": {
+              "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "444c1a07-94c7-4385-a073-458d9b7ddf01"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_commondataserviceforapps",
+                  "operationId": "ListRecords",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                },
+                "parameters": {
+                  "entityName": "contacts",
+                  "$filter": "emailaddress1 eq '@{triggerOutputs()?['body/pre__email']}'"
+                },
+                "authentication": "@parameters('$authentication')"
+              }
+            },
+            "Apply_to_each": {
+              "foreach": "@outputs('Get_Contacts')?['body/value']",
+              "actions": {
+                "Send_an_email_(V2)": {
+                  "runAfter": {},
+                  "metadata": {
+                    "operationMetadataId": "8f5228b3-5e37-4257-bfca-0a6fb5f13ae2"
+                  },
+                  "type": "OpenApiConnection",
+                  "inputs": {
+                    "host": {
+                      "connectionName": "shared_office365",
+                      "operationId": "SendEmailV2",
+                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_office365"
+                    },
+                    "parameters": {
+                      "emailMessage/To": "@items('Apply_to_each')?['emailaddress1']",
+                      "emailMessage/Subject": "HMCTS Pre-recorded Evidence Portal - Edited Video",
+                      "emailMessage/Body": "<p>Hello @{items('Apply_to_each')?['firstname']},<br>\n<br>\nA new Pre-recorded Evidence video has been edited for case @{triggerOutputs()?['body/pre__caseref']} at court @{triggerOutputs()?['body/pre__court']}.<br>\n<br>\nPlease <a href=\"https://portal-test.pre-recorded-evidence.justice.gov.uk/\">login</a> to the HMCTS Pre-recorded Evidence Portal to review the edited recording.<br>\n<br>\nIf the link does not work in your email client, copy and paste the following link into your browser:<br>\n<br>\nhttps://portal-test.pre-recorded-evidence.justice.gov.uk/<br>\n<br>\nIf you have any issues with accessing or playing the recording and require technical support, please phone [Number] between the hours of [Time] and [Time], or send an email to [Email Address].<br>\n<br>\nThank you.</p>"
+                    },
+                    "authentication": "@parameters('$authentication')"
+                  }
+                }
+              },
+              "runAfter": {
+                "Get_Contacts": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "fb3d6bfe-7ba1-4d5a-b021-30950e317153"
+              },
+              "type": "Foreach"
+            },
+            "Update_a_row": {
+              "runAfter": {
+                "Apply_to_each": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "8d3a8e48-7675-419e-9937-7810ea0ca5d4"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_commondataserviceforapps",
+                  "operationId": "UpdateRecord",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                },
+                "parameters": {
+                  "entityName": "pre__videopermissionses",
+                  "recordId": "@triggerOutputs()?['body/pre__videopermissionsid']",
+                  "item/pre__emailnotificationsent": "@utcNow()"
+                },
+                "authentication": "@parameters('$authentication')"
+              }
+            },
+            "Add_Audit_trail": {
+              "runAfter": {
+                "Update_a_row": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "bf10d043-e8c9-420f-a736-ceb2e6381bec"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_commondataserviceforapps",
+                  "operationId": "CreateRecord",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                },
+                "parameters": {
+                  "entityName": "pre__audits",
+                  "item/pre__activity": "Edited recording share link emailed to external user",
+                  "item/pre__email": "@triggerOutputs()?['body/pre__email']",
+                  "item/pre__recordinguid": "@triggerOutputs()?['body/_pre__recordinguid_value']"
+                },
+                "authentication": "@parameters('$authentication')"
+              }
+            }
+          },
+          "runAfter": {},
+          "expression": {
+            "and": [
+              {
+                "equals": [
+                  "@triggerOutputs()?['body/pre__recordingavailable']",
+                  "true"
+                ]
+              },
+              {
+                "equals": [
+                  "@triggerOutputs()?['body/pre__activeaccess']",
+                  "True"
+                ]
+              },
+              {
+                "equals": [
+                  "@triggerOutputs()?['body/pre__emailnotificationsent']",
+                  "@null"
+                ]
+              },
+              {
+                "greater": [
+                  "@int(triggerOutputs()?['body/pre__recordingversion'])",
+                  1
+                ]
+              }
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "007cc702-0b04-4e00-938d-c86d94025cdc"
+          },
+          "type": "If",
+          "description": "Edited version is available"
+        },
+        "Condition_2": {
+          "actions": {
+            "Get_Contacts_2": {
+              "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "444c1a07-94c7-4385-a073-458d9b7ddf01"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_commondataserviceforapps",
+                  "operationId": "ListRecords",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                },
+                "parameters": {
+                  "entityName": "contacts",
+                  "$filter": "emailaddress1 eq '@{triggerOutputs()?['body/pre__email']}'"
+                },
+                "authentication": "@parameters('$authentication')"
+              }
+            },
+            "Apply_to_each_2": {
+              "foreach": "@outputs('Get_Contacts_2')?['body/value']",
+              "actions": {
+                "Send_an_email_(V2)_2": {
+                  "runAfter": {},
+                  "metadata": {
+                    "operationMetadataId": "8f5228b3-5e37-4257-bfca-0a6fb5f13ae2"
+                  },
+                  "type": "OpenApiConnection",
+                  "inputs": {
+                    "host": {
+                      "connectionName": "shared_office365",
+                      "operationId": "SendEmailV2",
+                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_office365"
+                    },
+                    "parameters": {
+                      "emailMessage/To": "@items('Apply_to_each_2')?['emailaddress1']",
+                      "emailMessage/Subject": "HMCTS Pre-recorded Evidence Portal - New Video",
+                      "emailMessage/Body": "<p>Hello @{items('Apply_to_each_2')?['firstname']},<br>\n<br>\nA new Pre-recorded Evidence video has been captured for case @{triggerOutputs()?['body/pre__caseref']} at court @{triggerOutputs()?['body/pre__court']}.<br>\n<br>\nPlease <a href=\"https://portal-test.pre-recorded-evidence.justice.gov.uk/\">login</a> to the HMCTS Pre-recorded Evidence Portal to review the recording.<br>\n<br>\nIf the link does not work in your email client, copy and paste the following link into your browser:<br>\n<br>\nhttps://portal-test.pre-recorded-evidence.justice.gov.uk/<br>\n<br>\nIf you have any issues with accessing or playing the recording and require technical support, please phone [Number] between the hours of [Time] and [Time], or send an email to [Email Address].<br>\n<br>\nThank you.</p>"
+                    },
+                    "authentication": "@parameters('$authentication')"
+                  }
+                }
+              },
+              "runAfter": {
+                "Get_Contacts_2": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "fb3d6bfe-7ba1-4d5a-b021-30950e317153"
+              },
+              "type": "Foreach"
+            },
+            "Update_a_row_2": {
+              "runAfter": {
+                "Apply_to_each_2": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "8d3a8e48-7675-419e-9937-7810ea0ca5d4"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_commondataserviceforapps",
+                  "operationId": "UpdateRecord",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                },
+                "parameters": {
+                  "entityName": "pre__videopermissionses",
+                  "recordId": "@triggerOutputs()?['body/pre__videopermissionsid']",
+                  "item/pre__emailnotificationsent": "@utcNow()"
+                },
+                "authentication": "@parameters('$authentication')"
+              }
+            },
+            "Add_Audit_trail_2": {
+              "runAfter": {
+                "Update_a_row_2": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "bf10d043-e8c9-420f-a736-ceb2e6381bec"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_commondataserviceforapps",
+                  "operationId": "CreateRecord",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                },
+                "parameters": {
+                  "entityName": "pre__audits",
+                  "item/pre__activity": "Recording Share link emailed to external user",
+                  "item/pre__email": "@triggerOutputs()?['body/pre__email']",
+                  "item/pre__recordinguid": "@triggerOutputs()?['body/_pre__recordinguid_value']"
+                },
+                "authentication": "@parameters('$authentication')"
+              }
+            }
+          },
+          "runAfter": {},
+          "expression": {
+            "and": [
+              {
+                "equals": [
+                  "@triggerOutputs()?['body/pre__recordingavailable']",
+                  "true"
+                ]
+              },
+              {
+                "equals": [
+                  "@triggerOutputs()?['body/pre__activeaccess']",
+                  "True"
+                ]
+              },
+              {
+                "equals": [
+                  "@triggerOutputs()?['body/pre__emailnotificationsent']",
+                  "@null"
+                ]
+              }
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "007cc702-0b04-4e00-938d-c86d94025cdc"
+          },
+          "type": "If",
+          "description": "Version 1 available"
+        }
+      }
+    }
+  },
+  "schemaVersion": "1.0.0.0"
+}

@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ImportExportXml version="9.2.22022.130" SolutionPackageVersion="9.2" languagecode="1033" generatedBy="CrmLive" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<ImportExportXml version="9.2.22071.170" SolutionPackageVersion="9.2" languagecode="1033" generatedBy="CrmLive" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <SolutionManifest>
     <UniqueName>dts_pre_recorded_evidence</UniqueName>
     <LocalizedNames>
       <LocalizedName description="dts_pre_recorded_evidence" languagecode="1033" />
     </LocalizedNames>
     <Descriptions />
-    <Version>0.0.7</Version>
+    <Version>0.0.28</Version>
     <Managed>0</Managed>
     <Publisher>
       <UniqueName>dts_pre_recorded_evidence</UniqueName>
@@ -88,400 +88,267 @@
       <RootComponent type="1" schemaName="pre__case" behavior="0" />
       <RootComponent type="1" schemaName="pre__clipping" behavior="0" />
       <RootComponent type="1" schemaName="pre__courts" behavior="0" />
+      <RootComponent type="1" schemaName="pre__errorlog" behavior="0" />
       <RootComponent type="1" schemaName="pre__recordings" behavior="0" />
       <RootComponent type="1" schemaName="pre__roomallocations" behavior="0" />
       <RootComponent type="1" schemaName="pre__schedule" behavior="0" />
       <RootComponent type="1" schemaName="pre__videopermissions" behavior="0" />
       <RootComponent type="29" id="{0884a67e-a282-ec11-8d21-0022483f3a05}" behavior="0" />
-      <RootComponent type="29" id="{1e709ae4-a16f-ec11-8943-00224842b012}" behavior="0" />
+      <RootComponent type="29" id="{23deaab7-46ac-ec11-9840-6045bd100a25}" behavior="0" />
       <RootComponent type="29" id="{2c9d4328-fc87-ec11-93b0-000d3ad4a475}" behavior="0" />
-      <RootComponent type="29" id="{41c11b5b-4b75-ec11-8943-002248070868}" behavior="0" />
-      <RootComponent type="29" id="{691888be-7d74-ec11-8943-002248070868}" behavior="0" />
+      <RootComponent type="29" id="{352ec82a-3ed5-ec11-a7b5-6045bd10052a}" behavior="0" />
+      <RootComponent type="29" id="{4aabe9a8-72a0-ec11-b400-6045bd105a8f}" behavior="0" />
+      <RootComponent type="29" id="{4bedaa09-4fa1-ec11-b400-6045bd105e4e}" behavior="0" />
+      <RootComponent type="29" id="{7c4dc936-30ac-ec11-9840-6045bd100a25}" behavior="0" />
       <RootComponent type="29" id="{8c10677d-1584-ec11-8d21-0022483f3804}" behavior="0" />
       <RootComponent type="29" id="{8f5320bc-3b75-ec11-8943-002248070ab0}" behavior="0" />
-      <RootComponent type="29" id="{d6f1f1cf-7699-ec11-b400-6045bd0f140d}" behavior="0" />
-      <RootComponent type="300" schemaName="pre__streamingmanagerbackup_b68fe" behavior="0" />
+      <RootComponent type="29" id="{a46488ac-f2d5-ec11-a7b5-6045bd10052a}" behavior="0" />
+      <RootComponent type="29" id="{cdf4ef55-dfbb-ec11-983f-0022481be5e1}" behavior="0" />
+      <RootComponent type="29" id="{dd1e29a9-cbbb-ec11-983f-0022481be5d6}" behavior="0" />
+      <RootComponent type="29" id="{e0b28b40-1b08-ed11-82e4-6045bd11786a}" behavior="0" />
+      <RootComponent type="29" id="{e48c14b1-2a08-ed11-82e5-6045bd1171dc}" behavior="0" />
       <RootComponent type="300" schemaName="pre__streamingmanager_28789" behavior="0" />
-      <RootComponent type="300" schemaName="pre__testing_86e47" behavior="0" />
     </RootComponents>
     <MissingDependencies>
       <MissingDependency>
-        <Required type="1" schemaName="adx_bpf_c2857b638fa7473d8e2f112c232cebd8" displayName="Change Password for Portals Contact" solution="MicrosoftIdentity (9.2.2103.1)">
-          <package>CDSBasePortal (9.3.2109.20)</package>
+        <Required type="1" schemaName="adx_bpf_c2857b638fa7473d8e2f112c232cebd8" displayName="Change Password for Portals Contact" solution="MicrosoftIdentity (9.3.2201.2)">
+          <package>CDSBasePortal (9.3.2201.22)</package>
         </Required>
         <Dependent type="1" schemaName="contact" displayName="Contact" />
       </MissingDependency>
       <MissingDependency>
-        <Required type="1" schemaName="adx_externalidentity" displayName="External Identity" solution="MicrosoftIdentity (9.2.2103.1)">
-          <package>CDSBasePortal (9.3.2109.20)</package>
+        <Required type="1" schemaName="adx_externalidentity" displayName="External Identity" solution="MicrosoftIdentity (9.3.2201.2)">
+          <package>CDSBasePortal (9.3.2201.22)</package>
         </Required>
         <Dependent type="1" schemaName="contact" displayName="Contact" />
       </MissingDependency>
       <MissingDependency>
-        <Required type="1" schemaName="adx_invitation" displayName="Invitation" solution="MicrosoftPortalBase (9.2.2103.1)">
-          <package>CDSBasePortal (9.3.2109.20)</package>
+        <Required type="1" schemaName="adx_invitation" displayName="Invitation" solution="MicrosoftPortalBase (9.3.2201.4)">
+          <package>CDSBasePortal (9.3.2201.22)</package>
         </Required>
         <Dependent type="1" schemaName="adx_invitation" displayName="Invitation" />
       </MissingDependency>
       <MissingDependency>
-        <Required type="1" schemaName="adx_invitation" displayName="Invitation" solution="MicrosoftPortalBase (9.2.2103.1)">
-          <package>CDSBasePortal (9.3.2109.20)</package>
-        </Required>
-        <Dependent type="10" schemaName="adx_invitation_assigntoaccount" displayName="adx_invitation_assigntoaccount" parentSchemaName="account" parentDisplayName="Account" />
-      </MissingDependency>
-      <MissingDependency>
-        <Required type="1" schemaName="adx_invitation" displayName="Invitation" solution="MicrosoftPortalBase (9.2.2103.1)">
-          <package>CDSBasePortal (9.3.2109.20)</package>
-        </Required>
-        <Dependent type="10" schemaName="adx_invitation_website" displayName="adx_invitation_website" parentSchemaName="adx_website" parentDisplayName="Website" />
-      </MissingDependency>
-      <MissingDependency>
-        <Required type="1" schemaName="adx_invitation" displayName="Invitation" solution="MicrosoftPortalBase (9.2.2103.1)">
-          <package>CDSBasePortal (9.3.2109.20)</package>
-        </Required>
-        <Dependent type="10" schemaName="adx_invitation_invitercontact" displayName="adx_invitation_invitercontact" parentSchemaName="contact" parentDisplayName="Contact" />
-      </MissingDependency>
-      <MissingDependency>
-        <Required type="1" schemaName="adx_invitation" displayName="Invitation" solution="MicrosoftPortalBase (9.2.2103.1)">
-          <package>CDSBasePortal (9.3.2109.20)</package>
-        </Required>
-        <Dependent type="2" schemaName="createdby" displayName="Created By" parentSchemaName="adx_invitation" parentDisplayName="Invitation" />
-      </MissingDependency>
-      <MissingDependency>
-        <Required type="1" schemaName="adx_invitation" displayName="Invitation" solution="MicrosoftPortalBase (9.2.2103.1)">
-          <package>CDSBasePortal (9.3.2109.20)</package>
-        </Required>
-        <Dependent type="2" schemaName="createdonbehalfby" displayName="Created By (Delegate)" parentSchemaName="adx_invitation" parentDisplayName="Invitation" />
-      </MissingDependency>
-      <MissingDependency>
-        <Required type="1" schemaName="adx_invitation" displayName="Invitation" solution="MicrosoftPortalBase (9.2.2103.1)">
-          <package>CDSBasePortal (9.3.2109.20)</package>
-        </Required>
-        <Dependent type="2" schemaName="modifiedby" displayName="Modified By" parentSchemaName="adx_invitation" parentDisplayName="Invitation" />
-      </MissingDependency>
-      <MissingDependency>
-        <Required type="1" schemaName="adx_invitation" displayName="Invitation" solution="MicrosoftPortalBase (9.2.2103.1)">
-          <package>CDSBasePortal (9.3.2109.20)</package>
-        </Required>
-        <Dependent type="2" schemaName="modifiedonbehalfby" displayName="Modified By (Delegate)" parentSchemaName="adx_invitation" parentDisplayName="Invitation" />
-      </MissingDependency>
-      <MissingDependency>
-        <Required type="1" schemaName="adx_invitation" displayName="Invitation" solution="MicrosoftPortalBase (9.2.2103.1)">
-          <package>CDSBasePortal (9.3.2109.20)</package>
-        </Required>
-        <Dependent type="2" schemaName="ownerid" displayName="Owner" parentSchemaName="adx_invitation" parentDisplayName="Invitation" />
-      </MissingDependency>
-      <MissingDependency>
-        <Required type="1" schemaName="adx_invitation" displayName="Invitation" solution="MicrosoftPortalBase (9.2.2103.1)">
-          <package>CDSBasePortal (9.3.2109.20)</package>
-        </Required>
-        <Dependent type="2" schemaName="owneridtype" parentSchemaName="adx_invitation" parentDisplayName="Invitation" />
-      </MissingDependency>
-      <MissingDependency>
-        <Required type="1" schemaName="adx_invitation" displayName="Invitation" solution="MicrosoftPortalBase (9.2.2103.1)">
-          <package>CDSBasePortal (9.3.2109.20)</package>
-        </Required>
-        <Dependent type="2" schemaName="owningbusinessunit" displayName="Owning Business Unit" parentSchemaName="adx_invitation" parentDisplayName="Invitation" />
-      </MissingDependency>
-      <MissingDependency>
-        <Required type="1" schemaName="adx_invitation" displayName="Invitation" solution="MicrosoftPortalBase (9.2.2103.1)">
-          <package>CDSBasePortal (9.3.2109.20)</package>
-        </Required>
-        <Dependent type="2" schemaName="versionnumber" displayName="Version Number" parentSchemaName="adx_invitation" parentDisplayName="Invitation" />
-      </MissingDependency>
-      <MissingDependency>
-        <Required type="1" schemaName="adx_invitation" displayName="Invitation" solution="MicrosoftPortalBase (9.2.2103.1)">
-          <package>CDSBasePortal (9.3.2109.20)</package>
-        </Required>
-        <Dependent type="300" schemaName="pre__streamingmanager_28789" displayName="Streaming Manager" />
-      </MissingDependency>
-      <MissingDependency>
-        <Required type="1" schemaName="adx_invitation" displayName="Invitation" solution="MicrosoftPortalBase (9.2.2103.1)">
-          <package>CDSBasePortal (9.3.2109.20)</package>
-        </Required>
-        <Dependent type="300" schemaName="pre__streamingmanagerbackup_b68fe" displayName="Streaming Manager Backup" />
-      </MissingDependency>
-      <MissingDependency>
-        <Required type="1" schemaName="adx_invitation" displayName="Invitation" solution="MicrosoftPortalBase (9.2.2103.1)">
-          <package>CDSBasePortal (9.3.2109.20)</package>
-        </Required>
-        <Dependent type="300" schemaName="pre__testing_86e47" displayName="Testing" />
-      </MissingDependency>
-      <MissingDependency>
-        <Required type="1" schemaName="adx_pagealert" displayName="Page Alert" solution="MicrosoftPortalBase (9.2.2103.1)">
-          <package>CDSBasePortal (9.3.2109.20)</package>
+        <Required type="1" schemaName="adx_pagealert" displayName="Page Alert" solution="MicrosoftPortalBase (9.3.2201.4)">
+          <package>CDSBasePortal (9.3.2201.22)</package>
         </Required>
         <Dependent type="1" schemaName="contact" displayName="Contact" />
       </MissingDependency>
       <MissingDependency>
-        <Required type="1" schemaName="adx_pagenotification" displayName="Page Notification" solution="MicrosoftPortalBase (9.2.2103.1)">
-          <package>CDSBasePortal (9.3.2109.20)</package>
+        <Required type="1" schemaName="adx_pagenotification" displayName="Page Notification" solution="MicrosoftPortalBase (9.3.2201.4)">
+          <package>CDSBasePortal (9.3.2201.22)</package>
         </Required>
         <Dependent type="1" schemaName="contact" displayName="Contact" />
       </MissingDependency>
       <MissingDependency>
-        <Required type="1" schemaName="adx_pollsubmission" displayName="Poll Submission" solution="MicrosoftPortalBase (9.2.2103.1)">
-          <package>CDSBasePortal (9.3.2109.20)</package>
+        <Required type="1" schemaName="adx_pollsubmission" displayName="Poll Submission" solution="MicrosoftPortalBase (9.3.2201.4)">
+          <package>CDSBasePortal (9.3.2201.22)</package>
         </Required>
         <Dependent type="1" schemaName="contact" displayName="Contact" />
       </MissingDependency>
       <MissingDependency>
-        <Required type="1" schemaName="adx_portallanguage" displayName="Portal Language" solution="MicrosoftPortalBase (9.2.2103.1)">
-          <package>CDSBasePortal (9.3.2109.20)</package>
+        <Required type="1" schemaName="adx_portallanguage" displayName="Portal Language" solution="MicrosoftPortalBase (9.3.2201.4)">
+          <package>CDSBasePortal (9.3.2201.22)</package>
         </Required>
         <Dependent type="10" schemaName="adx_portallanguage_contact" displayName="adx_portallanguage_contact" parentSchemaName="adx_portallanguage" parentDisplayName="Portal Language" />
       </MissingDependency>
       <MissingDependency>
-        <Required type="1" schemaName="adx_webfilelog" displayName="Web File Log" solution="MicrosoftPortalBase (9.2.2103.1)">
-          <package>CDSBasePortal (9.3.2109.20)</package>
+        <Required type="1" schemaName="adx_webfilelog" displayName="Web File Log" solution="MicrosoftPortalBase (9.3.2201.4)">
+          <package>CDSBasePortal (9.3.2201.22)</package>
         </Required>
         <Dependent type="1" schemaName="contact" displayName="Contact" />
       </MissingDependency>
       <MissingDependency>
-        <Required type="1" schemaName="adx_webformsession" displayName="Advanced Form Session" solution="MicrosoftPortalWebForms (9.2.2108.0)">
-          <package>CDSBasePortal (9.3.2109.20)</package>
+        <Required type="1" schemaName="adx_webformsession" displayName="Advanced Form Session" solution="MicrosoftPortalWebForms (9.3.2201.2)">
+          <package>CDSBasePortal (9.3.2201.22)</package>
         </Required>
         <Dependent type="1" schemaName="contact" displayName="Contact" />
       </MissingDependency>
       <MissingDependency>
         <Required type="1" schemaName="adx_webpage" displayName="Web Page" solution="MicrosoftPortalDependencies (9.2.2103.0)">
-          <package>CDSBasePortal (9.3.2109.20)</package>
+          <package>CDSBasePortal (9.3.2201.22)</package>
         </Required>
         <Dependent type="1" schemaName="contact" displayName="Contact" />
       </MissingDependency>
       <MissingDependency>
-        <Required type="1" schemaName="adx_webpagehistory" displayName="Web Page History" solution="MicrosoftPortalBase (9.2.2103.1)">
-          <package>CDSBasePortal (9.3.2109.20)</package>
+        <Required type="1" schemaName="adx_webpagehistory" displayName="Web Page History" solution="MicrosoftPortalBase (9.3.2201.4)">
+          <package>CDSBasePortal (9.3.2201.22)</package>
         </Required>
         <Dependent type="1" schemaName="contact" displayName="Contact" />
       </MissingDependency>
       <MissingDependency>
-        <Required type="1" schemaName="adx_webpagelog" displayName="Web Page Log" solution="MicrosoftPortalBase (9.2.2103.1)">
-          <package>CDSBasePortal (9.3.2109.20)</package>
+        <Required type="1" schemaName="adx_webpagelog" displayName="Web Page Log" solution="MicrosoftPortalBase (9.3.2201.4)">
+          <package>CDSBasePortal (9.3.2201.22)</package>
         </Required>
         <Dependent type="1" schemaName="contact" displayName="Contact" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="1" schemaName="adx_webrole" displayName="Web Role" solution="MicrosoftPortalDependencies (9.2.2103.0)">
+          <package>CDSBasePortal (9.3.2201.22)</package>
+        </Required>
+        <Dependent type="29" displayName="EnableContactPortal2FA" id="{8c10677d-1584-ec11-8d21-0022483f3804}" />
       </MissingDependency>
       <MissingDependency>
         <Required type="1" schemaName="adx_website" displayName="Website" solution="MicrosoftPortalDependencies (9.2.2103.0)">
-          <package>CDSBasePortal (9.3.2109.20)</package>
+          <package>CDSBasePortal (9.3.2201.22)</package>
         </Required>
         <Dependent type="10" schemaName="adx_invitation_website" displayName="adx_invitation_website" parentSchemaName="adx_website" parentDisplayName="Website" />
       </MissingDependency>
       <MissingDependency>
-        <Required type="10" schemaName="adx_invitation_assigntoaccount" displayName="adx_invitation_assigntoaccount" parentSchemaName="account" parentDisplayName="Account" solution="MicrosoftPortalBase (9.2.2103.1)">
-          <package>CDSBasePortal (9.3.2109.20)</package>
+        <Required type="10" schemaName="adx_invitation_assigntoaccount" displayName="adx_invitation_assigntoaccount" parentSchemaName="account" parentDisplayName="Account" solution="MicrosoftPortalBase (9.3.2201.4)">
+          <package>CDSBasePortal (9.3.2201.22)</package>
         </Required>
         <Dependent type="10" schemaName="adx_invitation_assigntoaccount" displayName="adx_invitation_assigntoaccount" parentSchemaName="account" parentDisplayName="Account" />
       </MissingDependency>
       <MissingDependency>
         <Required type="10" schemaName="msa_contact_managingpartner" displayName="msa_contact_managingpartner" parentSchemaName="account" parentDisplayName="Account" solution="MicrosoftPortalDependencies (9.2.2103.0)">
-          <package>CDSBasePortal (9.3.2109.20)</package>
+          <package>CDSBasePortal (9.3.2201.22)</package>
         </Required>
         <Dependent type="10" schemaName="msa_contact_managingpartner" displayName="msa_contact_managingpartner" parentSchemaName="account" parentDisplayName="Account" />
       </MissingDependency>
       <MissingDependency>
-        <Required type="10" schemaName="adx_invitation_invitecontacts" displayName="adx_invitation_invitecontacts" parentSchemaName="adx_invitation" parentDisplayName="Invitation" solution="MicrosoftPortalBase (9.2.2103.1)">
-          <package>CDSBasePortal (9.3.2109.20)</package>
+        <Required type="10" schemaName="adx_invitation_invitecontacts" displayName="adx_invitation_invitecontacts" parentSchemaName="adx_invitation" parentDisplayName="Invitation" solution="MicrosoftPortalBase (9.3.2201.4)">
+          <package>CDSBasePortal (9.3.2201.22)</package>
         </Required>
         <Dependent type="10" schemaName="adx_invitation_invitecontacts" displayName="adx_invitation_invitecontacts" parentSchemaName="adx_invitation" parentDisplayName="Invitation" />
       </MissingDependency>
       <MissingDependency>
-        <Required type="10" schemaName="adx_invitation_redeemedcontacts" displayName="adx_invitation_redeemedcontacts" parentSchemaName="adx_invitation" parentDisplayName="Invitation" solution="MicrosoftPortalBase (9.2.2103.1)">
-          <package>CDSBasePortal (9.3.2109.20)</package>
+        <Required type="10" schemaName="adx_invitation_redeemedcontacts" displayName="adx_invitation_redeemedcontacts" parentSchemaName="adx_invitation" parentDisplayName="Invitation" solution="MicrosoftPortalBase (9.3.2201.4)">
+          <package>CDSBasePortal (9.3.2201.22)</package>
         </Required>
         <Dependent type="10" schemaName="adx_invitation_redeemedcontacts" displayName="adx_invitation_redeemedcontacts" parentSchemaName="adx_invitation" parentDisplayName="Invitation" />
       </MissingDependency>
       <MissingDependency>
-        <Required type="10" schemaName="adx_portallanguage_contact" displayName="adx_portallanguage_contact" parentSchemaName="adx_portallanguage" parentDisplayName="Portal Language" solution="MicrosoftPortalBase (9.2.2103.1)">
-          <package>CDSBasePortal (9.3.2109.20)</package>
+        <Required type="10" schemaName="adx_invitation_webrole" displayName="adx_invitation_webrole" parentSchemaName="adx_invitation" parentDisplayName="Invitation" solution="MicrosoftPortalBase (9.3.2201.4)">
+          <package>CDSBasePortal (9.3.2201.22)</package>
+        </Required>
+        <Dependent type="10" schemaName="adx_invitation_webrole" displayName="adx_invitation_webrole" parentSchemaName="adx_invitation" parentDisplayName="Invitation" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="10" schemaName="adx_portallanguage_contact" displayName="adx_portallanguage_contact" parentSchemaName="adx_portallanguage" parentDisplayName="Portal Language" solution="MicrosoftPortalBase (9.3.2201.4)">
+          <package>CDSBasePortal (9.3.2201.22)</package>
         </Required>
         <Dependent type="10" schemaName="adx_portallanguage_contact" displayName="adx_portallanguage_contact" parentSchemaName="adx_portallanguage" parentDisplayName="Portal Language" />
       </MissingDependency>
       <MissingDependency>
-        <Required type="10" schemaName="adx_portallanguage_contact" displayName="adx_portallanguage_contact" parentSchemaName="adx_portallanguage" parentDisplayName="Portal Language" solution="MicrosoftPortalBase (9.2.2103.1)">
-          <package>CDSBasePortal (9.3.2109.20)</package>
-        </Required>
-        <Dependent type="60" displayName="Profile Web Form" parentDisplayName="Contact" id="{0bd832d5-9d6a-456d-bdc1-21129e82cc0f}" />
-      </MissingDependency>
-      <MissingDependency>
-        <Required type="10" schemaName="adx_portallanguage_contact" displayName="adx_portallanguage_contact" parentSchemaName="adx_portallanguage" parentDisplayName="Portal Language" solution="MicrosoftPortalBase (9.2.2103.1)">
-          <package>CDSBasePortal (9.3.2109.20)</package>
-        </Required>
-        <Dependent type="60" displayName="Profile Web Form - Japanese" parentDisplayName="Contact" id="{36cc830c-eeab-4a89-a7c9-da2ac6c451a1}" />
-      </MissingDependency>
-      <MissingDependency>
         <Required type="10" schemaName="adx_webrole_contact" displayName="adx_webrole_contact" parentSchemaName="adx_webrole" parentDisplayName="Web Role" solution="MicrosoftPortalDependencies (9.2.2103.0)">
-          <package>CDSBasePortal (9.3.2109.20)</package>
+          <package>CDSBasePortal (9.3.2201.22)</package>
         </Required>
         <Dependent type="10" schemaName="adx_webrole_contact" displayName="adx_webrole_contact" parentSchemaName="adx_webrole" parentDisplayName="Web Role" />
       </MissingDependency>
       <MissingDependency>
-        <Required type="10" schemaName="adx_invitation_website" displayName="adx_invitation_website" parentSchemaName="adx_website" parentDisplayName="Website" solution="MicrosoftPortalBase (9.2.2103.1)">
-          <package>CDSBasePortal (9.3.2109.20)</package>
+        <Required type="10" schemaName="adx_invitation_website" displayName="adx_invitation_website" parentSchemaName="adx_website" parentDisplayName="Website" solution="MicrosoftPortalBase (9.3.2201.4)">
+          <package>CDSBasePortal (9.3.2201.22)</package>
         </Required>
         <Dependent type="10" schemaName="adx_invitation_website" displayName="adx_invitation_website" parentSchemaName="adx_website" parentDisplayName="Website" />
       </MissingDependency>
       <MissingDependency>
-        <Required type="10" schemaName="adx_invitation_invitecontact" displayName="adx_invitation_invitecontact" parentSchemaName="contact" parentDisplayName="Contact" solution="MicrosoftPortalBase (9.2.2103.1)">
-          <package>CDSBasePortal (9.3.2109.20)</package>
+        <Required type="10" schemaName="adx_invitation_invitecontact" displayName="adx_invitation_invitecontact" parentSchemaName="contact" parentDisplayName="Contact" solution="MicrosoftPortalBase (9.3.2201.4)">
+          <package>CDSBasePortal (9.3.2201.22)</package>
+        </Required>
+        <Dependent type="10" schemaName="adx_invitation_invitecontact" displayName="adx_invitation_invitecontact" parentSchemaName="contact" parentDisplayName="Contact" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="10" schemaName="adx_invitation_invitercontact" displayName="adx_invitation_invitercontact" parentSchemaName="contact" parentDisplayName="Contact" solution="MicrosoftPortalBase (9.3.2201.4)">
+          <package>CDSBasePortal (9.3.2201.22)</package>
         </Required>
         <Dependent type="10" schemaName="adx_invitation_invitercontact" displayName="adx_invitation_invitercontact" parentSchemaName="contact" parentDisplayName="Contact" />
       </MissingDependency>
       <MissingDependency>
-        <Required type="10" schemaName="adx_invitation_invitercontact" displayName="adx_invitation_invitercontact" parentSchemaName="contact" parentDisplayName="Contact" solution="MicrosoftPortalBase (9.2.2103.1)">
-          <package>CDSBasePortal (9.3.2109.20)</package>
+        <Required type="10" schemaName="adx_invitation_redeemedContact" displayName="adx_invitation_redeemedContact" parentSchemaName="contact" parentDisplayName="Contact" solution="MicrosoftPortalBase (9.3.2201.4)">
+          <package>CDSBasePortal (9.3.2201.22)</package>
         </Required>
-        <Dependent type="10" schemaName="adx_invitation_invitercontact" displayName="adx_invitation_invitercontact" parentSchemaName="contact" parentDisplayName="Contact" />
+        <Dependent type="10" schemaName="adx_invitation_redeemedContact" displayName="adx_invitation_redeemedContact" parentSchemaName="contact" parentDisplayName="Contact" />
       </MissingDependency>
       <MissingDependency>
-        <Required type="10" schemaName="adx_invitation_redeemedContact" displayName="adx_invitation_redeemedContact" parentSchemaName="contact" parentDisplayName="Contact" solution="MicrosoftPortalBase (9.2.2103.1)">
-          <package>CDSBasePortal (9.3.2109.20)</package>
+        <Required type="10" schemaName="adx_invitation_redemptionworkflow" displayName="adx_invitation_redemptionworkflow" parentSchemaName="workflow" parentDisplayName="Process" solution="MicrosoftPortalBase (9.3.2201.4)">
+          <package>CDSBasePortal (9.3.2201.22)</package>
         </Required>
-        <Dependent type="10" schemaName="adx_invitation_invitercontact" displayName="adx_invitation_invitercontact" parentSchemaName="contact" parentDisplayName="Contact" />
+        <Dependent type="10" schemaName="adx_invitation_redemptionworkflow" displayName="adx_invitation_redemptionworkflow" parentSchemaName="workflow" parentDisplayName="Process" />
       </MissingDependency>
       <MissingDependency>
-        <Required type="2" schemaName="adx_assigntoaccount" displayName="Assign To Account" parentSchemaName="adx_invitation" parentDisplayName="Invitation" solution="MicrosoftPortalBase (9.2.2103.1)">
-          <package>CDSBasePortal (9.3.2109.20)</package>
+        <Required type="2" schemaName="adx_assigntoaccount" displayName="Assign To Account" parentSchemaName="adx_invitation" parentDisplayName="Invitation" solution="MicrosoftPortalBase (9.3.2201.4)">
+          <package>CDSBasePortal (9.3.2201.22)</package>
         </Required>
         <Dependent type="10" schemaName="adx_invitation_assigntoaccount" displayName="adx_invitation_assigntoaccount" parentSchemaName="account" parentDisplayName="Account" />
       </MissingDependency>
       <MissingDependency>
-        <Required type="2" schemaName="adx_invitecontact" displayName="Invite Contact" parentSchemaName="adx_invitation" parentDisplayName="Invitation" solution="MicrosoftPortalBase (9.2.2103.1)">
-          <package>CDSBasePortal (9.3.2109.20)</package>
+        <Required type="2" schemaName="adx_invitecontact" displayName="Invite Contact" parentSchemaName="adx_invitation" parentDisplayName="Invitation" solution="MicrosoftPortalBase (9.3.2201.4)">
+          <package>CDSBasePortal (9.3.2201.22)</package>
         </Required>
         <Dependent type="10" schemaName="adx_invitation_invitercontact" displayName="adx_invitation_invitercontact" parentSchemaName="contact" parentDisplayName="Contact" />
       </MissingDependency>
       <MissingDependency>
-        <Required type="2" schemaName="adx_invitercontact" displayName="Inviter" parentSchemaName="adx_invitation" parentDisplayName="Invitation" solution="MicrosoftPortalBase (9.2.2103.1)">
-          <package>CDSBasePortal (9.3.2109.20)</package>
+        <Required type="2" schemaName="adx_invitercontact" displayName="Inviter" parentSchemaName="adx_invitation" parentDisplayName="Invitation" solution="MicrosoftPortalBase (9.3.2201.4)">
+          <package>CDSBasePortal (9.3.2201.22)</package>
         </Required>
         <Dependent type="10" schemaName="adx_invitation_invitercontact" displayName="adx_invitation_invitercontact" parentSchemaName="contact" parentDisplayName="Contact" />
       </MissingDependency>
       <MissingDependency>
-        <Required type="2" schemaName="adx_redeemedcontact" displayName="Redeemed Contact" parentSchemaName="adx_invitation" parentDisplayName="Invitation" solution="MicrosoftPortalBase (9.2.2103.1)">
-          <package>CDSBasePortal (9.3.2109.20)</package>
+        <Required type="2" schemaName="adx_redeemedcontact" displayName="Redeemed Contact" parentSchemaName="adx_invitation" parentDisplayName="Invitation" solution="MicrosoftPortalBase (9.3.2201.4)">
+          <package>CDSBasePortal (9.3.2201.22)</package>
         </Required>
         <Dependent type="10" schemaName="adx_invitation_invitercontact" displayName="adx_invitation_invitercontact" parentSchemaName="contact" parentDisplayName="Contact" />
       </MissingDependency>
       <MissingDependency>
-        <Required type="2" schemaName="adx_website" displayName="Website" parentSchemaName="adx_invitation" parentDisplayName="Invitation" solution="MicrosoftPortalBase (9.2.2103.1)">
-          <package>CDSBasePortal (9.3.2109.20)</package>
+        <Required type="2" schemaName="adx_website" displayName="Website" parentSchemaName="adx_invitation" parentDisplayName="Invitation" solution="MicrosoftPortalBase (9.3.2201.4)">
+          <package>CDSBasePortal (9.3.2201.22)</package>
         </Required>
         <Dependent type="10" schemaName="adx_invitation_website" displayName="adx_invitation_website" parentSchemaName="adx_website" parentDisplayName="Website" />
       </MissingDependency>
       <MissingDependency>
-        <Required type="2" schemaName="adx_name" displayName="Name" parentSchemaName="adx_portallanguage" parentDisplayName="Portal Language" solution="MicrosoftPortalBase (9.2.2103.1)">
-          <package>CDSBasePortal (9.3.2109.20)</package>
+        <Required type="2" schemaName="adx_name" displayName="Name" parentSchemaName="adx_portallanguage" parentDisplayName="Portal Language" solution="MicrosoftPortalBase (9.3.2201.4)">
+          <package>CDSBasePortal (9.3.2201.22)</package>
         </Required>
         <Dependent type="10" schemaName="adx_portallanguage_contact" displayName="adx_portallanguage_contact" parentSchemaName="adx_portallanguage" parentDisplayName="Portal Language" />
       </MissingDependency>
       <MissingDependency>
-        <Required type="2" schemaName="adx_portallanguageid" displayName="Portal Language" parentSchemaName="adx_portallanguage" parentDisplayName="Portal Language" solution="MicrosoftPortalBase (9.2.2103.1)">
-          <package>CDSBasePortal (9.3.2109.20)</package>
+        <Required type="2" schemaName="adx_portallanguageid" displayName="Portal Language" parentSchemaName="adx_portallanguage" parentDisplayName="Portal Language" solution="MicrosoftPortalBase (9.3.2201.4)">
+          <package>CDSBasePortal (9.3.2201.22)</package>
         </Required>
         <Dependent type="10" schemaName="adx_portallanguage_contact" displayName="adx_portallanguage_contact" parentSchemaName="adx_portallanguage" parentDisplayName="Portal Language" />
       </MissingDependency>
       <MissingDependency>
         <Required type="2" schemaName="adx_name" displayName="Name" parentSchemaName="adx_website" parentDisplayName="Website" solution="MicrosoftPortalDependencies (9.2.2103.0)">
-          <package>CDSBasePortal (9.3.2109.20)</package>
+          <package>CDSBasePortal (9.3.2201.22)</package>
         </Required>
         <Dependent type="10" schemaName="adx_invitation_website" displayName="adx_invitation_website" parentSchemaName="adx_website" parentDisplayName="Website" />
       </MissingDependency>
       <MissingDependency>
         <Required type="2" schemaName="adx_websiteid" displayName="Website" parentSchemaName="adx_website" parentDisplayName="Website" solution="MicrosoftPortalDependencies (9.2.2103.0)">
-          <package>CDSBasePortal (9.3.2109.20)</package>
+          <package>CDSBasePortal (9.3.2201.22)</package>
         </Required>
         <Dependent type="10" schemaName="adx_invitation_website" displayName="adx_invitation_website" parentSchemaName="adx_website" parentDisplayName="Website" />
       </MissingDependency>
       <MissingDependency>
-        <Required type="2" schemaName="adx_organizationname" displayName="Organization Name" parentSchemaName="contact" parentDisplayName="Contact" solution="MicrosoftPortalDependencies (9.2.2103.0)">
-          <package>CDSBasePortal (9.3.2109.20)</package>
-        </Required>
-        <Dependent type="60" displayName="Profile Web Form" parentDisplayName="Contact" id="{0bd832d5-9d6a-456d-bdc1-21129e82cc0f}" />
-      </MissingDependency>
-      <MissingDependency>
-        <Required type="2" schemaName="adx_organizationname" displayName="Organization Name" parentSchemaName="contact" parentDisplayName="Contact" solution="MicrosoftPortalDependencies (9.2.2103.0)">
-          <package>CDSBasePortal (9.3.2109.20)</package>
-        </Required>
-        <Dependent type="60" displayName="Profile Web Form - Japanese" parentDisplayName="Contact" id="{36cc830c-eeab-4a89-a7c9-da2ac6c451a1}" />
-      </MissingDependency>
-      <MissingDependency>
-        <Required type="2" schemaName="adx_preferredlanguageid" displayName="Preferred Language" parentSchemaName="contact" parentDisplayName="Contact" solution="MicrosoftPortalBase (9.2.2103.1)">
-          <package>CDSBasePortal (9.3.2109.20)</package>
+        <Required type="2" schemaName="adx_preferredlanguageid" displayName="Preferred Language" parentSchemaName="contact" parentDisplayName="Contact" solution="MicrosoftPortalBase (9.3.2201.4)">
+          <package>CDSBasePortal (9.3.2201.22)</package>
         </Required>
         <Dependent type="10" schemaName="adx_portallanguage_contact" displayName="adx_portallanguage_contact" parentSchemaName="adx_portallanguage" parentDisplayName="Portal Language" />
       </MissingDependency>
       <MissingDependency>
-        <Required type="2" schemaName="adx_preferredlanguageid" displayName="Preferred Language" parentSchemaName="contact" parentDisplayName="Contact" solution="MicrosoftPortalBase (9.2.2103.1)">
-          <package>CDSBasePortal (9.3.2109.20)</package>
-        </Required>
-        <Dependent type="60" displayName="Profile Web Form" parentDisplayName="Contact" id="{0bd832d5-9d6a-456d-bdc1-21129e82cc0f}" />
-      </MissingDependency>
-      <MissingDependency>
-        <Required type="2" schemaName="adx_preferredlanguageid" displayName="Preferred Language" parentSchemaName="contact" parentDisplayName="Contact" solution="MicrosoftPortalBase (9.2.2103.1)">
-          <package>CDSBasePortal (9.3.2109.20)</package>
-        </Required>
-        <Dependent type="60" displayName="Profile Web Form - Japanese" parentDisplayName="Contact" id="{36cc830c-eeab-4a89-a7c9-da2ac6c451a1}" />
-      </MissingDependency>
-      <MissingDependency>
-        <Required type="2" schemaName="adx_publicprofilecopy" displayName="Public Profile Copy" parentSchemaName="contact" parentDisplayName="Contact" solution="MicrosoftPortalBase (9.2.2103.1)">
-          <package>CDSBasePortal (9.3.2109.20)</package>
-        </Required>
-        <Dependent type="60" displayName="Profile Web Form" parentDisplayName="Contact" id="{0bd832d5-9d6a-456d-bdc1-21129e82cc0f}" />
-      </MissingDependency>
-      <MissingDependency>
-        <Required type="2" schemaName="adx_publicprofilecopy" displayName="Public Profile Copy" parentSchemaName="contact" parentDisplayName="Contact" solution="MicrosoftPortalBase (9.2.2103.1)">
-          <package>CDSBasePortal (9.3.2109.20)</package>
-        </Required>
-        <Dependent type="60" displayName="Profile Web Form - Japanese" parentDisplayName="Contact" id="{36cc830c-eeab-4a89-a7c9-da2ac6c451a1}" />
-      </MissingDependency>
-      <MissingDependency>
         <Required type="2" schemaName="msa_managingpartnerid" displayName="Managing Partner" parentSchemaName="contact" parentDisplayName="Contact" solution="MicrosoftPortalDependencies (9.2.2103.0)">
-          <package>CDSBasePortal (9.3.2109.20)</package>
+          <package>CDSBasePortal (9.3.2201.22)</package>
         </Required>
         <Dependent type="2" schemaName="parentcustomerid" displayName="Company Name" parentSchemaName="contact" parentDisplayName="Contact" />
       </MissingDependency>
       <MissingDependency>
-        <Required type="26" schemaName="Web Portal Language" displayName="Web Portal Language" parentSchemaName="adx_portallanguage" parentDisplayName="Portal Language" solution="MicrosoftPortalBase (9.2.2103.1)" id="{1327acc1-258a-e611-80d6-00155d88dbcb}">
-          <package>CDSBasePortal (9.3.2109.20)</package>
+        <Required type="61" schemaName="adx_icon_invitation_medium" displayName="adx_icon_invitation_medium" solution="MicrosoftPortalBase (9.3.2201.4)">
+          <package>CDSBasePortal (9.3.2201.22)</package>
         </Required>
-        <Dependent type="60" displayName="Profile Web Form" parentDisplayName="Contact" id="{0bd832d5-9d6a-456d-bdc1-21129e82cc0f}" />
+        <Dependent type="1" schemaName="adx_invitation" displayName="Invitation" />
       </MissingDependency>
       <MissingDependency>
-        <Required type="26" schemaName="Web Portal Language" displayName="Web Portal Language" parentSchemaName="adx_portallanguage" parentDisplayName="Portal Language" solution="MicrosoftPortalBase (9.2.2103.1)" id="{1327acc1-258a-e611-80d6-00155d88dbcb}">
-          <package>CDSBasePortal (9.3.2109.20)</package>
+        <Required type="61" schemaName="adx_icon_invitation_small" displayName="adx_icon_invitation_small" solution="MicrosoftPortalBase (9.3.2201.4)">
+          <package>CDSBasePortal (9.3.2201.22)</package>
         </Required>
-        <Dependent type="60" displayName="Profile Web Form - Japanese" parentDisplayName="Contact" id="{36cc830c-eeab-4a89-a7c9-da2ac6c451a1}" />
+        <Dependent type="1" schemaName="adx_invitation" displayName="Invitation" />
       </MissingDependency>
       <MissingDependency>
-        <Required type="26" schemaName="Portal Language Lookup View" displayName="Portal Language Lookup View" parentSchemaName="adx_portallanguage" parentDisplayName="Portal Language" solution="MicrosoftPortalBase (9.2.2103.1)" id="{149fcc45-44b7-4ba5-92a8-4776b133d015}">
-          <package>CDSBasePortal (9.3.2109.20)</package>
+        <Required type="61" schemaName="adx_invitations.svg" displayName="adx_invitations.svg" solution="MicrosoftPortalBase (9.3.2201.4)">
+          <package>CDSBasePortal (9.3.2201.22)</package>
         </Required>
-        <Dependent type="60" displayName="Profile Web Form" parentDisplayName="Contact" id="{0bd832d5-9d6a-456d-bdc1-21129e82cc0f}" />
-      </MissingDependency>
-      <MissingDependency>
-        <Required type="26" schemaName="Portal Language Lookup View" displayName="Portal Language Lookup View" parentSchemaName="adx_portallanguage" parentDisplayName="Portal Language" solution="MicrosoftPortalBase (9.2.2103.1)" id="{149fcc45-44b7-4ba5-92a8-4776b133d015}">
-          <package>CDSBasePortal (9.3.2109.20)</package>
-        </Required>
-        <Dependent type="60" displayName="Profile Web Form - Japanese" parentDisplayName="Contact" id="{36cc830c-eeab-4a89-a7c9-da2ac6c451a1}" />
-      </MissingDependency>
-      <MissingDependency>
-        <Required type="60" displayName="Profile Web Form" parentDisplayName="Contact" solution="MicrosoftPortalBase (9.2.2103.1)" id="{0bd832d5-9d6a-456d-bdc1-21129e82cc0f}">
-          <package>CDSBasePortal (9.3.2109.20)</package>
-        </Required>
-        <Dependent type="60" displayName="Profile Web Form" parentDisplayName="Contact" id="{0bd832d5-9d6a-456d-bdc1-21129e82cc0f}" />
-      </MissingDependency>
-      <MissingDependency>
-        <Required type="60" displayName="Profile Web Form - Japanese" parentDisplayName="Contact" solution="MicrosoftPortalBase (9.2.2103.1)" id="{36cc830c-eeab-4a89-a7c9-da2ac6c451a1}">
-          <package>CDSBasePortal (9.3.2109.20)</package>
-        </Required>
-        <Dependent type="60" displayName="Profile Web Form - Japanese" parentDisplayName="Contact" id="{36cc830c-eeab-4a89-a7c9-da2ac6c451a1}" />
-      </MissingDependency>
-      <MissingDependency>
-        <Required type="61" schemaName="AppCommon/Contact/Contact_main_system_library.js" displayName="AppCommon/Contact/Contact_main_system_library.js" solution="msdynce_AppCommon (9.0.4.0066)">
-          <package>msdynce_AppCommonAnchor (9.0.22022.10001)</package>
-        </Required>
-        <Dependent type="60" displayName="Profile Web Form" parentDisplayName="Contact" id="{0bd832d5-9d6a-456d-bdc1-21129e82cc0f}" />
+        <Dependent type="1" schemaName="adx_invitation" displayName="Invitation" />
       </MissingDependency>
     </MissingDependencies>
   </SolutionManifest>
