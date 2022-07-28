@@ -35,16 +35,18 @@ steps:
   - checkout: self
     persistCredentials: true
     clean: true
+  - task: NuGetCommand@2
+    displayName: Install PAC
+    inputs:
+      command: 'custom'
+      arguments: 'install Microsoft.PowerApps.CLI -OutputDirectory pac'
   - task: PowerShell@2
     inputs:
       targetType: 'inline'
       script: |
-        cd D:\a\1\s
-        Invoke-WebRequest https://aka.ms/PowerAppsCLI -OutFile pac.msi
-        msiexec /i pac.msi /quiet /norestart
-  - task: CmdLine@2
-    inputs:
-      script: 'dir D:\a\1\s'
+        $pacNugetFolder = Get-ChildItem "pac" | Where-Object {$_.Name -match "Microsoft.PowerApps.CLI."}
+        $pacPath = $pacNugetFolder.FullName + "\tools"
+        echo "##vso[task.setvariable variable=pacPath]$pacPath"
   - task: PowerPlatformToolInstaller@0
     inputs:
       DefaultVersion: true
