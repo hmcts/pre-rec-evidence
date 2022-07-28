@@ -38,6 +38,12 @@ steps:
   - task: PowerPlatformToolInstaller@0
     inputs:
       DefaultVersion: true
+  - task: PowerShell@2
+    inputs:
+      targetType: 'inline'
+      script: |
+        Invoke-WebRequest https://aka.ms/PowerAppsCLI -OutFile pac.msi
+        msiexec /i pac.msi /quiet /norestart
   - task: PowerPlatformDownloadPaportal@0
     inputs:
       authenticationType: 'PowerPlatformSPN'
