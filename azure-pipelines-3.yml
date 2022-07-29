@@ -49,8 +49,8 @@ steps:
         $pacPath = $pacNugetFolder.FullName + "\tools"
         echo "##vso[task.setvariable variable=pacPath]$pacPath"
         $pacPath
-        $Env:Path += ";$pacPath"
-        set
+        #$Env:Path += ";$pacPath"
+        [Environment]::SetEnvironmentVariable("PATH", $Env:PATH + ";$pacpath", [EnvironmentVariableTarget]::Machine)
         pac
   - task: CmdLine@2
     inputs:
