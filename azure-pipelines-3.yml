@@ -67,13 +67,7 @@ steps:
   - task: PowerPlatformToolInstaller@0
     inputs:
       DefaultVersion: true
-  - task: PowerShell@2
-    displayName: Power Platform Download
-    inputs:
-      targetType: 'inline'
-      script: |
-        D:\a\1\s\pac\Microsoft.PowerApps.CLI.1.16.6\tools\pac portal download --path D:\a\1\s --WebsiteId '682912fe-27db-452e-8aac-e938e6b99f57' --url https://orgd6d9527b.crm11.dynamics.com
-         --authenticationType PowerPlatformSPN --PowerPlatformSPN PowerPlatformTest
+
   #- task: PowerPlatformDownloadPaportal@0
   #  inputs:
   #    authenticationType: 'PowerPlatformSPN'
@@ -82,6 +76,25 @@ steps:
   #    DownloadPath: 'D:\a\1\s\pac\Microsoft.PowerApps.CLI.1.16.6\tools'
   #    WebsiteId: '682912fe-27db-452e-8aac-e938e6b99f57'
   
+  - task: PowerShell@2
+    env:
+      PacAuthProfileName: ${{ parameters.serviceConnectionExport }}
+    inputs:
+      targetType: 'inline'
+      script: |
+        # refresh path to make pac available
+        $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
+        pac install latest
+        # pac auth create --name "portalstg" --url $(portalinstanceurl) --username $(portaluser) --password $(portalpassword)
+        pac auth download --name $(PacAuthProfileName) `
+          --url https://orgd6d9527b.crm11.dynamics.com `
+          --path D:\a\1\s
+          #--tenant $(PowerPlatformAadDirectoryId) `
+          #--applicationId $(PowerPlatformAadApplicationId) `
+          #--clientSecret $(PowerPlatformAadApplicationSecret)
+        #pac org who
+        #pac auth select --name $(PacAuthProfileName)
+        #pac paportal upload --path $(System.DefaultWorkingDirectory)/src/portal/dts-pre-sb---dts-pre-sb
   - task: PowerPlatformExportSolution@0
     inputs:
       authenticationType: 'PowerPlatformSPN'
