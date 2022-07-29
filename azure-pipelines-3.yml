@@ -156,5 +156,5 @@ steps:
         D:\a\1\s\pac\Microsoft.PowerApps.CLI.1.16.6\tools\pac auth list
         D:\a\1\s\pac\Microsoft.PowerApps.CLI.1.16.6\tools\pac paportal list
         D:\a\1\s\pac\Microsoft.PowerApps.CLI.1.16.6\tools\pac paportal upload `
-          --path D:\a\1\s\export\pre-test\*
+          --path D:\a\1\s\export\pre-test\
         dir D:\a\1\s\export\pre-test
