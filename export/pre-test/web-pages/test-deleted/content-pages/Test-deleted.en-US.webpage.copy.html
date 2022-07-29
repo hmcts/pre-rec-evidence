@@ -1,0 +1,18 @@
+{% fetchxml VidPerms %}
+<fetch version="1.0" output-format="xml-platform" mapping="logical" distinct="true">
+  <entity name="pre__videopermissions">
+    <attribute name="pre__caseref">
+      <attribute name="pre__court">
+        <attribute name="pre__recordinguid">
+          <order attribute="pre__caseref" descending="false">
+          </order>
+        </attribute>
+      </attribute>
+    </attribute>
+  </entity>
+</fetch>
+{% endfetchxml %}<div class="row sectionBlockLayout" style="text-align: left; min-height: 100px; padding: 8px; margin: 0px;">
+  <div class="container" style="display: flex; flex-wrap: wrap;">
+    <div class="col-md-12 columnBlockLayout"></div>
+  </div>
+</div>{% include 'entity_list' key: 'test' %}

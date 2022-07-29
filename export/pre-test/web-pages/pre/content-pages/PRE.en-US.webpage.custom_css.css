@@ -1,0 +1,13 @@
+.table-row{
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.selected{
+    background-color: lightgrey;
+}
+
+.centre{
+    text-align: center;
+    font-size: 12px;
+}

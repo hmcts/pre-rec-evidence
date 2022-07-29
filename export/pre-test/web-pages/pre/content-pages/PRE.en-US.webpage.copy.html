@@ -1,0 +1,112 @@
+<div class="row sectionBlockLayout sectionPrimaryColor" style="height: 15px; min-height: 15px;"></div>
+<div class="row sectionBlockLayout" style="text-align: left; min-height: 100px; padding: 8px; margin: 0px;">
+  <div class="container" style="display: flex; flex-wrap: wrap;">
+    <div class="col-md-12 columnBlockLayout">
+      <p>
+      </p>
+      <h2>Welcome to the Pre-recorded Evidence Portal</h2>
+      <h2><br>
+        <p></p>
+        <p> <b>Please note: Playback is preferred on non-mobile devices. If possible, please use a preferred device.</b> </p>
+      </h2>
+    </div>
+  </div>
+</div>
+<div class="row sectionBlockLayout" style="text-align: left; min-height: 100px; padding: 8px; margin: 0px;">
+  <div class="container" style="display: flex; flex-wrap: wrap;">
+    <div class="col-md-12 columnBlockLayout">
+
+      <!-- <video allowfullscreen="allowfullscreen" width="320" height="240" controls="controls" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIHZpZXdCb3g9IjAgMCAyNCAyNCIgc3R5bGU9ImZpbGw6IHJnYmEoMCwwLDAsMC4xNSk7IHRyYW5zZm9ybTogc2NhbGUoMC43NSkiPgogICAgICAgIDxwYXRoIGQ9Ik04LjUgMTMuNWwyLjUgMyAzLjUtNC41IDQuNSA2SDVtMTYgMVY1YTIgMiAwIDAgMC0yLTJINWMtMS4xIDAtMiAuOS0yIDJ2MTRjMCAxLjEuOSAyIDIgMmgxNGMxLjEgMCAyLS45IDItMnoiPjwvcGF0aD4KICAgICAgPC9zdmc+" style="width: 808px; height: 406px;"> -->
+      <video id="video" allowfullscreen="allowfullscreen" width="320" height="240" controls="" controlslist="nodownload" style="width: 808px; height: 406px;" preload="none">
+        <source id="source_video" src="example_video_1.mp4" type="video/mp4">
+
+        <!-- source -->
+        Your browser does not support the video tag.
+      </video>
+    </div>
+  </div>
+</div>
+
+<!--{% include 'entity_list' key: 'PRE_RecordingsLst' %}-->
+<div class="row sectionBlockLayout" style="text-align: left; min-height: 100px; padding: 8px; margin: 0px;">
+  <div class="container" style="display: flex; flex-wrap: wrap;">
+    <div class="col-md-12 columnBlockLayout">
+      {% assign currentDate = now | date: "yyyyMMddHHmmss" %}
+      {% fetchxml vidPerms %}
+      <fetch version="1.0" output-format="xml-platform" mapping="logical" distinct="false">
+        <entity name="pre__videopermissions">
+          <attribute name="pre__videopermissionsid"></attribute>
+          <attribute name="pre__caseref"></attribute>
+          <attribute name="pre__recordingdate"></attribute>
+          <attribute name="pre__court"></attribute>
+          <attribute name="pre__witnametxt"></attribute>
+          <attribute name="pre__defsnametxt"></attribute>
+          <attribute name="pre__recordingsaslink"></attribute>
+          <attribute name="pre__recidtxt"></attribute>
+          <attribute name="pre__portalreqhttpparameters"></attribute>
+          <attribute name="pre__autorecordingsaslink"></attribute>
+          <attribute name="pre__recordingversion"></attribute>
+          {% assign conditionCache = '<condition attribute="pre__recidtxt" operator="ne" value="' | append: currentDate | append: '"></condition>' %}
+          <filter type="and">
+            <condition attribute="pre__activeaccess" operator="eq" value="True"></condition>
+            <condition attribute="cr074_contact" operator="eq" value="{{ user.id }}"></condition>
+            <condition attribute="pre__recordingavailable" operator="eq" value="true"></condition>
+            {{ conditionCache }}
+          </filter>
+          <link-entity name="pre__recordings" from="pre__recordingsid" to="pre__recordinguid" visible="false" link-type="outer" alias="a_3f3b9e4725f940449cd8593ab6b2b3aa">
+            <attribute name="pre__recordingstartdate">
+              <attribute name="pre__defendants">
+              </attribute>
+            </attribute>
+          </link-entity>
+          <order attribute="pre__recordingdate" descending="true" />
+        </entity>
+      </fetch>
+      {% endfetchxml %}
+      <div class="RecsTbl">
+        <table id="recordsTable" style="width:1200px" class="table table-bordered table-condensed table-striped table-hover">
+          <thead>
+            <tr class="table-heading">
+              <th style="width:200px">CaseRef</th>
+              <th style="width:200px">Court</th>
+              <th style="width:200px">Date</th>
+              <th style="width:200px">Witness</th>
+              <th style="width:200px">Defendants</th>
+              <th style="width:200px">Recording Version</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for item in vidPerms.results.entities %}
+            <tr class="table-row" onclick="videoplay(this)">
+              <td>{{ item.pre__caseref }}</td>
+              <td>{{ item.pre__court }}</td>
+              <td>{{ item.pre__recordingdate | date: 'dd/MM/yyyy' }}</td>
+              <td>{{ item.pre__witnametxt }}</td>
+              <td>{{ item.pre__defsnametxt }}</td>
+              <td>{{ item.pre__recordingversion }}</td>
+              <td paramsend="" style="display:none;">{{ item.pre__portalreqhttpparameters }}</td>
+              <td reclnk="" style="display:none;"></td>
+            </tr>
+            {% endfor %}
+            <tr id="no-rec" class="no-records" style="display: none;">
+              <td colspan="7" class="centre">No records found</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const recordLength = document.getElementsByClassName("table-row");
+    if (recordLength.length === 0) {
+      const noRecordElement = document.getElementById("no-rec");
+      if (noRecordElement) {
+        noRecordElement.style.display = 'contents'
+      }
+    } else {
+      noRecordElement.style.display = 'none'
+    }
+  });
+</script>
