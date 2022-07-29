@@ -82,7 +82,7 @@ steps:
       script: |
         # refresh path to make pac available
         $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
-        pac install latest
+        D:\a\1\s\pac\Microsoft.PowerApps.CLI.1.16.6\tools\pac install latest
         
   - task: PowerPlatformExportSolution@0
     inputs:
