@@ -1,0 +1,113 @@
+2022-07-29 09:58:00.9351|INFO|bolt.cli.Session|Product Version: 1.16.6+g21922f9; File Version: 1.16.6
+2022-07-29 09:58:00.9761|INFO|bolt.cli.Session|Start new session. (sessionId: c7502b5d-2e4d-473e-9fe2-7dcf94298b81; operationId: MJ+ATvfoqdM=; userId: f8225af4-5f29-4465-8039-051182a94974)
+2022-07-29 09:58:01.0981|INFO|bolt.cli.CommandProcessor|StartExecutingVerb (Verbs: ["auth","create"])
+2022-07-29 09:58:01.1041|INFO|bolt.cli.Verb|Processing 'create' verb arguments
+2022-07-29 09:58:01.1161|INFO|bolt.cli.Verb|Executing 'create' verb
+2022-07-29 09:58:01.1341|INFO|bolt.module.auth.AuthModule|Creating UNIVERSAL auth profile
+2022-07-29 09:58:01.1851|INFO|System.Net.Http.HttpClient.PowerPlatformCLI.LogicalHandler|Start processing HTTP request GET https://orgd6d9527b.crm11.dynamics.com/api/data/v9
+2022-07-29 09:58:01.1971|INFO|System.Net.Http.HttpClient.PowerPlatformCLI.ClientHandler|Sending HTTP request GET https://orgd6d9527b.crm11.dynamics.com/api/data/v9
+2022-07-29 09:58:01.2681|INFO|System.Net.Http.HttpClient.PowerPlatformCLI.ClientHandler|Received HTTP response headers after 67.2802ms - 401
+2022-07-29 09:58:01.2681|INFO|System.Net.Http.HttpClient.PowerPlatformCLI.LogicalHandler|End processing HTTP request after 101.9634ms - 401
+2022-07-29 09:58:01.2741|INFO|bolt.module.auth.store.AuthTokenStore|CreateAuthProfile: Authority for https://orgd6d9527b.crm11.dynamics.com/ is https://login.microsoftonline.com/531ff96d-0ae9-462a-8d2d-bec7c0b42082/
+2022-07-29 09:58:01.2741|INFO|bolt.module.auth.store.AuthTokenStore|CreateAuthProfile: Acquiring token for https://orgd6d9527b.crm11.dynamics.com/
+2022-07-29 09:58:01.3671|INFO|bolt.module.auth.store.AuthApplication|False MSAL 4.44.0.0 MSAL.Desktop 4.8 or later Windows Server 2022 Datacenter [2022-07-29 09:58:01Z - 2201d024-d569-4196-aae2-1243bc65bbdd] [GetAllAccessTokens] Total number of cache partitions found while getting access tokens: 0
+2022-07-29 09:58:01.3671|INFO|bolt.module.auth.store.AuthApplication|False MSAL 4.44.0.0 MSAL.Desktop 4.8 or later Windows Server 2022 Datacenter [2022-07-29 09:58:01Z - 2201d024-d569-4196-aae2-1243bc65bbdd] [FindAccessTokenAsync] Discovered 0 access tokens in cache using partition key: 07587e3c-603e-401f-98d1-ff26206e93f8_531ff96d-0ae9-462a-8d2d-bec7c0b42082_AppTokenCache
+2022-07-29 09:58:01.8786|INFO|bolt.module.auth.store.AuthApplication|False MSAL 4.44.0.0 MSAL.Desktop 4.8 or later Windows Server 2022 Datacenter [2022-07-29 09:58:01Z] [GetAllAccessTokens] Total number of cache partitions found while getting access tokens: 0
+2022-07-29 09:58:01.8836|INFO|bolt.module.auth.store.AuthApplication|False MSAL 4.44.0.0 MSAL.Desktop 4.8 or later Windows Server 2022 Datacenter [2022-07-29 09:58:01Z] [GetAllAccessTokens] Total number of cache partitions found while getting access tokens: 1
+2022-07-29 09:58:01.8836|INFO|bolt.module.auth.store.AuthApplication|False MSAL 4.44.0.0 MSAL.Desktop 4.8 or later Windows Server 2022 Datacenter [2022-07-29 09:58:01Z] [GetAllAccessTokens] Total number of cache partitions found while getting access tokens: 1
+2022-07-29 09:58:01.9536|INFO|bolt.module.auth.store.AuthApplication|False MSAL 4.44.0.0 MSAL.Desktop 4.8 or later Windows Server 2022 Datacenter [2022-07-29 09:58:01Z - 2201d024-d569-4196-aae2-1243bc65bbdd] 
+[LogMetricsFromAuthResult] Cache Refresh Reason: NoCachedAccessToken
+[LogMetricsFromAuthResult] DurationInCacheInMs: 62
+[LogMetricsFromAuthResult] DurationTotalInMs: 619
+[LogMetricsFromAuthResult] DurationInHttpInMs: 256
+
+2022-07-29 09:58:01.9536|INFO|bolt.module.auth.store.AuthApplication|True MSAL 4.44.0.0 MSAL.Desktop 4.8 or later Windows Server 2022 Datacenter [2022-07-29 09:58:01Z - 2201d024-d569-4196-aae2-1243bc65bbdd] [LogMetricsFromAuthResult] TokenEndpoint: https://login.microsoftonline.com/531ff96d-0ae9-462a-8d2d-bec7c0b42082/oauth2/v2.0/token
+2022-07-29 09:58:01.9806|INFO|bolt.module.auth.store.AuthApplication|False MSAL 4.44.0.0 MSAL.Desktop 4.8 or later Windows Server 2022 Datacenter [2022-07-29 09:58:01Z - 6f179634-cb5b-4af5-af5e-46fae153fd77] [GetAllAccessTokens] Total number of cache partitions found while getting access tokens: 1
+2022-07-29 09:58:01.9806|INFO|bolt.module.auth.store.AuthApplication|False MSAL 4.44.0.0 MSAL.Desktop 4.8 or later Windows Server 2022 Datacenter [2022-07-29 09:58:01Z - 6f179634-cb5b-4af5-af5e-46fae153fd77] [FindAccessTokenAsync] Discovered 1 access tokens in cache using partition key: 07587e3c-603e-401f-98d1-ff26206e93f8_531ff96d-0ae9-462a-8d2d-bec7c0b42082_AppTokenCache
+2022-07-29 09:58:02.1136|INFO|bolt.module.auth.store.AuthApplication|False MSAL 4.44.0.0 MSAL.Desktop 4.8 or later Windows Server 2022 Datacenter [2022-07-29 09:58:02Z] [GetAllAccessTokens] Total number of cache partitions found while getting access tokens: 1
+2022-07-29 09:58:02.1136|INFO|bolt.module.auth.store.AuthApplication|False MSAL 4.44.0.0 MSAL.Desktop 4.8 or later Windows Server 2022 Datacenter [2022-07-29 09:58:02Z] [GetAllAccessTokens] Total number of cache partitions found while getting access tokens: 1
+2022-07-29 09:58:02.1136|INFO|bolt.module.auth.store.AuthApplication|False MSAL 4.44.0.0 MSAL.Desktop 4.8 or later Windows Server 2022 Datacenter [2022-07-29 09:58:02Z] [GetAllAccessTokens] Total number of cache partitions found while getting access tokens: 1
+2022-07-29 09:58:02.1156|INFO|bolt.module.auth.store.AuthApplication|False MSAL 4.44.0.0 MSAL.Desktop 4.8 or later Windows Server 2022 Datacenter [2022-07-29 09:58:02Z - 6f179634-cb5b-4af5-af5e-46fae153fd77] 
+[LogMetricsFromAuthResult] Cache Refresh Reason: NoCachedAccessToken
+[LogMetricsFromAuthResult] DurationInCacheInMs: 26
+[LogMetricsFromAuthResult] DurationTotalInMs: 160
+[LogMetricsFromAuthResult] DurationInHttpInMs: 122
+
+2022-07-29 09:58:02.1156|INFO|bolt.module.auth.store.AuthApplication|True MSAL 4.44.0.0 MSAL.Desktop 4.8 or later Windows Server 2022 Datacenter [2022-07-29 09:58:02Z - 6f179634-cb5b-4af5-af5e-46fae153fd77] [LogMetricsFromAuthResult] TokenEndpoint: https://login.microsoftonline.com/531ff96d-0ae9-462a-8d2d-bec7c0b42082/oauth2/v2.0/token
+2022-07-29 09:58:02.1156|INFO|bolt.module.auth.store.AuthTokenStore|CreateAuthProfile: Successfully acquired a token
+2022-07-29 09:58:02.1156|INFO|bolt.module.auth.store.AuthTokenStore|Scopes: https://orgd6d9527b.crm11.dynamics.com//.default
+2022-07-29 09:58:02.1156|INFO|bolt.module.auth.AuthModule|AuthProfile created
+2022-07-29 09:58:02.1156|INFO|bolt.module.auth.AuthModule|Validating connection
+2022-07-29 09:58:02.1156|INFO|bolt.module.auth.AuthModule|Skip org discovery for non User profiles because it is not supported by Discovery Service
+2022-07-29 09:58:02.1776|INFO|bolt.module.cds.client.CdsClient|Creating ServiceClient with environment Uri
+2022-07-29 09:58:02.3151|INFO|bolt.module.cds.client.CdsClient|[CSC] Microsoft.PowerPlatform.Dataverse.Client.ServiceClient Verbose: 16 : 
+2022-07-29 09:58:02.3151|INFO|bolt.module.cds.client.CdsClient|[CSC] Initialize Dataverse connection Started - AuthType: ExternalTokenManagement
+2022-07-29 09:58:02.3221|INFO|bolt.module.cds.client.CdsClient|[CSC] Microsoft.PowerPlatform.Dataverse.Client.ServiceClient Verbose: 16 : 
+2022-07-29 09:58:02.3221|INFO|bolt.module.cds.client.CdsClient|[CSC] Direct Login Process Started
+2022-07-29 09:58:02.3221|INFO|bolt.module.cds.client.CdsClient|[CSC] Microsoft.PowerPlatform.Dataverse.Client.ServiceClient Information: 8 : 
+2022-07-29 09:58:02.3221|INFO|bolt.module.cds.client.CdsClient|[CSC] Attempting to Connect to Uri https://orgd6d9527b.crm11.dynamics.com/XRMServices/2011/Organization.svc
+2022-07-29 09:58:02.3521|INFO|bolt.module.cds.client.CdsClient|[CSC] Microsoft.PowerPlatform.Dataverse.Client.ServiceClient Start: 256 : 
+2022-07-29 09:58:02.3521|INFO|bolt.module.cds.client.CdsClient|[CSC] BuildOrgConnectUri CoreClass ()
+2022-07-29 09:58:02.3521|INFO|bolt.module.cds.client.CdsClient|[CSC] Microsoft.PowerPlatform.Dataverse.Client.ServiceClient Verbose: 16 : 
+2022-07-29 09:58:02.3521|INFO|bolt.module.cds.client.CdsClient|[CSC] DiscoveryServer indicated organization service location = https://orgd6d9527b.crm11.dynamics.com/XRMServices/2011/Organization.svc
+2022-07-29 09:58:02.3521|INFO|bolt.module.cds.client.CdsClient|[CSC] Microsoft.PowerPlatform.Dataverse.Client.ServiceClient Stop: 512 : 
+2022-07-29 09:58:02.3521|INFO|bolt.module.cds.client.CdsClient|[CSC] BuildOrgConnectUri CoreClass ()
+2022-07-29 09:58:02.3521|INFO|bolt.module.cds.client.CdsClient|[CSC] Microsoft.PowerPlatform.Dataverse.Client.ServiceClient Information: 8 : 
+2022-07-29 09:58:02.3521|INFO|bolt.module.cds.client.CdsClient|[CSC] Organization Service URI is 'https://orgd6d9527b.crm11.dynamics.com/XRMServices/2011/Organization.svc'
+2022-07-29 09:58:02.3521|INFO|bolt.module.cds.client.CdsClient|[CSC] Microsoft.PowerPlatform.Dataverse.Client.ServiceClient Verbose: 16 : 
+2022-07-29 09:58:02.3521|INFO|bolt.module.cds.client.CdsClient|[CSC] ConnectAndInitService - Initializing Organization Service Object
+2022-07-29 09:58:02.3521|INFO|bolt.module.cds.client.CdsClient|[CSC] Microsoft.PowerPlatform.Dataverse.Client.ServiceClient Information: 8 : 
+2022-07-29 09:58:02.3521|INFO|bolt.module.cds.client.CdsClient|[CSC] ConnectAndInitService - Requesting connection to Organization with Dataverse Version: No organization data available
+2022-07-29 09:58:02.3521|INFO|bolt.module.auth.store.AuthTokenStore|AcquireTokenSilentAsync: Acquiring token for https://orgd6d9527b.crm11.dynamics.com//.default
+2022-07-29 09:58:02.3661|INFO|bolt.module.auth.store.AuthApplication|False MSAL 4.44.0.0 MSAL.Desktop 4.8 or later Windows Server 2022 Datacenter [2022-07-29 09:58:02Z - ace09e8b-43c1-4fd6-9788-4630e3d63a22] [GetAllAccessTokens] Total number of cache partitions found while getting access tokens: 1
+2022-07-29 09:58:02.3661|INFO|bolt.module.auth.store.AuthApplication|False MSAL 4.44.0.0 MSAL.Desktop 4.8 or later Windows Server 2022 Datacenter [2022-07-29 09:58:02Z - ace09e8b-43c1-4fd6-9788-4630e3d63a22] [FindAccessTokenAsync] Discovered 2 access tokens in cache using partition key: 07587e3c-603e-401f-98d1-ff26206e93f8_531ff96d-0ae9-462a-8d2d-bec7c0b42082_AppTokenCache
+2022-07-29 09:58:02.3661|INFO|bolt.module.auth.store.AuthApplication|False MSAL 4.44.0.0 MSAL.Desktop 4.8 or later Windows Server 2022 Datacenter [2022-07-29 09:58:02Z - ace09e8b-43c1-4fd6-9788-4630e3d63a22] 
+[LogMetricsFromAuthResult] Cache Refresh Reason: NotApplicable
+[LogMetricsFromAuthResult] DurationInCacheInMs: 0
+[LogMetricsFromAuthResult] DurationTotalInMs: 7
+[LogMetricsFromAuthResult] DurationInHttpInMs: 0
+
+2022-07-29 09:58:02.3661|INFO|bolt.module.auth.store.AuthApplication|True MSAL 4.44.0.0 MSAL.Desktop 4.8 or later Windows Server 2022 Datacenter [2022-07-29 09:58:02Z - ace09e8b-43c1-4fd6-9788-4630e3d63a22] [LogMetricsFromAuthResult] TokenEndpoint: 
+2022-07-29 09:58:02.3661|INFO|bolt.module.auth.store.AuthTokenStore|AcquireTokenSilentAsync: Successfully acquired a token
+2022-07-29 09:58:02.5944|INFO|bolt.module.cds.client.CdsClient|[CSC] Microsoft.PowerPlatform.Dataverse.Client.ServiceClient Verbose: 16 : 
+2022-07-29 09:58:02.5944|INFO|bolt.module.cds.client.CdsClient|[CSC] Added WebClient Header Hooks to the Request object.
+2022-07-29 09:58:02.7920|INFO|bolt.module.cds.client.CdsClient|[CSC] Microsoft.PowerPlatform.Dataverse.Client.ServiceClient Information: 8 : 
+2022-07-29 09:58:02.7920|INFO|bolt.module.cds.client.CdsClient|[CSC] ConnectAndInitService - Proxy created, total elapsed time: 00:00:00.4374848
+2022-07-29 09:58:02.8174|INFO|bolt.module.cds.client.CdsClient|[CSC] Microsoft.PowerPlatform.Dataverse.Client.ServiceClient Information: 8 : 
+2022-07-29 09:58:02.8174|INFO|bolt.module.cds.client.CdsClient|[CSC] Querying Organization Instance Details. Request ID: 61f113e7-b0e7-4ea1-b5ab-ffad260fb101
+2022-07-29 09:58:02.8174|INFO|bolt.module.cds.client.CdsClient|[CSC] Microsoft.PowerPlatform.Dataverse.Client.ServiceClient Information: 8 : 
+2022-07-29 09:58:02.8174|INFO|bolt.module.cds.client.CdsClient|[CSC] Execute Command - RetrieveCurrentOrganizationRequest : RequestId=00:00:00.0007533
+2022-07-29 09:58:04.1954|INFO|bolt.module.cds.client.CdsClient|[CSC] Microsoft.PowerPlatform.Dataverse.Client.ServiceClient Information: 8 : 
+2022-07-29 09:58:04.1954|INFO|bolt.module.cds.client.CdsClient|[CSC] Executed Command - RetrieveCurrentOrganizationRequest : RequestId=61f113e7-b0e7-4ea1-b5ab-ffad260fb101 : total duration: 00:00:01.3779949
+2022-07-29 09:58:04.1954|INFO|bolt.module.cds.client.CdsClient|[CSC] Microsoft.PowerPlatform.Dataverse.Client.ServiceClient Verbose: 16 : 
+2022-07-29 09:58:04.1954|INFO|bolt.module.cds.client.CdsClient|[CSC] Completed Parsing Organization Instance Details
+2022-07-29 09:58:04.1954|INFO|bolt.module.cds.client.CdsClient|[CSC] Microsoft.PowerPlatform.Dataverse.Client.ServiceClient Information: 8 : 
+2022-07-29 09:58:04.1954|INFO|bolt.module.cds.client.CdsClient|[CSC] Connected to User Organization (unqb0c9075413b94b3991ce39e74f8e6 version: 9.2.22071.170)
+2022-07-29 09:58:04.1954|INFO|bolt.module.cds.client.CdsClient|[CSC] Microsoft.PowerPlatform.Dataverse.Client.ServiceClient Information: 8 : 
+2022-07-29 09:58:04.1954|INFO|bolt.module.cds.client.CdsClient|[CSC] Direct Login Process Succeeded - duration 00:00:01.8773640
+2022-07-29 09:58:04.1954|INFO|bolt.module.cds.client.CdsClient|[CSC] Microsoft.PowerPlatform.Dataverse.Client.ServiceClient Information: 8 : 
+2022-07-29 09:58:04.1954|INFO|bolt.module.cds.client.CdsClient|[CSC] Beginning Validation of Dataverse Connection. RequestID: dc440e41-3007-4ab6-9e3c-66c78ceea970
+2022-07-29 09:58:04.1954|INFO|bolt.module.cds.client.CdsClient|[CSC] Microsoft.PowerPlatform.Dataverse.Client.ServiceClient Information: 8 : 
+2022-07-29 09:58:04.1954|INFO|bolt.module.cds.client.CdsClient|[CSC] Execute Command - WhoAmIRequest : RequestId=dc440e41-3007-4ab6-9e3c-66c78ceea970
+2022-07-29 09:58:04.2264|INFO|bolt.module.cds.client.CdsClient|[CSC] Microsoft.PowerPlatform.Dataverse.Client.ServiceClient Information: 8 : 
+2022-07-29 09:58:04.2264|INFO|bolt.module.cds.client.CdsClient|[CSC] Executed Command - WhoAmIRequest : RequestId=dc440e41-3007-4ab6-9e3c-66c78ceea970 : total duration: 00:00:00.0237577
+2022-07-29 09:58:04.2264|INFO|bolt.module.cds.client.CdsClient|[CSC] Microsoft.PowerPlatform.Dataverse.Client.ServiceClient Information: 8 : 
+2022-07-29 09:58:04.2264|INFO|bolt.module.cds.client.CdsClient|[CSC] Validation of Dataverse Connection Complete, total duration: 00:00:00.0273558
+2022-07-29 09:58:04.2264|INFO|bolt.module.cds.client.CdsClient|[CSC] Microsoft.PowerPlatform.Dataverse.Client.ServiceClient Verbose: 16 : 
+2022-07-29 09:58:04.2264|INFO|bolt.module.cds.client.CdsClient|[CSC] New Batch Manager Created, Max #of Batches:50000, Max #of RequestsPerBatch:5000
+2022-07-29 09:58:04.2264|INFO|bolt.module.cds.client.CdsClient|Connected to CDS Org
+2022-07-29 09:58:04.2264|INFO|bolt.module.cds.client.actions.WhoAmIAction|Executing WhoAmIAction
+2022-07-29 09:58:04.2414|INFO|bolt.module.cds.client.actions.WhoAmIAction|WhoAmIAction(): Execute Starting
+2022-07-29 09:58:04.2414|INFO|bolt.module.cds.client.primitives.ClientPrimitives|WhoAmI(): Starting
+2022-07-29 09:58:04.2414|INFO|bolt.module.cds.client.CdsClient|[CSC] Microsoft.PowerPlatform.Dataverse.Client.ServiceClient Verbose: 16 : 
+2022-07-29 09:58:04.2414|INFO|bolt.module.cds.client.CdsClient|[CSC] Execute Command - WhoAmI : Execute (WhoAmI) request to Dataverse from IOrganizationService : RequestID=8641232d-d5f4-4c0d-b00f-31365bdd84aa 
+2022-07-29 09:58:04.2744|INFO|bolt.module.cds.client.CdsClient|[CSC] Microsoft.PowerPlatform.Dataverse.Client.ServiceClient Verbose: 16 : 
+2022-07-29 09:58:04.2744|INFO|bolt.module.cds.client.CdsClient|[CSC] Executed Command - WhoAmI : Execute (WhoAmI) request to Dataverse from IOrganizationService : RequestID=8641232d-d5f4-4c0d-b00f-31365bdd84aa  : duration=00:00:00.0231566
+2022-07-29 09:58:04.2744|INFO|bolt.module.cds.client.primitives.ClientPrimitives|WhoAmI(): Succeeded
+2022-07-29 09:58:04.2744|INFO|bolt.module.cds.client.actions.WhoAmIAction|WhoAmIAction execution is complete
+2022-07-29 09:58:04.2744|INFO|bolt.module.auth.profiles.AuthProfilesManager|Add(): Adding profile of Kind DATAVERSE
+2022-07-29 09:58:04.2744|INFO|bolt.module.auth.profiles.AuthProfilesManager|ReadSettings(): No settings file found, creating a default one
+2022-07-29 09:58:04.2744|INFO|bolt.module.auth.profiles.AuthProfilesManager|SetCurrent(): Setting profile of Kind DATAVERSE
+2022-07-29 09:58:04.3404|INFO|bolt.cli.CommandProcessor|EndExecutingVerb (Success: True, Execution Time(ms): 231)
+2022-07-29 09:58:04.4754|INFO|bolt.cli.Session|End session. (ResponseCode: 200)
+

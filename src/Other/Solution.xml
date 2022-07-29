@@ -276,19 +276,19 @@
         <Required type="2" schemaName="adx_invitecontact" displayName="Invite Contact" parentSchemaName="adx_invitation" parentDisplayName="Invitation" solution="MicrosoftPortalBase (9.3.2201.4)">
           <package>CDSBasePortal (9.3.2201.22)</package>
         </Required>
-        <Dependent type="10" schemaName="adx_invitation_invitecontact" displayName="adx_invitation_invitecontact" parentSchemaName="contact" parentDisplayName="Contact" />
+        <Dependent type="10" schemaName="adx_invitation_invitercontact" displayName="adx_invitation_invitercontact" parentSchemaName="contact" parentDisplayName="Contact" />
       </MissingDependency>
       <MissingDependency>
         <Required type="2" schemaName="adx_invitercontact" displayName="Inviter" parentSchemaName="adx_invitation" parentDisplayName="Invitation" solution="MicrosoftPortalBase (9.3.2201.4)">
           <package>CDSBasePortal (9.3.2201.22)</package>
         </Required>
-        <Dependent type="10" schemaName="adx_invitation_invitecontact" displayName="adx_invitation_invitecontact" parentSchemaName="contact" parentDisplayName="Contact" />
+        <Dependent type="10" schemaName="adx_invitation_invitercontact" displayName="adx_invitation_invitercontact" parentSchemaName="contact" parentDisplayName="Contact" />
       </MissingDependency>
       <MissingDependency>
         <Required type="2" schemaName="adx_redeemedcontact" displayName="Redeemed Contact" parentSchemaName="adx_invitation" parentDisplayName="Invitation" solution="MicrosoftPortalBase (9.3.2201.4)">
           <package>CDSBasePortal (9.3.2201.22)</package>
         </Required>
-        <Dependent type="10" schemaName="adx_invitation_invitecontact" displayName="adx_invitation_invitecontact" parentSchemaName="contact" parentDisplayName="Contact" />
+        <Dependent type="10" schemaName="adx_invitation_invitercontact" displayName="adx_invitation_invitercontact" parentSchemaName="contact" parentDisplayName="Contact" />
       </MissingDependency>
       <MissingDependency>
         <Required type="2" schemaName="adx_website" displayName="Website" parentSchemaName="adx_invitation" parentDisplayName="Invitation" solution="MicrosoftPortalBase (9.3.2201.4)">
