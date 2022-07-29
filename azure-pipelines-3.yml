@@ -51,7 +51,6 @@ steps:
         $pacPath
         #$Env:Path += ";$pacPath"
         [Environment]::SetEnvironmentVariable("PATH", $Env:PATH + ";$pacpath", [EnvironmentVariableTarget]::Machine)
-        pac
   - task: CmdLine@2
     inputs:
       script: |
