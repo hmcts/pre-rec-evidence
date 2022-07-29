@@ -92,7 +92,8 @@ steps:
         D:\a\1\s\pac\Microsoft.PowerApps.CLI.1.16.6\tools\pac paportal list
         D:\a\1\s\pac\Microsoft.PowerApps.CLI.1.16.6\tools\pac paportal download `
           --path D:\a\1\s\export\ `
-          --webSiteId eb7a44dc-0f64-ec11-8f8f-000d3ad55d7e
+          --webSiteId eb7a44dc-0f64-ec11-8f8f-000d3ad55d7e `
+          --overwrite
         dir D:\a\1\s\export
         
   - task: PowerPlatformExportSolution@0
