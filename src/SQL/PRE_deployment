@@ -118,7 +118,8 @@ CREATE TABLE recordings(
     recordingfilename VARCHAR(50),
     recordingsaslink VARCHAR(150),
     witnessnames VARCHAR(300),
-    liveoutputurl VARCHAR(200)
+    liveoutputurl VARCHAR(200),
+    inputasset VARCHAR(200)
 );
 
 CREATE TABLE rooms(
