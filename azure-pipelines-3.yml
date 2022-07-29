@@ -77,12 +77,17 @@ steps:
   #    WebsiteId: '682912fe-27db-452e-8aac-e938e6b99f57'
   
   - task: PowerShell@2
+    displayName: Connect to PowerPortal
     inputs:
       targetType: 'inline'
       script: |
         # refresh path to make pac available
         $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
-        D:\a\1\s\pac\Microsoft.PowerApps.CLI.1.16.6\tools\pac install latest
+        D:\a\1\s\pac\Microsoft.PowerApps.CLI.1.16.6\tools\pac auth create --name ExportTest `
+          --url https://orgd6d9527b.crm11.dynamics.com `
+          --tenant 531ff96d-0ae9-462a-8d2d-bec7c0b42082 `
+          --applicationId 07587e3c-603e-401f-98d1-ff26206e93f8 `
+          --clientSecret bWg8Q~E2j2iMGWPYJ8LTkvQZAkXKxYev8f7VCaVi
         
   - task: PowerPlatformExportSolution@0
     inputs:
