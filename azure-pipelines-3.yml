@@ -41,6 +41,7 @@ steps:
       command: 'custom'
       arguments: 'install Microsoft.PowerApps.CLI -OutputDirectory pac'
   - task: PowerShell@2
+    displayName: Set Env:Path for pac
     inputs:
       targetType: 'inline'
       script: |
@@ -49,6 +50,8 @@ steps:
         echo "##vso[task.setvariable variable=pacPath]$pacPath"
         $pacPath
         $Env:Path += ";$pacPath"
+        set
+        pac
   - task: CmdLine@2
     inputs:
       script: |
