@@ -67,13 +67,19 @@ steps:
   - task: PowerPlatformToolInstaller@0
     inputs:
       DefaultVersion: true
-  - task: PowerPlatformDownloadPaportal@0
+  - task: PowerShell@2
     inputs:
-      authenticationType: 'PowerPlatformSPN'
-      PowerPlatformSPN: 'PowerPlatformTest'
-      Environment: 'https://orgd6d9527b.crm11.dynamics.com'
-      DownloadPath: 'D:\a\1\s\pac\Microsoft.PowerApps.CLI.1.16.6\tools'
-      WebsiteId: '682912fe-27db-452e-8aac-e938e6b99f57'
+      targetType: 'inline'
+      script: |
+        D:\a\1\s\pac\Microsoft.PowerApps.CLI.1.16.6\tools\pac portal download --path D:\a\1\s --WebsiteId '682912fe-27db-452e-8aac-e938e6b99f57' --url https://orgd6d9527b.crm11.dynamics.com
+         --authenticationType PowerPlatformSPN --PowerPlatformSPN PowerPlatformTest
+  #- task: PowerPlatformDownloadPaportal@0
+  #  inputs:
+  #    authenticationType: 'PowerPlatformSPN'
+  #    PowerPlatformSPN: 'PowerPlatformTest'
+  #    Environment: 'https://orgd6d9527b.crm11.dynamics.com'
+  #    DownloadPath: 'D:\a\1\s\pac\Microsoft.PowerApps.CLI.1.16.6\tools'
+  #    WebsiteId: '682912fe-27db-452e-8aac-e938e6b99f57'
   
   - task: PowerPlatformExportSolution@0
     inputs:
