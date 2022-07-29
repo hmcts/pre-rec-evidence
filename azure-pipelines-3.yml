@@ -68,6 +68,7 @@ steps:
     inputs:
       DefaultVersion: true
   - task: PowerShell@2
+    displayName: Power Platform Download
     inputs:
       targetType: 'inline'
       script: |
