@@ -63,7 +63,7 @@ steps:
     inputs:
       SourceFolder: 'D:\a\1\s\pac\Microsoft.PowerApps.CLI.1.16.6\tools'
       Contents: 'pac.*'
-      TargetFolder: 'C:\Users\VssAdministrator\AppData\Local\Microsoft\WindowsApps'
+      TargetFolder: 'C:\Windows\system32'
   - task: PowerPlatformToolInstaller@0
     inputs:
       DefaultVersion: true
