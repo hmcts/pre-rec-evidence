@@ -52,6 +52,7 @@ DROP TABLE IF EXISTS videopermissions;
 -- audit table for all activity logging
 CREATE TABLE audits(
     logentry VARCHAR(50) PRIMARY KEY,
+    aduitdate VARCHAR(50),
     activity VARCHAR(100),
     recordinguid VARCHAR(50),
     caseuid VARCHAR(50),
@@ -116,10 +117,9 @@ CREATE TABLE recordings(
     recordingversion VARCHAR(10),
     recordingavailable VARCHAR(10),
     recordingfilename VARCHAR(50),
-    recordingsaslink VARCHAR(150),
+    recordingsaslink VARCHAR(500),
     witnessnames VARCHAR(300),
-    liveoutputurl VARCHAR(200),
-    inputasset VARCHAR(200)
+    liveoutputurl VARCHAR(200)
 );
 
 CREATE TABLE rooms(
@@ -151,7 +151,7 @@ CREATE TABLE videopermissions(
     email VARCHAR(70),
     emailnotificationsent VARCHAR(10),
     portalreqhttpparameters VARCHAR(300),
-    recordingsaslink VARCHAR(150),
+    recordingsaslink VARCHAR(500),
     recordingversion VARCHAR(10),
     recordingavailable VARCHAR(10),
     recordingstartdate VARCHAR(50),
