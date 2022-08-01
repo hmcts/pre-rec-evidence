@@ -25,7 +25,9 @@ parameters:
       - 'PowerPlatformDev'
 
 variables:
-  solutionName: dts_pre_recorded_evidence
+- group: auth-test
+- name: solutionName
+  value: dts_pre_recorded_evidence
 
 pool:
   vmImage: windows-latest
@@ -52,7 +54,7 @@ steps:
   #    PowerPlatformSPN: 'PowerPlatformTest'
   #    Environment: 'https://orgd6d9527b.crm11.dynamics.com'
   #    DownloadPath: 'D:\a\1\s\pac\Microsoft.PowerApps.CLI.1.16.6\tools'
-  #    WebsiteId: '682912fe-27db-452e-8aac-e938e6b99f57'
+  #    WebsiteId: 'eb7a44dc-0f64-ec11-8f8f-000d3ad55d7e'
   
   - task: PowerShell@2
     displayName: Connect to PowerPortal Test and Download Portal
@@ -62,15 +64,15 @@ steps:
         # refresh path to make pac available
         #$env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
         D:\a\1\s\pac\Microsoft.PowerApps.CLI.1.16.6\tools\pac auth create --name ExportTest `
-          --url https://orgd6d9527b.crm11.dynamics.com `
-          --tenant 531ff96d-0ae9-462a-8d2d-bec7c0b42082 `
-          --applicationId 07587e3c-603e-401f-98d1-ff26206e93f8 `
-          --clientSecret bWg8Q~E2j2iMGWPYJ8LTkvQZAkXKxYev8f7VCaVi
+          --url $(portalinstanceurl) `
+          --tenant $(PowerPlatformAadDirectoryId) `
+          --applicationId $(PowerPlatformAadApplicationId) `
+          --clientSecret $(PowerPlatformAadApplicationSecret)
         D:\a\1\s\pac\Microsoft.PowerApps.CLI.1.16.6\tools\pac auth list
         D:\a\1\s\pac\Microsoft.PowerApps.CLI.1.16.6\tools\pac paportal list
         D:\a\1\s\pac\Microsoft.PowerApps.CLI.1.16.6\tools\pac paportal download `
           --path D:\a\1\s\export\ `
-          --webSiteId eb7a44dc-0f64-ec11-8f8f-000d3ad55d7e `
+          --webSiteId $(portalid) `
           --overwrite
         dir D:\a\1\s\export
         
