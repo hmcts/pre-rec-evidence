@@ -34,6 +34,7 @@ steps:
     #    performMultiLevelLookup: true
     
     - task: AzureKeyVault@1
+      continueOnError: true
       displayName: 'Get secrets from pre-test key vault'
       #condition: ne(variables['System.PullRequest.PullRequestNumber'], '')
       inputs:
@@ -41,6 +42,9 @@ steps:
         ConnectedServiceName: 'DTS-SHAREDSERVICES-TEST'
         keyVaultName: 'pre-test'
         secretsFilter: 'PowerAppAdminPassword'
+    - task: CmdLine@2
+      inputs:
+        script: 'more D:\a\1\ProvisionKeyVaultPermissions.ps1'
     
     - task: NodeTool@0
       inputs:
