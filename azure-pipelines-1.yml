@@ -15,7 +15,6 @@ parameters:
   - name: exportToBranch
     displayName: Export To Branch
     type: string
-    default: 'ADO-Powerplatform'
     default: 'refactoring-tests'
 
 variables:
