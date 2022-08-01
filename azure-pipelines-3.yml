@@ -40,34 +40,12 @@ steps:
     inputs:
       command: 'custom'
       arguments: 'install Microsoft.PowerApps.CLI -OutputDirectory pac'
-  - task: PowerShell@2
-    displayName: Set Env:Path for pac
-    inputs:
-      targetType: 'inline'
-      script: |
-        $pacNugetFolder = Get-ChildItem "pac" | Where-Object {$_.Name -match "Microsoft.PowerApps.CLI."}
-        $pacPath = $pacNugetFolder.FullName + "\tools"
-        echo "##vso[task.setvariable variable=pacPath]$pacPath"
-        $pacPath
-        $Env:Path += ";$pacPath"
-        #[Environment]::SetEnvironmentVariable("PATH", $Env:PATH + ";$pacpath", [EnvironmentVariableTarget]::Machine)
-        $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User") 
-  - task: CmdLine@2
-    inputs:
-      script: |
-        dir D:\a\1\s\pac\Microsoft.PowerApps.CLI.1.16.6\tools
-        #D:\a\1\s\pac\Microsoft.PowerApps.CLI.1.16.6\tools\pac
-        pac
-        set
-  - task: CopyFiles@2
-    inputs:
-      SourceFolder: 'D:\a\1\s\pac\Microsoft.PowerApps.CLI.1.16.6\tools'
-      Contents: 'pac.*'
-      TargetFolder: 'C:\Windows\system32'
   - task: PowerPlatformToolInstaller@0
     inputs:
       DefaultVersion: true
 
+  # Not using. Probably failing because it cannot find pac path
+  # Have tried setting env path but not setting so switching to running commands manually
   #- task: PowerPlatformDownloadPaportal@0
   #  inputs:
   #    authenticationType: 'PowerPlatformSPN'
@@ -125,6 +103,7 @@ steps:
       SolutionInputFile: 'dts_pre_recorded_evidence.zip'
       SolutionTargetFolder: 'src'
   - task: CmdLine@2
+    displayName: 
     inputs:
       script: |
         echo Commit Power Platform Solution
@@ -135,8 +114,9 @@ steps:
         git add --all
         git commit -m "Automatic solution commit"
         git -c http.extraheader="AUTHORIZATION: bearer $(system.githubPat)" push origin ${{ parameters.exportToBranch }}
-  #removed to speedup testing
+
   - task: PowerPlatformImportSolution@0
+    displayName: Connect to Powerportal DEV and upload solution
     inputs:
       authenticationType: 'PowerPlatformSPN'
       PowerPlatformSPN: ${{ parameters.serviceConnectionImport }}
