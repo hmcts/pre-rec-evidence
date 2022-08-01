@@ -35,7 +35,7 @@ steps:
     
     - task: AzureKeyVault@1
       displayName: 'Get secrets from pre-test key vault'
-      condition: ne(variables['System.PullRequest.PullRequestNumber'], '')
+      #condition: ne(variables['System.PullRequest.PullRequestNumber'], '')
       inputs:
         runAsPreJob: false
         ConnectedServiceName: 'DTS-SHAREDSERVICES-TEST'
