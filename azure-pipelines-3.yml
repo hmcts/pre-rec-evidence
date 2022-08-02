@@ -36,6 +36,7 @@ pool:
 steps:
 
   - checkout: self
+    displayName: Get repo
     persistCredentials: true
     clean: true
   - task: NuGetCommand@2
@@ -52,6 +53,7 @@ steps:
         $pacPath = $pacNugetFolder.FullName + "\tools"
         Write-Host "##vso[task.setvariable variable=pacPath]$pacPath"
   - task: PowerPlatformToolInstaller@0
+    displayName: Install PowerPlatform Tools
     inputs:
       DefaultVersion: true
 
@@ -66,7 +68,7 @@ steps:
   #    WebsiteId: 'eb7a44dc-0f64-ec11-8f8f-000d3ad55d7e'
   
   - task: PowerShell@2
-    displayName: Connect to PowerPortal Test and Download Portal
+    displayName: Export PowerPortal Portal from Test
     inputs:
       targetType: 'inline'
       script: |
@@ -86,6 +88,7 @@ steps:
         dir D:\a\1\s\export
         
   - task: PowerPlatformExportSolution@0
+    displayName: Export PowerPortal Solution from Test
     inputs:
       authenticationType: 'PowerPlatformSPN'
       PowerPlatformSPN: ${{ parameters.serviceConnectionExport }}
@@ -105,6 +108,7 @@ steps:
       ExportRelationshipRoles: true
   
   - task: PublishPipelineArtifact@1
+    displayName: Publish solution zip as artifact
     inputs:
       targetPath: 'dts_pre_recorded_evidence.zip'
       artifact: 'Solution Archive'
@@ -129,7 +133,7 @@ steps:
         git -c http.extraheader="AUTHORIZATION: bearer $(system.githubPat)" push origin ${{ parameters.exportToBranch }}
 
   - task: PowerPlatformImportSolution@0
-    displayName: Connect to Powerportal DEV and upload solution
+    displayName: Import Powerportal solution to DEV
     inputs:
       authenticationType: 'PowerPlatformSPN'
       PowerPlatformSPN: ${{ parameters.serviceConnectionImport }}
@@ -137,7 +141,7 @@ steps:
       AsyncOperation: true
       MaxAsyncWaitTime: '60'
   - task: PowerShell@2
-    displayName: Connect to PowerPortal DEV and Upload Portal
+    displayName: Import PowerPortal Portal to DEV
     inputs:
       targetType: 'inline'
       script: |
