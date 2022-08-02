@@ -1,0 +1,157 @@
+name: Darren PRE Exporter
+trigger: none
+pr: none
+parameters:
+  - name: serviceConnectionExport
+    displayName: Export from Service Connection
+    type: string
+    default: 'PowerPlatformTest'
+    values:
+      - 'PowerPlatformTest'
+      - 'PowerPlatform'
+      - 'POWERAPPS-PRE-SDS-SBOX'
+      - 'POWERAPPS-PRE-SDS-DEV'
+      - 'POWERAPPS-PRE-SDS-STG'
+      - 'POWERAPPS-PRE-SDS-PROD'
+  - name: exportToBranch
+    displayName: Export To Branch
+    type: string
+    default: 'refactoring-tests'
+  - name: serviceConnectionImport
+    displayName: Import to Service Connection
+    type: string
+    default: 'PowerPlatformDev'
+    values:
+      - 'PowerPlatformDev'
+
+variables:
+- group: auth-test
+- group: auth-DEV-Darren
+- name: solutionName
+  value: dts_pre_recorded_evidence
+
+pool:
+  vmImage: windows-latest
+
+steps:
+
+  - checkout: self
+    displayName: Get repo
+    persistCredentials: true
+    clean: true
+  - task: NuGetCommand@2
+    displayName: Install PAC
+    inputs:
+      command: 'custom'
+      arguments: 'install Microsoft.PowerApps.CLI -OutputDirectory pac'
+  - task: PowerShell@2
+    displayName: Get Path to PAC exe
+    inputs:
+      targetType: 'inline'
+      script: |
+        $pacNugetFolder = Get-ChildItem "pac" | Where-Object {$_.Name -match "Microsoft.PowerApps.CLI."}
+        $pacPath = $pacNugetFolder.FullName + "\tools"
+        Write-Host "##vso[task.setvariable variable=pacPath]$pacPath"
+  - task: PowerPlatformToolInstaller@0
+    displayName: Install PowerPlatform Tools
+    inputs:
+      DefaultVersion: true
+
+  # Not using. Probably failing because it cannot find pac path
+  # Have tried setting env path but not setting so switching to running commands manually
+  #- task: PowerPlatformDownloadPaportal@0
+  #  inputs:
+  #    authenticationType: 'PowerPlatformSPN'
+  #    PowerPlatformSPN: 'PowerPlatformTest'
+  #    Environment: 'https://orgd6d9527b.crm11.dynamics.com'
+  #    DownloadPath: 'D:\a\1\s\pac\Microsoft.PowerApps.CLI.1.16.6\tools'
+  #    WebsiteId: 'eb7a44dc-0f64-ec11-8f8f-000d3ad55d7e'
+  
+  - task: PowerShell@2
+    displayName: Export PowerPortal Portal from Test
+    inputs:
+      targetType: 'inline'
+      script: |
+        # refresh path to make pac available
+        #$env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
+        $(pacPath)\pac auth create --name ExportTest `
+          --url $(portalinstanceurlTest) `
+          --tenant $(PowerPlatformAadDirectoryIdTest) `
+          --applicationId $(PowerPlatformAadApplicationIdTest) `
+          --clientSecret $(PowerPlatformAadApplicationSecretTest)
+        $(pacPath)\pac auth list
+        $(pacPath)\pac paportal list
+        $(pacPath)\pac paportal download `
+          --path D:\a\1\s\export\ `
+          --webSiteId $(portalidTest) `
+          --overwrite
+        dir D:\a\1\s\export
+        
+  - task: PowerPlatformExportSolution@0
+    displayName: Export PowerPortal Solution from Test
+    inputs:
+      authenticationType: 'PowerPlatformSPN'
+      PowerPlatformSPN: ${{ parameters.serviceConnectionExport }}
+      SolutionName: $(solutionName)
+      SolutionOutputFile: 'dts_pre_recorded_evidence.zip'
+      AsyncOperation: false
+      Managed: false
+      MaxAsyncWaitTime: 120
+      ExportAutoNumberingSettings: true
+      ExportCalendarSettings: true
+      ExportCustomizationSettings: true
+      ExportEmailTrackingSettings: true
+      ExportGeneralSettings: true
+      ExportIsvConfig: true
+      ExportMarketingSettings: true
+      ExportOutlookSynchronizationSettings: true
+      ExportRelationshipRoles: true
+  
+  - task: PublishPipelineArtifact@1
+    displayName: Publish solution zip as artifact
+    inputs:
+      targetPath: 'dts_pre_recorded_evidence.zip'
+      artifact: 'Solution Archive'
+      publishLocation: 'pipeline'
+  - task: PowerPlatformUnpackSolution@0
+    displayName: unpack zip to src in readiness for git push
+    inputs:
+      SolutionInputFile: 'dts_pre_recorded_evidence.zip'
+      SolutionTargetFolder: 'src'
+  - task: CmdLine@2
+    displayName: git push
+    inputs:
+      script: |
+        pwd
+        echo Commit Power Platform Solution
+        git config user.email "prebuildpipeline@hmcts.net"
+        git config user.name "PRE Build Pipeline"
+        git pull origin master
+        git checkout -b ${{ parameters.exportToBranch }}
+        git add --all
+        git commit -m "Automatic portal and solution commit"
+        git -c http.extraheader="AUTHORIZATION: bearer $(system.githubPat)" push origin ${{ parameters.exportToBranch }}
+
+  - task: PowerPlatformImportSolution@0
+    displayName: Import Powerportal solution to DEV
+    inputs:
+      authenticationType: 'PowerPlatformSPN'
+      PowerPlatformSPN: ${{ parameters.serviceConnectionImport }}
+      SolutionInputFile: 'dts_pre_recorded_evidence.zip'
+      AsyncOperation: true
+      MaxAsyncWaitTime: '60'
+  - task: PowerShell@2
+    displayName: Import PowerPortal Portal to DEV
+    inputs:
+      targetType: 'inline'
+      script: |
+        $(pacPath)\pac auth create --name ImportDEV `
+          --url $(portalinstanceurlDevDarren) `
+          --tenant $(PowerPlatformAadDirectoryIdDevDarren) `
+          --applicationId $(PowerPlatformAadApplicationIdDevDarren) `
+          --clientSecret $(PowerPlatformAadApplicationSecretDevDarren)
+        $(pacPath)\pac auth list
+        $(pacPath)\pac paportal list
+        $(pacPath)\pac paportal upload `
+          --path D:\a\1\s\export\pre-test\
+        dir D:\a\1\s\export\pre-test
