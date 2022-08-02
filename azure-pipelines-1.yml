@@ -1,10 +1,11 @@
 name: Darren PRE Exporter
-#trigger: none
-resources:
-  pipelines:
-    - pipeline: azure-pipelines-1
-      source: hmcts.pre-rec-evidence (6)
-      trigger: true
+trigger: none
+#this can be used to trigger this pipeline when hmcts.pre-rec-evidence (6) completes 
+#resources:
+#  pipelines:
+#    - pipeline: azure-pipelines-1
+#      source: hmcts.pre-rec-evidence (6)
+#      trigger: true
 pr: none
 parameters:
   - name: serviceConnection
