@@ -50,6 +50,7 @@ steps:
       script: |
         $pacNugetFolder = Get-ChildItem "pac" | Where-Object {$_.Name -match "Microsoft.PowerApps.CLI."}
         $pacPath = $pacNugetFolder.FullName + "\tools"
+        Write-Host "##vso[task.setvariable variable=pacPath]$pacPath"
   - task: PowerPlatformToolInstaller@0
     inputs:
       DefaultVersion: true
@@ -76,7 +77,7 @@ steps:
           --tenant $(PowerPlatformAadDirectoryIdTest) `
           --applicationId $(PowerPlatformAadApplicationIdTest) `
           --clientSecret $(PowerPlatformAadApplicationSecretTest)
-        $pacPath\pac auth list
+        $(pacPath)\pac auth list
         D:\a\1\s\pac\Microsoft.PowerApps.CLI.1.16.6\tools\pac paportal list
         D:\a\1\s\pac\Microsoft.PowerApps.CLI.1.16.6\tools\pac paportal download `
           --path D:\a\1\s\export\ `
