@@ -26,6 +26,7 @@ parameters:
 
 variables:
 - group: auth-test
+- group: auth-DEV-Darren
 - name: solutionName
   value: dts_pre_recorded_evidence
 
@@ -64,15 +65,15 @@ steps:
         # refresh path to make pac available
         #$env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
         D:\a\1\s\pac\Microsoft.PowerApps.CLI.1.16.6\tools\pac auth create --name ExportTest `
-          --url $(portalinstanceurl) `
-          --tenant $(PowerPlatformAadDirectoryId) `
-          --applicationId $(PowerPlatformAadApplicationId) `
-          --clientSecret $(PowerPlatformAadApplicationSecret)
+          --url $(portalinstanceurlTest) `
+          --tenant $(PowerPlatformAadDirectoryIdTest) `
+          --applicationId $(PowerPlatformAadApplicationIdTest) `
+          --clientSecret $(PowerPlatformAadApplicationSecretTest)
         D:\a\1\s\pac\Microsoft.PowerApps.CLI.1.16.6\tools\pac auth list
         D:\a\1\s\pac\Microsoft.PowerApps.CLI.1.16.6\tools\pac paportal list
         D:\a\1\s\pac\Microsoft.PowerApps.CLI.1.16.6\tools\pac paportal download `
           --path D:\a\1\s\export\ `
-          --webSiteId $(portalid) `
+          --webSiteId $(portalidTest) `
           --overwrite
         dir D:\a\1\s\export
         
