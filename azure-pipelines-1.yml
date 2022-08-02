@@ -48,9 +48,9 @@ steps:
    #     ConnectedServiceName: 'DTS-SHAREDSERVICES-TEST'
    #     keyVaultName: 'pre-test'
    #     secretsFilter: 'PowerAppAdminPassword'
-    - task: CmdLine@2
-      inputs:
-        script: 'more D:\a\1\ProvisionKeyVaultPermissions.ps1'
+    #- task: CmdLine@2
+    #  inputs:
+    #    script: 'more D:\a\1\ProvisionKeyVaultPermissions.ps1'
     
     - task: NodeTool@0
       inputs:
