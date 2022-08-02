@@ -43,6 +43,13 @@ steps:
     inputs:
       command: 'custom'
       arguments: 'install Microsoft.PowerApps.CLI -OutputDirectory pac'
+  - task: PowerShell@2
+    displayName: Get Path to PAC exe
+    inputs:
+      targetType: 'inline'
+      script: |
+        $pacNugetFolder = Get-ChildItem "pac" | Where-Object {$_.Name -match "Microsoft.PowerApps.CLI."}
+        $pacPath = $pacNugetFolder.FullName + "\tools"
   - task: PowerPlatformToolInstaller@0
     inputs:
       DefaultVersion: true
@@ -69,7 +76,7 @@ steps:
           --tenant $(PowerPlatformAadDirectoryIdTest) `
           --applicationId $(PowerPlatformAadApplicationIdTest) `
           --clientSecret $(PowerPlatformAadApplicationSecretTest)
-        D:\a\1\s\pac\Microsoft.PowerApps.CLI.1.16.6\tools\pac auth list
+        $pacPath\pac auth list
         D:\a\1\s\pac\Microsoft.PowerApps.CLI.1.16.6\tools\pac paportal list
         D:\a\1\s\pac\Microsoft.PowerApps.CLI.1.16.6\tools\pac paportal download `
           --path D:\a\1\s\export\ `
