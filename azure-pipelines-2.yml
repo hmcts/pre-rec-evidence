@@ -12,6 +12,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 name: Darren PRE Exporter
 trigger: none
 pr: none
@@ -38,6 +39,8 @@ parameters:
     values:
       - 'PowerPlatformDev'
 =======
+=======
+>>>>>>> 61576e80ddaa29c4877d0c1c161644c7b4935f55
 =======
 >>>>>>> 61576e80ddaa29c4877d0c1c161644c7b4935f55
 =======
@@ -97,6 +100,9 @@ parameters:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> 61576e80ddaa29c4877d0c1c161644c7b4935f55
+=======
 >>>>>>> 61576e80ddaa29c4877d0c1c161644c7b4935f55
 =======
 >>>>>>> 61576e80ddaa29c4877d0c1c161644c7b4935f55
@@ -129,6 +135,7 @@ variables:
   solutionName: dts_pre_recorded_evidence
 
 pool:
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -227,6 +234,8 @@ steps:
 >>>>>>> 61576e80ddaa29c4877d0c1c161644c7b4935f55
 =======
 >>>>>>> 61576e80ddaa29c4877d0c1c161644c7b4935f55
+=======
+>>>>>>> 61576e80ddaa29c4877d0c1c161644c7b4935f55
   vmImage: 'windows-latest'
 
 steps:
@@ -252,6 +261,9 @@ steps:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> 61576e80ddaa29c4877d0c1c161644c7b4935f55
+=======
 >>>>>>> 61576e80ddaa29c4877d0c1c161644c7b4935f55
 =======
 >>>>>>> 61576e80ddaa29c4877d0c1c161644c7b4935f55
