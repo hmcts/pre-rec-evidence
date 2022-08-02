@@ -51,13 +51,6 @@ steps:
         $pacNugetFolder = Get-ChildItem "pac" | Where-Object {$_.Name -match "Microsoft.PowerApps.CLI."}
         $pacPath = $pacNugetFolder.FullName + "\tools"
         Write-Host "##vso[task.setvariable variable=pacPath]$pacPath"
-        $Env:Path += ";$(pacPath)"
-  - task: CmdLine@2
-    displayName: pac and set
-    inputs:
-      script: |
-        pac
-        set
   - task: PowerPlatformToolInstaller@0
     inputs:
       DefaultVersion: true
@@ -79,14 +72,14 @@ steps:
       script: |
         # refresh path to make pac available
         #$env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
-        D:\a\1\s\pac\Microsoft.PowerApps.CLI.1.16.6\tools\pac auth create --name ExportTest `
+        $(pacPath)\pac auth create --name ExportTest `
           --url $(portalinstanceurlTest) `
           --tenant $(PowerPlatformAadDirectoryIdTest) `
           --applicationId $(PowerPlatformAadApplicationIdTest) `
           --clientSecret $(PowerPlatformAadApplicationSecretTest)
         $(pacPath)\pac auth list
-        D:\a\1\s\pac\Microsoft.PowerApps.CLI.1.16.6\tools\pac paportal list
-        D:\a\1\s\pac\Microsoft.PowerApps.CLI.1.16.6\tools\pac paportal download `
+        $(pacPath)\pac paportal list
+        $(pacPath)\pac paportal download `
           --path D:\a\1\s\export\ `
           --webSiteId $(portalidTest) `
           --overwrite
@@ -146,13 +139,13 @@ steps:
     inputs:
       targetType: 'inline'
       script: |
-        D:\a\1\s\pac\Microsoft.PowerApps.CLI.1.16.6\tools\pac auth create --name ImportDEV `
+        $(pacPath)\pac auth create --name ImportDEV `
           --url $(portalinstanceurlDevDarren) `
           --tenant $(PowerPlatformAadDirectoryIdDevDarren) `
           --applicationId $(PowerPlatformAadApplicationIdDevDarren) `
           --clientSecret $(PowerPlatformAadApplicationSecretDevDarren)
-        D:\a\1\s\pac\Microsoft.PowerApps.CLI.1.16.6\tools\pac auth list
-        D:\a\1\s\pac\Microsoft.PowerApps.CLI.1.16.6\tools\pac paportal list
-        D:\a\1\s\pac\Microsoft.PowerApps.CLI.1.16.6\tools\pac paportal upload `
+        $(pacPath)\pac auth list
+        $(pacPath)\pac paportal list
+        $(pacPath)\pac paportal upload `
           --path D:\a\1\s\export\pre-test\
         dir D:\a\1\s\export\pre-test
