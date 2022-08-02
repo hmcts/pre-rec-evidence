@@ -35,6 +35,7 @@ pool:
 
 jobs:
 - job: Export
+  displayName: Export from Test
   steps:
 
     - checkout: self
@@ -128,6 +129,8 @@ jobs:
           git commit -m "Automatic solution commit"
           git -c http.extraheader="AUTHORIZATION: bearer $(system.githubPat)" push origin ${{ parameters.exportToBranch }}
 - job: Import
+  displayName: Import into DEV
+  dependsOn: Export
   steps:
     - task: PowerPlatformImportSolution@0
       displayName: Connect to Powerportal DEV and upload solution
