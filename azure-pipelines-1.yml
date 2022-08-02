@@ -1,5 +1,10 @@
 name: Darren PRE Exporter
-trigger: none
+#trigger: none
+resources:
+  pipelines:
+    - pipeline: azure-pipelines-1
+      source: hmcts.pre-rec-evidence (6)
+      trigger: true
 pr: none
 parameters:
   - name: serviceConnection
