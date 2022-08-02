@@ -122,7 +122,7 @@ steps:
         echo Commit Power Platform Solution
         git config user.email "prebuildpipeline@hmcts.net"
         git config user.name "PRE Build Pipeline"
-        #git pull origin master
+        git pull origin ${{ parameters.exportToBranch }}
         #git checkout -b ${{ parameters.exportToBranch }}
         git add --all
         git commit -m "Automatic portal and solution commit"
