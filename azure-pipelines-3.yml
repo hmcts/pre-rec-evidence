@@ -110,13 +110,15 @@ steps:
       artifact: 'Solution Archive'
       publishLocation: 'pipeline'
   - task: PowerPlatformUnpackSolution@0
+    displayName: unpack zip to src in readiness for git push
     inputs:
       SolutionInputFile: 'dts_pre_recorded_evidence.zip'
       SolutionTargetFolder: 'src'
   - task: CmdLine@2
-    displayName: 
+    displayName: git push
     inputs:
       script: |
+        pwd
         echo Commit Power Platform Solution
         git config user.email "prebuildpipeline@hmcts.net"
         git config user.name "PRE Build Pipeline"
