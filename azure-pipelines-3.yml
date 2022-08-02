@@ -53,6 +53,7 @@ steps:
         Write-Host "##vso[task.setvariable variable=pacPath]$pacPath"
         $Env:Path += ";$(pacPath)"
   - task: CmdLine@2
+    displayName: pac and set
     inputs:
       script: |
         pac
