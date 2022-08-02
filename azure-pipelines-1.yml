@@ -21,7 +21,7 @@ parameters:
   - name: exportToBranch
     displayName: Export To Branch
     type: string
-    default: 'refactoring-tests'
+    default: 'refactoring-tests2'
 
 variables:
   solutionName: dts_pre_recorded_evidence
